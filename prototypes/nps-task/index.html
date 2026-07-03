@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NPS管理</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="prototype-shell template-layout">
+      <aside class="side-nav">
+        <div class="brand">Ringconn</div>
+        <div class="tree">
+          <div class="tree-root selected">
+            <span class="tree-dot">▾</span>
+            <span class="tree-label">NPS管理</span>
+          </div>
+          <button class="tree-node active" id="templateNav" type="button"><span class="tree-label">NPS问卷模板</span></button>
+          <button class="tree-node" id="taskNav" type="button"><span class="tree-label">NPS任务</span></button>
+        </div>
+      </aside>
+
+      <main class="main-canvas">
+        <div class="breadcrumb">NPS管理 / NPS问卷模板</div>
+        <div class="top-rule"></div>
+
+        <section class="panel template-panel active" id="templatePanel">
+          <form class="template-search-panel" id="templateSearchForm">
+            <div class="search-fields template-search-fields">
+              <div class="field-group">
+                <label class="field-label" for="templateNameSearch">模板名称</label>
+                <input class="ax-input" id="templateNameSearch" type="text" autocomplete="off" />
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="templateStatusSearch">状态</label>
+                <select class="ax-select" id="templateStatusSearch">
+                  <option value="所有状态">所有状态</option>
+                  <option value="有效">有效</option>
+                  <option value="无效">无效</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="templateSceneSearch">业务场景</label>
+                <select class="ax-select" id="templateSceneSearch">
+                  <option value="所有业务场景">所有业务场景</option>
+                  <option value="全局">全局</option>
+                  <option value="睡眠">睡眠</option>
+                  <option value="生理期">生理期</option>
+                  <option value="OSA">OSA</option>
+                  <option value="计划">计划</option>
+                  <option value="健康画像">健康画像</option>
+                  <option value="血压洞察">血压洞察</option>
+                  <option value="AI Partner">AI Partner</option>
+                </select>
+              </div>
+
+              <div class="button-group">
+                <button class="ax-button" id="templateSearchBtn" type="submit">查询</button>
+                <button class="ax-button long" id="addTemplateBtn" type="button" onclick="event.preventDefault(); event.stopPropagation(); window.openTemplateForm && window.openTemplateForm('add')">+新增模板</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="template-list-area">
+            <div class="template-table-wrap" aria-live="polite">
+              <table class="ax-table template-table">
+                <thead>
+                  <tr>
+                    <th class="tpl-id">模板 ID</th>
+                    <th class="tpl-name">模板名称</th>
+                    <th class="tpl-status">状态</th>
+                    <th class="tpl-channel">可用渠道</th>
+                    <th class="tpl-scene">业务场景</th>
+                    <th class="tpl-type">问卷类型</th>
+                    <th class="tpl-creator">创建者</th>
+                    <th class="tpl-updated">最近一次更新时间</th>
+                    <th class="tpl-actions">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="templateRows"></tbody>
+              </table>
+            </div>
+
+            <div class="pager template-pager">
+              <button type="button" class="page-btn disabled">&lt;</button>
+              <button type="button" class="page-btn current">1</button>
+              <button type="button" class="page-btn disabled">&gt;</button>
+              <span id="templateRowCount"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="taskPanel">
+          <form class="search-panel" id="searchForm">
+            <div class="search-fields">
+              <div class="field-group">
+                <label class="field-label" for="taskName">任务名</label>
+                <input class="ax-input" id="taskName" type="text" autocomplete="off" />
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="taskScene">任务场景</label>
+                <select class="ax-select" id="taskScene">
+                  <option value="所有">所有</option>
+                  <option value="全局">全局</option>
+                  <option value="睡眠">睡眠</option>
+                  <option value="计划">计划</option>
+                  <option value="OSA">OSA</option>
+                  <option value="生理">生理</option>
+                  <option value="血压">血压</option>
+                  <option value="AI Partner">AI Partner</option>
+                </select>
+              </div>
+
+              <div class="field-group date-group">
+                <label class="field-label wide" for="rangePicker">任务时间范围</label>
+                <div class="date-field">
+                  <button class="range-picker" id="rangePicker" type="button" aria-label="选择任务时间范围">
+                    <span class="range-value is-placeholder" id="rangeStartText">Start date</span>
+                    <span class="range-separator">→</span>
+                    <span class="range-value is-placeholder" id="rangeEndText">End date</span>
+                    <span class="range-arrow">▾</span>
+                  </button>
+                  <input id="taskDateRange" type="hidden" value="" />
+                  <div class="date-panel" id="datePanel">
+                    <div class="range-calendar">
+                      <div class="calendar-pane">
+                        <div class="calendar-head">
+                          <button class="calendar-nav" id="prevMonth" type="button" aria-label="上个月">&lt;</button>
+                          <span id="leftCalendarTitle"></span>
+                          <span class="calendar-nav-placeholder"></span>
+                        </div>
+                        <div class="calendar-week">
+                          <span>一</span>
+                          <span>二</span>
+                          <span>三</span>
+                          <span>四</span>
+                          <span>五</span>
+                          <span>六</span>
+                          <span>日</span>
+                        </div>
+                        <div class="calendar-grid" id="leftCalendarGrid"></div>
+                      </div>
+                      <div class="calendar-pane">
+                        <div class="calendar-head">
+                          <span class="calendar-nav-placeholder"></span>
+                          <span id="rightCalendarTitle"></span>
+                          <button class="calendar-nav" id="nextMonth" type="button" aria-label="下个月">&gt;</button>
+                        </div>
+                        <div class="calendar-week">
+                          <span>一</span>
+                          <span>二</span>
+                          <span>三</span>
+                          <span>四</span>
+                          <span>五</span>
+                          <span>六</span>
+                          <span>日</span>
+                        </div>
+                        <div class="calendar-grid" id="rightCalendarGrid"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field-error" id="dateError">时间范围格式不正确。</div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="taskStatus">任务状态</label>
+                <select class="ax-select" id="taskStatus">
+                  <option value="所有">所有</option>
+                  <option value="初始状态">初始状态</option>
+                  <option value="投放中">投放中</option>
+                  <option value="投放完成">投放完成</option>
+                  <option value="投放异常">投放异常</option>
+                  <option value="暂停">暂停</option>
+                </select>
+              </div>
+
+              <div class="button-group">
+                <button class="ax-button" id="searchBtn" type="submit">搜索</button>
+                <button class="ax-button" id="addBtn" type="button">新增</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="list-area">
+            <div class="table-wrap" aria-live="polite">
+              <table class="ax-table">
+                <thead>
+                  <tr>
+                    <th class="w-id">任务 ID</th>
+                    <th class="w-name">任务名称</th>
+                    <th class="w-status">任务状态</th>
+                    <th class="w-scene">任务场景</th>
+                    <th class="w-link">投放人群</th>
+                    <th class="w-client">应用端</th>
+                    <th class="w-version">投放版本</th>
+                    <th class="w-date">任务开始时间</th>
+                    <th class="w-date">任务结束时间</th>
+                    <th class="w-template">问卷模板</th>
+                    <th class="w-id">计划ID</th>
+                    <th class="w-plan">计划名称</th>
+                    <th class="w-count">总用户数</th>
+                    <th class="w-count-wide">实际投放用户数</th>
+                    <th class="w-count">曝光用户数</th>
+                    <th class="w-actions">操作列</th>
+                  </tr>
+                </thead>
+                <tbody id="taskRows"></tbody>
+              </table>
+            </div>
+
+            <div class="pager">
+              <button type="button" class="page-btn disabled">&lt;</button>
+              <button type="button" class="page-btn current">1</button>
+              <button type="button" class="page-btn disabled">&gt;</button>
+              <span id="rowCount"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel task-form-panel" id="taskFormPanel">
+          <form class="task-form" id="taskForm">
+            <input id="editingTaskId" type="hidden" />
+
+            <div class="form-row">
+              <label class="form-label required" for="formTaskName">任务名</label>
+              <input class="ax-input form-control" id="formTaskName" type="text" autocomplete="off" />
+              <div class="form-error" id="formTaskNameError"></div>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label required" for="formPlanName">计划名</label>
+              <select class="ax-select form-control" id="formPlanName"></select>
+              <button class="ax-button long inline-button" id="addPlanBtn" type="button">新增计划</button>
+              <div class="form-error" id="formPlanNameError"></div>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label required" for="formTaskScene">任务场景</label>
+              <select class="ax-select form-control" id="formTaskScene">
+                <option value="">请选择场景</option>
+                <option value="全局">全局</option>
+                <option value="睡眠">睡眠</option>
+                <option value="计划">计划</option>
+                <option value="OSA">OSA</option>
+                <option value="生理">生理</option>
+                <option value="血压">血压</option>
+                <option value="AI Partner">AI Partner</option>
+              </select>
+              <div class="form-error" id="formTaskSceneError"></div>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label required" for="formStartTime">任务开始时间</label>
+              <div class="hour-field" id="formStartTime">
+                <input class="ax-input date-only-input" id="formStartDate" type="date" />
+                <select class="ax-select hour-select" id="formStartHour"></select>
+              </div>
+              <div class="form-error" id="formStartTimeError"></div>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label required" for="formEndTime">任务结束时间</label>
+              <div class="hour-field" id="formEndTime">
+                <input class="ax-input date-only-input" id="formEndDate" type="date" />
+                <select class="ax-select hour-select" id="formEndHour"></select>
+              </div>
+              <div class="form-error" id="formEndTimeError"></div>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label required" for="appClientTrigger">应用端</label>
+              <div class="multi-select">
+                <button class="multi-trigger" id="appClientTrigger" type="button">APP</button>
+                <div class="multi-panel" id="appClientPanel">
+                  <label><input id="appClientApp" type="checkbox" value="APP" checked /> APP</label>
+                  <label><input id="appClientWeb" type="checkbox" value="WEB" /> WEB</label>
+                </div>
+              </div>
+              <div class="form-error" id="formAppClientError"></div>
+            </div>
+
+            <div class="form-row version-row">
+              <label class="form-label">投放版本</label>
+              <div class="version-fields">
+                <div class="version-line">
+                  <span>Android</span>
+                  <input class="ax-input version-input" id="androidVersionStart" type="text" placeholder="V4.2" />
+                  <span>至</span>
+                  <input class="ax-input version-input" id="androidVersionEnd" type="text" placeholder="可为空" />
+                </div>
+                <div class="version-line">
+                  <span>iOS</span>
+                  <input class="ax-input version-input" id="iosVersionStart" type="text" placeholder="V4.2" />
+                  <span>至</span>
+                  <input class="ax-input version-input" id="iosVersionEnd" type="text" placeholder="可为空" />
+                </div>
+              </div>
+              <div class="form-error version-error" id="formVersionError"></div>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label required" for="formTemplateName">问卷模板</label>
+              <select class="ax-select form-control" id="formTemplateName"></select>
+              <div class="form-error" id="formTemplateNameError"></div>
+            </div>
+
+            <div class="form-row file-row">
+              <label class="form-label" for="audienceFile">投放人群</label>
+              <div class="file-field">
+                <input class="file-input" id="audienceFile" type="file" accept=".xlsx,.csv" multiple />
+                <div class="file-topline">
+                  <button class="ax-button long" id="chooseFileBtn" type="button">选择文件</button>
+                </div>
+                <div class="file-note">支持.xlsx, .csv格式文件，文件大小不超过 5M。支持上传多个文件。点击<a class="template-download" href="./nps-audience-template.csv" download>下载模板</a>。</div>
+                <div class="file-name-list" id="audienceFileList">未上传文件</div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button class="ax-button" id="submitTaskBtn" type="submit">提交</button>
+              <button class="ax-button" id="cancelTaskBtn" type="button">取消</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel audience-panel" id="audiencePanel">
+          <form class="audience-search-panel" id="audienceSearchForm">
+            <div class="search-fields audience-search-fields">
+              <div class="field-group">
+                <label class="field-label wide" for="audienceRingconnIdSearch">RingConn ID</label>
+                <input class="ax-input" id="audienceRingconnIdSearch" type="text" autocomplete="off" />
+              </div>
+
+              <div class="button-group">
+                <button class="ax-button" id="audienceSearchBtn" type="submit">查询</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="audience-list-area">
+            <div class="audience-table-wrap" aria-live="polite">
+              <table class="ax-table audience-table">
+                <thead>
+                  <tr>
+                    <th class="aud-ringconn">RingConn ID</th>
+                    <th class="aud-country">国家</th>
+                    <th class="aud-date">注册时间</th>
+                    <th class="aud-user-flag">用户标识</th>
+                    <th class="aud-delivery">投放结果</th>
+                  </tr>
+                </thead>
+                <tbody id="audienceRows"></tbody>
+              </table>
+            </div>
+
+            <div class="pager audience-pager">
+              <button type="button" class="page-btn disabled">&lt;</button>
+              <button type="button" class="page-btn current">1</button>
+              <button type="button" class="page-btn disabled">&gt;</button>
+              <span id="audienceRowCount"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel template-form-panel" id="templateFormPanel">
+          <form class="template-form" id="templateForm">
+            <input id="editingTemplateId" type="hidden" />
+
+            <div class="template-step-bar">
+              <button class="template-step active" id="templateStepOne" type="button" tabindex="-1">基础信息</button>
+              <button class="template-step" id="templateStepTwo" type="button" tabindex="-1">设置问卷问题</button>
+            </div>
+
+            <div class="template-step-panel active" id="templateStepOnePanel">
+              <div class="form-row">
+                <label class="form-label required" for="formTemplateTitle">模板名称</label>
+                <input class="ax-input form-control" id="formTemplateTitle" type="text" autocomplete="off" />
+                <div class="form-error" id="formTemplateTitleError"></div>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label required" for="formTemplateScene">业务场景</label>
+                <select class="ax-select form-control" id="formTemplateScene">
+                  <option value="">选择业务场景</option>
+                  <option value="全局">全局</option>
+                  <option value="睡眠">睡眠</option>
+                  <option value="生理期">生理期</option>
+                  <option value="OSA">OSA</option>
+                  <option value="计划">计划</option>
+                  <option value="健康画像">健康画像</option>
+                  <option value="血压洞察">血压洞察</option>
+                  <option value="AI Partner">AI Partner</option>
+                </select>
+                <div class="form-error" id="formTemplateSceneError"></div>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label required" for="formQuestionnaireType">问卷类型</label>
+                <select class="ax-select form-control" id="formQuestionnaireType" disabled>
+                  <option value="">问卷类型</option>
+                  <option value="弹窗问卷(APP功能)">弹窗问卷(APP功能)</option>
+                  <option value="弹窗问卷(设计/用研)">弹窗问卷(设计/用研)</option>
+                  <option value="功能问卷">功能问卷</option>
+                  <option value="分组问卷">分组问卷</option>
+                </select>
+                <div class="form-error" id="formQuestionnaireTypeError"></div>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label required" for="templateChannelTrigger">可用渠道</label>
+                <div class="multi-select">
+                  <button class="multi-trigger" id="templateChannelTrigger" type="button">APP</button>
+                  <div class="multi-panel" id="templateChannelPanel">
+                    <label><input id="templateChannelApp" type="checkbox" value="APP" checked /> APP</label>
+                    <label><input id="templateChannelWeb" type="checkbox" value="WEB" /> WEB</label>
+                  </div>
+                </div>
+                <div class="form-error" id="formTemplateChannelError"></div>
+              </div>
+
+              <div class="form-row version-row template-version-row">
+                <label class="form-label required">投放版本</label>
+                <div class="version-fields">
+                  <div class="version-line">
+                    <span>安卓</span>
+                    <input class="ax-input version-input" id="templateAndroidVersion" type="text" placeholder="V4.2" />
+                    <span>至</span>
+                    <input class="ax-input version-input" id="templateAndroidVersionEnd" type="text" placeholder="可为空" />
+                  </div>
+                  <div class="version-line">
+                    <span>iOS</span>
+                    <input class="ax-input version-input" id="templateIosVersion" type="text" placeholder="V4.2" />
+                    <span>至</span>
+                    <input class="ax-input version-input" id="templateIosVersionEnd" type="text" placeholder="可为空" />
+                  </div>
+                </div>
+                <div class="form-error version-error" id="formTemplateVersionError"></div>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label with-note required" for="templateBannerTitle">
+                  <span>Banner标题</span>
+                  <span class="label-note">(APP 问卷Banner标题)</span>
+                </label>
+                <input class="ax-input form-control" id="templateBannerTitle" type="text" autocomplete="off" />
+                <div class="form-error" id="formTemplateBannerTitleError"></div>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label with-note required" for="templateBannerSubtitle">
+                  <span>Banner副标题</span>
+                  <span class="label-note">(APP 问卷Banner副标题)</span>
+                </label>
+                <input class="ax-input form-control" id="templateBannerSubtitle" type="text" autocomplete="off" />
+                <div class="form-error" id="formTemplateBannerSubtitleError"></div>
+              </div>
+
+              <div class="form-row">
+                <label class="form-label with-note required" for="templateBannerButton">
+                  <span>Banner按钮文案</span>
+                  <span class="label-note">(APP 问卷Banner按钮)</span>
+                </label>
+                <input class="ax-input form-control" id="templateBannerButton" type="text" autocomplete="off" />
+                <div class="form-error" id="formTemplateBannerButtonError"></div>
+              </div>
+
+              <div class="type-panel" id="typePanelLinked">
+                <div class="form-row">
+                  <label class="form-label required" for="linkedQuestionnaireTrigger">关联完整问卷</label>
+                  <div class="multi-select">
+                    <button class="multi-trigger" id="linkedQuestionnaireTrigger" type="button">请选择完整问卷</button>
+                    <div class="multi-panel" id="linkedQuestionnairePanel">
+                      <label><input id="linkedQuestionnaireFull" type="checkbox" value="NPS分组完整问卷" /> NPS分组完整问卷</label>
+                      <label><input id="linkedQuestionnaireGroup2" type="checkbox" value="分组 2" /> 分组 2</label>
+                      <label><input id="linkedQuestionnaireSurvey1" type="checkbox" value="问卷 1" /> 问卷 1</label>
+                      <label><input id="linkedQuestionnaireSurvey2" type="checkbox" value="问卷 2" /> 问卷 2</label>
+                    </div>
+                  </div>
+                  <div class="form-error" id="formLinkedQuestionnaireError"></div>
+                </div>
+              </div>
+
+              <div class="type-panel" id="typePanelDesign">
+                <div class="form-row richtext-row">
+                  <label class="form-label required" for="popupCopy">弹窗文案</label>
+                  <div class="richtext-field">
+                    <div class="richtext-toolbar" aria-label="弹窗文案格式工具栏">
+                      <button class="rich-button" type="button" data-command="bold">B</button>
+                      <button class="rich-button underline" type="button" data-command="underline">U</button>
+                      <button class="color-swatch red" type="button" data-color="#D9001B" aria-label="红色"></button>
+                      <button class="color-swatch blue" type="button" data-color="#1E98D7" aria-label="蓝色"></button>
+                      <button class="color-swatch black" type="button" data-color="#333333" aria-label="黑色"></button>
+                    </div>
+                    <div class="rich-editor" id="popupCopy" contenteditable="true"></div>
+                  </div>
+                  <span class="char-count">0 / 1000</span>
+                </div>
+              </div>
+
+              <div class="type-panel" id="typePanelCommon">
+                <div class="form-row">
+                  <label class="form-label with-note required" for="questionnaireTitle">
+                    <span>问卷标题</span>
+                    <span class="label-note">问卷顶部标题</span>
+                  </label>
+                  <input class="ax-input form-control" id="questionnaireTitle" type="text" autocomplete="off" />
+                  <div class="form-error" id="formQuestionnaireTitleError"></div>
+                </div>
+                <div class="form-row">
+                  <label class="form-label required" for="questionnaireDescription">问卷描述</label>
+                  <input class="ax-input form-control" id="questionnaireDescription" type="text" maxlength="200" autocomplete="off" />
+                  <span class="field-side-note" id="questionnaireDescriptionCount">0 / 200</span>
+                  <div class="form-error" id="formQuestionnaireDescriptionError"></div>
+                </div>
+                <div class="form-row">
+                  <label class="form-label" for="questionnaireRemark">问卷描述备注</label>
+                  <input class="ax-input form-control" id="questionnaireRemark" type="text" autocomplete="off" />
+                  <span class="field-side-note example-note">如：5=非常认可，1=非常不认可</span>
+                </div>
+                <div class="form-row" id="groupCountRow">
+                  <label class="form-label with-note required" for="groupCount">
+                    <span>分组数量</span>
+                    <span class="label-note">表示问卷分多少页展示</span>
+                  </label>
+                  <select class="ax-select form-control" id="groupCount">
+                    <option value="">请选择分组数量</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                  <div class="form-error" id="formGroupCountError"></div>
+                </div>
+              </div>
+
+              <div class="template-form-actions">
+                <button class="ax-button hidden" id="submitTemplateFromStepOneBtn" type="submit">提交</button>
+                <button class="ax-button" id="nextTemplateStepBtn" type="button">下一步</button>
+                <button class="ax-button" id="cancelTemplateFromStepOneBtn" type="button">取消</button>
+              </div>
+            </div>
+
+            <div class="template-step-panel" id="templateStepTwoPanel">
+              <div class="question-repeater" id="questionRepeater"></div>
+
+              <div class="template-question-summary">
+                <button class="icon-add-button" id="addQuestionBtn" type="button">
+                  <span class="button-icon">+</span>
+                  <span>新增问题</span>
+                </button>
+              </div>
+
+              <div class="template-form-actions">
+                <button class="ax-button long" id="prevTemplateStepBtn" type="button">返回上一步</button>
+                <button class="ax-button" id="submitTemplateBtn" type="submit">提交</button>
+                <button class="ax-button" id="cancelTemplateBtn" type="button">取消</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <div class="lightbox" id="pauseLightbox" aria-hidden="true">
+      <div class="confirm-panel" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+        <div class="confirm-text" id="pauseTitle">确认暂停任务吗？暂停后将不会给用户投放问卷。</div>
+        <div class="confirm-actions">
+          <button class="ax-button small" id="confirmPause" type="button">确定</button>
+          <button class="ax-button small" id="cancelPause" type="button">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="lightbox" id="templateStatusLightbox" aria-hidden="true">
+      <div class="confirm-panel" role="dialog" aria-modal="true" aria-labelledby="templateStatusConfirmText">
+        <div class="confirm-text" id="templateStatusConfirmText"></div>
+        <div class="confirm-actions">
+          <button class="ax-button small" id="confirmTemplateStatus" type="button">确定</button>
+          <button class="ax-button small" id="cancelTemplateStatus" type="button">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="lightbox" id="planLightbox" aria-hidden="true">
+      <div class="plan-dialog" role="dialog" aria-modal="true" aria-labelledby="planDialogTitle">
+        <div class="dialog-title" id="planDialogTitle">新增计划</div>
+        <div class="dialog-rule"></div>
+        <div class="dialog-row">
+          <label class="form-label required" for="newPlanName">计划名称</label>
+          <input class="ax-input form-control" id="newPlanName" type="text" autocomplete="off" />
+          <div class="form-error" id="newPlanNameError"></div>
+        </div>
+        <div class="dialog-actions">
+          <button class="ax-button small" id="submitPlanBtn" type="button">提交</button>
+          <button class="ax-button small" id="cancelPlanBtn" type="button">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="lightbox" id="templateDetailLightbox" aria-hidden="true">
+      <div class="template-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="templateDetailTitle">
+        <button class="dialog-close" id="closeTemplateDetail" type="button" aria-label="关闭">×</button>
+        <div class="dialog-title" id="templateDetailTitle">问卷详情</div>
+        <div class="dialog-rule"></div>
+        <div class="template-detail-body" id="templateDetailBody"></div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
