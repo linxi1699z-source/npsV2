@@ -1457,6 +1457,10 @@ select {
   top: 7px;
 }
 
+.template-version-row .version-error {
+  left: 620px;
+}
+
 .file-input {
   display: none;
 }
