@@ -518,7 +518,7 @@ select {
   position: absolute;
   left: 0;
   top: 0;
-  width: 980px;
+  width: var(--content-width);
 }
 
 .audience-search-panel {
@@ -538,17 +538,19 @@ select {
   position: absolute;
   left: 0;
   top: 120px;
-  width: 980px;
+  width: var(--content-width);
 }
 
 .audience-table-wrap {
-  width: 900px;
-  overflow-x: hidden;
+  --audience-table-width: 900px;
+  width: var(--content-width);
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .ax-table.audience-table {
-  width: 900px;
-  min-width: 900px;
+  width: max(100%, var(--audience-table-width));
+  min-width: var(--audience-table-width);
 }
 
 .aud-ringconn {
@@ -569,7 +571,7 @@ select {
 }
 
 .pager.audience-pager {
-  width: 900px;
+  width: var(--content-width);
 }
 
 .ax-table {
@@ -1303,6 +1305,10 @@ select {
   margin-left: 10px;
 }
 
+.create-group-button {
+  margin-left: 10px;
+}
+
 .form-error {
   display: none;
   margin-left: 10px;
@@ -1327,6 +1333,7 @@ select {
 
 .form-row .ax-input.error,
 .form-row .ax-select.error,
+.form-row .ax-textarea.error,
 .multi-trigger.error {
   border-color: #d9001b;
 }
@@ -1379,7 +1386,10 @@ select {
 
 .task-form.readonly .ax-input,
 .task-form.readonly .ax-select,
-.task-form.readonly .multi-trigger {
+.task-form.readonly .multi-trigger,
+.task-form.copy-mode .ax-input:disabled,
+.task-form.copy-mode .ax-select:disabled,
+.task-form.copy-mode .multi-trigger:disabled {
   background: #f0f0f0;
   color: #666666;
 }

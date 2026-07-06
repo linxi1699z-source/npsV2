@@ -256,6 +256,7 @@ let audienceUploadedFileNames = [];
 let templateFormMode = "add";
 let templateStep = 1;
 let templateQuestions = [];
+let templateGroupCreationContext = null;
 let savedRichTextRange = null;
 
 const taskRows = document.getElementById("taskRows");
@@ -333,10 +334,7 @@ const templateFormFields = {
   linkedTrigger: document.getElementById("linkedQuestionnaireTrigger"),
   linked: document.getElementById("linkedQuestionnaireTrigger"),
   linkedPanel: document.getElementById("linkedQuestionnairePanel"),
-  linkedFull: document.getElementById("linkedQuestionnaireFull"),
-  linkedGroup2: document.getElementById("linkedQuestionnaireGroup2"),
-  linkedSurvey1: document.getElementById("linkedQuestionnaireSurvey1"),
-  linkedSurvey2: document.getElementById("linkedQuestionnaireSurvey2"),
+  createGroupButton: document.getElementById("createGroupQuestionnaireBtn"),
   popupCopy: document.getElementById("popupCopy"),
   questionnaireDescription: document.getElementById("questionnaireDescription"),
   questionnaireDescriptionCount: document.getElementById("questionnaireDescriptionCount"),
@@ -749,7 +747,7 @@ function renderRows(rows) {
         <td>${escapeText(task.exposed_users)}</td>
         <td>
           <div class="table-actions">
-            <button class="table-action-button view-link" type="button" data-task-id="${escapeText(task.task_id)}">查看</button>
+            <button class="table-action-button copy-link" type="button" data-task-id="${escapeText(task.task_id)}">复制</button>
             <button class="table-action-button edit-link" type="button" data-task-id="${escapeText(task.task_id)}">编辑</button>
             <button class="table-action-button pause-link" type="button" data-task-id="${escapeText(task.task_id)}" ${pauseDisabled ? "disabled" : ""}>暂停</button>
           </div>
@@ -905,6 +903,7 @@ function hideAllMainPanels() {
 }
 
 function showTemplateList() {
+  templateGroupCreationContext = null;
   setActiveNav("template");
   setTemplateLayout(true);
   hideAllMainPanels();
@@ -916,6 +915,7 @@ function showTemplateList() {
 }
 
 function showTaskList() {
+  templateGroupCreationContext = null;
   setActiveNav("task");
   setTemplateLayout(false);
   hideAllMainPanels();
@@ -951,6 +951,21 @@ function clearAudienceFile() {
   renderAudienceFiles([]);
 }
 
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function buildCopyTaskName(taskName) {
+  const baseName = taskName.replace(/\(\d+\)$/, "");
+  const matcher = new RegExp(`^${escapeRegExp(baseName)}(?:\\((\\d+)\\))?$`);
+  const maxIndex = tasks.reduce((max, task) => {
+    const match = task.task_name.match(matcher);
+    if (!match) return max;
+    return Math.max(max, match[1] ? Number(match[1]) : 0);
+  }, 0);
+  return `${baseName}(${maxIndex + 1})`;
+}
+
 function setTaskFormReadonly(readonly) {
   document.getElementById("taskForm").classList.toggle("readonly", readonly);
   [
@@ -980,8 +995,30 @@ function setTaskFormReadonly(readonly) {
   if (readonly) formFields.appPanel.classList.remove("open");
 }
 
+function setTaskFormCopyMode(enabled) {
+  document.getElementById("taskForm").classList.toggle("copy-mode", enabled);
+  if (!enabled) return;
+  [
+    formFields.planName,
+    formFields.taskScene,
+    formFields.appTrigger,
+    formFields.appClientApp,
+    formFields.appClientWeb,
+    formFields.androidStart,
+    formFields.androidEnd,
+    formFields.iosStart,
+    formFields.iosEnd,
+    formFields.templateName,
+  ].forEach((field) => {
+    field.disabled = true;
+  });
+  document.getElementById("addPlanBtn").disabled = true;
+  formFields.appPanel.classList.remove("open");
+}
+
 function resetTaskForm() {
   setTaskFormReadonly(false);
+  setTaskFormCopyMode(false);
   clearFormErrors();
   document.getElementById("taskForm").reset();
   formFields.editingTaskId.value = "";
@@ -1020,14 +1057,25 @@ function openTaskForm(mode, taskId = "") {
   setTemplateLayout(false);
   hideAllMainPanels();
   document.getElementById("taskFormPanel").classList.add("active");
-  const pageName = mode === "view" ? "查看任务" : mode === "edit" ? "编辑任务" : "新增任务";
+  const pageName = mode === "view" ? "查看任务" : mode === "edit" ? "编辑任务" : mode === "copy" ? "复制任务" : "新增任务";
   document.querySelector(".breadcrumb").textContent = `NPS管理 / NPS任务 / ${pageName}`;
 
-  if (mode === "edit" || mode === "view") {
+  if (mode === "edit" || mode === "view" || mode === "copy") {
     const task = tasks.find((item) => item.task_id === taskId);
     if (!task) return;
     fillTaskForm(task);
-    setTaskFormReadonly(mode === "view");
+    if (mode === "copy") {
+      formFields.editingTaskId.value = "";
+      formFields.taskName.value = buildCopyTaskName(task.task_name);
+      formFields.startDate.value = "";
+      formFields.startHour.value = "";
+      formFields.endDate.value = "";
+      formFields.endHour.value = "";
+      clearAudienceFile();
+      setTaskFormCopyMode(true);
+    } else {
+      setTaskFormReadonly(mode === "view");
+    }
   }
 }
 
@@ -1213,13 +1261,37 @@ function updateTemplateChannelTrigger() {
   templateFormFields.channelTrigger.textContent = channels.length ? channels.join(", ") : "请选择渠道";
 }
 
+function getLinkedQuestionnaireInputs() {
+  return Array.from(templateFormFields.linkedPanel.querySelectorAll('input[data-linked-questionnaire="true"]'));
+}
+
+function getGroupQuestionnaireTemplates() {
+  return npsTemplates.filter((template) => getTemplateDisplayType(getTemplateRawType(template)) === "分组问卷");
+}
+
+function renderLinkedQuestionnaireOptions(selectedValues = []) {
+  const selected = new Set(selectedValues || []);
+  const groupTemplates = getGroupQuestionnaireTemplates();
+  if (!groupTemplates.length) {
+    templateFormFields.linkedPanel.innerHTML = '<div class="multi-empty">暂无分组问卷</div>';
+    updateLinkedQuestionnaireTrigger();
+    return;
+  }
+
+  templateFormFields.linkedPanel.innerHTML = sortTemplatesByIdDesc(groupTemplates).map((template) => {
+    const templateName = template.template_name;
+    return `
+      <label>
+        <input type="checkbox" value="${escapeText(templateName)}" data-linked-questionnaire="true" ${selected.has(templateName) ? "checked" : ""} />
+        ${escapeText(templateName)}
+      </label>
+    `;
+  }).join("");
+  updateLinkedQuestionnaireTrigger();
+}
+
 function getSelectedLinkedQuestionnaires() {
-  return [
-    templateFormFields.linkedFull,
-    templateFormFields.linkedGroup2,
-    templateFormFields.linkedSurvey1,
-    templateFormFields.linkedSurvey2,
-  ].filter((field) => field.checked).map((field) => field.value);
+  return getLinkedQuestionnaireInputs().filter((field) => field.checked).map((field) => field.value);
 }
 
 function updateLinkedQuestionnaireTrigger() {
@@ -1229,11 +1301,7 @@ function updateLinkedQuestionnaireTrigger() {
 }
 
 function setLinkedQuestionnaires(values) {
-  const selected = new Set(values || []);
-  [templateFormFields.linkedFull, templateFormFields.linkedGroup2, templateFormFields.linkedSurvey1, templateFormFields.linkedSurvey2].forEach((field) => {
-    field.checked = selected.has(field.value);
-  });
-  updateLinkedQuestionnaireTrigger();
+  renderLinkedQuestionnaireOptions(values || []);
 }
 
 function updateRichTextCount() {
@@ -1241,7 +1309,9 @@ function updateRichTextCount() {
 }
 
 function updateQuestionnaireDescriptionCount() {
-  templateFormFields.questionnaireDescriptionCount.textContent = `${templateFormFields.questionnaireDescription.value.length} / 200`;
+  if (templateFormFields.questionnaireDescriptionCount) {
+    templateFormFields.questionnaireDescriptionCount.textContent = `${templateFormFields.questionnaireDescription.value.length} / 200`;
+  }
 }
 
 function saveRichTextSelection() {
@@ -1350,8 +1420,17 @@ function getTemplateRawType(template) {
 
 function updateTemplateTypePanel() {
   const type = templateFormFields.questionnaireType.value;
+  const isGroupType = type === "分组问卷";
   document.querySelectorAll(".type-panel").forEach((panel) => panel.classList.remove("active"));
-  document.getElementById("groupCountRow").style.display = type === "分组问卷" ? "flex" : "none";
+  document.getElementById("groupCountRow").style.display = isGroupType ? "flex" : "none";
+  ["templateBannerTitleRow", "templateBannerSubtitleRow", "templateBannerButtonRow"].forEach((rowId) => {
+    document.getElementById(rowId).classList.toggle("hidden", isGroupType);
+  });
+  if (isGroupType) {
+    clearTemplateError("bannerTitle");
+    clearTemplateError("bannerSubtitle");
+    clearTemplateError("bannerButton");
+  }
   const isDesignType = isDesignQuestionnaireType(type);
   const usesLinkedQuestionnaire = isPopupAppQuestionnaireType(type) || isDesignType;
   if (!usesLinkedQuestionnaire) templateFormFields.linkedPanel.classList.remove("open");
@@ -1363,6 +1442,7 @@ function updateTemplateTypePanel() {
   }
 
   if (usesLinkedQuestionnaire) {
+    renderLinkedQuestionnaireOptions(getSelectedLinkedQuestionnaires());
     document.getElementById("typePanelLinked").classList.add("active");
   }
   if (isDesignType) {
@@ -1624,6 +1704,7 @@ function validateTemplateStepOne() {
   let valid = true;
   const questionnaireType = templateFormFields.questionnaireType.value;
   const isCommonQuestionnaireType = questionnaireType === "功能问卷" || questionnaireType === "分组问卷";
+  const requiresBannerFields = questionnaireType !== "分组问卷";
   const versionPairs = [
     [templateFormFields.androidVersion.value.trim(), templateFormFields.androidVersionEnd.value.trim()],
     [templateFormFields.iosVersion.value.trim(), templateFormFields.iosVersionEnd.value.trim()],
@@ -1649,24 +1730,24 @@ function validateTemplateStepOne() {
     templateFormErrors.channel.classList.add("show");
     valid = false;
   }
-  if (!templateFormFields.bannerTitle.value.trim()) {
+  if (requiresBannerFields && !templateFormFields.bannerTitle.value.trim()) {
     setTemplateError("bannerTitle", "Banner标题不能为空。");
     valid = false;
   }
-  if (!templateFormFields.bannerSubtitle.value.trim()) {
+  if (requiresBannerFields && !templateFormFields.bannerSubtitle.value.trim()) {
     setTemplateError("bannerSubtitle", "Banner副标题不能为空。");
     valid = false;
   }
-  if (!templateFormFields.bannerButton.value.trim()) {
+  if (requiresBannerFields && !templateFormFields.bannerButton.value.trim()) {
     setTemplateError("bannerButton", "Banner按钮文案不能为空。");
     valid = false;
   }
   if (isCommonQuestionnaireType && !templateFormFields.questionnaireTitle.value.trim()) {
-    setTemplateError("questionnaireTitle", "问卷标题不能为空。");
+    setTemplateError("questionnaireTitle", "网页顶部标题不能为空。");
     valid = false;
   }
   if (isCommonQuestionnaireType && !templateFormFields.questionnaireDescription.value.trim()) {
-    setTemplateError("questionnaireDescription", "问卷描述不能为空。");
+    setTemplateError("questionnaireDescription", "问卷标题不能为空。");
     valid = false;
   }
   if (questionnaireType === "分组问卷" && !templateFormFields.groupCount.value) {
@@ -1814,9 +1895,188 @@ function removeQuestionOption(questionIndex, optionIndex) {
   renderTemplateQuestionList();
 }
 
+function cloneTemplateQuestions(questions = templateQuestions) {
+  return JSON.parse(JSON.stringify(questions || []));
+}
+
+function captureTemplateFormState() {
+  return {
+    formMode: templateFormMode,
+    editingTemplateId: templateFormFields.editingTemplateId.value,
+    step: templateStep,
+    templateTitle: templateFormFields.templateTitle.value,
+    scene: templateFormFields.scene.value,
+    questionnaireType: templateFormFields.questionnaireType.value,
+    channelApp: templateFormFields.channelApp.checked,
+    channelWeb: templateFormFields.channelWeb.checked,
+    androidVersion: templateFormFields.androidVersion.value,
+    androidVersionEnd: templateFormFields.androidVersionEnd.value,
+    iosVersion: templateFormFields.iosVersion.value,
+    iosVersionEnd: templateFormFields.iosVersionEnd.value,
+    bannerTitle: templateFormFields.bannerTitle.value,
+    bannerSubtitle: templateFormFields.bannerSubtitle.value,
+    bannerButton: templateFormFields.bannerButton.value,
+    linkedQuestionnaires: getSelectedLinkedQuestionnaires(),
+    popupCopy: templateFormFields.popupCopy.innerHTML,
+    questionnaireTitle: templateFormFields.questionnaireTitle.value,
+    questionnaireDescription: templateFormFields.questionnaireDescription.value,
+    questionnaireRemark: templateFormFields.questionnaireRemark.value,
+    groupCount: templateFormFields.groupCount.value,
+    questions: cloneTemplateQuestions(),
+  };
+}
+
+function setTemplateInheritedLock(locked) {
+  document.getElementById("templateForm").classList.toggle("inherited-lock", locked);
+  [
+    templateFormFields.scene,
+    templateFormFields.questionnaireType,
+    templateFormFields.channelTrigger,
+    templateFormFields.channelApp,
+    templateFormFields.channelWeb,
+    templateFormFields.androidVersion,
+    templateFormFields.androidVersionEnd,
+    templateFormFields.iosVersion,
+    templateFormFields.iosVersionEnd,
+  ].forEach((field) => {
+    field.disabled = locked;
+  });
+  if (locked) templateFormFields.channelPanel.classList.remove("open");
+}
+
+function showTemplateFormShell(mode, pageName) {
+  templateFormMode = mode;
+  setActiveNav("template");
+  setTemplateLayout(true);
+  hideAllMainPanels();
+  document.getElementById("templateFormPanel").classList.add("active");
+  document.querySelector(".breadcrumb").textContent = `NPS管理 / NPS问卷模板 / ${pageName}`;
+}
+
+function applyTemplateFormState(state, linkedTemplateName = "") {
+  const linkedQuestionnaires = linkedTemplateName
+    ? [...new Set([...state.linkedQuestionnaires, linkedTemplateName])]
+    : state.linkedQuestionnaires;
+
+  resetTemplateForm();
+  showTemplateFormShell(state.formMode, state.formMode === "edit" ? "编辑模板" : "新增模板");
+  templateFormFields.editingTemplateId.value = state.editingTemplateId;
+  templateFormFields.templateTitle.value = state.templateTitle;
+  templateFormFields.scene.value = state.scene;
+  templateFormFields.questionnaireType.value = state.questionnaireType;
+  templateFormFields.channelApp.checked = state.channelApp;
+  templateFormFields.channelWeb.checked = state.channelWeb;
+  templateFormFields.androidVersion.value = state.androidVersion;
+  templateFormFields.androidVersionEnd.value = state.androidVersionEnd;
+  templateFormFields.iosVersion.value = state.iosVersion;
+  templateFormFields.iosVersionEnd.value = state.iosVersionEnd;
+  templateFormFields.bannerTitle.value = state.bannerTitle;
+  templateFormFields.bannerSubtitle.value = state.bannerSubtitle;
+  templateFormFields.bannerButton.value = state.bannerButton;
+  templateFormFields.popupCopy.innerHTML = state.popupCopy;
+  templateFormFields.questionnaireTitle.value = state.questionnaireTitle;
+  templateFormFields.questionnaireDescription.value = state.questionnaireDescription;
+  templateFormFields.questionnaireRemark.value = state.questionnaireRemark;
+  templateFormFields.groupCount.value = state.groupCount;
+  templateQuestions = cloneTemplateQuestions(state.questions);
+  updateTemplateChannelTrigger();
+  updateRichTextCount();
+  updateQuestionnaireDescriptionCount();
+  updateQuestionnaireTypeByScene();
+  templateFormFields.questionnaireType.value = state.questionnaireType;
+  setLinkedQuestionnaires(linkedQuestionnaires);
+  updateTemplateTypePanel();
+  setTemplateStep(state.step || 1);
+}
+
+function getTemplateVersionFieldState() {
+  return {
+    androidVersion: templateFormFields.androidVersion.value,
+    androidVersionEnd: templateFormFields.androidVersionEnd.value,
+    iosVersion: templateFormFields.iosVersion.value,
+    iosVersionEnd: templateFormFields.iosVersionEnd.value,
+  };
+}
+
+function validateGroupCreationSource() {
+  clearTemplateError("channel");
+  clearTemplateError("version");
+  templateFormFields.channelTrigger.classList.remove("error");
+
+  let valid = true;
+  const channels = getSelectedTemplateChannels();
+  const versionPairs = [
+    [templateFormFields.androidVersion.value.trim(), templateFormFields.androidVersionEnd.value.trim()],
+    [templateFormFields.iosVersion.value.trim(), templateFormFields.iosVersionEnd.value.trim()],
+  ];
+  const hasVersion = versionPairs.some(([start]) => Boolean(start));
+  const versionInvalid = versionPairs.some(([start, end]) => (!start && end) || (start && end && compareVersions(end, start) <= 0));
+
+  if (!channels.length) {
+    templateFormFields.channelTrigger.classList.add("error");
+    templateFormErrors.channel.textContent = "请先设置可用渠道。";
+    templateFormErrors.channel.classList.add("show");
+    valid = false;
+  }
+  if (!hasVersion) {
+    templateFormErrors.version.textContent = "请先设置投放版本。";
+    templateFormErrors.version.classList.add("show");
+    valid = false;
+  } else if (versionInvalid) {
+    templateFormErrors.version.textContent = "投放版本需先填写开始值，且结束值必须大于开始值。";
+    templateFormErrors.version.classList.add("show");
+    valid = false;
+  }
+  if (!valid) showToast("请先设置可用渠道和投放版本。");
+  return valid;
+}
+
+function openGroupTemplateFormFromLinked() {
+  const sourceType = templateFormFields.questionnaireType.value;
+  if (!isPopupAppQuestionnaireType(sourceType) && !isDesignQuestionnaireType(sourceType)) return;
+  if (!validateGroupCreationSource()) return;
+
+  templateGroupCreationContext = {
+    parentState: captureTemplateFormState(),
+    channels: getSelectedTemplateChannels(),
+    versionFields: getTemplateVersionFieldState(),
+  };
+
+  openTemplateForm("add");
+  showTemplateFormShell("add", "新增分组问卷");
+  templateFormFields.scene.value = "全局";
+  updateQuestionnaireTypeByScene();
+  templateFormFields.questionnaireType.value = "分组问卷";
+  templateFormFields.channelApp.checked = templateGroupCreationContext.channels.includes("APP");
+  templateFormFields.channelWeb.checked = templateGroupCreationContext.channels.includes("WEB");
+  templateFormFields.androidVersion.value = templateGroupCreationContext.versionFields.androidVersion;
+  templateFormFields.androidVersionEnd.value = templateGroupCreationContext.versionFields.androidVersionEnd;
+  templateFormFields.iosVersion.value = templateGroupCreationContext.versionFields.iosVersion;
+  templateFormFields.iosVersionEnd.value = templateGroupCreationContext.versionFields.iosVersionEnd;
+  updateTemplateChannelTrigger();
+  updateTemplateTypePanel();
+  setTemplateInheritedLock(true);
+}
+
+function returnToParentTemplateForm(linkedTemplateName = "") {
+  if (!templateGroupCreationContext) return;
+  const parentState = templateGroupCreationContext.parentState;
+  templateGroupCreationContext = null;
+  applyTemplateFormState(parentState, linkedTemplateName);
+}
+
+function cancelTemplateForm() {
+  if (templateGroupCreationContext) {
+    returnToParentTemplateForm();
+    return;
+  }
+  showTemplateList();
+}
+
 function resetTemplateForm() {
   clearTemplateFormErrors();
   document.getElementById("templateForm").reset();
+  setTemplateInheritedLock(false);
   templateFormFields.editingTemplateId.value = "";
   templateFormFields.channelApp.checked = true;
   templateFormFields.channelWeb.checked = false;
@@ -1905,6 +2165,7 @@ function submitTemplateForm() {
   }
 
   const isDesignType = isDesignQuestionnaireType(templateFormFields.questionnaireType.value);
+  const isGroupType = templateFormFields.questionnaireType.value === "分组问卷";
   if (!isDesignType && !validateTemplateQuestions()) {
     setTemplateStep(2);
     showToast("提交失败，请检查问卷问题。");
@@ -1920,9 +2181,9 @@ function submitTemplateForm() {
     detail_text: "查看",
     updated_at: formatDateMinute(new Date()),
     min_version: buildTemplateVersionText(),
-    banner_title: templateFormFields.bannerTitle.value.trim(),
-    banner_subtitle: templateFormFields.bannerSubtitle.value.trim(),
-    banner_button: templateFormFields.bannerButton.value.trim(),
+    banner_title: isGroupType ? "" : templateFormFields.bannerTitle.value.trim(),
+    banner_subtitle: isGroupType ? "" : templateFormFields.bannerSubtitle.value.trim(),
+    banner_button: isGroupType ? "" : templateFormFields.bannerButton.value.trim(),
     linked_questionnaires: getSelectedLinkedQuestionnaires(),
     popup_copy: templateFormFields.popupCopy.innerHTML,
     questionnaire_title: templateFormFields.questionnaireTitle.value.trim(),
@@ -1950,7 +2211,13 @@ function submitTemplateForm() {
     };
     npsTemplates.push(newTemplate);
     syncTemplateNameOptions(newTemplate.template_name);
-    showToast("新增模板成功。");
+    showToast(templateGroupCreationContext ? "新增分组问卷成功。" : "新增模板成功。");
+    filteredTemplates = [...npsTemplates];
+    renderTemplates(filteredTemplates);
+    if (templateGroupCreationContext) {
+      returnToParentTemplateForm(newTemplate.template_name);
+      return;
+    }
   }
 
   filteredTemplates = [...npsTemplates];
@@ -2062,13 +2329,14 @@ document.getElementById("templateForm").addEventListener("submit", (event) => {
   event.preventDefault();
   submitTemplateForm();
 });
-document.getElementById("cancelTemplateFromStepOneBtn").addEventListener("click", showTemplateList);
-document.getElementById("cancelTemplateBtn").addEventListener("click", showTemplateList);
+document.getElementById("cancelTemplateFromStepOneBtn").addEventListener("click", cancelTemplateForm);
+document.getElementById("cancelTemplateBtn").addEventListener("click", cancelTemplateForm);
 document.getElementById("nextTemplateStepBtn").addEventListener("click", () => {
   if (validateTemplateStepOne()) setTemplateStep(2);
 });
 document.getElementById("prevTemplateStepBtn").addEventListener("click", () => setTemplateStep(1));
 templateFormFields.channelTrigger.addEventListener("click", () => {
+  if (templateFormFields.channelTrigger.disabled) return;
   templateFormFields.channelPanel.classList.toggle("open");
 });
 templateFormFields.channelApp.addEventListener("change", updateTemplateChannelTrigger);
@@ -2076,8 +2344,12 @@ templateFormFields.channelWeb.addEventListener("change", updateTemplateChannelTr
 templateFormFields.linkedTrigger.addEventListener("click", () => {
   templateFormFields.linkedPanel.classList.toggle("open");
 });
-[templateFormFields.linkedFull, templateFormFields.linkedGroup2, templateFormFields.linkedSurvey1, templateFormFields.linkedSurvey2].forEach((field) => {
-  field.addEventListener("change", updateLinkedQuestionnaireTrigger);
+templateFormFields.createGroupButton.addEventListener("click", openGroupTemplateFormFromLinked);
+templateFormFields.linkedPanel.addEventListener("change", (event) => {
+  const target = event.target;
+  if (target instanceof HTMLInputElement && target.dataset.linkedQuestionnaire === "true") {
+    updateLinkedQuestionnaireTrigger();
+  }
 });
 templateFormFields.popupCopy.addEventListener("mouseup", saveRichTextSelection);
 templateFormFields.popupCopy.addEventListener("keyup", saveRichTextSelection);
@@ -2222,8 +2494,8 @@ document.addEventListener("click", (event) => {
   if (target.classList.contains("pause-link") && !target.hasAttribute("disabled")) {
     openPause(target.dataset.taskId);
   }
-  if (target.classList.contains("view-link")) {
-    openTaskForm("view", target.dataset.taskId);
+  if (target.classList.contains("copy-link")) {
+    openTaskForm("copy", target.dataset.taskId);
   }
   if (target.classList.contains("edit-link")) {
     openTaskForm("edit", target.dataset.taskId);

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Axure Pay Admin Prototype"
+  short_description: "Payment admin Axure prototype style rules"
+  default_prompt: "Use $axure-pay-admin-prototype to design a payment backend Axure prototype page."
+
+policy:
+  allow_implicit_invocation: true

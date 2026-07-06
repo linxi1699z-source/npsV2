@@ -180,7 +180,7 @@
 
               <div class="button-group">
                 <button class="ax-button" id="searchBtn" type="submit">搜索</button>
-                <button class="ax-button" id="addBtn" type="button">新增</button>
+                <button class="ax-button long" id="addBtn" type="button">+新增任务</button>
               </div>
             </div>
           </form>
@@ -441,7 +441,7 @@
                 <div class="form-error version-error" id="formTemplateVersionError"></div>
               </div>
 
-              <div class="form-row">
+              <div class="form-row" id="templateBannerTitleRow">
                 <label class="form-label with-note required" for="templateBannerTitle">
                   <span>Banner标题</span>
                   <span class="label-note">(APP 问卷Banner标题)</span>
@@ -450,7 +450,7 @@
                 <div class="form-error" id="formTemplateBannerTitleError"></div>
               </div>
 
-              <div class="form-row">
+              <div class="form-row" id="templateBannerSubtitleRow">
                 <label class="form-label with-note required" for="templateBannerSubtitle">
                   <span>Banner副标题</span>
                   <span class="label-note">(APP 问卷Banner副标题)</span>
@@ -459,7 +459,7 @@
                 <div class="form-error" id="formTemplateBannerSubtitleError"></div>
               </div>
 
-              <div class="form-row">
+              <div class="form-row" id="templateBannerButtonRow">
                 <label class="form-label with-note required" for="templateBannerButton">
                   <span>Banner按钮文案</span>
                   <span class="label-note">(APP 问卷Banner按钮)</span>
@@ -473,13 +473,9 @@
                   <label class="form-label required" for="linkedQuestionnaireTrigger">关联完整问卷</label>
                   <div class="multi-select">
                     <button class="multi-trigger" id="linkedQuestionnaireTrigger" type="button">请选择完整问卷</button>
-                    <div class="multi-panel" id="linkedQuestionnairePanel">
-                      <label><input id="linkedQuestionnaireFull" type="checkbox" value="NPS分组完整问卷" /> NPS分组完整问卷</label>
-                      <label><input id="linkedQuestionnaireGroup2" type="checkbox" value="分组 2" /> 分组 2</label>
-                      <label><input id="linkedQuestionnaireSurvey1" type="checkbox" value="问卷 1" /> 问卷 1</label>
-                      <label><input id="linkedQuestionnaireSurvey2" type="checkbox" value="问卷 2" /> 问卷 2</label>
-                    </div>
+                    <div class="multi-panel" id="linkedQuestionnairePanel"></div>
                   </div>
+                  <button class="ax-button long create-group-button" id="createGroupQuestionnaireBtn" type="button">创建分组问卷</button>
                   <div class="form-error" id="formLinkedQuestionnaireError"></div>
                 </div>
               </div>
@@ -504,20 +500,19 @@
               <div class="type-panel" id="typePanelCommon">
                 <div class="form-row">
                   <label class="form-label with-note required" for="questionnaireTitle">
-                    <span>问卷标题</span>
-                    <span class="label-note">问卷顶部标题</span>
+                    <span>网页顶部标题</span>
+                    <span class="label-note">网页顶部标题</span>
                   </label>
                   <input class="ax-input form-control" id="questionnaireTitle" type="text" autocomplete="off" />
                   <div class="form-error" id="formQuestionnaireTitleError"></div>
                 </div>
                 <div class="form-row">
-                  <label class="form-label required" for="questionnaireDescription">问卷描述</label>
+                  <label class="form-label required" for="questionnaireDescription">问卷标题</label>
                   <input class="ax-input form-control" id="questionnaireDescription" type="text" maxlength="200" autocomplete="off" />
-                  <span class="field-side-note" id="questionnaireDescriptionCount">0 / 200</span>
                   <div class="form-error" id="formQuestionnaireDescriptionError"></div>
                 </div>
                 <div class="form-row">
-                  <label class="form-label" for="questionnaireRemark">问卷描述备注</label>
+                  <label class="form-label" for="questionnaireRemark">问卷标题备注</label>
                   <input class="ax-input form-control" id="questionnaireRemark" type="text" autocomplete="off" />
                   <span class="field-side-note example-note">如：5=非常认可，1=非常不认可</span>
                 </div>
