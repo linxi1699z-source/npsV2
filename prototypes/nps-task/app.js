@@ -4,102 +4,132 @@ const tasks = [
     task_name: "全局NPS6月任务",
     task_status: "初始状态",
     task_scene: "睡眠",
+    delivery_region: "国内",
     audience_link_text: "查看",
     app_client: "APP",
-    delivery_version: "Android > V4.2, iOS > V4.2",
-    start_time: "2026-06-28",
-    end_time: "2026-07-20",
+    start_time: "2026-06-28 09",
+    end_time: "2026-07-20 18",
     template_name: "睡眠NPS模板",
     plan_id: "10001",
     plan_name: "睡眠 NPS 计划",
     total_users: "100,000",
     actual_delivery_users: "0",
     exposed_users: "0",
+    nps_estimate: "",
+    nps_promoters: "0",
+    nps_passives: "0",
+    nps_detractors: "0",
+    nps_updated_at: "",
   },
   {
     task_id: "10002",
     task_name: "OSA NPS投放任务",
     task_status: "投放中",
     task_scene: "OSA",
+    delivery_region: "海外",
     audience_link_text: "查看",
     app_client: "APP",
-    delivery_version: "Android > V4.3, iOS > V4.3",
-    start_time: "2026-06-20",
-    end_time: "2026-07-10",
+    start_time: "2026-06-20 10",
+    end_time: "2026-07-10 20",
     template_name: "OSA问卷模板",
     plan_id: "10002",
     plan_name: "OSA 体验计划",
     total_users: "80,000",
     actual_delivery_users: "42,000",
     exposed_users: "21,500",
+    nps_estimate: "46",
+    nps_promoters: "9,600",
+    nps_passives: "4,100",
+    nps_detractors: "2,300",
+    nps_updated_at: "2026-07-08",
   },
   {
     task_id: "10003",
     task_name: "血压NPS7月任务",
     task_status: "投放完成",
     task_scene: "血压",
+    delivery_region: "所有区域",
     audience_link_text: "查看",
     app_client: "APP",
-    delivery_version: "Android > V4.2",
-    start_time: "2026-06-01",
-    end_time: "2026-06-30",
+    start_time: "2026-06-01 09",
+    end_time: "2026-06-30 18",
     template_name: "血压NPS模板",
     plan_id: "10003",
     plan_name: "血压 NPS 计划",
     total_users: "50,000",
     actual_delivery_users: "50,000",
     exposed_users: "38,600",
+    nps_estimate: "30",
+    nps_promoters: "15,000",
+    nps_passives: "9,000",
+    nps_detractors: "6,000",
+    nps_updated_at: "2026-07-08",
   },
   {
     task_id: "10004",
     task_name: "AI Partner 满意度任务",
-    task_status: "投放异常",
+    task_status: "投放失败",
     task_scene: "AI Partner",
+    delivery_region: "海外",
     audience_link_text: "查看",
     app_client: "Web",
-    delivery_version: "Web > V2.1",
-    start_time: "2026-06-15",
-    end_time: "2026-07-15",
+    start_time: "2026-06-15 10",
+    end_time: "2026-07-15 19",
     template_name: "AI Partner模板",
     plan_id: "10004",
     plan_name: "AI Partner 计划",
     total_users: "30,000",
     actual_delivery_users: "8,200",
     exposed_users: "3,900",
+    nps_estimate: "",
+    nps_promoters: "0",
+    nps_passives: "0",
+    nps_detractors: "0",
+    nps_updated_at: "",
   },
   {
     task_id: "10005",
     task_name: "生理周期NPS任务",
     task_status: "暂停",
     task_scene: "生理",
+    delivery_region: "国内",
     audience_link_text: "查看",
     app_client: "APP",
-    delivery_version: "iOS > V4.2",
-    start_time: "2026-06-10",
-    end_time: "2026-07-05",
+    start_time: "2026-06-10 09",
+    end_time: "2026-07-31 18",
     template_name: "生理NPS模板",
     plan_id: "10005",
     plan_name: "生理 NPS 计划",
     total_users: "60,000",
     actual_delivery_users: "12,000",
     exposed_users: "6,100",
+    nps_estimate: "",
+    nps_promoters: "0",
+    nps_passives: "0",
+    nps_detractors: "0",
+    nps_updated_at: "",
   },
   {
     task_id: "10006",
     task_name: "计划模块NPS任务",
     task_status: "初始状态",
     task_scene: "计划",
+    delivery_region: "所有区域",
     audience_link_text: "查看",
     app_client: "APP",
-    delivery_version: "Android > V4.4, iOS > V4.4",
-    start_time: "2026-07-01",
-    end_time: "2026-07-31",
+    start_time: "2026-07-01 08",
+    end_time: "2026-07-31 18",
     template_name: "计划NPS模板",
     plan_id: "10006",
     plan_name: "计划 NPS 计划",
     total_users: "90,000",
     actual_delivery_users: "0",
     exposed_users: "0",
+    nps_estimate: "",
+    nps_promoters: "0",
+    nps_passives: "0",
+    nps_detractors: "0",
+    nps_updated_at: "",
   },
 ];
 
@@ -157,8 +187,8 @@ const npsTemplates = [
     template_status: "有效",
     channel: "APP",
     scene: "全局",
-    raw_questionnaire_type: "弹窗问卷(设计/用研)",
-    questionnaire_type: "弹窗问卷(设计/用研)",
+    raw_questionnaire_type: "弹窗问题(设计)",
+    questionnaire_type: "弹窗问题(设计)",
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-06-23 15:40",
@@ -247,8 +277,10 @@ const templates = [
 let filteredTasks = [...tasks];
 let filteredTemplates = [...npsTemplates];
 let selectedPauseTaskId = null;
+let selectedTaskStatusAction = "";
 let selectedTemplateStatusId = null;
 let selectedTemplateStatusAction = "";
+let exportTimer = null;
 let formMode = "add";
 let currentAudienceTaskId = "";
 let filteredAudienceUsers = [...audienceUsers];
@@ -269,6 +301,7 @@ const templateNav = document.getElementById("templateNav");
 const taskNav = document.getElementById("taskNav");
 const taskName = document.getElementById("taskName");
 const taskScene = document.getElementById("taskScene");
+const taskRegion = document.getElementById("taskRegion");
 const taskStatus = document.getElementById("taskStatus");
 const taskDateRange = document.getElementById("taskDateRange");
 const audienceRingconnIdSearch = document.getElementById("audienceRingconnIdSearch");
@@ -290,12 +323,16 @@ const templateStatusLightbox = document.getElementById("templateStatusLightbox")
 const templateStatusConfirmText = document.getElementById("templateStatusConfirmText");
 const templateDetailLightbox = document.getElementById("templateDetailLightbox");
 const templateDetailBody = document.getElementById("templateDetailBody");
+const exportLightbox = document.getElementById("exportLightbox");
+const npsEstimateLightbox = document.getElementById("npsEstimateLightbox");
+const npsEstimateBody = document.getElementById("npsEstimateBody");
 const toast = document.getElementById("toast");
 const formFields = {
   editingTaskId: document.getElementById("editingTaskId"),
   taskName: document.getElementById("formTaskName"),
   planName: document.getElementById("formPlanName"),
   taskScene: document.getElementById("formTaskScene"),
+  taskRegion: document.getElementById("formTaskRegion"),
   startTime: document.getElementById("formStartTime"),
   startDate: document.getElementById("formStartDate"),
   startHour: document.getElementById("formStartHour"),
@@ -306,10 +343,6 @@ const formFields = {
   appPanel: document.getElementById("appClientPanel"),
   appClientApp: document.getElementById("appClientApp"),
   appClientWeb: document.getElementById("appClientWeb"),
-  androidStart: document.getElementById("androidVersionStart"),
-  androidEnd: document.getElementById("androidVersionEnd"),
-  iosStart: document.getElementById("iosVersionStart"),
-  iosEnd: document.getElementById("iosVersionEnd"),
   templateName: document.getElementById("formTemplateName"),
   audienceFile: document.getElementById("audienceFile"),
   audienceFileList: document.getElementById("audienceFileList"),
@@ -324,6 +357,7 @@ const templateFormFields = {
   channelPanel: document.getElementById("templateChannelPanel"),
   channelApp: document.getElementById("templateChannelApp"),
   channelWeb: document.getElementById("templateChannelWeb"),
+  versionRow: document.getElementById("templateVersionRow"),
   androidVersion: document.getElementById("templateAndroidVersion"),
   androidVersionEnd: document.getElementById("templateAndroidVersionEnd"),
   iosVersion: document.getElementById("templateIosVersion"),
@@ -347,10 +381,10 @@ const formErrors = {
   taskName: document.getElementById("formTaskNameError"),
   planName: document.getElementById("formPlanNameError"),
   taskScene: document.getElementById("formTaskSceneError"),
+  taskRegion: document.getElementById("formTaskRegionError"),
   startTime: document.getElementById("formStartTimeError"),
   endTime: document.getElementById("formEndTimeError"),
   appClient: document.getElementById("formAppClientError"),
-  version: document.getElementById("formVersionError"),
   templateName: document.getElementById("formTemplateNameError"),
   newPlanName: document.getElementById("newPlanNameError"),
 };
@@ -376,6 +410,54 @@ const defaultCalendarMonth = new Date(2026, 5, 1);
 
 function canPause(task) {
   return task.task_status === "初始状态" || task.task_status === "投放中";
+}
+
+function canEnableTask(task) {
+  return task.task_status === "暂停";
+}
+
+function canEditTask(task) {
+  return task.task_status === "初始状态";
+}
+
+function canExportTask(task) {
+  return task.task_status === "投放完成";
+}
+
+function canShowNpsEstimate(task) {
+  return (task.task_status === "投放中" || task.task_status === "投放完成") && task.nps_estimate !== "";
+}
+
+function isTaskEnded(task) {
+  return new Date() >= parseTaskDateTime(task.end_time, true);
+}
+
+function getNpsInterpretation(value) {
+  const score = Number(value);
+  if (Number.isNaN(score)) return "";
+  if (score >= 70) return "卓越";
+  if (score >= 30) return "优秀";
+  if (score > 0) return "良好";
+  return "待改善";
+}
+
+function formatNpsEstimate(value) {
+  if (value === "") return "-";
+  const interpretation = getNpsInterpretation(value);
+  return interpretation ? `${value}(${interpretation})` : value;
+}
+
+function getStatusClass(status) {
+  const statusMap = {
+    有效: "status-success",
+    无效: "status-error",
+    初始状态: "status-info",
+    投放中: "status-warning",
+    投放完成: "status-success",
+    投放失败: "status-error",
+    暂停: "status-default",
+  };
+  return statusMap[status] || "status-default";
 }
 
 function escapeText(value) {
@@ -567,11 +649,12 @@ function renderTemplates(rows) {
   const displayRows = sortTemplatesByIdDesc(rows);
   templateRows.innerHTML = displayRows.map((template) => {
     const disabled = template.template_status === "无效";
+    const statusClass = getStatusClass(template.template_status);
     return `
       <tr data-template-id="${escapeText(template.template_id)}">
         <td>${escapeText(template.template_id)}</td>
         <td>${escapeText(template.template_name)}</td>
-        <td><span class="status-pill">${escapeText(template.template_status)}</span></td>
+        <td><span class="status-pill ${statusClass}">${escapeText(template.template_status)}</span></td>
         <td>${escapeText(template.channel)}</td>
         <td>${escapeText(template.scene)}</td>
         <td>${escapeText(getTemplateDisplayType(getTemplateRawType(template)))}</td>
@@ -579,8 +662,8 @@ function renderTemplates(rows) {
         <td>${escapeText(template.updated_at)}</td>
         <td>
           <div class="table-actions">
-            <button class="table-action-button edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}">编辑模板</button>
-            <button class="table-action-button toggle-template-link" type="button" data-template-id="${escapeText(template.template_id)}">${disabled ? "启用" : "禁用"}</button>
+            <button class="table-action-button is-primary edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}">编辑模板</button>
+            <button class="table-action-button ${disabled ? "is-success" : "is-danger"} toggle-template-link" type="button" data-template-id="${escapeText(template.template_id)}">${disabled ? "启用" : "禁用"}</button>
           </div>
         </td>
       </tr>
@@ -728,15 +811,20 @@ function renderRows(rows) {
   const displayRows = sortTasksByIdDesc(rows);
   taskRows.innerHTML = displayRows.map((task) => {
     const pauseDisabled = !canPause(task);
+    const enableVisible = canEnableTask(task);
+    const editDisabled = !canEditTask(task);
+    const exportDisabled = !canExportTask(task);
+    const hasNpsEstimate = canShowNpsEstimate(task);
+    const statusClass = getStatusClass(task.task_status);
     return `
       <tr data-task-id="${escapeText(task.task_id)}">
         <td>${escapeText(task.task_id)}</td>
         <td>${escapeText(task.task_name)}</td>
-        <td><span class="status-pill">${escapeText(task.task_status)}</span></td>
+        <td><span class="status-pill ${statusClass}">${escapeText(task.task_status)}</span></td>
         <td>${escapeText(task.task_scene)}</td>
+        <td>${escapeText(task.delivery_region || "所有区域")}</td>
         <td><button class="link-button audience-link" type="button" data-task-id="${escapeText(task.task_id)}">${escapeText(task.audience_link_text)}</button></td>
         <td>${escapeText(task.app_client)}</td>
-        <td>${escapeText(task.delivery_version)}</td>
         <td>${escapeText(task.start_time)}</td>
         <td>${escapeText(task.end_time)}</td>
         <td><button class="link-button template-link" type="button" data-template="${escapeText(task.template_name)}">${escapeText(task.template_name)}</button></td>
@@ -745,11 +833,15 @@ function renderRows(rows) {
         <td>${escapeText(task.total_users)}</td>
         <td>${escapeText(task.actual_delivery_users)}</td>
         <td>${escapeText(task.exposed_users)}</td>
+        <td>${hasNpsEstimate ? `<button class="link-button nps-estimate-link" type="button" data-task-id="${escapeText(task.task_id)}">${escapeText(formatNpsEstimate(task.nps_estimate))}</button>` : "-"}</td>
         <td>
           <div class="table-actions">
-            <button class="table-action-button copy-link" type="button" data-task-id="${escapeText(task.task_id)}">复制</button>
-            <button class="table-action-button edit-link" type="button" data-task-id="${escapeText(task.task_id)}">编辑</button>
-            <button class="table-action-button pause-link" type="button" data-task-id="${escapeText(task.task_id)}" ${pauseDisabled ? "disabled" : ""}>暂停</button>
+            <button class="table-action-button is-primary copy-link" type="button" data-task-id="${escapeText(task.task_id)}">复制</button>
+            <button class="table-action-button is-primary edit-link" type="button" data-task-id="${escapeText(task.task_id)}" ${editDisabled ? "disabled" : ""}>编辑</button>
+            <button class="table-action-button is-primary export-link" type="button" data-task-id="${escapeText(task.task_id)}" ${exportDisabled ? "disabled" : ""}>导出</button>
+            ${enableVisible
+              ? `<button class="table-action-button is-success enable-link" type="button" data-task-id="${escapeText(task.task_id)}">启用</button>`
+              : `<button class="table-action-button is-danger pause-link" type="button" data-task-id="${escapeText(task.task_id)}" ${pauseDisabled ? "disabled" : ""}>暂停</button>`}
           </div>
         </td>
       </tr>
@@ -792,14 +884,16 @@ function applyFilters() {
 
   const nameValue = taskName.value.trim();
   const sceneValue = taskScene.value;
+  const regionValue = taskRegion.value;
   const statusValue = taskStatus.value;
 
   filteredTasks = tasks.filter((task) => {
     const nameOk = !nameValue || task.task_name.includes(nameValue);
     const sceneOk = sceneValue === "所有" || task.task_scene === sceneValue;
+    const regionOk = regionValue === "所有区域" || (task.delivery_region || "所有区域") === regionValue;
     const statusOk = statusValue === "所有" || task.task_status === statusValue;
     const dateOk = intersectsRange(task, range);
-    return nameOk && sceneOk && statusOk && dateOk;
+    return nameOk && sceneOk && regionOk && statusOk && dateOk;
   });
 
   renderRows(filteredTasks);
@@ -851,20 +945,38 @@ function openAudiencePage(taskId) {
 
 function openPause(taskId) {
   selectedPauseTaskId = taskId;
+  selectedTaskStatusAction = "pause";
+  document.getElementById("pauseTitle").textContent = "确认暂停任务吗？暂停后将不会给用户投放问卷。";
+  pauseLightbox.classList.add("show");
+  pauseLightbox.setAttribute("aria-hidden", "false");
+}
+
+function openEnableTask(taskId) {
+  selectedPauseTaskId = taskId;
+  selectedTaskStatusAction = "enable";
+  document.getElementById("pauseTitle").textContent = "确认启用任务吗？启用后将会给用户继续投放问卷。";
   pauseLightbox.classList.add("show");
   pauseLightbox.setAttribute("aria-hidden", "false");
 }
 
 function closePause() {
   selectedPauseTaskId = null;
+  selectedTaskStatusAction = "";
   pauseLightbox.classList.remove("show");
   pauseLightbox.setAttribute("aria-hidden", "true");
 }
 
 function confirmPause() {
   const task = tasks.find((item) => item.task_id === selectedPauseTaskId);
-  if (task && canPause(task)) {
+  if (task && selectedTaskStatusAction === "pause" && canPause(task)) {
     task.task_status = "暂停";
+  } else if (task && selectedTaskStatusAction === "enable" && canEnableTask(task)) {
+    if (isTaskEnded(task)) {
+      closePause();
+      showToast("任务已结束，无法启用");
+      return;
+    }
+    task.task_status = "初始状态";
   }
   closePause();
   applyFilters();
@@ -877,6 +989,88 @@ function showToast(message) {
   showToast.timer = window.setTimeout(() => {
     toast.classList.remove("show");
   }, 1800);
+}
+
+function sanitizeFileName(value) {
+  return value.replace(/[\\/:*?"<>|]/g, "_");
+}
+
+function buildExportWorkbook(task) {
+  const rows = [
+    ["任务ID", task.task_id],
+    ["任务名称", task.task_name],
+    ["任务状态", task.task_status],
+    ["投放用户数", task.actual_delivery_users],
+    ["曝光用户数", task.exposed_users],
+    ["预估NPS", formatNpsEstimate(task.nps_estimate)],
+    ["9-10分用户数", task.nps_promoters || "0"],
+    ["7-8分用户数", task.nps_passives || "0"],
+    ["0-6分用户数", task.nps_detractors || "0"],
+  ];
+  const cells = rows.map(([label, value]) => `<tr><td>${escapeText(label)}</td><td>${escapeText(value)}</td></tr>`).join("");
+  return `<!doctype html><html><head><meta charset="UTF-8"></head><body><table>${cells}</table></body></html>`;
+}
+
+function triggerTaskExport(task) {
+  const blob = new Blob([`\ufeff${buildExportWorkbook(task)}`], {
+    type: "application/vnd.ms-excel;charset=utf-8",
+  });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `${sanitizeFileName(task.task_name)}_用户回复情况.xlsx`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.setTimeout(() => URL.revokeObjectURL(link.href), 0);
+}
+
+function openExportDialog(taskId) {
+  const task = tasks.find((item) => item.task_id === taskId);
+  if (!task) return;
+  if (!canExportTask(task)) {
+    showToast("仅投放完成状态允许导出。");
+    return;
+  }
+  exportLightbox.classList.add("show");
+  exportLightbox.setAttribute("aria-hidden", "false");
+  window.clearTimeout(exportTimer);
+  exportTimer = window.setTimeout(() => {
+    triggerTaskExport(task);
+    exportLightbox.classList.remove("show");
+    exportLightbox.setAttribute("aria-hidden", "true");
+    showToast("导出文件已加入浏览器下载队列。");
+  }, 1000);
+}
+
+function closeNpsEstimate() {
+  npsEstimateLightbox.classList.remove("show");
+  npsEstimateLightbox.setAttribute("aria-hidden", "true");
+}
+
+function openNpsEstimate(taskId) {
+  const task = tasks.find((item) => item.task_id === taskId);
+  if (!task || !canShowNpsEstimate(task)) return;
+  const npsInterpretation = getNpsInterpretation(task.nps_estimate);
+  npsEstimateBody.innerHTML = `
+    <div class="nps-score-block">
+      <div class="nps-score-value">${escapeText(formatNpsEstimate(task.nps_estimate))}</div>
+      <div class="nps-score-desc">截止 ${escapeText(task.nps_updated_at || "2026-07-08")} 预估值</div>
+      <div class="nps-score-desc">参考 Bain & Company NPS 分段：${escapeText(npsInterpretation || "-")}</div>
+    </div>
+    <dl class="nps-detail-grid">
+      <dt>问卷填写用户数</dt>
+      <dd>${escapeText(task.actual_delivery_users)}</dd>
+      <dt>9-10 分用户数</dt>
+      <dd>${escapeText(task.nps_promoters || "0")}</dd>
+      <dt>7-8 分用户数</dt>
+      <dd>${escapeText(task.nps_passives || "0")}</dd>
+      <dt>0-6 分用户数</dt>
+      <dd>${escapeText(task.nps_detractors || "0")}</dd>
+    </dl>
+    <div class="nps-estimate-note">预估NPS每日更新。当超过结束日期后，预估NPS将不再更新。</div>
+  `;
+  npsEstimateLightbox.classList.add("show");
+  npsEstimateLightbox.setAttribute("aria-hidden", "false");
 }
 
 function navigatePlaceholder(pageName, detail = "") {
@@ -972,6 +1166,7 @@ function setTaskFormReadonly(readonly) {
     formFields.taskName,
     formFields.planName,
     formFields.taskScene,
+    formFields.taskRegion,
     formFields.startDate,
     formFields.startHour,
     formFields.endDate,
@@ -979,10 +1174,6 @@ function setTaskFormReadonly(readonly) {
     formFields.appTrigger,
     formFields.appClientApp,
     formFields.appClientWeb,
-    formFields.androidStart,
-    formFields.androidEnd,
-    formFields.iosStart,
-    formFields.iosEnd,
     formFields.templateName,
     formFields.audienceFile,
   ].forEach((field) => {
@@ -1001,13 +1192,10 @@ function setTaskFormCopyMode(enabled) {
   [
     formFields.planName,
     formFields.taskScene,
+    formFields.taskRegion,
     formFields.appTrigger,
     formFields.appClientApp,
     formFields.appClientWeb,
-    formFields.androidStart,
-    formFields.androidEnd,
-    formFields.iosStart,
-    formFields.iosEnd,
     formFields.templateName,
   ].forEach((field) => {
     field.disabled = true;
@@ -1024,6 +1212,7 @@ function resetTaskForm() {
   formFields.editingTaskId.value = "";
   formFields.planName.value = "";
   formFields.taskScene.value = "";
+  formFields.taskRegion.value = "";
   formFields.templateName.value = "";
   formFields.appClientApp.checked = true;
   formFields.appClientWeb.checked = false;
@@ -1036,13 +1225,13 @@ function fillTaskForm(task) {
   formFields.taskName.value = task.task_name;
   formFields.planName.value = task.plan_name;
   formFields.taskScene.value = task.task_scene;
+  formFields.taskRegion.value = task.delivery_region || "所有区域";
   setDateHourValue(formFields.startDate, formFields.startHour, task.start_time);
   setDateHourValue(formFields.endDate, formFields.endHour, task.end_time);
   formFields.templateName.value = task.template_name;
   formFields.appClientApp.checked = task.app_client.includes("APP");
   formFields.appClientWeb.checked = task.app_client.includes("WEB") || task.app_client.includes("Web");
   updateAppTrigger();
-  fillVersionFields(task.delivery_version);
   if (task.audience_file_names && task.audience_file_names.length) {
     renderAudienceFiles(task.audience_file_names);
   } else if (task.audience_file_name) {
@@ -1063,6 +1252,11 @@ function openTaskForm(mode, taskId = "") {
   if (mode === "edit" || mode === "view" || mode === "copy") {
     const task = tasks.find((item) => item.task_id === taskId);
     if (!task) return;
+    if (mode === "edit" && !canEditTask(task)) {
+      showToast("仅初始状态任务允许编辑。");
+      showTaskList();
+      return;
+    }
     fillTaskForm(task);
     if (mode === "copy") {
       formFields.editingTaskId.value = "";
@@ -1077,37 +1271,6 @@ function openTaskForm(mode, taskId = "") {
       setTaskFormReadonly(mode === "view");
     }
   }
-}
-
-function fillVersionFields(versionText) {
-  [formFields.androidStart, formFields.androidEnd, formFields.iosStart, formFields.iosEnd].forEach((field) => {
-    field.value = "";
-  });
-  versionText.split(",").map((item) => item.trim()).forEach((item) => {
-    const match = item.match(/^(Android|iOS)\s*>\s*([^~]+?)(?:\s*~\s*(.+))?$/i);
-    if (!match) return;
-    const platform = match[1].toLowerCase();
-    const start = match[2].trim();
-    const end = match[3] ? match[3].trim() : "";
-    if (platform === "android") {
-      formFields.androidStart.value = start;
-      formFields.androidEnd.value = end;
-    } else {
-      formFields.iosStart.value = start;
-      formFields.iosEnd.value = end;
-    }
-  });
-}
-
-function buildVersionText() {
-  const versions = [];
-  const androidStart = formFields.androidStart.value.trim();
-  const androidEnd = formFields.androidEnd.value.trim();
-  const iosStart = formFields.iosStart.value.trim();
-  const iosEnd = formFields.iosEnd.value.trim();
-  if (androidStart) versions.push(`Android > ${androidStart}${androidEnd ? ` ~ ${androidEnd}` : ""}`);
-  if (iosStart) versions.push(`iOS > ${iosStart}${iosEnd ? ` ~ ${iosEnd}` : ""}`);
-  return versions.join(", ") || "-";
 }
 
 function validateTaskForm() {
@@ -1127,6 +1290,10 @@ function validateTaskForm() {
   }
   if (!formFields.taskScene.value) {
     setError("taskScene", "任务场景不能为空。");
+    valid = false;
+  }
+  if (!formFields.taskRegion.value) {
+    setError("taskRegion", "投放范围不能为空。");
     valid = false;
   }
   if (!startTime) {
@@ -1154,17 +1321,6 @@ function validateTaskForm() {
     valid = false;
   }
 
-  const versionPairs = [
-    [formFields.androidStart.value.trim(), formFields.androidEnd.value.trim()],
-    [formFields.iosStart.value.trim(), formFields.iosEnd.value.trim()],
-  ];
-  const versionInvalid = versionPairs.some(([start, end]) => (!start && end) || (start && end && compareVersions(end, start) <= 0));
-  if (versionInvalid) {
-    formErrors.version.textContent = "投放版本需先填写开始值，且结束值必须大于开始值。";
-    formErrors.version.classList.add("show");
-    valid = false;
-  }
-
   return valid;
 }
 
@@ -1188,11 +1344,11 @@ function submitTaskForm() {
   const taskPayload = {
     task_name: formFields.taskName.value.trim(),
     task_scene: formFields.taskScene.value,
+    delivery_region: formFields.taskRegion.value,
     audience_link_text: "查看",
     audience_file_names: audienceFileNames,
     audience_file_name: audienceFileNames.join(","),
     app_client: getSelectedApps().join(","),
-    delivery_version: buildVersionText(),
     start_time: formatDateHour(formFields.startDate.value, formFields.startHour.value),
     end_time: formatDateHour(formFields.endDate.value, formFields.endHour.value),
     template_name: formFields.templateName.value,
@@ -1206,6 +1362,10 @@ function submitTaskForm() {
       showToast("提交失败，任务不存在。");
       return;
     }
+    if (!canEditTask(task)) {
+      showToast("仅初始状态任务允许编辑。");
+      return;
+    }
     Object.assign(task, taskPayload);
     showToast("编辑成功。");
   } else {
@@ -1215,6 +1375,11 @@ function submitTaskForm() {
       total_users: "0",
       actual_delivery_users: "0",
       exposed_users: "0",
+      nps_estimate: "",
+      nps_promoters: "0",
+      nps_passives: "0",
+      nps_detractors: "0",
+      nps_updated_at: "",
       ...taskPayload,
     });
     showToast("新增成功。");
@@ -1259,6 +1424,25 @@ function getSelectedTemplateChannels() {
 function updateTemplateChannelTrigger() {
   const channels = getSelectedTemplateChannels();
   templateFormFields.channelTrigger.textContent = channels.length ? channels.join(", ") : "请选择渠道";
+  updateTemplateVersionVisibility();
+}
+
+function updateTemplateVersionVisibility() {
+  const requiresVersion = templateFormFields.channelApp.checked;
+  templateFormFields.versionRow.classList.toggle("hidden", !requiresVersion);
+  [
+    templateFormFields.androidVersion,
+    templateFormFields.androidVersionEnd,
+    templateFormFields.iosVersion,
+    templateFormFields.iosVersionEnd,
+  ].forEach((field) => {
+    field.disabled = !requiresVersion || templateFormFields.channelTrigger.disabled;
+    if (!requiresVersion) field.value = "";
+  });
+  if (!requiresVersion) {
+    templateFormErrors.version.textContent = "";
+    templateFormErrors.version.classList.remove("show");
+  }
 }
 
 function getLinkedQuestionnaireInputs() {
@@ -1344,7 +1528,12 @@ function isPopupAppQuestionnaireType(type) {
 }
 
 function isDesignQuestionnaireType(type) {
-  return type === "弹窗问卷(设计/用研)" || type === "全局问卷(设计反馈)" || type === "全局问卷(设计问卷)";
+  return [
+    "弹窗问卷(用研)",
+    "弹窗问题(设计)",
+    "全局问卷(设计反馈)",
+    "全局问卷(设计问卷)",
+  ].includes(type);
 }
 
 function updateQuestionnaireTypeByScene() {
@@ -1405,7 +1594,8 @@ function setTemplateStep(step) {
 }
 
 function getTemplateDisplayType(questionnaireType) {
-  if (isDesignQuestionnaireType(questionnaireType)) return "弹窗问卷(设计/用研)";
+  if (questionnaireType === "弹窗问卷(用研)" || questionnaireType === "弹窗问题(设计)") return questionnaireType;
+  if (isDesignQuestionnaireType(questionnaireType)) return "弹窗问卷(用研)";
   if (isPopupAppQuestionnaireType(questionnaireType)) return "弹窗问卷(APP功能)";
   if (questionnaireType === "分组问卷" || questionnaireType === "分组") return "分组问卷";
   if (questionnaireType === "功能问卷" || questionnaireType === "常规") return "功能问卷";
@@ -1758,20 +1948,23 @@ function validateTemplateStepOne() {
     setTemplateError("linked", "关联完整问卷不能为空。");
     valid = false;
   }
-  if (!hasVersion) {
-    templateFormErrors.version.textContent = "投放版本不能为空。";
-    templateFormErrors.version.classList.add("show");
-    valid = false;
-  } else if (versionInvalid) {
-    templateFormErrors.version.textContent = "投放版本需先填写开始值，且结束值必须大于开始值。";
-    templateFormErrors.version.classList.add("show");
-    valid = false;
+  if (templateFormFields.channelApp.checked) {
+    if (!hasVersion) {
+      templateFormErrors.version.textContent = "选择 APP 时投放版本不能为空。";
+      templateFormErrors.version.classList.add("show");
+      valid = false;
+    } else if (versionInvalid) {
+      templateFormErrors.version.textContent = "投放版本需先填写开始值，且结束值必须大于开始值。";
+      templateFormErrors.version.classList.add("show");
+      valid = false;
+    }
   }
 
   return valid;
 }
 
 function buildTemplateVersionText() {
+  if (!templateFormFields.channelApp.checked) return "-";
   const versions = [];
   const androidStart = templateFormFields.androidVersion.value.trim();
   const androidEnd = templateFormFields.androidVersionEnd.value.trim();
@@ -2018,16 +2211,18 @@ function validateGroupCreationSource() {
     templateFormErrors.channel.classList.add("show");
     valid = false;
   }
-  if (!hasVersion) {
-    templateFormErrors.version.textContent = "请先设置投放版本。";
-    templateFormErrors.version.classList.add("show");
-    valid = false;
-  } else if (versionInvalid) {
-    templateFormErrors.version.textContent = "投放版本需先填写开始值，且结束值必须大于开始值。";
-    templateFormErrors.version.classList.add("show");
-    valid = false;
+  if (templateFormFields.channelApp.checked) {
+    if (!hasVersion) {
+      templateFormErrors.version.textContent = "选择 APP 时请先设置投放版本。";
+      templateFormErrors.version.classList.add("show");
+      valid = false;
+    } else if (versionInvalid) {
+      templateFormErrors.version.textContent = "投放版本需先填写开始值，且结束值必须大于开始值。";
+      templateFormErrors.version.classList.add("show");
+      valid = false;
+    }
   }
-  if (!valid) showToast("请先设置可用渠道和投放版本。");
+  if (!valid) showToast(templateFormFields.channelApp.checked ? "请先设置可用渠道和投放版本。" : "请先设置可用渠道。");
   return valid;
 }
 
@@ -2494,6 +2689,15 @@ document.addEventListener("click", (event) => {
   if (target.classList.contains("pause-link") && !target.hasAttribute("disabled")) {
     openPause(target.dataset.taskId);
   }
+  if (target.classList.contains("enable-link")) {
+    openEnableTask(target.dataset.taskId);
+  }
+  if (target.classList.contains("export-link") && !target.hasAttribute("disabled")) {
+    openExportDialog(target.dataset.taskId);
+  }
+  if (target.classList.contains("nps-estimate-link")) {
+    openNpsEstimate(target.dataset.taskId);
+  }
   if (target.classList.contains("copy-link")) {
     openTaskForm("copy", target.dataset.taskId);
   }
@@ -2533,6 +2737,10 @@ planLightbox.addEventListener("click", (event) => {
 document.getElementById("closeTemplateDetail").addEventListener("click", closeTemplateDetail);
 templateDetailLightbox.addEventListener("click", (event) => {
   if (event.target === templateDetailLightbox) closeTemplateDetail();
+});
+document.getElementById("closeNpsEstimate").addEventListener("click", closeNpsEstimate);
+npsEstimateLightbox.addEventListener("click", (event) => {
+  if (event.target === npsEstimateLightbox) closeNpsEstimate();
 });
 
 renderRows(filteredTasks);

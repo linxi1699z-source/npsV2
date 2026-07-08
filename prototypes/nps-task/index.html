@@ -114,6 +114,15 @@
                 </select>
               </div>
 
+              <div class="field-group">
+                <label class="field-label" for="taskRegion">投放范围</label>
+                <select class="ax-select" id="taskRegion">
+                  <option value="所有区域">所有区域</option>
+                  <option value="国内">国内</option>
+                  <option value="海外">海外</option>
+                </select>
+              </div>
+
               <div class="field-group date-group">
                 <label class="field-label wide" for="rangePicker">任务时间范围</label>
                 <div class="date-field">
@@ -173,7 +182,7 @@
                   <option value="初始状态">初始状态</option>
                   <option value="投放中">投放中</option>
                   <option value="投放完成">投放完成</option>
-                  <option value="投放异常">投放异常</option>
+                  <option value="投放失败">投放失败</option>
                   <option value="暂停">暂停</option>
                 </select>
               </div>
@@ -194,9 +203,9 @@
                     <th class="w-name">任务名称</th>
                     <th class="w-status">任务状态</th>
                     <th class="w-scene">任务场景</th>
+                    <th class="w-region">投放范围</th>
                     <th class="w-link">投放人群</th>
                     <th class="w-client">应用端</th>
-                    <th class="w-version">投放版本</th>
                     <th class="w-date">任务开始时间</th>
                     <th class="w-date">任务结束时间</th>
                     <th class="w-template">问卷模板</th>
@@ -205,6 +214,7 @@
                     <th class="w-count">总用户数</th>
                     <th class="w-count-wide">实际投放用户数</th>
                     <th class="w-count">曝光用户数</th>
+                    <th class="w-nps">预估NPS</th>
                     <th class="w-actions">操作列</th>
                   </tr>
                 </thead>
@@ -254,6 +264,17 @@
             </div>
 
             <div class="form-row">
+              <label class="form-label required" for="formTaskRegion">投放范围</label>
+              <select class="ax-select form-control" id="formTaskRegion">
+                <option value="">请选择投放范围</option>
+                <option value="国内">国内</option>
+                <option value="海外">海外</option>
+                <option value="所有区域">所有区域</option>
+              </select>
+              <div class="form-error" id="formTaskRegionError"></div>
+            </div>
+
+            <div class="form-row">
               <label class="form-label required" for="formStartTime">任务开始时间</label>
               <div class="hour-field" id="formStartTime">
                 <input class="ax-input date-only-input" id="formStartDate" type="date" />
@@ -281,25 +302,6 @@
                 </div>
               </div>
               <div class="form-error" id="formAppClientError"></div>
-            </div>
-
-            <div class="form-row version-row">
-              <label class="form-label">投放版本</label>
-              <div class="version-fields">
-                <div class="version-line">
-                  <span>Android</span>
-                  <input class="ax-input version-input" id="androidVersionStart" type="text" placeholder="V4.2" />
-                  <span>至</span>
-                  <input class="ax-input version-input" id="androidVersionEnd" type="text" placeholder="可为空" />
-                </div>
-                <div class="version-line">
-                  <span>iOS</span>
-                  <input class="ax-input version-input" id="iosVersionStart" type="text" placeholder="V4.2" />
-                  <span>至</span>
-                  <input class="ax-input version-input" id="iosVersionEnd" type="text" placeholder="可为空" />
-                </div>
-              </div>
-              <div class="form-error version-error" id="formVersionError"></div>
             </div>
 
             <div class="form-row">
@@ -403,7 +405,8 @@
                 <select class="ax-select form-control" id="formQuestionnaireType" disabled>
                   <option value="">问卷类型</option>
                   <option value="弹窗问卷(APP功能)">弹窗问卷(APP功能)</option>
-                  <option value="弹窗问卷(设计/用研)">弹窗问卷(设计/用研)</option>
+                  <option value="弹窗问卷(用研)">弹窗问卷(用研)</option>
+                  <option value="弹窗问题(设计)">弹窗问题(设计)</option>
                   <option value="功能问卷">功能问卷</option>
                   <option value="分组问卷">分组问卷</option>
                 </select>
@@ -422,7 +425,7 @@
                 <div class="form-error" id="formTemplateChannelError"></div>
               </div>
 
-              <div class="form-row version-row template-version-row">
+              <div class="form-row version-row template-version-row" id="templateVersionRow">
                 <label class="form-label required">投放版本</label>
                 <div class="version-fields">
                   <div class="version-line">
@@ -487,9 +490,9 @@
                     <div class="richtext-toolbar" aria-label="弹窗文案格式工具栏">
                       <button class="rich-button" type="button" data-command="bold">B</button>
                       <button class="rich-button underline" type="button" data-command="underline">U</button>
-                      <button class="color-swatch red" type="button" data-color="#D9001B" aria-label="红色"></button>
-                      <button class="color-swatch blue" type="button" data-color="#1E98D7" aria-label="蓝色"></button>
-                      <button class="color-swatch black" type="button" data-color="#333333" aria-label="黑色"></button>
+                      <button class="color-swatch red" type="button" data-color="#FF4D4F" aria-label="红色"></button>
+                      <button class="color-swatch blue" type="button" data-color="#1677FF" aria-label="蓝色"></button>
+                      <button class="color-swatch black" type="button" data-color="#1F1F1F" aria-label="黑色"></button>
                     </div>
                     <div class="rich-editor" id="popupCopy" contenteditable="true"></div>
                   </div>
@@ -606,8 +609,24 @@
       </div>
     </div>
 
+    <div class="lightbox" id="exportLightbox" aria-hidden="true">
+      <div class="export-dialog" role="dialog" aria-modal="true" aria-labelledby="exportDialogTitle">
+        <div class="export-spinner" aria-hidden="true"></div>
+        <div class="export-title" id="exportDialogTitle">正在准备导出数据</div>
+      </div>
+    </div>
+
+    <div class="lightbox" id="npsEstimateLightbox" aria-hidden="true">
+      <div class="nps-estimate-dialog" role="dialog" aria-modal="true" aria-labelledby="npsEstimateTitle">
+        <button class="dialog-close" id="closeNpsEstimate" type="button" aria-label="关闭">×</button>
+        <div class="dialog-title" id="npsEstimateTitle">预估NPS</div>
+        <div class="dialog-rule"></div>
+        <div class="nps-estimate-body" id="npsEstimateBody"></div>
+      </div>
+    </div>
+
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js"></script>
+    <script src="./app.js?v=20260708-template-type-split"></script>
   </body>
 </html>
