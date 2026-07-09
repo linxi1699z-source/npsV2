@@ -142,6 +142,83 @@ const plans = [
   { plan_id: "10006", plan_name: "计划 NPS 计划", plan_status: "启用" },
 ];
 
+const DEFAULT_TEMPLATE_BANNER = {
+  title: "喜欢RingConn吗？来评分吧！",
+  subtitle: "您的声音，我们的动力。",
+  button: "去评分！",
+};
+
+const DEFAULT_DESIGN_POPUP_COPY = `We're always working to improve Ring Conn by seeing things from your
+perspective. Your honest feedback really matters to us. Are the charts easy to
+read? Does the data make sense? Does everything feel intuitive? Take this
+quick survey about our new design and help us make RingConn everbetter for
+you.`;
+
+const DEFAULT_GLOBAL_APP_QUESTIONS = [
+  {
+    type: "评分(全局)",
+    title: "您有多大可能会向朋友或者同时推荐RingConn?",
+    subtitle: "",
+    scoreRange: "10",
+    scoreMinDesc: "不推荐",
+    scoreMaxDesc: "非常推荐",
+    lowScoreGuide: "我们有哪些做的不好的地方？",
+    highScoreGuide: "我们有哪些做得好的地方?",
+    otherScoreGuide: "我们有哪些值得改进的地方?",
+    required: "必填",
+    charLimit: "500",
+    choiceOptions: [{ label: "选项", isOther: false }],
+    errors: {},
+  },
+  {
+    type: "多选题",
+    title: "我们有哪些值得改进的地方?",
+    subtitle: "",
+    scoreRange: "10",
+    scoreMinDesc: "",
+    scoreMaxDesc: "",
+    lowScoreGuide: "",
+    highScoreGuide: "",
+    otherScoreGuide: "",
+    required: "必填",
+    charLimit: "500",
+    choiceOptions: [
+      { label: "戒指外观设计与质感", isOther: false },
+      { label: "佩戴舒适度与尺寸", isOther: false },
+      { label: "续航与充电体验", isOther: false },
+      { label: "戒指质量与耐用度", isOther: false },
+      { label: "App使用流畅度", isOther: false },
+      { label: "App界面易读性", isOther: false },
+      { label: "核心功能价值", isOther: false },
+      { label: "数据监测准确性", isOther: false },
+      { label: "数据解读帮助性", isOther: false },
+      { label: "售后体验", isOther: false },
+    ],
+    errors: {},
+  },
+];
+
+const I18N_LANGUAGES = [
+  { key: "zh_cn", label: "中文", previewLabel: "中文" },
+  { key: "zh_tw", label: "繁体中文", previewLabel: "繁体中文" },
+  { key: "en", label: "英文", previewLabel: "英语" },
+  { key: "ja", label: "日本语", previewLabel: "日本语" },
+  { key: "de", label: "德语", previewLabel: "德语" },
+  { key: "es", label: "西班牙语", previewLabel: "西班牙语" },
+  { key: "fr", label: "法语", previewLabel: "法语" },
+  { key: "ar", label: "阿拉伯语", previewLabel: "阿拉伯语" },
+  { key: "cs", label: "捷克语", previewLabel: "捷克语" },
+  { key: "tr", label: "土耳其", previewLabel: "土耳其" },
+  { key: "pl", label: "波兰语", previewLabel: "波兰语" },
+  { key: "fi", label: "芬兰语", previewLabel: "芬兰语" },
+  { key: "it", label: "意大利语", previewLabel: "意大利语" },
+  { key: "hu", label: "匈牙利语", previewLabel: "匈牙利语" },
+  { key: "ro", label: "罗马尼亚语", previewLabel: "罗马尼亚语" },
+  { key: "ko", label: "韩语", previewLabel: "韩语" },
+  { key: "lt", label: "立陶宛语", previewLabel: "立陶宛语" },
+  { key: "ms", label: "马来语", previewLabel: "马来语" },
+];
+
 const audienceUsers = [
   { task_id: "10001", ringconn_id: "RC10001001", country: "中国", registered_at: "2024-11-18", user_flag: "老用户", delivery_result: "未下发" },
   { task_id: "10001", ringconn_id: "RC10001002", country: "美国", registered_at: "2025-02-07", user_flag: "新用户", delivery_result: "已下发" },
@@ -176,6 +253,7 @@ const npsTemplates = [
     creator: "谢敏",
     updated_at: "2026-06-23 16:30",
     min_version: "Android > V4.2, iOS > V4.2",
+    linked_questionnaires: ["NPS分组问卷-监测准确性", "NPS分组问卷-App设计体验", "NPS分组问卷-渠道与改进"],
     questions: [
       { type: "评分(全局)", title: "您愿意向朋友推荐 RingConn 吗？", subtitle: "1=非常不认可，10=非常认可", options: "1-10" },
       { type: "多选题", title: "影响您评分的主要原因是什么？", subtitle: "", options: "睡眠数据, 佩戴舒适度, App 体验, 其他" },
@@ -187,14 +265,15 @@ const npsTemplates = [
     template_status: "有效",
     channel: "APP",
     scene: "全局",
-    raw_questionnaire_type: "弹窗问题(设计)",
-    questionnaire_type: "弹窗问题(设计)",
+    raw_questionnaire_type: "弹窗问卷(设计)",
+    questionnaire_type: "弹窗问卷(设计)",
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-06-23 15:40",
     min_version: "Android > V4.2, iOS > V4.2",
+    page_size: "5",
     questions: [
-      { type: "评分(全局)", title: "您对当前 UI 体验满意吗？", subtitle: "", options: "1-10" },
+      { type: "评分(普通)", title: "您对当前 UI 体验满意吗？", subtitle: "", options: "1-10" },
       { type: "开放题", title: "您希望我们优先优化哪些界面？", subtitle: "", options: "500 字符" },
     ],
   },
@@ -212,6 +291,102 @@ const npsTemplates = [
     min_version: "Android > V4.2, iOS > V4.2",
     questions: [
       { type: "评分(普通)", title: "您对睡眠分析结果满意吗？", subtitle: "", options: "1-10" },
+    ],
+  },
+  {
+    template_id: "10008",
+    template_name: "NPS分组问卷-监测准确性",
+    template_status: "有效",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "分组问卷",
+    questionnaire_type: "分组问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-07-09 16:20",
+    min_version: "Android > V4.2, iOS > V4.2",
+    questionnaire_title: "问卷",
+    questionnaire_description: "根据您的使用感受，是否认同以下描述？",
+    questionnaire_remark: "5=非常认同，1=非常不认同",
+    questions: [
+      { type: "评分(普通)", title: "睡眠监测数据准确", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "活动监测数据准确", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "压力监测数据准确", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "生命体征监测数据准确", subtitle: "", options: "1-5" },
+    ],
+  },
+  {
+    template_id: "10007",
+    template_name: "NPS分组问卷-App设计体验",
+    template_status: "有效",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "分组问卷",
+    questionnaire_type: "分组问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-07-09 16:10",
+    min_version: "Android > V4.2, iOS > V4.2",
+    questionnaire_title: "问卷",
+    questionnaire_description: "根据您对App的设计感受，是否认同以下描述？",
+    questionnaire_remark: "5=非常认同，1=非常不认同",
+    questions: [
+      { type: "评分(普通)", title: "操作流程顺畅，符合逻辑", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "想找的东西都很容易找到", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "文案话术描述清晰准确，易于理解", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "图表信息清晰易懂", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "字体字号大小合适，便于阅读", subtitle: "", options: "1-5" },
+    ],
+  },
+  {
+    template_id: "10006",
+    template_name: "NPS分组问卷-渠道与改进",
+    template_status: "有效",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "分组问卷",
+    questionnaire_type: "分组问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-07-09 16:00",
+    min_version: "Android > V4.2, iOS > V4.2",
+    questionnaire_title: "问卷",
+    questionnaire_description: "",
+    questionnaire_remark: "",
+    questions: [
+      {
+        type: "多选题",
+        title: "您是通过哪种方式了解到RingConn的？",
+        subtitle: "",
+        choiceOptions: [
+          { label: "自发搜索", isOther: false },
+          { label: "亲友推荐", isOther: false },
+          { label: "广告信息", isOther: false },
+          { label: "网络分享/推荐", isOther: false },
+          { label: "随机尝试/体验", isOther: false },
+        ],
+      },
+      {
+        type: "多选题",
+        title: "您是通过哪个渠道购买了我们的产品？",
+        subtitle: "",
+        choiceOptions: [
+          { label: "天猫", isOther: false },
+          { label: "京东", isOther: false },
+          { label: "得物", isOther: false },
+          { label: "小红书", isOther: false },
+          { label: "微信小程序", isOther: false },
+          { label: "线下门店", isOther: false },
+          { label: "其他渠道", isOther: true, otherPrompt: "请填写其他渠道信息", charLimit: "1000" },
+        ],
+      },
+      {
+        type: "开放题",
+        title: "您觉得我们在哪方面还需要改进？",
+        subtitle: "如：预测更准、建议更个性化，界面更清晰等",
+        required: "选填",
+        charLimit: "2000",
+      },
     ],
   },
   {
@@ -290,6 +465,10 @@ let templateStep = 1;
 let templateQuestions = [];
 let templateGroupCreationContext = null;
 let savedRichTextRange = null;
+let currentI18nTemplateId = "";
+let currentI18nLanguage = "zh_cn";
+let currentI18nGroupIndex = 0;
+let i18nUploadTimer = null;
 
 const taskRows = document.getElementById("taskRows");
 const audienceRows = document.getElementById("audienceRows");
@@ -326,6 +505,11 @@ const templateDetailBody = document.getElementById("templateDetailBody");
 const exportLightbox = document.getElementById("exportLightbox");
 const npsEstimateLightbox = document.getElementById("npsEstimateLightbox");
 const npsEstimateBody = document.getElementById("npsEstimateBody");
+const i18nRows = document.getElementById("i18nRows");
+const i18nLanguageTabs = document.getElementById("i18nLanguageTabs");
+const i18nPreviewCard = document.getElementById("i18nPreviewCard");
+const i18nFileInput = document.getElementById("i18nFileInput");
+const i18nLoading = document.getElementById("i18nLoading");
 const toast = document.getElementById("toast");
 const formFields = {
   editingTaskId: document.getElementById("editingTaskId"),
@@ -369,12 +553,12 @@ const templateFormFields = {
   linked: document.getElementById("linkedQuestionnaireTrigger"),
   linkedPanel: document.getElementById("linkedQuestionnairePanel"),
   createGroupButton: document.getElementById("createGroupQuestionnaireBtn"),
+  pageSize: document.getElementById("pageSize"),
   popupCopy: document.getElementById("popupCopy"),
   questionnaireDescription: document.getElementById("questionnaireDescription"),
   questionnaireDescriptionCount: document.getElementById("questionnaireDescriptionCount"),
   questionnaireRemark: document.getElementById("questionnaireRemark"),
   questionnaireTitle: document.getElementById("questionnaireTitle"),
-  groupCount: document.getElementById("groupCount"),
   questionRepeater: document.getElementById("questionRepeater"),
 };
 const formErrors = {
@@ -397,10 +581,10 @@ const templateFormErrors = {
   bannerSubtitle: document.getElementById("formTemplateBannerSubtitleError"),
   bannerButton: document.getElementById("formTemplateBannerButtonError"),
   linked: document.getElementById("formLinkedQuestionnaireError"),
+  pageSize: document.getElementById("formPageSizeError"),
   version: document.getElementById("formTemplateVersionError"),
   questionnaireTitle: document.getElementById("formQuestionnaireTitleError"),
   questionnaireDescription: document.getElementById("formQuestionnaireDescriptionError"),
-  groupCount: document.getElementById("formGroupCountError"),
 };
 
 let calendarMonth = new Date(2026, 5, 1);
@@ -650,6 +834,9 @@ function renderTemplates(rows) {
   templateRows.innerHTML = displayRows.map((template) => {
     const disabled = template.template_status === "无效";
     const statusClass = getStatusClass(template.template_status);
+    const templateType = getTemplateDisplayType(getTemplateRawType(template));
+    const i18nDisabled = isPopupAppQuestionnaireType(templateType);
+    const i18nStatus = i18nDisabled ? "--" : (template.i18n_uploaded ? "已上传" : "未上传");
     return `
       <tr data-template-id="${escapeText(template.template_id)}">
         <td>${escapeText(template.template_id)}</td>
@@ -657,11 +844,14 @@ function renderTemplates(rows) {
         <td><span class="status-pill ${statusClass}">${escapeText(template.template_status)}</span></td>
         <td>${escapeText(template.channel)}</td>
         <td>${escapeText(template.scene)}</td>
-        <td>${escapeText(getTemplateDisplayType(getTemplateRawType(template)))}</td>
+        <td>${escapeText(templateType)}</td>
+        <td>${escapeText(template.min_version || "-")}</td>
+        <td>${escapeText(i18nStatus)}</td>
         <td>${escapeText(template.creator)}</td>
         <td>${escapeText(template.updated_at)}</td>
         <td>
           <div class="table-actions">
+            <button class="table-action-button is-primary template-i18n-link" type="button" data-template-id="${escapeText(template.template_id)}" ${i18nDisabled ? "disabled" : ""}>配置多语言</button>
             <button class="table-action-button is-primary edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}">编辑模板</button>
             <button class="table-action-button ${disabled ? "is-success" : "is-danger"} toggle-template-link" type="button" data-template-id="${escapeText(template.template_id)}">${disabled ? "启用" : "禁用"}</button>
           </div>
@@ -828,7 +1018,6 @@ function renderRows(rows) {
         <td>${escapeText(task.start_time)}</td>
         <td>${escapeText(task.end_time)}</td>
         <td><button class="link-button template-link" type="button" data-template="${escapeText(task.template_name)}">${escapeText(task.template_name)}</button></td>
-        <td>${escapeText(task.plan_id)}</td>
         <td>${escapeText(task.plan_name)}</td>
         <td>${escapeText(task.total_users)}</td>
         <td>${escapeText(task.actual_delivery_users)}</td>
@@ -935,7 +1124,7 @@ function openAudiencePage(taskId) {
   setTemplateLayout(false);
   hideAllMainPanels();
   document.getElementById("audiencePanel").classList.add("active");
-  document.querySelector(".breadcrumb").textContent = "NPS管理 / NPS任务 / 投放人群";
+  document.querySelector(".breadcrumb").textContent = "NPS管理 / NPS任务列表 / 投放人群";
   filteredAudienceUsers = getAudienceBaseRows();
   renderAudienceRows(filteredAudienceUsers);
   if (window.location.hash !== "#nps-audience") {
@@ -983,7 +1172,7 @@ function confirmPause() {
 }
 
 function showToast(message) {
-  toast.textContent = message;
+  toast.innerHTML = `<span class="toast-success-icon">✓</span><span>${escapeText(message)}</span>`;
   toast.classList.add("show");
   window.clearTimeout(showToast.timer);
   showToast.timer = window.setTimeout(() => {
@@ -993,6 +1182,168 @@ function showToast(message) {
 
 function sanitizeFileName(value) {
   return value.replace(/[\\/:*?"<>|]/g, "_");
+}
+
+function escapeXml(value) {
+  return String(value).replace(/[<>&"']/g, (char) => ({
+    "<": "&lt;",
+    ">": "&gt;",
+    "&": "&amp;",
+    '"': "&quot;",
+    "'": "&apos;",
+  })[char]);
+}
+
+function encodeUtf8(value) {
+  return new TextEncoder().encode(value);
+}
+
+function createCrc32Table() {
+  return Array.from({ length: 256 }, (_, index) => {
+    let crc = index;
+    for (let bit = 0; bit < 8; bit += 1) {
+      crc = crc & 1 ? 0xedb88320 ^ (crc >>> 1) : crc >>> 1;
+    }
+    return crc >>> 0;
+  });
+}
+
+const CRC32_TABLE = createCrc32Table();
+
+function crc32(bytes) {
+  let crc = 0xffffffff;
+  bytes.forEach((byte) => {
+    crc = CRC32_TABLE[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+  });
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+function writeUint16(bytes, value) {
+  bytes.push(value & 0xff, (value >>> 8) & 0xff);
+}
+
+function writeUint32(bytes, value) {
+  bytes.push(value & 0xff, (value >>> 8) & 0xff, (value >>> 16) & 0xff, (value >>> 24) & 0xff);
+}
+
+function createZip(files) {
+  const output = [];
+  const centralDirectory = [];
+  let offset = 0;
+
+  files.forEach((file) => {
+    const nameBytes = encodeUtf8(file.name);
+    const contentBytes = encodeUtf8(file.content);
+    const checksum = crc32(contentBytes);
+    const localHeader = [];
+    writeUint32(localHeader, 0x04034b50);
+    writeUint16(localHeader, 20);
+    writeUint16(localHeader, 0);
+    writeUint16(localHeader, 0);
+    writeUint16(localHeader, 0);
+    writeUint16(localHeader, 0);
+    writeUint32(localHeader, checksum);
+    writeUint32(localHeader, contentBytes.length);
+    writeUint32(localHeader, contentBytes.length);
+    writeUint16(localHeader, nameBytes.length);
+    writeUint16(localHeader, 0);
+    output.push(...localHeader, ...nameBytes, ...contentBytes);
+
+    const centralHeader = [];
+    writeUint32(centralHeader, 0x02014b50);
+    writeUint16(centralHeader, 20);
+    writeUint16(centralHeader, 20);
+    writeUint16(centralHeader, 0);
+    writeUint16(centralHeader, 0);
+    writeUint16(centralHeader, 0);
+    writeUint16(centralHeader, 0);
+    writeUint32(centralHeader, checksum);
+    writeUint32(centralHeader, contentBytes.length);
+    writeUint32(centralHeader, contentBytes.length);
+    writeUint16(centralHeader, nameBytes.length);
+    writeUint16(centralHeader, 0);
+    writeUint16(centralHeader, 0);
+    writeUint16(centralHeader, 0);
+    writeUint16(centralHeader, 0);
+    writeUint32(centralHeader, 0);
+    writeUint32(centralHeader, offset);
+    centralDirectory.push(...centralHeader, ...nameBytes);
+    offset = output.length;
+  });
+
+  const centralDirectoryOffset = output.length;
+  output.push(...centralDirectory);
+  const endRecord = [];
+  writeUint32(endRecord, 0x06054b50);
+  writeUint16(endRecord, 0);
+  writeUint16(endRecord, 0);
+  writeUint16(endRecord, files.length);
+  writeUint16(endRecord, files.length);
+  writeUint32(endRecord, centralDirectory.length);
+  writeUint32(endRecord, centralDirectoryOffset);
+  writeUint16(endRecord, 0);
+  output.push(...endRecord);
+  return new Blob([new Uint8Array(output)], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+}
+
+function buildI18nXlsxBlob(template) {
+  const headers = ["key", "中文名", ...I18N_LANGUAGES.map((language) => language.label)];
+  const sheetRows = [
+    headers,
+    ...getTemplateI18nRows(template).map((row) => [
+      row.key,
+      row.name,
+      ...I18N_LANGUAGES.map((language) => translateI18nValue(row.value, language.key)),
+    ]),
+  ];
+  const sheetData = sheetRows.map((row, rowIndex) => `
+    <row r="${rowIndex + 1}">
+      ${row.map((cell, cellIndex) => {
+        const column = String.fromCharCode(65 + cellIndex);
+        return `<c r="${column}${rowIndex + 1}" t="inlineStr"><is><t>${escapeXml(cell)}</t></is></c>`;
+      }).join("")}
+    </row>
+  `).join("");
+  const worksheet = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+      <sheetData>${sheetData}</sheetData>
+    </worksheet>`;
+  const workbook = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+      <sheets><sheet name="多语言模板" sheetId="1" r:id="rId1"/></sheets>
+    </workbook>`;
+  const workbookRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+      <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
+    </Relationships>`;
+  const rootRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+      <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>
+    </Relationships>`;
+  const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+      <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+      <Default Extension="xml" ContentType="application/xml"/>
+      <Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>
+      <Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
+    </Types>`;
+  return createZip([
+    { name: "[Content_Types].xml", content: contentTypes },
+    { name: "_rels/.rels", content: rootRels },
+    { name: "xl/workbook.xml", content: workbook },
+    { name: "xl/_rels/workbook.xml.rels", content: workbookRels },
+    { name: "xl/worksheets/sheet1.xml", content: worksheet },
+  ]);
+}
+
+function downloadI18nTemplate() {
+  const template = getCurrentI18nTemplate();
+  if (!template) return;
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(buildI18nXlsxBlob(template));
+  link.download = `${sanitizeFileName(template.template_name)}多语言模板.xlsx`;
+  link.click();
+  URL.revokeObjectURL(link.href);
 }
 
 function buildExportWorkbook(task) {
@@ -1090,6 +1441,7 @@ function setTemplateLayout(enabled) {
 
 function hideAllMainPanels() {
   document.getElementById("templatePanel").classList.remove("active");
+  document.getElementById("templateI18nPanel").classList.remove("active");
   document.getElementById("templateFormPanel").classList.remove("active");
   document.getElementById("taskPanel").classList.remove("active");
   document.getElementById("taskFormPanel").classList.remove("active");
@@ -1114,10 +1466,530 @@ function showTaskList() {
   setTemplateLayout(false);
   hideAllMainPanels();
   document.getElementById("taskPanel").classList.add("active");
-  document.querySelector(".breadcrumb").textContent = "NPS管理 / NPS任务";
+  document.querySelector(".breadcrumb").textContent = "NPS管理 / NPS任务列表";
   if (window.location.hash !== "#nps-task") {
     window.location.hash = "nps-task";
   }
+}
+
+function getCurrentI18nTemplate() {
+  return npsTemplates.find((template) => template.template_id === currentI18nTemplateId) || null;
+}
+
+function isGroupQuestionnaireTemplate(template) {
+  return getTemplateRawType(template) === "分组问卷";
+}
+
+function getLinkedGroupTemplates(template) {
+  if (!isPopupAppQuestionnaireType(getTemplateRawType(template))) return [];
+  const linkedNames = template.linked_questionnaires || [];
+  return linkedNames
+    .map((name) => npsTemplates.find((item) => item.template_name === name && isGroupQuestionnaireTemplate(item)))
+    .filter(Boolean);
+}
+
+function getTemplatePreviewQuestions(template) {
+  const templateType = getTemplateDisplayType(getTemplateRawType(template));
+  const sourceQuestions = isPopupAppQuestionnaireType(templateType) ? DEFAULT_GLOBAL_APP_QUESTIONS : template.questions || [];
+  return sourceQuestions.map((question) => {
+    const optionText = typeof question.options === "string" ? question.options : "";
+    const scoreMatch = optionText.match(/1-(5|10)/);
+    const choiceOptions = question.choiceOptions || question.choice_options || (
+      question.type === "单选题" || question.type === "多选题"
+        ? optionText.split(",").map((option) => ({ label: option.trim(), isOther: option.trim() === "其他" })).filter((option) => option.label)
+        : []
+    );
+    return {
+      type: question.type === "评分(功能/分组)" ? "评分(普通)" : question.type,
+      title: question.title || "",
+      subtitle: question.subtitle || "",
+      scoreRange: question.scoreRange || question.score_range || (scoreMatch ? scoreMatch[1] : "10"),
+      scoreMinDesc: question.scoreMinDesc || question.score_min_desc || "",
+      scoreMaxDesc: question.scoreMaxDesc || question.score_max_desc || "",
+      required: question.required || "必填",
+      charLimit: question.charLimit || question.char_limit || "500",
+      choiceOptions: normalizeQuestionOptions(choiceOptions),
+    };
+  });
+}
+
+function getTemplateI18nRows(template) {
+  const rows = [
+    { key: "page_title", name: "网页标题", value: template.questionnaire_title || template.template_name },
+    { key: "questionnaire_title", name: "问卷标题", value: template.questionnaire_description || "" },
+    { key: "questionnaire_subtitle", name: "问卷副标题", value: template.questionnaire_remark || "" },
+  ];
+
+  getTemplatePreviewQuestions(template).forEach((question, questionIndex) => {
+    const prefix = `question_${questionIndex + 1}`;
+    rows.push({ key: `${prefix}_title`, name: `问题${questionIndex + 1}标题`, value: question.title });
+    rows.push({ key: `${prefix}_subtitle`, name: `问题${questionIndex + 1}副标题`, value: question.subtitle });
+    if (question.type === "评分(全局)" || question.type === "评分(普通)") {
+      rows.push({ key: `${prefix}_min_desc`, name: `问题${questionIndex + 1}最小值描述`, value: question.scoreMinDesc });
+      rows.push({ key: `${prefix}_max_desc`, name: `问题${questionIndex + 1}最大值描述`, value: question.scoreMaxDesc });
+    }
+    if (question.type === "单选题" || question.type === "多选题") {
+      question.choiceOptions.forEach((option, optionIndex) => {
+        rows.push({ key: `${prefix}_option_${optionIndex + 1}`, name: `问题${questionIndex + 1}选项${optionIndex + 1}`, value: option.label });
+        if (option.otherPrompt) {
+          rows.push({ key: `${prefix}_option_${optionIndex + 1}_prompt`, name: `问题${questionIndex + 1}选项${optionIndex + 1}提示语`, value: option.otherPrompt });
+        }
+      });
+    }
+  });
+
+  return rows.filter((row) => row.value !== "");
+}
+
+function translateI18nValue(value, languageKey) {
+  if (!value) return "";
+  if (languageKey === "zh_cn") return value;
+  const exactTranslations = {
+    en: {
+      "网页标题": "Page title",
+      "问卷标题": "Survey title",
+      "问卷副标题": "Survey subtitle",
+      "请根据实际体验完成以下问题": "Please answer based on your actual experience",
+      "您有多大可能会向朋友或者同时推荐RingConn?": "How likely are you to recommend RingConn to a friend or colleague?",
+      "不推荐": "Not likely",
+      "非常推荐": "Very likely",
+      "我们有哪些值得改进的地方?": "What should we improve?",
+      "戒指外观设计与质感": "Ring appearance and material quality",
+      "佩戴舒适度与尺寸": "Comfort and sizing",
+      "续航与充电体验": "Battery life and charging",
+      "戒指质量与耐用度": "Ring quality and durability",
+      "App使用流畅度": "App smoothness",
+      "App界面易读性": "App interface readability",
+      "核心功能价值": "Core feature value",
+      "数据监测准确性": "Data accuracy",
+      "数据解读帮助性": "Data interpretation",
+      "售后体验": "After-sales experience",
+    },
+    fr: {
+      "请根据实际体验完成以下问题": "Veuillez répondre selon votre expérience réelle",
+      "您有多大可能会向朋友或者同时推荐RingConn?": "Quelle est la probabilité que vous recommandiez RingConn ?",
+      "不推荐": "Peu probable",
+      "非常推荐": "Très probable",
+      "我们有哪些值得改进的地方?": "Que devrions-nous améliorer ?",
+    },
+    de: {
+      "请根据实际体验完成以下问题": "Bitte antworten Sie basierend auf Ihrer tatsächlichen Erfahrung",
+      "您有多大可能会向朋友或者同时推荐RingConn?": "Wie wahrscheinlich ist es, dass Sie RingConn empfehlen?",
+      "不推荐": "Nicht wahrscheinlich",
+      "非常推荐": "Sehr wahrscheinlich",
+      "我们有哪些值得改进的地方?": "Was sollten wir verbessern?",
+    },
+  };
+  const sampleTranslations = {
+    zh_tw: {
+      "问卷": "問卷",
+      "根据您的使用感受，是否认同以下描述？": "根據您的使用感受，是否認同以下描述？",
+      "根据您对App的设计感受，是否认同以下描述？": "根據您對 App 的設計感受，是否認同以下描述？",
+      "5=非常认同，1=非常不认同": "5=非常認同，1=非常不認同",
+      "睡眠监测数据准确": "睡眠監測資料準確",
+      "活动监测数据准确": "活動監測資料準確",
+      "压力监测数据准确": "壓力監測資料準確",
+      "生命体征监测数据准确": "生命體徵監測資料準確",
+      "操作流程顺畅，符合逻辑": "操作流程順暢，符合邏輯",
+      "想找的东西都很容易找到": "想找的內容都很容易找到",
+      "文案话术描述清晰准确，易于理解": "文案話術描述清晰準確，易於理解",
+      "图表信息清晰易懂": "圖表資訊清晰易懂",
+      "字体字号大小合适，便于阅读": "字體字號大小合適，便於閱讀",
+      "您是通过哪种方式了解到RingConn的？": "您是透過哪種方式了解到 RingConn 的？",
+      "自发搜索": "自發搜尋",
+      "亲友推荐": "親友推薦",
+      "广告信息": "廣告資訊",
+      "网络分享/推荐": "網路分享/推薦",
+      "随机尝试/体验": "隨機嘗試/體驗",
+      "您是通过哪个渠道购买了我们的产品？": "您是透過哪個通路購買了我們的產品？",
+      "天猫": "天貓",
+      "京东": "京東",
+      "得物": "得物",
+      "小红书": "小紅書",
+      "微信小程序": "微信小程式",
+      "线下门店": "線下門市",
+      "其他渠道": "其他通路",
+      "请填写其他渠道信息": "請填寫其他通路資訊",
+      "您觉得我们在哪方面还需要改进？": "您覺得我們在哪方面還需要改進？",
+      "如：预测更准、建议更个性化，界面更清晰等": "如：預測更準、建議更個人化、介面更清晰等",
+      "选填": "選填",
+      "返回上一步": "返回上一步",
+      "下一步": "下一步",
+      "提交": "提交",
+    },
+    en: {
+      "问卷": "Survey",
+      "根据您的使用感受，是否认同以下描述？": "Based on your experience, do you agree with the following statements?",
+      "根据您对App的设计感受，是否认同以下描述？": "Based on your impression of the app design, do you agree with the following statements?",
+      "5=非常认同，1=非常不认同": "5=Strongly agree, 1=Strongly disagree",
+      "睡眠监测数据准确": "Sleep tracking data is accurate",
+      "活动监测数据准确": "Activity tracking data is accurate",
+      "压力监测数据准确": "Stress tracking data is accurate",
+      "生命体征监测数据准确": "Vital signs tracking data is accurate",
+      "操作流程顺畅，符合逻辑": "The workflow is smooth and logical",
+      "想找的东西都很容易找到": "It is easy to find what I need",
+      "文案话术描述清晰准确，易于理解": "The wording is clear, accurate, and easy to understand",
+      "图表信息清晰易懂": "Chart information is clear and easy to understand",
+      "字体字号大小合适，便于阅读": "The font size is appropriate and easy to read",
+      "您是通过哪种方式了解到RingConn的？": "How did you learn about RingConn?",
+      "自发搜索": "Self-initiated search",
+      "亲友推荐": "Friends or family recommendation",
+      "广告信息": "Advertisement",
+      "网络分享/推荐": "Online sharing/recommendation",
+      "随机尝试/体验": "Random trial/experience",
+      "您是通过哪个渠道购买了我们的产品？": "Through which channel did you purchase our product?",
+      "天猫": "Tmall",
+      "京东": "JD.com",
+      "得物": "Dewu",
+      "小红书": "Xiaohongshu",
+      "微信小程序": "WeChat Mini Program",
+      "线下门店": "Offline store",
+      "其他渠道": "Other channel",
+      "请填写其他渠道信息": "Please enter the other channel",
+      "您觉得我们在哪方面还需要改进？": "What areas do you think we still need to improve?",
+      "如：预测更准、建议更个性化，界面更清晰等": "For example: more accurate predictions, more personalized suggestions, clearer interface, etc.",
+      "选填": "Optional",
+      "返回上一步": "Back",
+      "下一步": "Next",
+      "提交": "Submit",
+    },
+    ja: {
+      "问卷": "アンケート",
+      "根据您的使用感受，是否认同以下描述？": "ご利用体験に基づき、次の記述に同意しますか？",
+      "根据您对App的设计感受，是否认同以下描述？": "アプリのデザイン体験に基づき、次の記述に同意しますか？",
+      "5=非常认同，1=非常不认同": "5=非常に同意、1=まったく同意しない",
+      "睡眠监测数据准确": "睡眠モニタリングデータは正確です",
+      "活动监测数据准确": "アクティビティモニタリングデータは正確です",
+      "压力监测数据准确": "ストレスモニタリングデータは正確です",
+      "生命体征监测数据准确": "バイタルサインのモニタリングデータは正確です",
+      "操作流程顺畅，符合逻辑": "操作フローはスムーズで論理的です",
+      "想找的东西都很容易找到": "探したいものを簡単に見つけられます",
+      "文案话术描述清晰准确，易于理解": "説明文は明確で正確、理解しやすいです",
+      "图表信息清晰易懂": "グラフ情報は明確で理解しやすいです",
+      "字体字号大小合适，便于阅读": "フォントサイズは適切で読みやすいです",
+      "您是通过哪种方式了解到RingConn的？": "RingConnをどのように知りましたか？",
+      "自发搜索": "自分で検索",
+      "亲友推荐": "友人・家族の推薦",
+      "广告信息": "広告情報",
+      "网络分享/推荐": "オンライン共有/推薦",
+      "随机尝试/体验": "偶然の試用/体験",
+      "您是通过哪个渠道购买了我们的产品？": "どのチャネルで製品を購入しましたか？",
+      "天猫": "Tmall",
+      "京东": "JD.com",
+      "得物": "Dewu",
+      "小红书": "Xiaohongshu",
+      "微信小程序": "WeChatミニプログラム",
+      "线下门店": "実店舗",
+      "其他渠道": "その他のチャネル",
+      "请填写其他渠道信息": "その他のチャネル情報を入力してください",
+      "您觉得我们在哪方面还需要改进？": "どの点をさらに改善すべきだと思いますか？",
+      "如：预测更准、建议更个性化，界面更清晰等": "例：より正確な予測、より個別化された提案、より分かりやすい画面など",
+      "选填": "任意",
+      "返回上一步": "前へ戻る",
+      "下一步": "次へ",
+      "提交": "送信",
+    },
+    de: {
+      "问卷": "Umfrage",
+      "根据您的使用感受，是否认同以下描述？": "Stimmen Sie den folgenden Aussagen basierend auf Ihrer Nutzungserfahrung zu?",
+      "根据您对App的设计感受，是否认同以下描述？": "Stimmen Sie den folgenden Aussagen basierend auf Ihrem Eindruck vom App-Design zu?",
+      "5=非常认同，1=非常不认同": "5=Stimme voll zu, 1=Stimme überhaupt nicht zu",
+      "睡眠监测数据准确": "Die Schlafdaten sind genau",
+      "活动监测数据准确": "Die Aktivitätsdaten sind genau",
+      "压力监测数据准确": "Die Stressdaten sind genau",
+      "生命体征监测数据准确": "Die Vitaldaten sind genau",
+      "操作流程顺畅，符合逻辑": "Der Bedienablauf ist reibungslos und logisch",
+      "想找的东西都很容易找到": "Gesuchte Inhalte sind leicht zu finden",
+      "文案话术描述清晰准确，易于理解": "Die Texte sind klar, präzise und leicht verständlich",
+      "图表信息清晰易懂": "Diagramminformationen sind klar und leicht verständlich",
+      "字体字号大小合适，便于阅读": "Die Schriftgröße ist passend und gut lesbar",
+      "您是通过哪种方式了解到RingConn的？": "Wie haben Sie von RingConn erfahren?",
+      "自发搜索": "Eigene Suche",
+      "亲友推荐": "Empfehlung von Freunden/Familie",
+      "广告信息": "Werbung",
+      "网络分享/推荐": "Online-Teilen/Empfehlung",
+      "随机尝试/体验": "Zufälliger Test/Erfahrung",
+      "您是通过哪个渠道购买了我们的产品？": "Über welchen Kanal haben Sie unser Produkt gekauft?",
+      "天猫": "Tmall",
+      "京东": "JD.com",
+      "得物": "Dewu",
+      "小红书": "Xiaohongshu",
+      "微信小程序": "WeChat Mini Program",
+      "线下门店": "Offline-Shop",
+      "其他渠道": "Anderer Kanal",
+      "请填写其他渠道信息": "Bitte geben Sie den anderen Kanal an",
+      "您觉得我们在哪方面还需要改进？": "In welchen Bereichen sollten wir uns noch verbessern?",
+      "如：预测更准、建议更个性化，界面更清晰等": "Z. B. genauere Vorhersagen, persönlichere Empfehlungen, klarere Oberfläche usw.",
+      "选填": "Optional",
+      "返回上一步": "Zurück",
+      "下一步": "Weiter",
+      "提交": "Senden",
+    },
+    es: {
+      "问卷": "Encuesta",
+      "根据您的使用感受，是否认同以下描述？": "Según su experiencia de uso, ¿está de acuerdo con las siguientes afirmaciones?",
+      "根据您对App的设计感受，是否认同以下描述？": "Según su impresión del diseño de la app, ¿está de acuerdo con las siguientes afirmaciones?",
+      "5=非常认同，1=非常不认同": "5=Totalmente de acuerdo, 1=Totalmente en desacuerdo",
+      "睡眠监测数据准确": "Los datos de sueño son precisos",
+      "活动监测数据准确": "Los datos de actividad son precisos",
+      "压力监测数据准确": "Los datos de estrés son precisos",
+      "生命体征监测数据准确": "Los datos de signos vitales son precisos",
+      "操作流程顺畅，符合逻辑": "El flujo de uso es fluido y lógico",
+      "想找的东西都很容易找到": "Es fácil encontrar lo que necesito",
+      "文案话术描述清晰准确，易于理解": "Los textos son claros, precisos y fáciles de entender",
+      "图表信息清晰易懂": "La información de los gráficos es clara y fácil de entender",
+      "字体字号大小合适，便于阅读": "El tamaño de fuente es adecuado y fácil de leer",
+      "您是通过哪种方式了解到RingConn的？": "¿Cómo conoció RingConn?",
+      "自发搜索": "Búsqueda propia",
+      "亲友推荐": "Recomendación de amigos o familiares",
+      "广告信息": "Publicidad",
+      "网络分享/推荐": "Compartido/recomendado en línea",
+      "随机尝试/体验": "Prueba/experiencia casual",
+      "您是通过哪个渠道购买了我们的产品？": "¿Por qué canal compró nuestro producto?",
+      "线下门店": "Tienda física",
+      "其他渠道": "Otro canal",
+      "请填写其他渠道信息": "Indique el otro canal",
+      "您觉得我们在哪方面还需要改进？": "¿En qué aspectos cree que debemos mejorar?",
+      "如：预测更准、建议更个性化，界面更清晰等": "Por ejemplo: predicciones más precisas, sugerencias más personalizadas, interfaz más clara, etc.",
+      "选填": "Opcional",
+      "返回上一步": "Atrás",
+      "下一步": "Siguiente",
+      "提交": "Enviar",
+    },
+    fr: {
+      "问卷": "Questionnaire",
+      "根据您的使用感受，是否认同以下描述？": "D'après votre expérience d'utilisation, êtes-vous d'accord avec les affirmations suivantes ?",
+      "根据您对App的设计感受，是否认同以下描述？": "D'après votre impression du design de l'application, êtes-vous d'accord avec les affirmations suivantes ?",
+      "5=非常认同，1=非常不认同": "5=Tout à fait d'accord, 1=Pas du tout d'accord",
+      "睡眠监测数据准确": "Les données de suivi du sommeil sont précises",
+      "活动监测数据准确": "Les données de suivi d'activité sont précises",
+      "压力监测数据准确": "Les données de suivi du stress sont précises",
+      "生命体征监测数据准确": "Les données des signes vitaux sont précises",
+      "操作流程顺畅，符合逻辑": "Le parcours d'utilisation est fluide et logique",
+      "想找的东西都很容易找到": "Il est facile de trouver ce que je cherche",
+      "文案话术描述清晰准确，易于理解": "Les textes sont clairs, précis et faciles à comprendre",
+      "图表信息清晰易懂": "Les informations des graphiques sont claires et faciles à comprendre",
+      "字体字号大小合适，便于阅读": "La taille de police est adaptée et facile à lire",
+      "您是通过哪种方式了解到RingConn的？": "Comment avez-vous découvert RingConn ?",
+      "自发搜索": "Recherche personnelle",
+      "亲友推荐": "Recommandation d'amis ou de famille",
+      "广告信息": "Publicité",
+      "网络分享/推荐": "Partage/recommandation en ligne",
+      "随机尝试/体验": "Essai/expérience par hasard",
+      "您是通过哪个渠道购买了我们的产品？": "Par quel canal avez-vous acheté notre produit ?",
+      "线下门店": "Magasin physique",
+      "其他渠道": "Autre canal",
+      "请填写其他渠道信息": "Veuillez renseigner l'autre canal",
+      "您觉得我们在哪方面还需要改进？": "Selon vous, quels aspects devons-nous encore améliorer ?",
+      "如：预测更准、建议更个性化，界面更清晰等": "Par exemple : prévisions plus précises, conseils plus personnalisés, interface plus claire, etc.",
+      "选填": "Facultatif",
+      "返回上一步": "Retour",
+      "下一步": "Suivant",
+      "提交": "Envoyer",
+    },
+    ko: {
+      "问卷": "설문",
+      "根据您的使用感受，是否认同以下描述？": "사용 경험을 기준으로 다음 설명에 동의하시나요?",
+      "根据您对App的设计感受，是否认同以下描述？": "앱 디자인 경험을 기준으로 다음 설명에 동의하시나요?",
+      "5=非常认同，1=非常不认同": "5=매우 동의, 1=전혀 동의하지 않음",
+      "睡眠监测数据准确": "수면 모니터링 데이터가 정확합니다",
+      "活动监测数据准确": "활동 모니터링 데이터가 정확합니다",
+      "压力监测数据准确": "스트레스 모니터링 데이터가 정확합니다",
+      "生命体征监测数据准确": "생체 신호 모니터링 데이터가 정확합니다",
+      "操作流程顺畅，符合逻辑": "사용 흐름이 매끄럽고 논리적입니다",
+      "想找的东西都很容易找到": "찾고 싶은 내용을 쉽게 찾을 수 있습니다",
+      "文案话术描述清晰准确，易于理解": "문구가 명확하고 정확하며 이해하기 쉽습니다",
+      "图表信息清晰易懂": "차트 정보가 명확하고 이해하기 쉽습니다",
+      "字体字号大小合适，便于阅读": "글꼴 크기가 적절하고 읽기 쉽습니다",
+      "您是通过哪种方式了解到RingConn的？": "RingConn을 어떻게 알게 되셨나요?",
+      "自发搜索": "직접 검색",
+      "亲友推荐": "지인/가족 추천",
+      "广告信息": "광고",
+      "网络分享/推荐": "온라인 공유/추천",
+      "随机尝试/体验": "우연한 체험",
+      "您是通过哪个渠道购买了我们的产品？": "어떤 채널을 통해 제품을 구매하셨나요?",
+      "天猫": "Tmall",
+      "京东": "JD.com",
+      "得物": "Dewu",
+      "小红书": "Xiaohongshu",
+      "微信小程序": "WeChat 미니 프로그램",
+      "线下门店": "오프라인 매장",
+      "其他渠道": "기타 채널",
+      "请填写其他渠道信息": "기타 채널 정보를 입력해 주세요",
+      "您觉得我们在哪方面还需要改进？": "어떤 부분을 더 개선해야 한다고 생각하시나요?",
+      "如：预测更准、建议更个性化，界面更清晰等": "예: 더 정확한 예측, 더 개인화된 제안, 더 명확한 화면 등",
+      "选填": "선택",
+      "返回上一步": "이전",
+      "下一步": "다음",
+      "提交": "제출",
+    },
+  };
+  Object.entries(sampleTranslations).forEach(([key, translations]) => {
+    exactTranslations[key] = { ...(exactTranslations[key] || {}), ...translations };
+  });
+  const language = I18N_LANGUAGES.find((item) => item.key === languageKey);
+  if (exactTranslations[languageKey] && exactTranslations[languageKey][value]) {
+    return exactTranslations[languageKey][value];
+  }
+  if (languageKey !== "en" && exactTranslations.en && exactTranslations.en[value]) {
+    return exactTranslations.en[value];
+  }
+  return `${language ? language.previewLabel : languageKey} ${value}`;
+}
+
+function getI18nValue(rows, key, languageKey) {
+  const row = rows.find((item) => item.key === key);
+  return row ? translateI18nValue(row.value, languageKey) : "";
+}
+
+function renderI18nRows(template) {
+  if (!i18nRows) return;
+  const rows = getTemplateI18nRows(template);
+  i18nRows.innerHTML = rows.map((row) => `
+    <tr>
+      <td>${escapeText(row.key)}</td>
+      <td>${escapeText(row.name)}</td>
+      <td>${escapeText(translateI18nValue(row.value, "zh_cn"))}</td>
+      <td>${escapeText(translateI18nValue(row.value, "en"))}</td>
+      <td>${escapeText(translateI18nValue(row.value, "fr"))}</td>
+    </tr>
+  `).join("");
+}
+
+function renderI18nLanguageTabs() {
+  i18nLanguageTabs.innerHTML = I18N_LANGUAGES.map((language) => `
+    <button class="language-tab${language.key === currentI18nLanguage ? " active" : ""}" type="button" data-language="${escapeText(language.key)}">${escapeText(language.previewLabel)}</button>
+  `).join("");
+}
+
+function renderPreviewQuestion(question, index, rows) {
+  const title = getI18nValue(rows, `question_${index + 1}_title`, currentI18nLanguage);
+  const subtitle = getI18nValue(rows, `question_${index + 1}_subtitle`, currentI18nLanguage);
+  const optionalMark = question.type === "开放题" && question.required === "选填"
+    ? `（${translateI18nValue("选填", currentI18nLanguage)}）`
+    : "";
+
+  if (question.type === "评分(全局)" || question.type === "评分(普通)") {
+    const minDesc = getI18nValue(rows, `question_${index + 1}_min_desc`, currentI18nLanguage);
+    const maxDesc = getI18nValue(rows, `question_${index + 1}_max_desc`, currentI18nLanguage);
+    const scoreRange = Number(question.scoreRange) || 10;
+    return `
+      <div class="preview-question">
+        <div class="preview-question-title">${index + 1}. ${escapeText(title)}</div>
+        ${subtitle ? `<div class="preview-question-subtitle">${escapeText(subtitle)}</div>` : ""}
+        <div class="preview-score-row" style="grid-template-columns: repeat(${scoreRange}, 1fr);">
+          ${Array.from({ length: scoreRange }, (_, scoreIndex) => `<span>${scoreIndex + 1}</span>`).join("")}
+        </div>
+        <div class="preview-score-desc">
+          <span>${escapeText(minDesc)}</span>
+          <span>${escapeText(maxDesc)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  if (question.type === "单选题" || question.type === "多选题") {
+    return `
+      <div class="preview-question">
+        <div class="preview-question-title">${index + 1}. ${escapeText(title)}</div>
+        ${subtitle ? `<div class="preview-question-subtitle">${escapeText(subtitle)}</div>` : ""}
+        <div class="preview-choice-list">
+          ${question.choiceOptions.map((option, optionIndex) => `
+            <div class="preview-choice-item">
+              <span class="${question.type === "单选题" ? "radio-icon" : "checkbox-icon"}"></span>
+              <span>${escapeText(getI18nValue(rows, `question_${index + 1}_option_${optionIndex + 1}`, currentI18nLanguage) || option.label)}</span>
+            </div>
+            ${option.otherPrompt ? `
+              <div class="preview-other-fill">
+                <div class="preview-other-prompt">${escapeText(getI18nValue(rows, `question_${index + 1}_option_${optionIndex + 1}_prompt`, currentI18nLanguage) || option.otherPrompt)}</div>
+                <div class="preview-other-input"></div>
+                <div class="preview-char-limit">0 / ${escapeText(option.charLimit)}</div>
+              </div>
+            ` : ""}
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="preview-question">
+      <div class="preview-question-title">${index + 1}. ${escapeText(title)}${optionalMark}</div>
+      ${subtitle ? `<div class="preview-question-subtitle">${escapeText(subtitle)}</div>` : ""}
+      <div class="preview-textarea"></div>
+      <div class="preview-char-limit">0 / ${escapeText(question.charLimit)}</div>
+    </div>
+  `;
+}
+
+function renderI18nPreviewBody(sourceTemplate, pageTitle, pageActions = "") {
+  const rows = getTemplateI18nRows(sourceTemplate);
+  const questions = getTemplatePreviewQuestions(sourceTemplate);
+  const surveyTitle = getI18nValue(rows, "questionnaire_title", currentI18nLanguage);
+  const surveySubtitle = getI18nValue(rows, "questionnaire_subtitle", currentI18nLanguage);
+  return `
+    <div class="preview-h5-header">
+      <span class="preview-back-icon">&lt;</span>
+      <span class="preview-web-title">${escapeText(pageTitle)}</span>
+    </div>
+    <div class="preview-h5-body">
+      ${surveyTitle ? `<div class="preview-survey-title">${escapeText(surveyTitle)}</div>` : ""}
+      ${surveySubtitle ? `<div class="preview-survey-subtitle">${escapeText(surveySubtitle)}</div>` : ""}
+      ${questions.map((question, index) => renderPreviewQuestion(question, index, rows)).join("")}
+      ${pageActions}
+    </div>
+  `;
+}
+
+function renderLinkedGroupPreview(template, linkedGroups) {
+  currentI18nGroupIndex = Math.min(currentI18nGroupIndex, linkedGroups.length - 1);
+  const currentGroup = linkedGroups[currentI18nGroupIndex];
+  const rows = getTemplateI18nRows(currentGroup);
+  const baseTitle = getI18nValue(rows, "page_title", currentI18nLanguage);
+  const pageTitle = linkedGroups.length > 1 ? `${baseTitle}(${currentI18nGroupIndex + 1}/${linkedGroups.length})` : baseTitle;
+  const showPrev = currentI18nGroupIndex > 0;
+  const showNext = currentI18nGroupIndex < linkedGroups.length - 1;
+  const pageActions = linkedGroups.length > 1
+    ? `
+      <div class="preview-page-actions">
+        ${showPrev ? `<button class="preview-page-button preview-page-prev" type="button">${escapeText(translateI18nValue("返回上一步", currentI18nLanguage))}</button>` : ""}
+        <button class="preview-page-button ${showNext ? "preview-page-next" : "preview-page-submit"}" type="button">${escapeText(translateI18nValue(showNext ? "下一步" : "提交", currentI18nLanguage))}</button>
+      </div>
+    `
+    : "";
+
+  i18nPreviewCard.innerHTML = renderI18nPreviewBody(currentGroup, pageTitle, pageActions);
+}
+
+function renderI18nPreview() {
+  const template = getCurrentI18nTemplate();
+  if (!template) return;
+  const linkedGroups = getLinkedGroupTemplates(template);
+  const rows = getTemplateI18nRows(template);
+  renderI18nLanguageTabs();
+  if (linkedGroups.length) {
+    renderLinkedGroupPreview(template, linkedGroups);
+    return;
+  }
+  i18nPreviewCard.innerHTML = renderI18nPreviewBody(template, getI18nValue(rows, "page_title", currentI18nLanguage));
+}
+
+function openTemplateI18nPage(templateId) {
+  const template = npsTemplates.find((item) => item.template_id === templateId);
+  if (!template) return;
+  currentI18nTemplateId = templateId;
+  currentI18nLanguage = "zh_cn";
+  currentI18nGroupIndex = 0;
+  i18nFileInput.value = "";
+  i18nLoading.classList.add("hidden");
+  setActiveNav("template");
+  setTemplateLayout(true);
+  hideAllMainPanels();
+  document.getElementById("templateI18nPanel").classList.add("active");
+  document.querySelector(".breadcrumb").textContent = "NPS管理 / NPS问卷模板 / 多语言配置";
+  window.location.hash = "nps-template-i18n";
+  renderI18nRows(template);
+  renderI18nPreview();
 }
 
 function getAudienceFileNames() {
@@ -1247,7 +2119,7 @@ function openTaskForm(mode, taskId = "") {
   hideAllMainPanels();
   document.getElementById("taskFormPanel").classList.add("active");
   const pageName = mode === "view" ? "查看任务" : mode === "edit" ? "编辑任务" : mode === "copy" ? "复制任务" : "新增任务";
-  document.querySelector(".breadcrumb").textContent = `NPS管理 / NPS任务 / ${pageName}`;
+  document.querySelector(".breadcrumb").textContent = `NPS管理 / NPS任务列表 / ${pageName}`;
 
   if (mode === "edit" || mode === "view" || mode === "copy") {
     const task = tasks.find((item) => item.task_id === taskId);
@@ -1478,10 +2350,24 @@ function getSelectedLinkedQuestionnaires() {
   return getLinkedQuestionnaireInputs().filter((field) => field.checked).map((field) => field.value);
 }
 
+function getSelectedLinkedQuestionnaireTemplates() {
+  const selectedNames = new Set(getSelectedLinkedQuestionnaires());
+  return npsTemplates.filter((template) => selectedNames.has(template.template_name));
+}
+
+function validateLinkedQuestionnaireTitles() {
+  const linkedTemplates = getSelectedLinkedQuestionnaireTemplates();
+  if (linkedTemplates.length <= 1) return true;
+  const titles = new Set(linkedTemplates.map((template) => (template.questionnaire_title || "").trim()));
+  if (titles.size <= 1) return true;
+  setTemplateError("linked", "所选分组问卷的网页标题必须保持一致。");
+  return false;
+}
+
 function updateLinkedQuestionnaireTrigger() {
   const selected = getSelectedLinkedQuestionnaires();
   templateFormFields.linkedTrigger.textContent = selected.length > 3 ? `已选择 ${selected.length} 项` : selected.length ? selected.join("，") : "请选择完整问卷";
-  if (selected.length) clearTemplateError("linked");
+  if (selected.length && validateLinkedQuestionnaireTitles()) clearTemplateError("linked");
 }
 
 function setLinkedQuestionnaires(values) {
@@ -1495,6 +2381,40 @@ function updateRichTextCount() {
 function updateQuestionnaireDescriptionCount() {
   if (templateFormFields.questionnaireDescriptionCount) {
     templateFormFields.questionnaireDescriptionCount.textContent = `${templateFormFields.questionnaireDescription.value.length} / 200`;
+  }
+}
+
+function getDefaultPopupCopyHtml() {
+  return escapeText(DEFAULT_DESIGN_POPUP_COPY).replace(/\n/g, "<br>");
+}
+
+function updateTemplateLockedDefaults() {
+  const type = templateFormFields.questionnaireType.value;
+  const isGroupType = type === "分组问卷";
+  const isDesignType = isDesignQuestionnaireType(type);
+  const shouldLockBanner = Boolean(type) && !isGroupType;
+
+  [
+    [templateFormFields.bannerTitle, DEFAULT_TEMPLATE_BANNER.title],
+    [templateFormFields.bannerSubtitle, DEFAULT_TEMPLATE_BANNER.subtitle],
+    [templateFormFields.bannerButton, DEFAULT_TEMPLATE_BANNER.button],
+  ].forEach(([field, value]) => {
+    field.disabled = true;
+    field.readOnly = false;
+    if (shouldLockBanner) field.value = value;
+  });
+
+  templateFormFields.questionnaireTitle.readOnly = false;
+
+  templateFormFields.popupCopy.contentEditable = isDesignType ? "false" : "true";
+  templateFormFields.popupCopy.classList.toggle("is-readonly", isDesignType);
+  document.querySelectorAll(".rich-button, .color-swatch").forEach((button) => {
+    button.disabled = isDesignType;
+  });
+  if (isDesignType) {
+    templateFormFields.popupCopy.innerHTML = getDefaultPopupCopyHtml();
+    savedRichTextRange = null;
+    updateRichTextCount();
   }
 }
 
@@ -1530,7 +2450,7 @@ function isPopupAppQuestionnaireType(type) {
 function isDesignQuestionnaireType(type) {
   return [
     "弹窗问卷(用研)",
-    "弹窗问题(设计)",
+    "弹窗问卷(设计)",
     "全局问卷(设计反馈)",
     "全局问卷(设计问卷)",
   ].includes(type);
@@ -1569,18 +2489,13 @@ function updateQuestionnaireTypeByScene() {
 }
 
 function updateTemplateStepControls() {
-  const isDesignType = isDesignQuestionnaireType(templateFormFields.questionnaireType.value);
-  document.getElementById("submitTemplateFromStepOneBtn").classList.toggle("hidden", !isDesignType);
-  document.getElementById("nextTemplateStepBtn").classList.toggle("hidden", isDesignType);
-  document.getElementById("templateStepTwo").classList.toggle("hidden", isDesignType);
+  document.getElementById("submitTemplateFromStepOneBtn").classList.add("hidden");
+  document.getElementById("nextTemplateStepBtn").classList.remove("hidden");
+  document.getElementById("templateStepTwo").classList.remove("hidden");
   document.getElementById("addQuestionBtn").classList.toggle("hidden", isGlobalAppQuestionnaire());
-  if (isDesignType && templateStep === 2) setTemplateStep(1);
 }
 
 function setTemplateStep(step) {
-  if (step === 2 && isDesignQuestionnaireType(templateFormFields.questionnaireType.value)) {
-    step = 1;
-  }
   if (step === 2 && isGlobalAppQuestionnaire()) {
     ensureGlobalAppFixedQuestions();
   }
@@ -1594,7 +2509,7 @@ function setTemplateStep(step) {
 }
 
 function getTemplateDisplayType(questionnaireType) {
-  if (questionnaireType === "弹窗问卷(用研)" || questionnaireType === "弹窗问题(设计)") return questionnaireType;
+  if (questionnaireType === "弹窗问卷(用研)" || questionnaireType === "弹窗问卷(设计)") return questionnaireType;
   if (isDesignQuestionnaireType(questionnaireType)) return "弹窗问卷(用研)";
   if (isPopupAppQuestionnaireType(questionnaireType)) return "弹窗问卷(APP功能)";
   if (questionnaireType === "分组问卷" || questionnaireType === "分组") return "分组问卷";
@@ -1612,7 +2527,6 @@ function updateTemplateTypePanel() {
   const type = templateFormFields.questionnaireType.value;
   const isGroupType = type === "分组问卷";
   document.querySelectorAll(".type-panel").forEach((panel) => panel.classList.remove("active"));
-  document.getElementById("groupCountRow").style.display = isGroupType ? "flex" : "none";
   ["templateBannerTitleRow", "templateBannerSubtitleRow", "templateBannerButtonRow"].forEach((rowId) => {
     document.getElementById(rowId).classList.toggle("hidden", isGroupType);
   });
@@ -1622,9 +2536,10 @@ function updateTemplateTypePanel() {
     clearTemplateError("bannerButton");
   }
   const isDesignType = isDesignQuestionnaireType(type);
-  const usesLinkedQuestionnaire = isPopupAppQuestionnaireType(type) || isDesignType;
+  const usesLinkedQuestionnaire = isPopupAppQuestionnaireType(type);
   if (!usesLinkedQuestionnaire) templateFormFields.linkedPanel.classList.remove("open");
   updateTemplateStepControls();
+  updateTemplateLockedDefaults();
 
   if (!type) {
     renderTemplateQuestionList();
@@ -1638,12 +2553,14 @@ function updateTemplateTypePanel() {
   if (isDesignType) {
     document.getElementById("typePanelDesign").classList.add("active");
   }
-  if (type === "功能问卷" || type === "分组问卷") {
+  if (isDesignType || type === "功能问卷" || type === "分组问卷") {
     document.getElementById("typePanelCommon").classList.add("active");
   }
+  document.getElementById("questionnaireDescriptionLabel").classList.remove("required");
+  clearTemplateError("questionnaireDescription");
 
   if (isGlobalAppQuestionnaire()) ensureGlobalAppFixedQuestions();
-  ensureAddCommonSingleQuestion();
+  ensureAddConfigurableSingleQuestion();
   renderTemplateQuestionList();
 }
 
@@ -1671,18 +2588,24 @@ function isCommonQuestionnaire() {
   return templateFormFields.questionnaireType.value === "功能问卷" || templateFormFields.questionnaireType.value === "分组问卷";
 }
 
+function isConfigurableQuestionnaire() {
+  return isCommonQuestionnaire() || isDesignQuestionnaireType(templateFormFields.questionnaireType.value);
+}
+
 function normalizeQuestionOptions(options) {
   const source = Array.isArray(options) ? options : [];
   const normalized = source.map((option) => {
     if (typeof option === "string") {
-      return { label: option, isOther: option === "其他" };
+      return { label: option, isOther: option === "其他", otherPrompt: "", charLimit: "500" };
     }
     return {
       label: option.label || "选项",
       isOther: Boolean(option.isOther),
+      otherPrompt: option.otherPrompt || option.other_prompt || "",
+      charLimit: option.charLimit || option.char_limit || "500",
     };
   });
-  if (!normalized.length) normalized.push({ label: "选项", isOther: false });
+  if (!normalized.length) normalized.push({ label: "选项", isOther: false, otherPrompt: "", charLimit: "500" });
   return normalized.sort((a, b) => Number(a.isOther) - Number(b.isOther));
 }
 
@@ -1749,16 +2672,11 @@ function renderQuestionTypeOptions(selectedType) {
 }
 
 function ensureGlobalAppFixedQuestions() {
-  const currentScore = templateQuestions.find((question) => question.type === "评分(全局)");
-  const currentMultiple = templateQuestions.find((question) => question.type === "多选题");
-  templateQuestions = [
-    { ...createDefaultQuestion("评分(全局)"), ...(currentScore || {}), type: "评分(全局)", errors: {} },
-    { ...createDefaultQuestion("多选题"), ...(currentMultiple || {}), type: "多选题", errors: {} },
-  ];
+  templateQuestions = cloneTemplateQuestions(DEFAULT_GLOBAL_APP_QUESTIONS);
 }
 
-function ensureAddCommonSingleQuestion() {
-  if (templateFormMode !== "add" || !isCommonQuestionnaire()) return;
+function ensureAddConfigurableSingleQuestion() {
+  if (templateFormMode !== "add" || !isConfigurableQuestionnaire()) return;
   if (templateQuestions.length === 1 && templateQuestions[0].type === "评分(普通)") return;
   templateQuestions = [createDefaultQuestion("评分(普通)")];
 }
@@ -1773,30 +2691,56 @@ function renderQuestionError(message) {
 
 function renderChoiceOptions(question, questionIndex, inputType) {
   question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
+  const isFixedGlobalApp = isGlobalAppQuestionnaire();
+  const fixedAttribute = isFixedGlobalApp ? "disabled" : "";
   return `
     <div class="question-option-list">
       ${question.choiceOptions.map((option, optionIndex) => `
         <div class="question-option-row">
           <input type="${inputType}" disabled />
-          <input class="question-option-input" type="text" value="${escapeText(option.label)}" data-question-index="${questionIndex}" data-option-index="${optionIndex}" data-question-field="optionLabel" ${option.isOther ? "readonly" : ""} />
-          <button class="link-button question-remove-option" type="button" data-question-index="${questionIndex}" data-option-index="${optionIndex}">删除</button>
+          <input class="question-option-input" type="text" value="${escapeText(option.label)}" data-question-index="${questionIndex}" data-option-index="${optionIndex}" data-question-field="optionLabel" ${option.isOther ? "readonly" : ""} ${fixedAttribute} />
+          ${isFixedGlobalApp ? "" : `<button class="link-button question-remove-option" type="button" data-question-index="${questionIndex}" data-option-index="${optionIndex}">删除</button>`}
         </div>
       `).join("")}
     </div>
     ${renderQuestionError(question.errors && question.errors.options)}
-    <div class="question-option-actions">
+    ${isFixedGlobalApp ? "" : `<div class="question-option-actions">
       <button class="link-button question-add-option" type="button" data-question-index="${questionIndex}">添加选项</button>
       <button class="link-button question-add-other" type="button" data-question-index="${questionIndex}">添加其他</button>
+    </div>`}
+  `;
+}
+
+function renderChoiceOtherConfig(question, questionIndex) {
+  if (question.type !== "单选题" && question.type !== "多选题") return "";
+  const isFixedGlobalApp = isGlobalAppQuestionnaire();
+  const fixedAttribute = isFixedGlobalApp ? "disabled" : "";
+  const otherOptionIndex = question.choiceOptions.findIndex((option) => option.isOther);
+  if (otherOptionIndex < 0) return "";
+  const otherOption = question.choiceOptions[otherOptionIndex];
+  return `
+    <div class="question-row">
+      <label class="question-label">其他选项描述</label>
+      <input class="ax-input question-control question-field" type="text" value="${escapeText(otherOption.otherPrompt)}" data-question-index="${questionIndex}" data-option-index="${otherOptionIndex}" data-question-field="otherPrompt" ${fixedAttribute} />
+    </div>
+    <div class="question-row">
+      <label class="question-label">字符限制</label>
+      <select class="ax-select question-control question-field" data-question-index="${questionIndex}" data-option-index="${otherOptionIndex}" data-question-field="otherCharLimit" ${fixedAttribute}>
+        <option value="500"${otherOption.charLimit === "500" ? " selected" : ""}>500</option>
+        <option value="1000"${otherOption.charLimit === "1000" ? " selected" : ""}>1000</option>
+        <option value="2000"${otherOption.charLimit === "2000" ? " selected" : ""}>2000</option>
+      </select>
     </div>
   `;
 }
 
 function renderQuestionBody(question, index) {
+  const fixedAttribute = isGlobalAppQuestionnaire() ? "disabled" : "";
   if (question.type === "评分(全局)" || question.type === "评分(普通)" || question.type === "评分(功能/分组)") {
     return `
       <div class="question-row">
         <label class="question-label required">选项</label>
-        <select class="ax-select question-control question-field" data-question-index="${index}" data-question-field="scoreRange">
+        <select class="ax-select question-control question-field" data-question-index="${index}" data-question-field="scoreRange" ${fixedAttribute}>
           <option value="10"${question.scoreRange === "10" ? " selected" : ""}>10</option>
           <option value="5"${question.scoreRange === "5" ? " selected" : ""}>5</option>
         </select>
@@ -1804,24 +2748,24 @@ function renderQuestionBody(question, index) {
       <div class="score-preview">${renderScorePreview(question.scoreRange)}</div>
       <div class="question-row">
         <label class="question-label">最小值描述</label>
-        <input class="ax-input question-control question-field" type="text" value="${escapeText(question.scoreMinDesc)}" data-question-index="${index}" data-question-field="scoreMinDesc" />
+        <input class="ax-input question-control question-field" type="text" value="${escapeText(question.scoreMinDesc)}" data-question-index="${index}" data-question-field="scoreMinDesc" ${fixedAttribute} />
       </div>
       <div class="question-row">
         <label class="question-label">最大值描述</label>
-        <input class="ax-input question-control question-field" type="text" value="${escapeText(question.scoreMaxDesc)}" data-question-index="${index}" data-question-field="scoreMaxDesc" />
+        <input class="ax-input question-control question-field" type="text" value="${escapeText(question.scoreMaxDesc)}" data-question-index="${index}" data-question-field="scoreMaxDesc" ${fixedAttribute} />
       </div>
       ${question.type === "评分(全局)" ? `
         <div class="question-row">
           <label class="question-label">低评分引导文案</label>
-          <input class="ax-input question-control question-field" type="text" value="${escapeText(question.lowScoreGuide)}" data-question-index="${index}" data-question-field="lowScoreGuide" />
+          <input class="ax-input question-control question-field" type="text" value="${escapeText(question.lowScoreGuide)}" data-question-index="${index}" data-question-field="lowScoreGuide" ${fixedAttribute} />
         </div>
         <div class="question-row">
           <label class="question-label">高评分引导文案</label>
-          <input class="ax-input question-control question-field" type="text" value="${escapeText(question.highScoreGuide)}" data-question-index="${index}" data-question-field="highScoreGuide" />
+          <input class="ax-input question-control question-field" type="text" value="${escapeText(question.highScoreGuide)}" data-question-index="${index}" data-question-field="highScoreGuide" ${fixedAttribute} />
         </div>
         <div class="question-row">
           <label class="question-label">其他评分引导文案</label>
-          <input class="ax-input question-control question-field" type="text" value="${escapeText(question.otherScoreGuide)}" data-question-index="${index}" data-question-field="otherScoreGuide" />
+          <input class="ax-input question-control question-field" type="text" value="${escapeText(question.otherScoreGuide)}" data-question-index="${index}" data-question-field="otherScoreGuide" ${fixedAttribute} />
         </div>
       ` : ""}
     `;
@@ -1835,6 +2779,7 @@ function renderQuestionBody(question, index) {
           ${renderChoiceOptions(question, index, question.type === "单选题" ? "radio" : "checkbox")}
         </div>
       </div>
+      ${renderChoiceOtherConfig(question, index)}
     `;
   }
 
@@ -1864,6 +2809,7 @@ function renderTemplateQuestionList() {
   if (isGlobalAppQuestionnaire()) ensureGlobalAppFixedQuestions();
   syncQuestionTypesWithTemplate();
   const isFixedGlobalApp = isGlobalAppQuestionnaire();
+  const fixedQuestionAttribute = isFixedGlobalApp ? "disabled" : "";
   const canRemoveQuestion = !isFixedGlobalApp && templateQuestions.length > 1;
   templateFormFields.questionRepeater.innerHTML = templateQuestions.map((question, index) => `
     <section class="question-card" data-question-index="${index}">
@@ -1877,12 +2823,12 @@ function renderTemplateQuestionList() {
       </div>
       <div class="question-row">
         <label class="question-label required">问题标题</label>
-        <input class="ax-input question-control question-field" type="text" value="${escapeText(question.title)}" data-question-index="${index}" data-question-field="title" />
+        <input class="ax-input question-control question-field" type="text" value="${escapeText(question.title)}" data-question-index="${index}" data-question-field="title" ${fixedQuestionAttribute} />
         ${renderQuestionError(question.errors && question.errors.title)}
       </div>
       <div class="question-row">
         <label class="question-label">问题副标题</label>
-        <input class="ax-input question-control question-field" type="text" value="${escapeText(question.subtitle)}" data-question-index="${index}" data-question-field="subtitle" />
+        <input class="ax-input question-control question-field" type="text" value="${escapeText(question.subtitle)}" data-question-index="${index}" data-question-field="subtitle" ${fixedQuestionAttribute} />
       </div>
       ${renderQuestionBody(question, index)}
     </section>
@@ -1932,20 +2878,18 @@ function validateTemplateStepOne() {
     setTemplateError("bannerButton", "Banner按钮文案不能为空。");
     valid = false;
   }
-  if (isCommonQuestionnaireType && !templateFormFields.questionnaireTitle.value.trim()) {
-    setTemplateError("questionnaireTitle", "网页顶部标题不能为空。");
+  if ((isCommonQuestionnaireType || isDesignQuestionnaireType(questionnaireType)) && !templateFormFields.questionnaireTitle.value.trim()) {
+    setTemplateError("questionnaireTitle", "网页标题不能为空。");
     valid = false;
   }
-  if (isCommonQuestionnaireType && !templateFormFields.questionnaireDescription.value.trim()) {
-    setTemplateError("questionnaireDescription", "问卷标题不能为空。");
+  if (isDesignQuestionnaireType(questionnaireType) && !templateFormFields.pageSize.value) {
+    setTemplateError("pageSize", "分页数量不能为空。");
     valid = false;
   }
-  if (questionnaireType === "分组问卷" && !templateFormFields.groupCount.value) {
-    setTemplateError("groupCount", "分组数量不能为空。");
-    valid = false;
-  }
-  if ((isPopupAppQuestionnaireType(questionnaireType) || isDesignQuestionnaireType(questionnaireType)) && !getSelectedLinkedQuestionnaires().length) {
+  if (isPopupAppQuestionnaireType(questionnaireType) && !getSelectedLinkedQuestionnaires().length) {
     setTemplateError("linked", "关联完整问卷不能为空。");
+    valid = false;
+  } else if (isPopupAppQuestionnaireType(questionnaireType) && !validateLinkedQuestionnaireTitles()) {
     valid = false;
   }
   if (templateFormFields.channelApp.checked) {
@@ -2037,6 +2981,7 @@ function getTemplateQuestion(index) {
 }
 
 function updateTemplateQuestionField(target) {
+  if (isGlobalAppQuestionnaire()) return;
   const questionIndex = Number(target.dataset.questionIndex);
   const field = target.dataset.questionField;
   const question = getTemplateQuestion(questionIndex);
@@ -2052,25 +2997,44 @@ function updateTemplateQuestionField(target) {
     option.label = target.value;
     return;
   }
-
-  question[field] = target.value;
-  if (field === "type") {
-    question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
-    renderTemplateQuestionList();
+  if (field === "otherPrompt" || field === "otherCharLimit") {
+    const optionIndex = Number(target.dataset.optionIndex);
+    const option = question.choiceOptions[optionIndex];
+    if (!option || !option.isOther) return;
+    if (field === "otherPrompt") option.otherPrompt = target.value;
+    if (field === "otherCharLimit") option.charLimit = target.value;
+    return;
   }
+
+  if (field === "type") {
+    const previousType = question.type;
+    question.type = target.value;
+    if (
+      (previousType === "单选题" || previousType === "多选题" || question.type === "单选题" || question.type === "多选题") &&
+      previousType !== question.type
+    ) {
+      question.choiceOptions = [{ label: "选项", isOther: false, otherPrompt: "", charLimit: "500" }];
+    } else {
+      question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
+    }
+    renderTemplateQuestionList();
+    return;
+  }
+  question[field] = target.value;
   if (field === "scoreRange") {
     renderTemplateQuestionList();
   }
 }
 
 function addQuestionOption(questionIndex, isOther = false) {
+  if (isGlobalAppQuestionnaire()) return;
   const question = getTemplateQuestion(questionIndex);
   if (!question) return;
   const options = normalizeQuestionOptions(question.choiceOptions);
   const withoutOther = options.filter((option) => !option.isOther);
   const otherOption = options.find((option) => option.isOther);
   if (isOther) {
-    question.choiceOptions = otherOption ? options : [...withoutOther, { label: "其他", isOther: true }];
+    question.choiceOptions = otherOption ? options : [...withoutOther, { label: "其他", isOther: true, otherPrompt: "", charLimit: "500" }];
   } else {
     question.choiceOptions = [...withoutOther, { label: "选项", isOther: false }, ...(otherOption ? [otherOption] : [])];
   }
@@ -2079,6 +3043,7 @@ function addQuestionOption(questionIndex, isOther = false) {
 }
 
 function removeQuestionOption(questionIndex, optionIndex) {
+  if (isGlobalAppQuestionnaire()) return;
   const question = getTemplateQuestion(questionIndex);
   if (!question) return;
   const options = normalizeQuestionOptions(question.choiceOptions);
@@ -2110,11 +3075,11 @@ function captureTemplateFormState() {
     bannerSubtitle: templateFormFields.bannerSubtitle.value,
     bannerButton: templateFormFields.bannerButton.value,
     linkedQuestionnaires: getSelectedLinkedQuestionnaires(),
+    pageSize: templateFormFields.pageSize.value,
     popupCopy: templateFormFields.popupCopy.innerHTML,
     questionnaireTitle: templateFormFields.questionnaireTitle.value,
     questionnaireDescription: templateFormFields.questionnaireDescription.value,
     questionnaireRemark: templateFormFields.questionnaireRemark.value,
-    groupCount: templateFormFields.groupCount.value,
     questions: cloneTemplateQuestions(),
   };
 }
@@ -2166,11 +3131,11 @@ function applyTemplateFormState(state, linkedTemplateName = "") {
   templateFormFields.bannerTitle.value = state.bannerTitle;
   templateFormFields.bannerSubtitle.value = state.bannerSubtitle;
   templateFormFields.bannerButton.value = state.bannerButton;
+  templateFormFields.pageSize.value = state.pageSize || "5";
   templateFormFields.popupCopy.innerHTML = state.popupCopy;
   templateFormFields.questionnaireTitle.value = state.questionnaireTitle;
   templateFormFields.questionnaireDescription.value = state.questionnaireDescription;
   templateFormFields.questionnaireRemark.value = state.questionnaireRemark;
-  templateFormFields.groupCount.value = state.groupCount;
   templateQuestions = cloneTemplateQuestions(state.questions);
   updateTemplateChannelTrigger();
   updateRichTextCount();
@@ -2228,7 +3193,7 @@ function validateGroupCreationSource() {
 
 function openGroupTemplateFormFromLinked() {
   const sourceType = templateFormFields.questionnaireType.value;
-  if (!isPopupAppQuestionnaireType(sourceType) && !isDesignQuestionnaireType(sourceType)) return;
+  if (!isPopupAppQuestionnaireType(sourceType)) return;
   if (!validateGroupCreationSource()) return;
 
   templateGroupCreationContext = {
@@ -2277,6 +3242,7 @@ function resetTemplateForm() {
   templateFormFields.channelWeb.checked = false;
   updateTemplateChannelTrigger();
   setLinkedQuestionnaires([]);
+  templateFormFields.pageSize.value = "5";
   templateFormFields.popupCopy.innerHTML = "";
   savedRichTextRange = null;
   updateRichTextCount();
@@ -2338,10 +3304,10 @@ function openTemplateForm(mode, templateId = "") {
   templateFormFields.popupCopy.innerHTML = template.popup_copy || "";
   updateRichTextCount();
   fillTemplateVersionFields(template.min_version || "");
-  templateFormFields.questionnaireTitle.value = template.questionnaire_title || template.template_name;
+  templateFormFields.questionnaireTitle.value = template.questionnaire_title || (rawQuestionnaireType === "分组问卷" ? "" : template.template_name);
   templateFormFields.questionnaireDescription.value = template.questionnaire_description || "";
   templateFormFields.questionnaireRemark.value = template.questionnaire_remark || "";
-  templateFormFields.groupCount.value = template.group_count || "";
+  templateFormFields.pageSize.value = template.page_size || "5";
   updateQuestionnaireDescriptionCount();
   templateQuestions = template.questions && template.questions.length
     ? template.questions.map(normalizeTemplateQuestion)
@@ -2359,9 +3325,9 @@ function submitTemplateForm() {
     return;
   }
 
-  const isDesignType = isDesignQuestionnaireType(templateFormFields.questionnaireType.value);
   const isGroupType = templateFormFields.questionnaireType.value === "分组问卷";
-  if (!isDesignType && !validateTemplateQuestions()) {
+  const isDesignType = isDesignQuestionnaireType(templateFormFields.questionnaireType.value);
+  if (!validateTemplateQuestions()) {
     setTemplateStep(2);
     showToast("提交失败，请检查问卷问题。");
     return;
@@ -2379,13 +3345,13 @@ function submitTemplateForm() {
     banner_title: isGroupType ? "" : templateFormFields.bannerTitle.value.trim(),
     banner_subtitle: isGroupType ? "" : templateFormFields.bannerSubtitle.value.trim(),
     banner_button: isGroupType ? "" : templateFormFields.bannerButton.value.trim(),
-    linked_questionnaires: getSelectedLinkedQuestionnaires(),
-    popup_copy: templateFormFields.popupCopy.innerHTML,
+    linked_questionnaires: isPopupAppQuestionnaireType(templateFormFields.questionnaireType.value) ? getSelectedLinkedQuestionnaires() : [],
+    page_size: isDesignType ? templateFormFields.pageSize.value : "",
+    popup_copy: isDesignType ? templateFormFields.popupCopy.innerHTML : "",
     questionnaire_title: templateFormFields.questionnaireTitle.value.trim(),
     questionnaire_description: templateFormFields.questionnaireDescription.value.trim(),
     questionnaire_remark: templateFormFields.questionnaireRemark.value.trim(),
-    group_count: templateFormFields.groupCount.value,
-    questions: isDesignType ? [] : templateQuestions.map(buildQuestionPayload),
+    questions: templateQuestions.map(buildQuestionPayload),
   };
 
   if (templateFormMode === "edit") {
@@ -2402,6 +3368,7 @@ function submitTemplateForm() {
       template_id: getNextId(npsTemplates, "template_id"),
       template_status: "有效",
       creator: "谢敏",
+      i18n_uploaded: false,
       ...templatePayload,
     };
     npsTemplates.push(newTemplate);
@@ -2470,6 +3437,14 @@ function openTemplateDetail(templateIdOrName) {
   const questions = template.questions && template.questions.length
     ? template.questions.map((question, index) => `<li>${index + 1}. ${escapeText(question.type)}｜${escapeText(question.title)}${question.options ? `｜${escapeText(question.options)}` : ""}</li>`).join("")
     : "<li>暂无问题</li>";
+  const templateType = getTemplateDisplayType(getTemplateRawType(template));
+  const isDesignType = isDesignQuestionnaireType(templateType);
+  const linkedDetail = isPopupAppQuestionnaireType(templateType)
+    ? `<dt>关联问卷</dt><dd>${escapeText((template.linked_questionnaires || []).join("，") || "-")}</dd>`
+    : "";
+  const pageSizeDetail = isDesignType
+    ? `<dt>分页数量</dt><dd>${escapeText(template.page_size || "5")}</dd>`
+    : "";
 
   templateDetailBody.innerHTML = `
     <dl class="detail-grid">
@@ -2478,9 +3453,10 @@ function openTemplateDetail(templateIdOrName) {
       <dt>状态</dt><dd>${escapeText(template.template_status)}</dd>
       <dt>可用渠道</dt><dd>${escapeText(template.channel)}</dd>
       <dt>业务场景</dt><dd>${escapeText(template.scene)}</dd>
-      <dt>问卷类型</dt><dd>${escapeText(getTemplateDisplayType(getTemplateRawType(template)))}</dd>
+      <dt>问卷类型</dt><dd>${escapeText(templateType)}</dd>
       <dt>投放版本</dt><dd>${escapeText(template.min_version || "-")}</dd>
-      <dt>关联问卷</dt><dd>${escapeText((template.linked_questionnaires || []).join("，") || "-")}</dd>
+      ${linkedDetail}
+      ${pageSizeDetail}
       <dt>弹窗文案</dt><dd>${template.popup_copy || "-"}</dd>
       <dt>创建者</dt><dd>${escapeText(template.creator)}</dd>
       <dt>更新时间</dt><dd>${escapeText(template.updated_at)}</dd>
@@ -2496,6 +3472,32 @@ function closeTemplateDetail() {
   templateDetailLightbox.setAttribute("aria-hidden", "true");
 }
 
+function uploadSelectedI18nFile() {
+  const template = getCurrentI18nTemplate();
+  if (!template) return;
+  const file = i18nFileInput.files && i18nFileInput.files[0];
+  if (!file) {
+    return;
+  }
+  if (!file.name.toLowerCase().endsWith(".xlsx")) {
+    showToast("仅支持上传.xlsx文件。");
+    i18nFileInput.value = "";
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    showToast("文件大小不能超过 5M。");
+    i18nFileInput.value = "";
+    return;
+  }
+  i18nLoading.classList.remove("hidden");
+  window.clearTimeout(i18nUploadTimer);
+  i18nUploadTimer = window.setTimeout(() => {
+    i18nLoading.classList.add("hidden");
+    renderI18nPreview();
+    showToast("文件已上传，切换语言查看效果。");
+  }, 900);
+}
+
 document.getElementById("searchForm").addEventListener("submit", (event) => {
   event.preventDefault();
   applyFilters();
@@ -2509,6 +3511,43 @@ document.getElementById("audienceSearchForm").addEventListener("submit", (event)
 document.getElementById("addBtn").addEventListener("click", () => openTaskForm("add"));
 templateNav.addEventListener("click", showTemplateList);
 taskNav.addEventListener("click", showTaskList);
+document.getElementById("downloadI18nTemplateBtn").addEventListener("click", downloadI18nTemplate);
+document.getElementById("chooseI18nFileBtn").addEventListener("click", () => {
+  i18nFileInput.click();
+});
+document.getElementById("submitI18nBtn").addEventListener("click", () => {
+  const template = getCurrentI18nTemplate();
+  if (template) template.i18n_uploaded = true;
+  renderTemplates(filteredTemplates);
+  showToast("多语言更新成功。");
+  showTemplateList();
+});
+document.getElementById("cancelI18nBtn").addEventListener("click", showTemplateList);
+i18nFileInput.addEventListener("change", () => {
+  uploadSelectedI18nFile();
+});
+i18nLanguageTabs.addEventListener("click", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement) || !target.dataset.language) return;
+  currentI18nLanguage = target.dataset.language;
+  renderI18nPreview();
+});
+i18nPreviewCard.addEventListener("click", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) return;
+  const template = getCurrentI18nTemplate();
+  if (!template) return;
+  const linkedGroups = getLinkedGroupTemplates(template);
+  if (!linkedGroups.length) return;
+  if (target.classList.contains("preview-page-next")) {
+    currentI18nGroupIndex = Math.min(currentI18nGroupIndex + 1, linkedGroups.length - 1);
+    renderI18nPreview();
+  }
+  if (target.classList.contains("preview-page-prev")) {
+    currentI18nGroupIndex = Math.max(currentI18nGroupIndex - 1, 0);
+    renderI18nPreview();
+  }
+});
 document.getElementById("taskForm").addEventListener("submit", (event) => {
   event.preventDefault();
   submitTaskForm();
@@ -2715,6 +3754,10 @@ document.addEventListener("click", (event) => {
   }
   if (target.classList.contains("edit-template-link")) {
     openTemplateForm("edit", target.dataset.templateId);
+  }
+  if (target.classList.contains("template-i18n-link")) {
+    if (target.disabled) return;
+    openTemplateI18nPage(target.dataset.templateId);
   }
   if (target.classList.contains("toggle-template-link")) {
     openTemplateStatusDialog(target.dataset.templateId);

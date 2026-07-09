@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=20260709-i18n-file-task-list" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -16,7 +16,7 @@
             <span class="tree-label">NPS管理</span>
           </div>
           <button class="tree-node active" id="templateNav" type="button"><span class="tree-label">NPS问卷模板</span></button>
-          <button class="tree-node" id="taskNav" type="button"><span class="tree-label">NPS任务</span></button>
+          <button class="tree-node" id="taskNav" type="button"><span class="tree-label">NPS任务列表</span></button>
         </div>
       </aside>
 
@@ -74,6 +74,8 @@
                     <th class="tpl-channel">可用渠道</th>
                     <th class="tpl-scene">业务场景</th>
                     <th class="tpl-type">问卷类型</th>
+                    <th class="tpl-version">投放版本</th>
+                    <th class="tpl-i18n">多语言文件</th>
                     <th class="tpl-creator">创建者</th>
                     <th class="tpl-updated">最近一次更新时间</th>
                     <th class="tpl-actions">操作</th>
@@ -89,6 +91,50 @@
               <button type="button" class="page-btn disabled">&gt;</button>
               <span id="templateRowCount"></span>
             </div>
+          </div>
+        </section>
+
+        <section class="panel template-i18n-panel" id="templateI18nPanel">
+          <div class="i18n-layout">
+            <section class="i18n-upload-pane">
+              <div class="i18n-pane-title">多语言文件</div>
+              <div class="i18n-step-list">
+                <div class="i18n-step">
+                  <div class="i18n-step-marker">1</div>
+                  <div class="i18n-step-content">
+                    <div class="i18n-step-title">下载当前模板文案</div>
+                    <div class="i18n-help-text">先下载当前问卷的多语言模板，再按模板维护各语言文案。</div>
+                    <button class="ax-button long" id="downloadI18nTemplateBtn" type="button">下载文案</button>
+                  </div>
+                </div>
+                <div class="i18n-step">
+                  <div class="i18n-step-marker">2</div>
+                  <div class="i18n-step-content">
+                    <div class="i18n-step-title">上传多语言文件</div>
+                    <div class="i18n-upload-note">仅支持上传.xlsx文件，且不超过 5M。</div>
+                    <input class="file-input" id="i18nFileInput" type="file" accept=".xlsx" />
+                    <button class="i18n-upload-drop" id="chooseI18nFileBtn" type="button">
+                      <span class="i18n-upload-icon">↑</span>
+                      <span>点击上传文件</span>
+                      <small>选择本地 .xlsx 文件后自动上传</small>
+                    </button>
+                    <div class="i18n-form-actions">
+                      <button class="ax-button long" id="submitI18nBtn" type="button">提交</button>
+                      <button class="ax-button ghost long" id="cancelI18nBtn" type="button">取消</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="i18n-loading hidden" id="i18nLoading">文件解析中...</div>
+            </section>
+
+            <section class="i18n-preview-pane">
+              <div class="i18n-language-tabs" id="i18nLanguageTabs"></div>
+              <div class="phone-preview-frame">
+                <div class="phone-speaker"></div>
+                <div class="questionnaire-preview-card" id="i18nPreviewCard"></div>
+              </div>
+            </section>
           </div>
         </section>
 
@@ -209,7 +255,6 @@
                     <th class="w-date">任务开始时间</th>
                     <th class="w-date">任务结束时间</th>
                     <th class="w-template">问卷模板</th>
-                    <th class="w-id">计划ID</th>
                     <th class="w-plan">计划名称</th>
                     <th class="w-count">总用户数</th>
                     <th class="w-count-wide">实际投放用户数</th>
@@ -406,7 +451,7 @@
                   <option value="">问卷类型</option>
                   <option value="弹窗问卷(APP功能)">弹窗问卷(APP功能)</option>
                   <option value="弹窗问卷(用研)">弹窗问卷(用研)</option>
-                  <option value="弹窗问题(设计)">弹窗问题(设计)</option>
+                  <option value="弹窗问卷(设计)">弹窗问卷(设计)</option>
                   <option value="功能问卷">功能问卷</option>
                   <option value="分组问卷">分组问卷</option>
                 </select>
@@ -479,11 +524,21 @@
                     <div class="multi-panel" id="linkedQuestionnairePanel"></div>
                   </div>
                   <button class="ax-button long create-group-button" id="createGroupQuestionnaireBtn" type="button">创建分组问卷</button>
+                  <span class="field-side-note">问卷的网页标题必须保持一致</span>
                   <div class="form-error" id="formLinkedQuestionnaireError"></div>
                 </div>
               </div>
 
               <div class="type-panel" id="typePanelDesign">
+                <div class="form-row">
+                  <label class="form-label required" for="pageSize">分页数量</label>
+                  <select class="ax-select form-control" id="pageSize">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                  </select>
+                  <span class="field-side-note">题目数量超过分页数量时分页展示，H5 网页标题自动增加当前页码，如问卷(1/2)</span>
+                  <div class="form-error" id="formPageSizeError"></div>
+                </div>
                 <div class="form-row richtext-row">
                   <label class="form-label required" for="popupCopy">弹窗文案</label>
                   <div class="richtext-field">
@@ -503,14 +558,14 @@
               <div class="type-panel" id="typePanelCommon">
                 <div class="form-row">
                   <label class="form-label with-note required" for="questionnaireTitle">
-                    <span>网页顶部标题</span>
-                    <span class="label-note">网页顶部标题</span>
+                    <span>网页标题</span>
+                    <span class="label-note">网页标题</span>
                   </label>
                   <input class="ax-input form-control" id="questionnaireTitle" type="text" autocomplete="off" />
                   <div class="form-error" id="formQuestionnaireTitleError"></div>
                 </div>
                 <div class="form-row">
-                  <label class="form-label required" for="questionnaireDescription">问卷标题</label>
+                  <label class="form-label" id="questionnaireDescriptionLabel" for="questionnaireDescription">问卷标题</label>
                   <input class="ax-input form-control" id="questionnaireDescription" type="text" maxlength="200" autocomplete="off" />
                   <div class="form-error" id="formQuestionnaireDescriptionError"></div>
                 </div>
@@ -518,21 +573,6 @@
                   <label class="form-label" for="questionnaireRemark">问卷标题备注</label>
                   <input class="ax-input form-control" id="questionnaireRemark" type="text" autocomplete="off" />
                   <span class="field-side-note example-note">如：5=非常认可，1=非常不认可</span>
-                </div>
-                <div class="form-row" id="groupCountRow">
-                  <label class="form-label with-note required" for="groupCount">
-                    <span>分组数量</span>
-                    <span class="label-note">表示问卷分多少页展示</span>
-                  </label>
-                  <select class="ax-select form-control" id="groupCount">
-                    <option value="">请选择分组数量</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
-                  <div class="form-error" id="formGroupCountError"></div>
                 </div>
               </div>
 
@@ -627,6 +667,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260708-template-type-split"></script>
+    <script src="./app.js?v=20260709-i18n-file-task-list"></script>
   </body>
 </html>
