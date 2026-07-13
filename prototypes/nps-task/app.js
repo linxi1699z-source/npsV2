@@ -487,6 +487,7 @@ const audienceRingconnIdSearch = document.getElementById("audienceRingconnIdSear
 const templateNameSearch = document.getElementById("templateNameSearch");
 const templateStatusSearch = document.getElementById("templateStatusSearch");
 const templateSceneSearch = document.getElementById("templateSceneSearch");
+const templateTypeSearch = document.getElementById("templateTypeSearch");
 const dateError = document.getElementById("dateError");
 const datePanel = document.getElementById("datePanel");
 const rangePicker = document.getElementById("rangePicker");
@@ -867,12 +868,15 @@ function applyTemplateFilters() {
   const nameValue = templateNameSearch.value.trim();
   const statusValue = templateStatusSearch.value;
   const sceneValue = templateSceneSearch.value;
+  const typeValue = templateTypeSearch.value;
 
   filteredTemplates = npsTemplates.filter((template) => {
     const nameOk = !nameValue || template.template_name.includes(nameValue);
     const statusOk = statusValue === "所有状态" || template.template_status === statusValue;
     const sceneOk = sceneValue === "所有业务场景" || template.scene === sceneValue;
-    return nameOk && statusOk && sceneOk;
+    const templateType = getTemplateDisplayType(getTemplateRawType(template));
+    const typeOk = typeValue === "所有问卷类型" || templateType === typeValue;
+    return nameOk && statusOk && sceneOk && typeOk;
   });
 
   renderTemplates(filteredTemplates);

@@ -56,6 +56,18 @@
                 </select>
               </div>
 
+              <div class="field-group">
+                <label class="field-label" for="templateTypeSearch">问卷类型</label>
+                <select class="ax-select" id="templateTypeSearch">
+                  <option value="所有问卷类型">所有问卷类型</option>
+                  <option value="弹窗问卷(APP功能)">弹窗问卷(APP功能)</option>
+                  <option value="弹窗问卷(用研)">弹窗问卷(用研)</option>
+                  <option value="弹窗问卷(设计)">弹窗问卷(设计)</option>
+                  <option value="分组问卷">分组问卷</option>
+                  <option value="功能问卷">功能问卷</option>
+                </select>
+              </div>
+
               <div class="button-group">
                 <button class="ax-button" id="templateSearchBtn" type="submit">查询</button>
                 <button class="ax-button long" id="addTemplateBtn" type="button" onclick="event.preventDefault(); event.stopPropagation(); window.openTemplateForm && window.openTemplateForm('add')">+新增模板</button>

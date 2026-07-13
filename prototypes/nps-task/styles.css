@@ -961,7 +961,12 @@ select {
 
 .template-search-fields {
   width: 1300px;
-  gap: 44px;
+  gap: 24px;
+}
+
+.template-search-fields .ax-input,
+.template-search-fields .ax-select {
+  width: 160px;
 }
 
 .template-search-fields .button-group {
