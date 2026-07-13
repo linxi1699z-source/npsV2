@@ -1047,6 +1047,10 @@ select {
   width: 1300px;
 }
 
+.i18n-layout.upload-only {
+  grid-template-columns: 420px;
+}
+
 .i18n-upload-pane,
 .i18n-preview-pane {
   min-height: 560px;
@@ -1057,6 +1061,10 @@ select {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.i18n-preview-pane.hidden {
+  display: none;
 }
 
 .i18n-pane-title {
@@ -1204,31 +1212,69 @@ select {
 }
 
 .phone-preview-frame {
+  position: relative;
   width: 420px;
-  min-height: 690px;
-  padding: 14px 12px 18px;
-  border-radius: 34px;
-  background: #1f1f1f;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+  height: 780px;
+  padding: 7px;
+  box-sizing: border-box;
+  border: 4px solid #151515;
+  border-radius: 54px;
+  background: #27272a;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22), inset 0 0 0 1px #52525b;
 }
 
-.phone-speaker {
-  width: 68px;
-  height: 5px;
-  margin: 0 auto 12px;
-  border-radius: 999px;
-  background: #4b5563;
+.phone-preview-frame::before,
+.phone-preview-frame::after {
+  position: absolute;
+  width: 4px;
+  border-radius: 3px;
+  background: #27272a;
+  content: "";
+}
+
+.phone-preview-frame::before {
+  top: 138px;
+  left: -8px;
+  height: 62px;
+  box-shadow: 0 78px 0 #27272a;
+}
+
+.phone-preview-frame::after {
+  top: 188px;
+  right: -8px;
+  height: 84px;
+}
+
+.iphone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 42px;
+  background: var(--ant-color-bg-container);
+}
+
+.iphone-dynamic-island {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  z-index: 3;
+  width: 112px;
+  height: 28px;
+  transform: translateX(-50%);
+  border-radius: 18px;
+  background: #0a0a0a;
 }
 
 .questionnaire-preview-card {
   width: 100%;
-  min-height: 640px;
-  max-height: 640px;
+  min-height: 100%;
+  max-height: 100%;
   margin: 0;
   padding: 0;
   overflow-y: auto;
   border: 0;
-  border-radius: 24px;
+  border-radius: 42px;
   background: var(--ant-color-bg-container);
   box-shadow: none;
 }
@@ -1240,16 +1286,18 @@ select {
   display: grid;
   grid-template-columns: 36px 1fr 36px;
   align-items: center;
-  height: 42px;
+  height: 80px;
+  padding-top: 38px;
+  box-sizing: border-box;
   border-bottom: 1px solid var(--ant-color-border-secondary);
-  border-radius: 24px 24px 0 0;
+  border-radius: 42px 42px 0 0;
   background: var(--ant-color-bg-container);
 }
 
 .preview-back-icon {
   color: var(--ant-color-text);
   font-size: 18px;
-  line-height: 42px;
+  line-height: 36px;
   text-align: center;
 }
 

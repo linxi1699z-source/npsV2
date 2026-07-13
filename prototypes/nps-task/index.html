@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260709-i18n-file-task-list" />
+    <link rel="stylesheet" href="./styles.css?v=20260713-i18n-mode" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -107,9 +107,9 @@
         </section>
 
         <section class="panel template-i18n-panel" id="templateI18nPanel">
-          <div class="i18n-layout">
+          <div class="i18n-layout" id="i18nLayout">
             <section class="i18n-upload-pane">
-              <div class="i18n-pane-title">多语言文件</div>
+              <div class="i18n-pane-title" id="i18nPaneTitle">多语言文件</div>
               <div class="i18n-step-list">
                 <div class="i18n-step">
                   <div class="i18n-step-marker">1</div>
@@ -140,11 +140,13 @@
               <div class="i18n-loading hidden" id="i18nLoading">文件解析中...</div>
             </section>
 
-            <section class="i18n-preview-pane">
+            <section class="i18n-preview-pane" id="i18nPreviewPane">
               <div class="i18n-language-tabs" id="i18nLanguageTabs"></div>
               <div class="phone-preview-frame">
-                <div class="phone-speaker"></div>
-                <div class="questionnaire-preview-card" id="i18nPreviewCard"></div>
+                <div class="iphone-screen">
+                  <div class="iphone-dynamic-island"></div>
+                  <div class="questionnaire-preview-card" id="i18nPreviewCard"></div>
+                </div>
               </div>
             </section>
           </div>
@@ -679,6 +681,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260709-i18n-file-task-list"></script>
+    <script src="./app.js?v=20260713-i18n-mode"></script>
   </body>
 </html>

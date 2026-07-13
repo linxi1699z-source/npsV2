@@ -271,6 +271,7 @@ const npsTemplates = [
     creator: "谢敏",
     updated_at: "2026-06-23 15:40",
     min_version: "Android > V4.2, iOS > V4.2",
+    i18n_uploaded: true,
     page_size: "5",
     questions: [
       { type: "评分(普通)", title: "您对当前 UI 体验满意吗？", subtitle: "", options: "1-10" },
@@ -469,6 +470,7 @@ let currentI18nTemplateId = "";
 let currentI18nLanguage = "zh_cn";
 let currentI18nGroupIndex = 0;
 let i18nUploadTimer = null;
+let i18nFileReady = false;
 
 const taskRows = document.getElementById("taskRows");
 const audienceRows = document.getElementById("audienceRows");
@@ -509,6 +511,9 @@ const npsEstimateBody = document.getElementById("npsEstimateBody");
 const i18nRows = document.getElementById("i18nRows");
 const i18nLanguageTabs = document.getElementById("i18nLanguageTabs");
 const i18nPreviewCard = document.getElementById("i18nPreviewCard");
+const i18nLayout = document.getElementById("i18nLayout");
+const i18nPreviewPane = document.getElementById("i18nPreviewPane");
+const i18nPaneTitle = document.getElementById("i18nPaneTitle");
 const i18nFileInput = document.getElementById("i18nFileInput");
 const i18nLoading = document.getElementById("i18nLoading");
 const toast = document.getElementById("toast");
@@ -838,6 +843,7 @@ function renderTemplates(rows) {
     const templateType = getTemplateDisplayType(getTemplateRawType(template));
     const i18nDisabled = isPopupAppQuestionnaireType(templateType);
     const i18nStatus = i18nDisabled ? "--" : (template.i18n_uploaded ? "已上传" : "未上传");
+    const i18nActionText = i18nDisabled ? "配置多语言" : (template.i18n_uploaded ? "编辑多语言" : "新增多语言");
     return `
       <tr data-template-id="${escapeText(template.template_id)}">
         <td>${escapeText(template.template_id)}</td>
@@ -852,7 +858,7 @@ function renderTemplates(rows) {
         <td>${escapeText(template.updated_at)}</td>
         <td>
           <div class="table-actions">
-            <button class="table-action-button is-primary template-i18n-link" type="button" data-template-id="${escapeText(template.template_id)}" ${i18nDisabled ? "disabled" : ""}>配置多语言</button>
+            <button class="table-action-button is-primary template-i18n-link" type="button" data-template-id="${escapeText(template.template_id)}" ${i18nDisabled ? "disabled" : ""}>${i18nActionText}</button>
             <button class="table-action-button is-primary edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}">编辑模板</button>
             <button class="table-action-button ${disabled ? "is-success" : "is-danger"} toggle-template-link" type="button" data-template-id="${escapeText(template.template_id)}">${disabled ? "启用" : "禁用"}</button>
           </div>
@@ -1981,19 +1987,29 @@ function renderI18nPreview() {
 function openTemplateI18nPage(templateId) {
   const template = npsTemplates.find((item) => item.template_id === templateId);
   if (!template) return;
+  const isEditMode = Boolean(template.i18n_uploaded);
   currentI18nTemplateId = templateId;
   currentI18nLanguage = "zh_cn";
   currentI18nGroupIndex = 0;
+  i18nFileReady = false;
   i18nFileInput.value = "";
   i18nLoading.classList.add("hidden");
   setActiveNav("template");
   setTemplateLayout(true);
   hideAllMainPanels();
   document.getElementById("templateI18nPanel").classList.add("active");
-  document.querySelector(".breadcrumb").textContent = "NPS管理 / NPS问卷模板 / 多语言配置";
+  i18nLayout.classList.toggle("upload-only", !isEditMode);
+  i18nPreviewPane.classList.toggle("hidden", !isEditMode);
+  i18nPaneTitle.textContent = isEditMode ? "编辑多语言" : "新增多语言";
+  document.querySelector(".breadcrumb").textContent = `NPS管理 / NPS问卷模板 / ${isEditMode ? "编辑多语言" : "新增多语言"}`;
   window.location.hash = "nps-template-i18n";
   renderI18nRows(template);
-  renderI18nPreview();
+  if (isEditMode) {
+    renderI18nPreview();
+  } else {
+    i18nLanguageTabs.innerHTML = "";
+    i18nPreviewCard.innerHTML = "";
+  }
 }
 
 function getAudienceFileNames() {
@@ -2696,13 +2712,13 @@ function renderQuestionError(message) {
 function renderChoiceOptions(question, questionIndex, inputType) {
   question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
   const isFixedGlobalApp = isGlobalAppQuestionnaire();
-  const fixedAttribute = isFixedGlobalApp ? "disabled" : "";
+  const hasOtherOption = question.choiceOptions.some((option) => option.isOther);
   return `
     <div class="question-option-list">
       ${question.choiceOptions.map((option, optionIndex) => `
         <div class="question-option-row">
           <input type="${inputType}" disabled />
-          <input class="question-option-input" type="text" value="${escapeText(option.label)}" data-question-index="${questionIndex}" data-option-index="${optionIndex}" data-question-field="optionLabel" ${option.isOther ? "readonly" : ""} ${fixedAttribute} />
+          <input class="question-option-input" type="text" value="${escapeText(option.label)}" data-question-index="${questionIndex}" data-option-index="${optionIndex}" data-question-field="optionLabel" ${(option.isOther || isFixedGlobalApp) ? "disabled" : ""} />
           ${isFixedGlobalApp ? "" : `<button class="link-button question-remove-option" type="button" data-question-index="${questionIndex}" data-option-index="${optionIndex}">删除</button>`}
         </div>
       `).join("")}
@@ -2710,7 +2726,7 @@ function renderChoiceOptions(question, questionIndex, inputType) {
     ${renderQuestionError(question.errors && question.errors.options)}
     ${isFixedGlobalApp ? "" : `<div class="question-option-actions">
       <button class="link-button question-add-option" type="button" data-question-index="${questionIndex}">添加选项</button>
-      <button class="link-button question-add-other" type="button" data-question-index="${questionIndex}">添加其他</button>
+      ${hasOtherOption ? "" : `<button class="link-button question-add-other" type="button" data-question-index="${questionIndex}">添加其他</button>`}
     </div>`}
   `;
 }
@@ -3497,8 +3513,13 @@ function uploadSelectedI18nFile() {
   window.clearTimeout(i18nUploadTimer);
   i18nUploadTimer = window.setTimeout(() => {
     i18nLoading.classList.add("hidden");
-    renderI18nPreview();
-    showToast("文件已上传，切换语言查看效果。");
+    i18nFileReady = true;
+    if (template.i18n_uploaded) {
+      renderI18nPreview();
+      showToast("文件已上传，切换语言查看效果。");
+    } else {
+      showToast("文件已上传，请提交更新。");
+    }
   }, 900);
 }
 
@@ -3521,7 +3542,12 @@ document.getElementById("chooseI18nFileBtn").addEventListener("click", () => {
 });
 document.getElementById("submitI18nBtn").addEventListener("click", () => {
   const template = getCurrentI18nTemplate();
-  if (template) template.i18n_uploaded = true;
+  if (!template) return;
+  if (!template.i18n_uploaded && !i18nFileReady) {
+    showToast("请先上传多语言文件。");
+    return;
+  }
+  template.i18n_uploaded = true;
   renderTemplates(filteredTemplates);
   showToast("多语言更新成功。");
   showTemplateList();
