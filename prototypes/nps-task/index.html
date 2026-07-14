@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260713-i18n-mode" />
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -177,9 +177,10 @@
               <div class="field-group">
                 <label class="field-label" for="taskRegion">投放范围</label>
                 <select class="ax-select" id="taskRegion">
-                  <option value="国内">国内</option>
+                  <option value="所有区域">所有区域</option>
+                  <option value="中国大陆">中国大陆</option>
                   <option value="美国">美国</option>
-                  <option value="英国(除美国外所有区域)">英国(除美国外所有区域)</option>
+                  <option value="其他(除美国和中国大陆)">其他(除美国和中国大陆)</option>
                 </select>
               </div>
 
@@ -324,13 +325,13 @@
             </div>
 
             <div class="form-row">
-              <label class="form-label required" for="formTaskRegion">投放范围</label>
-              <select class="ax-select form-control" id="formTaskRegion">
-                <option value="">请选择投放范围</option>
-                <option value="国内">国内</option>
-                <option value="美国">美国</option>
-                <option value="英国(除美国外所有区域)">英国(除美国外所有区域)</option>
-              </select>
+                <label class="form-label required" for="formTaskRegion">投放范围</label>
+                <select class="ax-select form-control" id="formTaskRegion">
+                  <option value="">请选择投放范围</option>
+                  <option value="中国大陆">中国大陆</option>
+                  <option value="美国">美国</option>
+                  <option value="其他(除美国和中国大陆)">其他(除美国和中国大陆)</option>
+                </select>
               <div class="form-error" id="formTaskRegionError"></div>
             </div>
 
@@ -682,6 +683,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260713-i18n-mode"></script>
+    <script src="./app.js"></script>
   </body>
 </html>

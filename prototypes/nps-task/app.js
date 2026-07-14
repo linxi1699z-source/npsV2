@@ -4,7 +4,7 @@ const tasks = [
     task_name: "全局NPS6月任务",
     task_status: "初始状态",
     task_scene: "睡眠",
-    delivery_region: "国内",
+    delivery_region: "中国大陆",
     audience_link_text: "查看",
     app_client: "APP",
     start_time: "2026-06-28 09",
@@ -48,7 +48,7 @@ const tasks = [
     task_name: "血压NPS7月任务",
     task_status: "投放完成",
     task_scene: "血压",
-    delivery_region: "英国(除美国外所有区域)",
+    delivery_region: "其他(除美国和中国大陆)",
     audience_link_text: "查看",
     app_client: "APP",
     start_time: "2026-06-01 09",
@@ -92,7 +92,7 @@ const tasks = [
     task_name: "生理周期NPS任务",
     task_status: "暂停",
     task_scene: "生理",
-    delivery_region: "国内",
+    delivery_region: "中国大陆",
     audience_link_text: "查看",
     app_client: "APP",
     start_time: "2026-06-10 09",
@@ -114,7 +114,7 @@ const tasks = [
     task_name: "计划模块NPS任务",
     task_status: "初始状态",
     task_scene: "计划",
-    delivery_region: "英国(除美国外所有区域)",
+    delivery_region: "其他(除美国和中国大陆)",
     audience_link_text: "查看",
     app_client: "APP",
     start_time: "2026-07-01 08",
@@ -1022,7 +1022,7 @@ function renderRows(rows) {
         <td>${escapeText(task.task_name)}</td>
         <td><span class="status-pill ${statusClass}">${escapeText(task.task_status)}</span></td>
         <td>${escapeText(task.task_scene)}</td>
-        <td>${escapeText(task.delivery_region || "国内")}</td>
+        <td>${escapeText(task.delivery_region || "中国大陆")}</td>
         <td><button class="link-button audience-link" type="button" data-task-id="${escapeText(task.task_id)}">${escapeText(task.audience_link_text)}</button></td>
         <td>${escapeText(task.app_client)}</td>
         <td>${escapeText(task.start_time)}</td>
@@ -1089,7 +1089,7 @@ function applyFilters() {
   filteredTasks = tasks.filter((task) => {
     const nameOk = !nameValue || task.task_name.includes(nameValue);
     const sceneOk = sceneValue === "所有" || task.task_scene === sceneValue;
-    const regionOk = (task.delivery_region || "国内") === regionValue;
+    const regionOk = regionValue === "所有区域" || (task.delivery_region || "中国大陆") === regionValue;
     const statusOk = statusValue === "所有" || task.task_status === statusValue;
     const dateOk = intersectsRange(task, range);
     return nameOk && sceneOk && regionOk && statusOk && dateOk;
@@ -2151,7 +2151,7 @@ function fillTaskForm(task) {
   formFields.taskName.value = task.task_name;
   formFields.planName.value = task.plan_name;
   formFields.taskScene.value = task.task_scene;
-  formFields.taskRegion.value = task.delivery_region || "国内";
+  formFields.taskRegion.value = task.delivery_region || "中国大陆";
   setDateHourValue(formFields.startDate, formFields.startHour, task.start_time);
   setDateHourValue(formFields.endDate, formFields.endHour, task.end_time);
   formFields.templateName.value = task.template_name;
