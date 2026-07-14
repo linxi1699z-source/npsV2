@@ -72,7 +72,7 @@ const tasks = [
     task_scene: "AI Partner",
     delivery_region: "美国",
     audience_link_text: "查看",
-    app_client: "Web",
+    app_client: "APP",
     start_time: "2026-06-15 10",
     end_time: "2026-07-15 19",
     template_name: "AI Partner模板",
@@ -245,7 +245,7 @@ const npsTemplates = [
     template_id: "10005",
     template_name: "全局 NPS 调查问卷",
     template_status: "有效",
-    channel: "APP, WEB",
+    channel: "APP",
     scene: "全局",
     raw_questionnaire_type: "弹窗问卷(APP功能)",
     questionnaire_type: "弹窗问卷(APP功能)",
@@ -532,7 +532,6 @@ const formFields = {
   appTrigger: document.getElementById("appClientTrigger"),
   appPanel: document.getElementById("appClientPanel"),
   appClientApp: document.getElementById("appClientApp"),
-  appClientWeb: document.getElementById("appClientWeb"),
   templateName: document.getElementById("formTemplateName"),
   audienceFile: document.getElementById("audienceFile"),
   audienceFileList: document.getElementById("audienceFileList"),
@@ -546,7 +545,6 @@ const templateFormFields = {
   channelTrigger: document.getElementById("templateChannelTrigger"),
   channelPanel: document.getElementById("templateChannelPanel"),
   channelApp: document.getElementById("templateChannelApp"),
-  channelWeb: document.getElementById("templateChannelWeb"),
   versionRow: document.getElementById("templateVersionRow"),
   androidVersion: document.getElementById("templateAndroidVersion"),
   androidVersionEnd: document.getElementById("templateAndroidVersionEnd"),
@@ -799,15 +797,12 @@ function clearTemplateFormErrors() {
 }
 
 function getSelectedApps() {
-  const apps = [];
-  if (formFields.appClientApp.checked) apps.push("APP");
-  if (formFields.appClientWeb.checked) apps.push("WEB");
-  return apps;
+  return ["APP"];
 }
 
 function updateAppTrigger() {
-  const selectedApps = getSelectedApps();
-  formFields.appTrigger.textContent = selectedApps.length ? selectedApps.join(",") : "请选择应用端";
+  formFields.appClientApp.checked = true;
+  formFields.appTrigger.textContent = "APP";
 }
 
 function getPlanByName(planName) {
@@ -2098,8 +2093,6 @@ function setTaskFormReadonly(readonly) {
     formFields.endDate,
     formFields.endHour,
     formFields.appTrigger,
-    formFields.appClientApp,
-    formFields.appClientWeb,
     formFields.templateName,
     formFields.audienceFile,
   ].forEach((field) => {
@@ -2120,8 +2113,6 @@ function setTaskFormCopyMode(enabled) {
     formFields.taskScene,
     formFields.taskRegion,
     formFields.appTrigger,
-    formFields.appClientApp,
-    formFields.appClientWeb,
     formFields.templateName,
   ].forEach((field) => {
     field.disabled = true;
@@ -2141,7 +2132,6 @@ function resetTaskForm() {
   formFields.taskRegion.value = "";
   formFields.templateName.value = "";
   formFields.appClientApp.checked = true;
-  formFields.appClientWeb.checked = false;
   updateAppTrigger();
   clearAudienceFile();
 }
@@ -2155,8 +2145,7 @@ function fillTaskForm(task) {
   setDateHourValue(formFields.startDate, formFields.startHour, task.start_time);
   setDateHourValue(formFields.endDate, formFields.endHour, task.end_time);
   formFields.templateName.value = task.template_name;
-  formFields.appClientApp.checked = task.app_client.includes("APP");
-  formFields.appClientWeb.checked = task.app_client.includes("WEB") || task.app_client.includes("Web");
+  formFields.appClientApp.checked = true;
   updateAppTrigger();
   if (task.audience_file_names && task.audience_file_names.length) {
     renderAudienceFiles(task.audience_file_names);
@@ -2341,15 +2330,12 @@ function submitNewPlan() {
 }
 
 function getSelectedTemplateChannels() {
-  const channels = [];
-  if (templateFormFields.channelApp.checked) channels.push("APP");
-  if (templateFormFields.channelWeb.checked) channels.push("WEB");
-  return channels;
+  return ["APP"];
 }
 
 function updateTemplateChannelTrigger() {
-  const channels = getSelectedTemplateChannels();
-  templateFormFields.channelTrigger.textContent = channels.length ? channels.join(", ") : "请选择渠道";
+  templateFormFields.channelApp.checked = true;
+  templateFormFields.channelTrigger.textContent = "APP";
   updateTemplateVersionVisibility();
 }
 
@@ -3120,7 +3106,6 @@ function captureTemplateFormState() {
     scene: templateFormFields.scene.value,
     questionnaireType: templateFormFields.questionnaireType.value,
     channelApp: templateFormFields.channelApp.checked,
-    channelWeb: templateFormFields.channelWeb.checked,
     androidVersion: templateFormFields.androidVersion.value,
     androidVersionEnd: templateFormFields.androidVersionEnd.value,
     iosVersion: templateFormFields.iosVersion.value,
@@ -3144,8 +3129,6 @@ function setTemplateInheritedLock(locked) {
     templateFormFields.scene,
     templateFormFields.questionnaireType,
     templateFormFields.channelTrigger,
-    templateFormFields.channelApp,
-    templateFormFields.channelWeb,
     templateFormFields.androidVersion,
     templateFormFields.androidVersionEnd,
     templateFormFields.iosVersion,
@@ -3176,8 +3159,7 @@ function applyTemplateFormState(state, linkedTemplateName = "") {
   templateFormFields.templateTitle.value = state.templateTitle;
   templateFormFields.scene.value = state.scene;
   templateFormFields.questionnaireType.value = state.questionnaireType;
-  templateFormFields.channelApp.checked = state.channelApp;
-  templateFormFields.channelWeb.checked = state.channelWeb;
+  templateFormFields.channelApp.checked = true;
   templateFormFields.androidVersion.value = state.androidVersion;
   templateFormFields.androidVersionEnd.value = state.androidVersionEnd;
   templateFormFields.iosVersion.value = state.iosVersion;
@@ -3261,8 +3243,7 @@ function openGroupTemplateFormFromLinked() {
   templateFormFields.scene.value = "全局";
   updateQuestionnaireTypeByScene();
   templateFormFields.questionnaireType.value = "分组问卷";
-  templateFormFields.channelApp.checked = templateGroupCreationContext.channels.includes("APP");
-  templateFormFields.channelWeb.checked = templateGroupCreationContext.channels.includes("WEB");
+  templateFormFields.channelApp.checked = true;
   templateFormFields.androidVersion.value = templateGroupCreationContext.versionFields.androidVersion;
   templateFormFields.androidVersionEnd.value = templateGroupCreationContext.versionFields.androidVersionEnd;
   templateFormFields.iosVersion.value = templateGroupCreationContext.versionFields.iosVersion;
@@ -3293,7 +3274,6 @@ function resetTemplateForm() {
   setTemplateInheritedLock(false);
   templateFormFields.editingTemplateId.value = "";
   templateFormFields.channelApp.checked = true;
-  templateFormFields.channelWeb.checked = false;
   updateTemplateChannelTrigger();
   setLinkedQuestionnaires([]);
   templateFormFields.pageSize.value = "5";
@@ -3348,8 +3328,7 @@ function openTemplateForm(mode, templateId = "") {
   const rawQuestionnaireType = getTemplateRawType(template);
   templateFormFields.questionnaireType.value = rawQuestionnaireType;
   updateQuestionnaireTypeByScene();
-  templateFormFields.channelApp.checked = template.channel.includes("APP");
-  templateFormFields.channelWeb.checked = template.channel.includes("WEB");
+  templateFormFields.channelApp.checked = true;
   updateTemplateChannelTrigger();
   templateFormFields.bannerTitle.value = template.banner_title || "";
   templateFormFields.bannerSubtitle.value = template.banner_subtitle || "";
@@ -3638,7 +3617,6 @@ templateFormFields.channelTrigger.addEventListener("click", () => {
   templateFormFields.channelPanel.classList.toggle("open");
 });
 templateFormFields.channelApp.addEventListener("change", updateTemplateChannelTrigger);
-templateFormFields.channelWeb.addEventListener("change", updateTemplateChannelTrigger);
 templateFormFields.linkedTrigger.addEventListener("click", () => {
   templateFormFields.linkedPanel.classList.toggle("open");
 });
@@ -3661,7 +3639,6 @@ formFields.appTrigger.addEventListener("click", () => {
   formFields.appPanel.classList.toggle("open");
 });
 formFields.appClientApp.addEventListener("change", updateAppTrigger);
-formFields.appClientWeb.addEventListener("change", updateAppTrigger);
 
 document.getElementById("chooseFileBtn").addEventListener("click", () => {
   if (formMode === "view" || formFields.audienceFile.disabled) return;

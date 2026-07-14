@@ -161,7 +161,7 @@
               </div>
 
               <div class="field-group">
-                <label class="field-label" for="taskScene">任务场景</label>
+                <label class="field-label" for="taskScene">业务场景</label>
                 <select class="ax-select" id="taskScene">
                   <option value="所有">所有</option>
                   <option value="全局">全局</option>
@@ -264,7 +264,7 @@
                     <th class="w-id">任务 ID</th>
                     <th class="w-name">任务名称</th>
                     <th class="w-status">任务状态</th>
-                    <th class="w-scene">任务场景</th>
+                    <th class="w-scene">业务场景</th>
                     <th class="w-region">投放范围</th>
                     <th class="w-link">投放人群</th>
                     <th class="w-client">应用端</th>
@@ -358,8 +358,7 @@
               <div class="multi-select">
                 <button class="multi-trigger" id="appClientTrigger" type="button">APP</button>
                 <div class="multi-panel" id="appClientPanel">
-                  <label><input id="appClientApp" type="checkbox" value="APP" checked /> APP</label>
-                  <label><input id="appClientWeb" type="checkbox" value="WEB" /> WEB</label>
+                  <label><input id="appClientApp" type="checkbox" value="APP" checked disabled /> APP</label>
                 </div>
               </div>
               <div class="form-error" id="formAppClientError"></div>
@@ -477,10 +476,9 @@
               <div class="form-row">
                 <label class="form-label required" for="templateChannelTrigger">应用端</label>
                 <div class="multi-select">
-                  <button class="multi-trigger" id="templateChannelTrigger" type="button">APP</button>
-                  <div class="multi-panel" id="templateChannelPanel">
-                    <label><input id="templateChannelApp" type="checkbox" value="APP" checked /> APP</label>
-                    <label><input id="templateChannelWeb" type="checkbox" value="WEB" /> WEB</label>
+                <button class="multi-trigger" id="templateChannelTrigger" type="button">APP</button>
+                <div class="multi-panel" id="templateChannelPanel">
+                  <label><input id="templateChannelApp" type="checkbox" value="APP" checked disabled /> APP</label>
                   </div>
                 </div>
                 <div class="form-error" id="formTemplateChannelError"></div>
