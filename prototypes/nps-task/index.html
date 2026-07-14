@@ -83,7 +83,7 @@
                     <th class="tpl-id">模板 ID</th>
                     <th class="tpl-name">模板名称</th>
                     <th class="tpl-status">状态</th>
-                    <th class="tpl-channel">可用渠道</th>
+                    <th class="tpl-channel">应用端</th>
                     <th class="tpl-scene">业务场景</th>
                     <th class="tpl-type">问卷类型</th>
                     <th class="tpl-version">投放版本</th>
@@ -177,9 +177,9 @@
               <div class="field-group">
                 <label class="field-label" for="taskRegion">投放范围</label>
                 <select class="ax-select" id="taskRegion">
-                  <option value="所有区域">所有区域</option>
                   <option value="国内">国内</option>
-                  <option value="海外">海外</option>
+                  <option value="美国">美国</option>
+                  <option value="英国(除美国外所有区域)">英国(除美国外所有区域)</option>
                 </select>
               </div>
 
@@ -240,6 +240,7 @@
                 <select class="ax-select" id="taskStatus">
                   <option value="所有">所有</option>
                   <option value="初始状态">初始状态</option>
+                  <option value="待投放">待投放</option>
                   <option value="投放中">投放中</option>
                   <option value="投放完成">投放完成</option>
                   <option value="投放失败">投放失败</option>
@@ -327,8 +328,8 @@
               <select class="ax-select form-control" id="formTaskRegion">
                 <option value="">请选择投放范围</option>
                 <option value="国内">国内</option>
-                <option value="海外">海外</option>
-                <option value="所有区域">所有区域</option>
+                <option value="美国">美国</option>
+                <option value="英国(除美国外所有区域)">英国(除美国外所有区域)</option>
               </select>
               <div class="form-error" id="formTaskRegionError"></div>
             </div>
@@ -473,7 +474,7 @@
               </div>
 
               <div class="form-row">
-                <label class="form-label required" for="templateChannelTrigger">可用渠道</label>
+                <label class="form-label required" for="templateChannelTrigger">应用端</label>
                 <div class="multi-select">
                   <button class="multi-trigger" id="templateChannelTrigger" type="button">APP</button>
                   <div class="multi-panel" id="templateChannelPanel">

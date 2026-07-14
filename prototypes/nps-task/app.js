@@ -26,7 +26,7 @@ const tasks = [
     task_name: "OSA NPS投放任务",
     task_status: "投放中",
     task_scene: "OSA",
-    delivery_region: "海外",
+    delivery_region: "美国",
     audience_link_text: "查看",
     app_client: "APP",
     start_time: "2026-06-20 10",
@@ -48,7 +48,7 @@ const tasks = [
     task_name: "血压NPS7月任务",
     task_status: "投放完成",
     task_scene: "血压",
-    delivery_region: "所有区域",
+    delivery_region: "英国(除美国外所有区域)",
     audience_link_text: "查看",
     app_client: "APP",
     start_time: "2026-06-01 09",
@@ -70,7 +70,7 @@ const tasks = [
     task_name: "AI Partner 满意度任务",
     task_status: "投放失败",
     task_scene: "AI Partner",
-    delivery_region: "海外",
+    delivery_region: "美国",
     audience_link_text: "查看",
     app_client: "Web",
     start_time: "2026-06-15 10",
@@ -114,7 +114,7 @@ const tasks = [
     task_name: "计划模块NPS任务",
     task_status: "初始状态",
     task_scene: "计划",
-    delivery_region: "所有区域",
+    delivery_region: "英国(除美国外所有区域)",
     audience_link_text: "查看",
     app_client: "APP",
     start_time: "2026-07-01 08",
@@ -1022,12 +1022,12 @@ function renderRows(rows) {
         <td>${escapeText(task.task_name)}</td>
         <td><span class="status-pill ${statusClass}">${escapeText(task.task_status)}</span></td>
         <td>${escapeText(task.task_scene)}</td>
-        <td>${escapeText(task.delivery_region || "所有区域")}</td>
+        <td>${escapeText(task.delivery_region || "国内")}</td>
         <td><button class="link-button audience-link" type="button" data-task-id="${escapeText(task.task_id)}">${escapeText(task.audience_link_text)}</button></td>
         <td>${escapeText(task.app_client)}</td>
         <td>${escapeText(task.start_time)}</td>
         <td>${escapeText(task.end_time)}</td>
-        <td><button class="link-button template-link" type="button" data-template="${escapeText(task.template_name)}">${escapeText(task.template_name)}</button></td>
+        <td>${escapeText(task.template_name)}</td>
         <td>${escapeText(task.plan_name)}</td>
         <td>${escapeText(task.total_users)}</td>
         <td>${escapeText(task.actual_delivery_users)}</td>
@@ -1089,7 +1089,7 @@ function applyFilters() {
   filteredTasks = tasks.filter((task) => {
     const nameOk = !nameValue || task.task_name.includes(nameValue);
     const sceneOk = sceneValue === "所有" || task.task_scene === sceneValue;
-    const regionOk = regionValue === "所有区域" || (task.delivery_region || "所有区域") === regionValue;
+    const regionOk = (task.delivery_region || "国内") === regionValue;
     const statusOk = statusValue === "所有" || task.task_status === statusValue;
     const dateOk = intersectsRange(task, range);
     return nameOk && sceneOk && regionOk && statusOk && dateOk;
@@ -1356,7 +1356,7 @@ function downloadI18nTemplate() {
   URL.revokeObjectURL(link.href);
 }
 
-function buildExportWorkbook(task) {
+function buildExportXlsxBlob(task) {
   const rows = [
     ["任务ID", task.task_id],
     ["任务名称", task.task_name],
@@ -1368,14 +1368,48 @@ function buildExportWorkbook(task) {
     ["7-8分用户数", task.nps_passives || "0"],
     ["0-6分用户数", task.nps_detractors || "0"],
   ];
-  const cells = rows.map(([label, value]) => `<tr><td>${escapeText(label)}</td><td>${escapeText(value)}</td></tr>`).join("");
-  return `<!doctype html><html><head><meta charset="UTF-8"></head><body><table>${cells}</table></body></html>`;
+  const sheetData = rows.map((row, rowIndex) => `
+    <row r="${rowIndex + 1}">
+      ${row.map((cell, cellIndex) => {
+        const column = String.fromCharCode(65 + cellIndex);
+        return `<c r="${column}${rowIndex + 1}" t="inlineStr"><is><t>${escapeXml(cell)}</t></is></c>`;
+      }).join("")}
+    </row>
+  `).join("");
+  const worksheet = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+      <sheetData>${sheetData}</sheetData>
+    </worksheet>`;
+  const workbook = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+      <sheets><sheet name="任务回复情况" sheetId="1" r:id="rId1"/></sheets>
+    </workbook>`;
+  const workbookRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+      <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
+    </Relationships>`;
+  const rootRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+      <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>
+    </Relationships>`;
+  const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+      <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+      <Default Extension="xml" ContentType="application/xml"/>
+      <Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>
+      <Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
+    </Types>`;
+  return createZip([
+    { name: "[Content_Types].xml", content: contentTypes },
+    { name: "_rels/.rels", content: rootRels },
+    { name: "xl/workbook.xml", content: workbook },
+    { name: "xl/_rels/workbook.xml.rels", content: workbookRels },
+    { name: "xl/worksheets/sheet1.xml", content: worksheet },
+  ]);
 }
 
 function triggerTaskExport(task) {
-  const blob = new Blob([`\ufeff${buildExportWorkbook(task)}`], {
-    type: "application/vnd.ms-excel;charset=utf-8",
-  });
+  const blob = buildExportXlsxBlob(task);
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = `${sanitizeFileName(task.task_name)}_用户回复情况.xlsx`;
@@ -2117,7 +2151,7 @@ function fillTaskForm(task) {
   formFields.taskName.value = task.task_name;
   formFields.planName.value = task.plan_name;
   formFields.taskScene.value = task.task_scene;
-  formFields.taskRegion.value = task.delivery_region || "所有区域";
+  formFields.taskRegion.value = task.delivery_region || "国内";
   setDateHourValue(formFields.startDate, formFields.startHour, task.start_time);
   setDateHourValue(formFields.endDate, formFields.endHour, task.end_time);
   formFields.templateName.value = task.template_name;
@@ -2882,7 +2916,7 @@ function validateTemplateStepOne() {
   }
   if (!getSelectedTemplateChannels().length) {
     templateFormFields.channelTrigger.classList.add("error");
-    templateFormErrors.channel.textContent = "可用渠道不能为空。";
+    templateFormErrors.channel.textContent = "应用端不能为空。";
     templateFormErrors.channel.classList.add("show");
     valid = false;
   }
@@ -3192,7 +3226,7 @@ function validateGroupCreationSource() {
 
   if (!channels.length) {
     templateFormFields.channelTrigger.classList.add("error");
-    templateFormErrors.channel.textContent = "请先设置可用渠道。";
+    templateFormErrors.channel.textContent = "请先设置应用端。";
     templateFormErrors.channel.classList.add("show");
     valid = false;
   }
@@ -3207,7 +3241,7 @@ function validateGroupCreationSource() {
       valid = false;
     }
   }
-  if (!valid) showToast(templateFormFields.channelApp.checked ? "请先设置可用渠道和投放版本。" : "请先设置可用渠道。");
+  if (!valid) showToast(templateFormFields.channelApp.checked ? "请先设置应用端和投放版本。" : "请先设置应用端。");
   return valid;
 }
 
@@ -3471,7 +3505,7 @@ function openTemplateDetail(templateIdOrName) {
       <dt>模板 ID</dt><dd>${escapeText(template.template_id)}</dd>
       <dt>模板名称</dt><dd>${escapeText(template.template_name)}</dd>
       <dt>状态</dt><dd>${escapeText(template.template_status)}</dd>
-      <dt>可用渠道</dt><dd>${escapeText(template.channel)}</dd>
+      <dt>应用端</dt><dd>${escapeText(template.channel)}</dd>
       <dt>业务场景</dt><dd>${escapeText(template.scene)}</dd>
       <dt>问卷类型</dt><dd>${escapeText(templateType)}</dd>
       <dt>投放版本</dt><dd>${escapeText(template.min_version || "-")}</dd>
@@ -3775,9 +3809,6 @@ document.addEventListener("click", (event) => {
   }
   if (target.classList.contains("audience-link")) {
     openAudiencePage(target.dataset.taskId);
-  }
-  if (target.classList.contains("template-link")) {
-    openTemplateDetail(target.dataset.template);
   }
   if (target.classList.contains("template-detail-link")) {
     openTemplateDetail(target.dataset.templateId);
