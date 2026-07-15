@@ -220,24 +220,24 @@ const I18N_LANGUAGES = [
 ];
 
 const audienceUsers = [
-  { task_id: "10001", ringconn_id: "RC10001001", country: "中国", registered_at: "2024-11-18", user_flag: "老用户", delivery_result: "未下发" },
-  { task_id: "10001", ringconn_id: "RC10001002", country: "美国", registered_at: "2025-02-07", user_flag: "新用户", delivery_result: "已下发" },
-  { task_id: "10001", ringconn_id: "RC10001003", country: "德国", registered_at: "2023-09-26", user_flag: "波动用户", delivery_result: "已提交" },
-  { task_id: "10002", ringconn_id: "RC10002001", country: "日本", registered_at: "2024-08-11", user_flag: "老用户", delivery_result: "已下发" },
-  { task_id: "10002", ringconn_id: "RC10002002", country: "中国", registered_at: "2025-12-03", user_flag: "新用户", delivery_result: "未下发" },
-  { task_id: "10002", ringconn_id: "RC10002003", country: "法国", registered_at: "2024-03-14", user_flag: "波动用户", delivery_result: "已提交" },
-  { task_id: "10003", ringconn_id: "RC10003001", country: "美国", registered_at: "2023-07-09", user_flag: "老用户", delivery_result: "已提交" },
-  { task_id: "10003", ringconn_id: "RC10003002", country: "加拿大", registered_at: "2024-10-21", user_flag: "波动用户", delivery_result: "已下发" },
-  { task_id: "10003", ringconn_id: "RC10003003", country: "中国", registered_at: "2026-01-06", user_flag: "新用户", delivery_result: "已提交" },
-  { task_id: "10004", ringconn_id: "RC10004001", country: "英国", registered_at: "2025-04-02", user_flag: "新用户", delivery_result: "未下发" },
-  { task_id: "10004", ringconn_id: "RC10004002", country: "德国", registered_at: "2024-12-19", user_flag: "波动用户", delivery_result: "已下发" },
-  { task_id: "10004", ringconn_id: "RC10004003", country: "美国", registered_at: "2022-06-30", user_flag: "老用户", delivery_result: "未下发" },
-  { task_id: "10005", ringconn_id: "RC10005001", country: "中国", registered_at: "2024-05-12", user_flag: "老用户", delivery_result: "已下发" },
-  { task_id: "10005", ringconn_id: "RC10005002", country: "日本", registered_at: "2025-08-24", user_flag: "新用户", delivery_result: "未下发" },
-  { task_id: "10005", ringconn_id: "RC10005003", country: "澳大利亚", registered_at: "2023-11-05", user_flag: "波动用户", delivery_result: "已提交" },
-  { task_id: "10006", ringconn_id: "RC10006001", country: "中国", registered_at: "2025-01-16", user_flag: "老用户", delivery_result: "未下发" },
-  { task_id: "10006", ringconn_id: "RC10006002", country: "美国", registered_at: "2026-02-09", user_flag: "新用户", delivery_result: "未下发" },
-  { task_id: "10006", ringconn_id: "RC10006003", country: "新加坡", registered_at: "2024-09-17", user_flag: "波动用户", delivery_result: "已下发" },
+  { task_id: "10001", ringconn_id: "RC10001001", country: "中国", registered_at: "2024-11-18", user_flag: "老用户", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10001", ringconn_id: "RC10001002", country: "美国", registered_at: "2025-02-07", user_flag: "新用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10001", ringconn_id: "RC10001003", country: "德国", registered_at: "2023-09-26", user_flag: "波动用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10002", ringconn_id: "RC10002001", country: "日本", registered_at: "2024-08-11", user_flag: "老用户", exposure_status: "已曝光", delivery_status: "已关闭" },
+  { task_id: "10002", ringconn_id: "RC10002002", country: "中国", registered_at: "2025-12-03", user_flag: "新用户", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10002", ringconn_id: "RC10002003", country: "法国", registered_at: "2024-03-14", user_flag: "波动用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10003", ringconn_id: "RC10003001", country: "美国", registered_at: "2023-07-09", user_flag: "老用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10003", ringconn_id: "RC10003002", country: "加拿大", registered_at: "2024-10-21", user_flag: "波动用户", exposure_status: "未曝光", delivery_status: "已关闭" },
+  { task_id: "10003", ringconn_id: "RC10003003", country: "中国", registered_at: "2026-01-06", user_flag: "新用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10004", ringconn_id: "RC10004001", country: "英国", registered_at: "2025-04-02", user_flag: "新用户", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10004", ringconn_id: "RC10004002", country: "德国", registered_at: "2024-12-19", user_flag: "波动用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10004", ringconn_id: "RC10004003", country: "美国", registered_at: "2022-06-30", user_flag: "老用户", exposure_status: "未曝光", delivery_status: "已关闭" },
+  { task_id: "10005", ringconn_id: "RC10005001", country: "中国", registered_at: "2024-05-12", user_flag: "老用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10005", ringconn_id: "RC10005002", country: "日本", registered_at: "2025-08-24", user_flag: "新用户", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10005", ringconn_id: "RC10005003", country: "澳大利亚", registered_at: "2023-11-05", user_flag: "波动用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10006", ringconn_id: "RC10006001", country: "中国", registered_at: "2025-01-16", user_flag: "老用户", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10006", ringconn_id: "RC10006002", country: "美国", registered_at: "2026-02-09", user_flag: "新用户", exposure_status: "已曝光", delivery_status: "已关闭" },
+  { task_id: "10006", ringconn_id: "RC10006003", country: "新加坡", registered_at: "2024-09-17", user_flag: "波动用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
 ];
 
 const npsTemplates = [
@@ -460,6 +460,7 @@ let exportTimer = null;
 let formMode = "add";
 let currentAudienceTaskId = "";
 let filteredAudienceUsers = [...audienceUsers];
+let audienceDeliveryStatuses = new Set();
 let audienceUploadedFileNames = [];
 let templateFormMode = "add";
 let templateStep = 1;
@@ -486,6 +487,9 @@ const taskRegion = document.getElementById("taskRegion");
 const taskStatus = document.getElementById("taskStatus");
 const taskDateRange = document.getElementById("taskDateRange");
 const audienceRingconnIdSearch = document.getElementById("audienceRingconnIdSearch");
+const audienceDeliveryStatusTrigger = document.getElementById("audienceDeliveryStatusTrigger");
+const audienceDeliveryStatusPanel = document.getElementById("audienceDeliveryStatusPanel");
+const audienceExposureStatus = document.getElementById("audienceExposureStatus");
 const templateNameSearch = document.getElementById("templateNameSearch");
 const templateStatusSearch = document.getElementById("templateStatusSearch");
 const templateSceneSearch = document.getElementById("templateSceneSearch");
@@ -1101,6 +1105,14 @@ function getAudienceBaseRows() {
     : [...audienceUsers];
 }
 
+function getAudienceStatusClass(type, value) {
+  if (type === "exposure") return value === "已曝光" ? "status-info" : "status-default";
+  if (value === "已提交全部问卷") return "status-success";
+  if (value === "已提交部分问卷") return "status-warning";
+  if (value === "已关闭") return "status-error";
+  return "status-default";
+}
+
 function renderAudienceRows(rows) {
   audienceRows.innerHTML = rows.length
     ? rows.map((item) => `
@@ -1109,17 +1121,40 @@ function renderAudienceRows(rows) {
         <td>${escapeText(item.country)}</td>
         <td>${escapeText(item.registered_at)}</td>
         <td>${escapeText(item.user_flag)}</td>
-        <td>${escapeText(item.delivery_result)}</td>
+        <td><span class="status-pill ${getAudienceStatusClass("exposure", item.exposure_status)}">${escapeText(item.exposure_status)}</span></td>
+        <td><span class="status-pill ${getAudienceStatusClass("delivery", item.delivery_status)}">${escapeText(item.delivery_status)}</span></td>
       </tr>
     `).join("")
-    : '<tr><td colspan="5">暂无数据</td></tr>';
+    : '<tr><td colspan="6">暂无数据</td></tr>';
   audienceRowCount.textContent = `共 ${rows.length} 条`;
+}
+
+function updateAudienceDeliveryStatusTrigger() {
+  const selected = [...audienceDeliveryStatuses];
+  audienceDeliveryStatusTrigger.textContent = selected.length > 3
+    ? `已选择 ${selected.length} 项`
+    : selected.length
+      ? selected.join("，")
+      : "所有投放状态";
+}
+
+function resetAudienceStatusFilters() {
+  audienceDeliveryStatuses = new Set();
+  audienceDeliveryStatusPanel.querySelector('[data-audience-delivery-all]').checked = true;
+  audienceDeliveryStatusPanel.querySelectorAll('[data-audience-delivery-status]').forEach((input) => {
+    input.checked = false;
+  });
+  audienceExposureStatus.value = "所有曝光状态";
+  updateAudienceDeliveryStatusTrigger();
 }
 
 function applyAudienceFilters() {
   const ringconnId = audienceRingconnIdSearch.value.trim().toLowerCase();
+  const exposureStatus = audienceExposureStatus.value;
   filteredAudienceUsers = getAudienceBaseRows().filter((item) => (
-    !ringconnId || item.ringconn_id.toLowerCase().includes(ringconnId)
+    (!ringconnId || item.ringconn_id.toLowerCase().includes(ringconnId))
+    && (!audienceDeliveryStatuses.size || audienceDeliveryStatuses.has(item.delivery_status))
+    && (exposureStatus === "所有曝光状态" || item.exposure_status === exposureStatus)
   ));
   renderAudienceRows(filteredAudienceUsers);
 }
@@ -1127,6 +1162,7 @@ function applyAudienceFilters() {
 function openAudiencePage(taskId) {
   currentAudienceTaskId = taskId || "";
   audienceRingconnIdSearch.value = "";
+  resetAudienceStatusFilters();
   setActiveNav("task");
   setTemplateLayout(false);
   hideAllMainPanels();
@@ -3573,6 +3609,32 @@ document.getElementById("audienceSearchForm").addEventListener("submit", (event)
   applyAudienceFilters();
 });
 
+audienceDeliveryStatusTrigger.addEventListener("click", () => {
+  audienceDeliveryStatusPanel.classList.toggle("open");
+});
+audienceDeliveryStatusPanel.addEventListener("change", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement)) return;
+  const allInput = audienceDeliveryStatusPanel.querySelector('[data-audience-delivery-all]');
+  const statusInputs = [...audienceDeliveryStatusPanel.querySelectorAll('[data-audience-delivery-status]')];
+  if (target.hasAttribute("data-audience-delivery-all")) {
+    if (target.checked) {
+      audienceDeliveryStatuses = new Set();
+      statusInputs.forEach((input) => { input.checked = false; });
+    }
+  } else if (target.hasAttribute("data-audience-delivery-status")) {
+    if (target.checked) audienceDeliveryStatuses.add(target.value);
+    else audienceDeliveryStatuses.delete(target.value);
+    allInput.checked = audienceDeliveryStatuses.size === 0;
+    if (audienceDeliveryStatuses.size === statusInputs.length) {
+      audienceDeliveryStatuses = new Set();
+      allInput.checked = true;
+      statusInputs.forEach((input) => { input.checked = false; });
+    }
+  }
+  updateAudienceDeliveryStatusTrigger();
+});
+
 document.getElementById("addBtn").addEventListener("click", () => openTaskForm("add"));
 templateNav.addEventListener("click", showTemplateList);
 taskNav.addEventListener("click", showTaskList);
@@ -3790,6 +3852,9 @@ document.addEventListener("click", (event) => {
   }
   if (!templateFormFields.linkedPanel.contains(event.target) && event.target !== templateFormFields.linkedTrigger) {
     templateFormFields.linkedPanel.classList.remove("open");
+  }
+  if (!audienceDeliveryStatusPanel.contains(event.target) && event.target !== audienceDeliveryStatusTrigger) {
+    audienceDeliveryStatusPanel.classList.remove("open");
   }
 
   const target = event.target;

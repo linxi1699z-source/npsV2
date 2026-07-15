@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260715-03" />
+    <link rel="stylesheet" href="./styles.css?v=20260715-06" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -397,6 +397,29 @@
                 <input class="ax-input" id="audienceRingconnIdSearch" type="text" autocomplete="off" />
               </div>
 
+              <div class="field-group audience-status-filter">
+                <label class="field-label wide" for="audienceDeliveryStatusTrigger">投放状态</label>
+                <div class="multi-select audience-filter-select">
+                  <button class="multi-trigger" id="audienceDeliveryStatusTrigger" type="button">所有投放状态</button>
+                  <div class="multi-panel audience-filter-panel" id="audienceDeliveryStatusPanel">
+                    <label><input type="checkbox" data-audience-delivery-all checked /> 所有投放状态</label>
+                    <label><input type="checkbox" value="未开始" data-audience-delivery-status /> 未开始</label>
+                    <label><input type="checkbox" value="已关闭" data-audience-delivery-status /> 已关闭</label>
+                    <label><input type="checkbox" value="已提交部分问卷" data-audience-delivery-status /> 已提交部分问卷</label>
+                    <label><input type="checkbox" value="已提交全部问卷" data-audience-delivery-status /> 已提交全部问卷</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label wide" for="audienceExposureStatus">曝光状态</label>
+                <select class="ax-select audience-filter-control" id="audienceExposureStatus">
+                  <option value="所有曝光状态">所有曝光状态</option>
+                  <option value="未曝光">未曝光</option>
+                  <option value="已曝光">已曝光</option>
+                </select>
+              </div>
+
               <div class="button-group">
                 <button class="ax-button" id="audienceSearchBtn" type="submit">查询</button>
               </div>
@@ -412,7 +435,8 @@
                     <th class="aud-country">国家</th>
                     <th class="aud-date">注册时间</th>
                     <th class="aud-user-flag">用户标识</th>
-                    <th class="aud-delivery">投放结果</th>
+                    <th class="aud-exposure">曝光状态</th>
+                    <th class="aud-delivery">投放状态</th>
                   </tr>
                 </thead>
                 <tbody id="audienceRows"></tbody>
@@ -694,6 +718,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260715-03"></script>
+    <script src="./app.js?v=20260715-06"></script>
   </body>
 </html>

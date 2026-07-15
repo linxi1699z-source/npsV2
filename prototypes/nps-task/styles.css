@@ -655,8 +655,21 @@ select {
 }
 
 .audience-search-fields {
-  width: 980px;
-  gap: 28px;
+  width: var(--content-width);
+  column-gap: 28px;
+  row-gap: 18px;
+}
+
+.audience-filter-select {
+  width: 260px;
+}
+
+.audience-filter-control {
+  width: 200px;
+}
+
+.audience-filter-panel label:hover {
+  background: var(--ant-color-fill-secondary);
 }
 
 .audience-list-area {
@@ -693,8 +706,14 @@ select {
 }
 
 .aud-user-flag,
+.aud-exposure,
 .aud-delivery {
   width: 195px;
+}
+
+.audience-table .status-pill {
+  min-width: 96px;
+  padding: 0 8px;
 }
 
 .pager.audience-pager {
