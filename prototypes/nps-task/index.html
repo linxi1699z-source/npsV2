@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=20260715-03" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -530,29 +530,7 @@
                 <div class="form-error" id="formTemplateBannerButtonError"></div>
               </div>
 
-              <div class="type-panel" id="typePanelLinked">
-                <div class="form-row">
-                  <label class="form-label required" for="linkedQuestionnaireTrigger">关联完整问卷</label>
-                  <div class="multi-select">
-                    <button class="multi-trigger" id="linkedQuestionnaireTrigger" type="button">请选择完整问卷</button>
-                    <div class="multi-panel" id="linkedQuestionnairePanel"></div>
-                  </div>
-                  <button class="ax-button long create-group-button" id="createGroupQuestionnaireBtn" type="button">创建分组问卷</button>
-                  <span class="field-side-note">问卷的网页标题必须保持一致</span>
-                  <div class="form-error" id="formLinkedQuestionnaireError"></div>
-                </div>
-              </div>
-
               <div class="type-panel" id="typePanelDesign">
-                <div class="form-row">
-                  <label class="form-label required" for="pageSize">分页数量</label>
-                  <select class="ax-select form-control" id="pageSize">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                  </select>
-                  <span class="field-side-note">题目数量超过分页数量时分页展示，H5 网页标题自动增加当前页码，如问卷(1/2)</span>
-                  <div class="form-error" id="formPageSizeError"></div>
-                </div>
                 <div class="form-row richtext-row">
                   <label class="form-label required" for="popupCopy">弹窗文案</label>
                   <div class="richtext-field">
@@ -587,6 +565,41 @@
                   <label class="form-label" for="questionnaireRemark">问卷标题备注</label>
                   <input class="ax-input form-control" id="questionnaireRemark" type="text" autocomplete="off" />
                   <span class="field-side-note example-note">如：5=非常认可，1=非常不认可</span>
+                </div>
+              </div>
+
+              <div class="type-panel" id="typePanelStyle">
+                <div class="form-row questionnaire-style-row">
+                  <label class="form-label required">问卷样式</label>
+                  <div class="radio-row questionnaire-style-options" role="radiogroup" aria-label="问卷样式">
+                    <label><input id="questionnaireStyleNormal" name="questionnaireStyle" type="radio" value="普通问卷" checked /> 普通问卷</label>
+                    <label><input id="questionnaireStyleGroup" name="questionnaireStyle" type="radio" value="分组问卷" /> 分组问卷</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="type-panel" id="typePanelLinked">
+                <div class="form-row">
+                  <label class="form-label required" for="linkedQuestionnaireTrigger">关联分组问卷</label>
+                  <div class="multi-select">
+                    <button class="multi-trigger" id="linkedQuestionnaireTrigger" type="button">请选择分组问卷</button>
+                    <div class="multi-panel" id="linkedQuestionnairePanel"></div>
+                  </div>
+                  <button class="ax-button long create-group-button" id="createGroupQuestionnaireBtn" type="button">创建分组问卷</button>
+                  <span class="field-side-note">问卷的网页标题必须保持一致</span>
+                  <div class="form-error" id="formLinkedQuestionnaireError"></div>
+                </div>
+              </div>
+
+              <div class="type-panel" id="typePanelPageSize">
+                <div class="form-row">
+                  <label class="form-label required" for="pageSize">分页数量</label>
+                  <select class="ax-select form-control" id="pageSize">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                  </select>
+                  <span class="field-side-note">题目数量超过分页数量时分页展示，H5 网页标题自动增加当前页码，如问卷(1/2)</span>
+                  <div class="form-error" id="formPageSizeError"></div>
                 </div>
               </div>
 
@@ -681,6 +694,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js"></script>
+    <script src="./app.js?v=20260715-03"></script>
   </body>
 </html>
