@@ -2566,27 +2566,38 @@ function updateQuestionnaireTypeByScene() {
   const scene = templateFormFields.scene.value;
   const typeSelect = templateFormFields.questionnaireType;
   const functionOption = typeSelect.querySelector('option[value="功能问卷"]');
+  const groupOption = typeSelect.querySelector('option[value="分组问卷"]');
+  const globalOnlyOptions = [
+    'option[value="弹窗问卷(APP功能)"]',
+    'option[value="弹窗问卷(用研)"]',
+    'option[value="弹窗问卷(设计)"]',
+  ].map((selector) => typeSelect.querySelector(selector));
+
+  const setOptionState = (option, { hidden = false, disabled = false } = {}) => {
+    if (!option) return;
+    option.hidden = hidden;
+    option.disabled = disabled;
+  };
 
   if (!scene) {
     typeSelect.value = "";
     typeSelect.disabled = true;
-    if (functionOption) {
-      functionOption.hidden = false;
-      functionOption.disabled = false;
-    }
+    globalOnlyOptions.forEach((option) => setOptionState(option));
+    setOptionState(functionOption);
+    setOptionState(groupOption);
   } else if (scene === "全局") {
     typeSelect.disabled = false;
-    if (functionOption) {
-      functionOption.hidden = true;
-      functionOption.disabled = true;
-    }
+    globalOnlyOptions.forEach((option) => setOptionState(option));
+    setOptionState(functionOption, { hidden: true, disabled: true });
+    setOptionState(groupOption);
     if (typeSelect.value === "功能问卷") typeSelect.value = "";
   } else {
-    typeSelect.value = "功能问卷";
-    typeSelect.disabled = true;
-    if (functionOption) {
-      functionOption.hidden = false;
-      functionOption.disabled = false;
+    typeSelect.disabled = false;
+    globalOnlyOptions.forEach((option) => setOptionState(option, { hidden: true, disabled: true }));
+    setOptionState(functionOption);
+    setOptionState(groupOption);
+    if (!["功能问卷", "分组问卷"].includes(typeSelect.value)) {
+      typeSelect.value = "功能问卷";
     }
   }
 
