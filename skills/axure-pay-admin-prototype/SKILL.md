@@ -26,7 +26,9 @@ Read `references/design-rules.md` before designing a page, interaction, `.rp` im
    - Multi-select uses a trigger field plus dynamic panel and checkbox list.
 8. Specify every dynamic panel state, default visibility, and OnClick action.
 9. Specify every repeater field, default row, OnItemLoad binding, add/update/delete/filter action, and related input/dropdown binding.
-10. Validate against the checklist in `references/design-rules.md`.
+10. For HTML prototypes, start a local HTTP server and provide the versioned `http://localhost` preview URL. Do not use `file://` as the acceptance entry because browser security and cache behavior can prevent CSS or JavaScript from loading correctly.
+11. Keep the root entry page, stylesheet URL, and script URL on one shared asset version (for example, `v=20260715-01`). Increment that version whenever static HTML/CSS/JS changes so a refreshed browser cannot keep stale assets.
+12. Validate against the checklist in `references/design-rules.md`.
 
 ## Critical Rules
 
@@ -44,6 +46,7 @@ Read `references/design-rules.md` before designing a page, interaction, `.rp` im
 - In table/list operation columns, keep view/detail/preview actions as blue text links when appropriate; render edit, enable, disable, pause, submit, and other state-changing actions as gray buttons. Do not include delete actions unless explicitly requested.
 - Use dynamic panels for all dialogs. Show dialogs as lightbox, bring to front, blur radius 4, and always provide close/cancel behavior.
 - Use repeaters for mutable lists. Operations must change repeater data, not only static text.
+- Treat the local HTTP preview as the source of truth: verify that the HTML, CSS, and JavaScript URLs return successfully before delivery, then give the user a direct browser URL.
 
 ## Output Format
 
