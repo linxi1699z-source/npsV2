@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260720-02" />
+    <link rel="stylesheet" href="./styles.css?v=20260721-13" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -15,20 +15,22 @@
             <span class="tree-dot">▾</span>
             <span class="tree-label">NPS管理</span>
           </div>
-          <button class="tree-node active" id="templateNav" type="button"><span class="tree-label">NPS问卷模板</span></button>
-          <button class="tree-node" id="taskNav" type="button"><span class="tree-label">NPS任务列表</span></button>
+          <button class="tree-node hidden" id="templateNav" type="button"><span class="tree-label">NPS问卷模板</span></button>
+          <button class="tree-node" id="surveyListNav" type="button"><span class="tree-label">问卷列表</span></button>
+          <button class="tree-node hidden" id="templatePlanBNav" type="button"><span class="tree-label">NPS问卷模板 B</span></button>
+          <button class="tree-node" id="taskNav" type="button"><span class="tree-label">投放任务</span></button>
         </div>
       </aside>
 
       <main class="main-canvas">
-        <div class="breadcrumb">NPS管理 / NPS问卷模板</div>
+        <div class="breadcrumb">NPS管理 / 问卷列表</div>
         <div class="top-rule"></div>
 
         <section class="panel template-panel active" id="templatePanel">
           <form class="template-search-panel" id="templateSearchForm">
             <div class="search-fields template-search-fields">
               <div class="field-group">
-                <label class="field-label" for="templateNameSearch">模板名称</label>
+                <label class="field-label" for="templateNameSearch">问卷名称</label>
                 <input class="ax-input" id="templateNameSearch" type="text" autocomplete="off" />
               </div>
 
@@ -36,15 +38,15 @@
                 <label class="field-label" for="templateStatusSearch">状态</label>
                 <select class="ax-select" id="templateStatusSearch">
                   <option value="所有状态">所有状态</option>
-                  <option value="有效">有效</option>
-                  <option value="无效">无效</option>
+                  <option value="生效中">生效中</option>
+                  <option value="已禁用">已禁用</option>
                 </select>
               </div>
 
-              <div class="field-group">
-                <label class="field-label" for="templateSceneSearch">业务场景</label>
+              <div class="field-group legacy-template-field">
+                <label class="field-label" for="templateSceneSearch">功能模块</label>
                 <select class="ax-select" id="templateSceneSearch">
-                  <option value="所有业务场景">所有业务场景</option>
+                  <option value="所有功能模块">所有功能模块</option>
                   <option value="全局">全局</option>
                   <option value="睡眠">睡眠</option>
                   <option value="生理期">生理期</option>
@@ -60,17 +62,15 @@
                 <label class="field-label" for="templateTypeSearch">问卷类型</label>
                 <select class="ax-select" id="templateTypeSearch">
                   <option value="所有问卷类型">所有问卷类型</option>
-                  <option value="弹窗问卷(APP功能)">弹窗问卷(APP功能)</option>
-                  <option value="弹窗问卷(用研)">弹窗问卷(用研)</option>
-                  <option value="弹窗问卷(设计)">弹窗问卷(设计)</option>
-                  <option value="分组问卷">分组问卷</option>
+                  <option value="弹窗问卷(全局)">弹窗问卷(全局)</option>
+                  <option value="弹窗问卷(用研/设计)">弹窗问卷(用研/设计)</option>
                   <option value="功能问卷">功能问卷</option>
                 </select>
               </div>
 
               <div class="button-group">
                 <button class="ax-button" id="templateSearchBtn" type="submit">查询</button>
-                <button class="ax-button long" id="addTemplateBtn" type="button" onclick="event.preventDefault(); event.stopPropagation(); window.openTemplateForm && window.openTemplateForm('add')">+新增模板</button>
+                <button class="ax-button long" id="addTemplateBtn" type="button" onclick="event.preventDefault(); event.stopPropagation(); window.openTemplateForm && window.openTemplateForm('add')">+新增问卷</button>
               </div>
             </div>
           </form>
@@ -80,13 +80,10 @@
               <table class="ax-table template-table">
                 <thead>
                   <tr>
-                    <th class="tpl-id">模板 ID</th>
-                    <th class="tpl-name">模板名称</th>
+                    <th class="tpl-id">问卷 ID</th>
+                    <th class="tpl-name">问卷名称</th>
                     <th class="tpl-status">状态</th>
-                    <th class="tpl-channel">应用端</th>
-                    <th class="tpl-scene">业务场景</th>
                     <th class="tpl-type">问卷类型</th>
-                    <th class="tpl-version">投放版本</th>
                     <th class="tpl-i18n">多语言文件</th>
                     <th class="tpl-creator">创建者</th>
                     <th class="tpl-updated">最近一次更新时间</th>
@@ -161,7 +158,7 @@
               </div>
 
               <div class="field-group">
-                <label class="field-label" for="taskScene">业务场景</label>
+                <label class="field-label" for="taskScene">功能模块</label>
                 <select class="ax-select" id="taskScene">
                   <option value="所有">所有</option>
                   <option value="全局">全局</option>
@@ -174,20 +171,10 @@
                 </select>
               </div>
 
-              <div class="field-group">
-                <label class="field-label" for="taskRegion">投放范围</label>
-                <select class="ax-select" id="taskRegion">
-                  <option value="所有区域">所有区域</option>
-                  <option value="中国大陆">中国大陆</option>
-                  <option value="美国">美国</option>
-                  <option value="其他(除美国和中国大陆)">其他(除美国和中国大陆)</option>
-                </select>
-              </div>
-
               <div class="field-group date-group">
-                <label class="field-label wide" for="rangePicker">任务时间范围</label>
+                <label class="field-label wide" for="rangePicker">投放时间</label>
                 <div class="date-field">
-                  <button class="range-picker" id="rangePicker" type="button" aria-label="选择任务时间范围">
+                  <button class="range-picker" id="rangePicker" type="button" aria-label="选择投放时间">
                     <span class="range-value is-placeholder" id="rangeStartText">Start date</span>
                     <span class="range-separator">→</span>
                     <span class="range-value is-placeholder" id="rangeEndText">End date</span>
@@ -240,12 +227,10 @@
                 <label class="field-label" for="taskStatus">任务状态</label>
                 <select class="ax-select" id="taskStatus">
                   <option value="所有">所有</option>
-                  <option value="初始状态">初始状态</option>
                   <option value="待投放">待投放</option>
                   <option value="投放中">投放中</option>
                   <option value="投放完成">投放完成</option>
                   <option value="投放失败">投放失败</option>
-                  <option value="暂停">暂停</option>
                 </select>
               </div>
 
@@ -264,18 +249,15 @@
                     <th class="w-id">任务 ID</th>
                     <th class="w-name">任务名称</th>
                     <th class="w-status">任务状态</th>
-                    <th class="w-scene">业务场景</th>
-                    <th class="w-region">投放范围</th>
+                    <th class="w-scene">功能模块</th>
                     <th class="w-link">投放人群</th>
-                    <th class="w-client">应用端</th>
-                    <th class="w-date">任务开始时间</th>
-                    <th class="w-date">任务结束时间</th>
-                    <th class="w-template">问卷模板</th>
-                    <th class="w-plan">计划名称</th>
+                    <th class="w-date">投放时间</th>
+                    <th class="w-date">完成时间</th>
+                    <th class="w-template">问卷名称</th>
                     <th class="w-count">总用户数</th>
                     <th class="w-count-wide">实际投放用户数</th>
+                    <th class="w-count-wide">提交用户数 <span class="header-help" tabindex="0" aria-label="提交用户包含提交部分问卷和提交完整问卷用户">?</span></th>
                     <th class="w-count">曝光用户数</th>
-                    <th class="w-nps">预估NPS</th>
                     <th class="w-actions">操作列</th>
                   </tr>
                 </thead>
@@ -302,7 +284,7 @@
               <div class="form-error" id="formTaskNameError"></div>
             </div>
 
-            <div class="form-row">
+            <div class="form-row hidden">
               <label class="form-label required" for="formPlanName">计划名</label>
               <select class="ax-select form-control" id="formPlanName"></select>
               <button class="ax-button long inline-button" id="addPlanBtn" type="button">新增计划</button>
@@ -310,9 +292,9 @@
             </div>
 
             <div class="form-row">
-              <label class="form-label required" for="formTaskScene">任务场景</label>
+              <label class="form-label required" for="formTaskScene">功能模块</label>
               <select class="ax-select form-control" id="formTaskScene">
-                <option value="">请选择场景</option>
+                <option value="">请选择功能模块</option>
                 <option value="全局">全局</option>
                 <option value="睡眠">睡眠</option>
                 <option value="计划">计划</option>
@@ -324,19 +306,24 @@
               <div class="form-error" id="formTaskSceneError"></div>
             </div>
 
-            <div class="form-row">
-                <label class="form-label required" for="formTaskRegion">投放范围</label>
-                <select class="ax-select form-control" id="formTaskRegion">
-                  <option value="">请选择投放范围</option>
-                  <option value="中国大陆">中国大陆</option>
-                  <option value="美国">美国</option>
-                  <option value="其他(除美国和中国大陆)">其他(除美国和中国大陆)</option>
-                </select>
-              <div class="form-error" id="formTaskRegionError"></div>
+            <div class="form-row hidden" id="formTaskQuestionnaireTypeRow">
+              <label class="form-label required" for="formTaskQuestionnaireType">问卷类型</label>
+              <select class="ax-select form-control" id="formTaskQuestionnaireType">
+                <option value="">请选择问卷类型</option>
+                <option value="弹窗问卷(全局)">弹窗问卷(全局)</option>
+                <option value="弹窗问卷(用研/设计)">弹窗问卷(用研/设计)</option>
+              </select>
+              <div class="form-error" id="formTaskQuestionnaireTypeError"></div>
             </div>
 
             <div class="form-row">
-              <label class="form-label required" for="formStartTime">任务开始时间</label>
+              <label class="form-label required" for="formTemplateName">关联问卷</label>
+              <select class="ax-select form-control" id="formTemplateName"></select>
+              <div class="form-error" id="formTemplateNameError"></div>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label required" for="formStartTime">投放时间</label>
               <div class="hour-field" id="formStartTime">
                 <input class="ax-input date-only-input" id="formStartDate" type="date" />
                 <select class="ax-select hour-select" id="formStartHour"></select>
@@ -344,7 +331,7 @@
               <div class="form-error" id="formStartTimeError"></div>
             </div>
 
-            <div class="form-row">
+            <div class="form-row hidden">
               <label class="form-label required" for="formEndTime">任务结束时间</label>
               <div class="hour-field" id="formEndTime">
                 <input class="ax-input date-only-input" id="formEndDate" type="date" />
@@ -353,7 +340,7 @@
               <div class="form-error" id="formEndTimeError"></div>
             </div>
 
-            <div class="form-row">
+            <div class="form-row hidden">
               <label class="form-label required" for="appClientTrigger">应用端</label>
               <div class="multi-select">
                 <button class="multi-trigger" id="appClientTrigger" type="button">APP</button>
@@ -362,12 +349,6 @@
                 </div>
               </div>
               <div class="form-error" id="formAppClientError"></div>
-            </div>
-
-            <div class="form-row">
-              <label class="form-label required" for="formTemplateName">问卷模板</label>
-              <select class="ax-select form-control" id="formTemplateName"></select>
-              <div class="form-error" id="formTemplateNameError"></div>
             </div>
 
             <div class="form-row file-row">
@@ -457,21 +438,27 @@
             <input id="editingTemplateId" type="hidden" />
 
             <div class="template-step-bar">
-              <button class="template-step active" id="templateStepOne" type="button" tabindex="-1">基础信息</button>
+              <button class="template-step active" id="templateStepOne" type="button" tabindex="-1">设置基础信息</button>
               <button class="template-step" id="templateStepTwo" type="button" tabindex="-1">设置问卷问题</button>
+              <button class="template-step hidden" id="templateStepThree" type="button" tabindex="-1">设置问卷问题</button>
             </div>
 
             <div class="template-step-panel active" id="templateStepOnePanel">
               <div class="form-row">
-                <label class="form-label required" for="formTemplateTitle">模板名称</label>
+                <label class="form-label required" for="formTemplateTitle">问卷名称</label>
                 <input class="ax-input form-control" id="formTemplateTitle" type="text" autocomplete="off" />
                 <div class="form-error" id="formTemplateTitleError"></div>
               </div>
 
               <div class="form-row">
-                <label class="form-label required" for="formTemplateScene">业务场景</label>
+                <label class="form-label" for="formTemplateDisplayName">问卷名称(网页显示名)</label>
+                <input class="ax-input form-control" id="formTemplateDisplayName" type="text" autocomplete="off" />
+              </div>
+
+              <div class="form-row survey-hidden-field">
+                <label class="form-label required" for="formTemplateScene">功能模块</label>
                 <select class="ax-select form-control" id="formTemplateScene">
-                  <option value="">选择业务场景</option>
+                  <option value="">选择功能模块</option>
                   <option value="全局">全局</option>
                   <option value="睡眠">睡眠</option>
                   <option value="生理期">生理期</option>
@@ -486,18 +473,16 @@
 
               <div class="form-row">
                 <label class="form-label required" for="formQuestionnaireType">问卷类型</label>
-                <select class="ax-select form-control" id="formQuestionnaireType" disabled>
+                <select class="ax-select form-control" id="formQuestionnaireType">
                   <option value="">问卷类型</option>
-                  <option value="弹窗问卷(APP功能)">弹窗问卷(APP功能)</option>
-                  <option value="弹窗问卷(用研)">弹窗问卷(用研)</option>
-                  <option value="弹窗问卷(设计)">弹窗问卷(设计)</option>
+                  <option value="弹窗问卷(全局)">弹窗问卷(全局)</option>
+                  <option value="弹窗问卷(用研/设计)">弹窗问卷(用研/设计)</option>
                   <option value="功能问卷">功能问卷</option>
-                  <option value="分组问卷">分组问卷</option>
                 </select>
                 <div class="form-error" id="formQuestionnaireTypeError"></div>
               </div>
 
-              <div class="form-row">
+              <div class="form-row survey-hidden-field">
                 <label class="form-label required" for="templateChannelTrigger">应用端</label>
                 <div class="multi-select">
                 <button class="multi-trigger" id="templateChannelTrigger" type="button">APP</button>
@@ -508,8 +493,8 @@
                 <div class="form-error" id="formTemplateChannelError"></div>
               </div>
 
-              <div class="form-row version-row template-version-row" id="templateVersionRow">
-                <label class="form-label required">投放版本</label>
+              <div class="form-row version-row template-version-row survey-hidden-field" id="templateVersionRow">
+                <label class="form-label required">可用版本</label>
                 <div class="version-fields">
                   <div class="version-line">
                     <span>安卓</span>
@@ -530,16 +515,15 @@
               <div class="form-row" id="templateBannerTitleRow">
                 <label class="form-label with-note required" for="templateBannerTitle">
                   <span>Banner标题</span>
-                  <span class="label-note">(APP 问卷Banner标题)</span>
+                  <span class="label-note">(APP通知中展示的标题)</span>
                 </label>
                 <input class="ax-input form-control" id="templateBannerTitle" type="text" autocomplete="off" />
                 <div class="form-error" id="formTemplateBannerTitleError"></div>
               </div>
 
               <div class="form-row" id="templateBannerSubtitleRow">
-                <label class="form-label with-note required" for="templateBannerSubtitle">
+                <label class="form-label required" for="templateBannerSubtitle">
                   <span>Banner副标题</span>
-                  <span class="label-note">(APP 问卷Banner副标题)</span>
                 </label>
                 <input class="ax-input form-control" id="templateBannerSubtitle" type="text" autocomplete="off" />
                 <div class="form-error" id="formTemplateBannerSubtitleError"></div>
@@ -548,10 +532,15 @@
               <div class="form-row" id="templateBannerButtonRow">
                 <label class="form-label with-note required" for="templateBannerButton">
                   <span>Banner按钮文案</span>
-                  <span class="label-note">(APP 问卷Banner按钮)</span>
+                  <span class="label-note">(APP通知中对应按钮文字)</span>
                 </label>
                 <input class="ax-input form-control" id="templateBannerButton" type="text" autocomplete="off" />
                 <div class="form-error" id="formTemplateBannerButtonError"></div>
+              </div>
+
+              <div class="type-panel" id="typePanelGlobalQuestions">
+                <div class="global-question-heading">全局问题 <span>(只能调整文案和选项)</span></div>
+                <div class="global-question-repeater" id="globalQuestionRepeater"></div>
               </div>
 
               <div class="type-panel" id="typePanelDesign">
@@ -636,6 +625,7 @@
 
             <div class="template-step-panel" id="templateStepTwoPanel">
               <div class="question-repeater" id="questionRepeater"></div>
+              <div class="plan-b-section-repeater hidden" id="planBSectionsStepTwo"></div>
 
               <div class="template-question-summary">
                 <button class="icon-add-button" id="addQuestionBtn" type="button">
@@ -650,17 +640,26 @@
                 <button class="ax-button" id="cancelTemplateBtn" type="button">取消</button>
               </div>
             </div>
+
+            <div class="template-step-panel" id="templateStepThreePanel">
+              <div class="plan-b-section-repeater" id="planBSectionsStepThree"></div>
+              <div class="template-form-actions">
+                <button class="ax-button long" id="prevTemplateStepThreeBtn" type="button">返回上一步</button>
+                <button class="ax-button" id="submitTemplateStepThreeBtn" type="submit">提交</button>
+                <button class="ax-button" id="cancelTemplateStepThreeBtn" type="button">取消</button>
+              </div>
+            </div>
           </form>
         </section>
       </main>
     </div>
 
-    <div class="lightbox" id="pauseLightbox" aria-hidden="true">
-      <div class="confirm-panel" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
-        <div class="confirm-text" id="pauseTitle">确认暂停任务吗？暂停后将不会给用户投放问卷。</div>
+    <div class="lightbox" id="taskDeleteLightbox" aria-hidden="true">
+      <div class="confirm-panel" role="dialog" aria-modal="true" aria-labelledby="taskDeleteConfirmText">
+        <div class="confirm-text" id="taskDeleteConfirmText">确认删除任务吗？</div>
         <div class="confirm-actions">
-          <button class="ax-button small" id="confirmPause" type="button">确定</button>
-          <button class="ax-button small" id="cancelPause" type="button">取消</button>
+          <button class="ax-button small danger-confirm" id="confirmTaskDelete" type="button">确定</button>
+          <button class="ax-button small" id="cancelTaskDelete" type="button">取消</button>
         </div>
       </div>
     </div>
@@ -671,6 +670,16 @@
         <div class="confirm-actions">
           <button class="ax-button small" id="confirmTemplateStatus" type="button">确定</button>
           <button class="ax-button small" id="cancelTemplateStatus" type="button">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="lightbox" id="templateDeleteLightbox" aria-hidden="true">
+      <div class="confirm-panel" role="dialog" aria-modal="true" aria-labelledby="templateDeleteConfirmText">
+        <div class="confirm-text" id="templateDeleteConfirmText">删除后将无法继续使用该问卷，确定要继续吗？</div>
+        <div class="confirm-actions">
+          <button class="ax-button small danger-confirm" id="confirmTemplateDelete" type="button">确定</button>
+          <button class="ax-button small" id="cancelTemplateDelete" type="button">取消</button>
         </div>
       </div>
     </div>
@@ -718,6 +727,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260720-02"></script>
+    <script src="./app.js?v=20260721-13"></script>
   </body>
 </html>
