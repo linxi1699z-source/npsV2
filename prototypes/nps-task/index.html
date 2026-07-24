@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260721-13" />
+    <link rel="stylesheet" href="./styles.css?v=20260724-11" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -38,8 +38,8 @@
                 <label class="field-label" for="templateStatusSearch">状态</label>
                 <select class="ax-select" id="templateStatusSearch">
                   <option value="所有状态">所有状态</option>
+                  <option value="草稿">草稿</option>
                   <option value="生效中">生效中</option>
-                  <option value="已禁用">已禁用</option>
                 </select>
               </div>
 
@@ -84,7 +84,7 @@
                     <th class="tpl-name">问卷名称</th>
                     <th class="tpl-status">状态</th>
                     <th class="tpl-type">问卷类型</th>
-                    <th class="tpl-i18n">多语言文件</th>
+                    <th class="tpl-i18n">多语言状态</th>
                     <th class="tpl-creator">创建者</th>
                     <th class="tpl-updated">最近一次更新时间</th>
                     <th class="tpl-actions">操作</th>
@@ -104,49 +104,18 @@
         </section>
 
         <section class="panel template-i18n-panel" id="templateI18nPanel">
-          <div class="i18n-layout" id="i18nLayout">
-            <section class="i18n-upload-pane">
-              <div class="i18n-pane-title" id="i18nPaneTitle">多语言文件</div>
-              <div class="i18n-step-list">
-                <div class="i18n-step">
-                  <div class="i18n-step-marker">1</div>
-                  <div class="i18n-step-content">
-                    <div class="i18n-step-title">下载当前模板文案</div>
-                    <div class="i18n-help-text">先下载当前问卷的多语言模板，再按模板维护各语言文案。</div>
-                    <button class="ax-button long" id="downloadI18nTemplateBtn" type="button">下载文案</button>
-                  </div>
-                </div>
-                <div class="i18n-step">
-                  <div class="i18n-step-marker">2</div>
-                  <div class="i18n-step-content">
-                    <div class="i18n-step-title">上传多语言文件</div>
-                    <div class="i18n-upload-note">仅支持上传.xlsx文件，且不超过 5M。</div>
-                    <input class="file-input" id="i18nFileInput" type="file" accept=".xlsx" />
-                    <button class="i18n-upload-drop" id="chooseI18nFileBtn" type="button">
-                      <span class="i18n-upload-icon">↑</span>
-                      <span>点击上传文件</span>
-                      <small>选择本地 .xlsx 文件后自动上传</small>
-                    </button>
-                    <div class="i18n-form-actions">
-                      <button class="ax-button long" id="submitI18nBtn" type="button">提交</button>
-                      <button class="ax-button ghost long" id="cancelI18nBtn" type="button">取消</button>
-                    </div>
-                  </div>
-                </div>
+          <section class="i18n-binding-card">
+            <div class="i18n-binding-header">
+              <div class="i18n-binding-actions">
+                <button class="ax-button long" id="downloadI18nTemplateBtn" type="button">导出问卷文案</button>
+                <button class="ax-button long i18n-upload-trigger" id="openI18nUploadDialogBtn" type="button">上传翻译文案</button>
               </div>
-              <div class="i18n-loading hidden" id="i18nLoading">文件解析中...</div>
-            </section>
-
-            <section class="i18n-preview-pane" id="i18nPreviewPane">
-              <div class="i18n-language-tabs" id="i18nLanguageTabs"></div>
-              <div class="phone-preview-frame">
-                <div class="iphone-screen">
-                  <div class="iphone-dynamic-island"></div>
-                  <div class="questionnaire-preview-card" id="i18nPreviewCard"></div>
-                </div>
-              </div>
-            </section>
-          </div>
+            </div>
+            <div class="i18n-binding-body">
+              <div class="i18n-binding-list" id="i18nBindingList"></div>
+              <div class="i18n-empty-note">问题标题备注、其他选项描述等字段仅在有值时展示，并参与文案导出。</div>
+            </div>
+          </section>
         </section>
 
         <section class="panel" id="taskPanel">
@@ -163,6 +132,9 @@
                   <option value="所有">所有</option>
                   <option value="全局">全局</option>
                   <option value="睡眠">睡眠</option>
+                  <option value="活动">活动</option>
+                  <option value="压力">压力</option>
+                  <option value="生命体征">生命体征</option>
                   <option value="计划">计划</option>
                   <option value="OSA">OSA</option>
                   <option value="生理">生理</option>
@@ -251,9 +223,10 @@
                     <th class="w-status">任务状态</th>
                     <th class="w-scene">功能模块</th>
                     <th class="w-link">投放人群</th>
-                    <th class="w-date">投放时间</th>
-                    <th class="w-date">完成时间</th>
+                    <th class="w-date">投放时间 <span class="header-help" tabindex="0" aria-label="0 时区时间">?</span></th>
+                    <th class="w-date">完成时间 <span class="header-help" tabindex="0" aria-label="0 时区时间">?</span></th>
                     <th class="w-template">问卷名称</th>
+                    <th class="w-version">投放版本</th>
                     <th class="w-count">总用户数</th>
                     <th class="w-count-wide">实际投放用户数</th>
                     <th class="w-count-wide">提交用户数 <span class="header-help" tabindex="0" aria-label="提交用户包含提交部分问卷和提交完整问卷用户">?</span></th>
@@ -297,6 +270,9 @@
                 <option value="">请选择功能模块</option>
                 <option value="全局">全局</option>
                 <option value="睡眠">睡眠</option>
+                <option value="活动">活动</option>
+                <option value="压力">压力</option>
+                <option value="生命体征">生命体征</option>
                 <option value="计划">计划</option>
                 <option value="OSA">OSA</option>
                 <option value="生理">生理</option>
@@ -317,18 +293,25 @@
             </div>
 
             <div class="form-row">
-              <label class="form-label required" for="formTemplateName">关联问卷</label>
-              <select class="ax-select form-control" id="formTemplateName"></select>
-              <div class="form-error" id="formTemplateNameError"></div>
-            </div>
-
-            <div class="form-row">
               <label class="form-label required" for="formStartTime">投放时间</label>
               <div class="hour-field" id="formStartTime">
                 <input class="ax-input date-only-input" id="formStartDate" type="date" />
                 <select class="ax-select hour-select" id="formStartHour"></select>
               </div>
+              <span class="field-side-note">投放时间为 0 时区时间</span>
               <div class="form-error" id="formStartTimeError"></div>
+            </div>
+
+            <div class="form-row task-version-row">
+              <label class="form-label required" for="formTaskVersion">投放版本</label>
+              <select class="ax-select form-control task-version-select" id="formTaskVersion"></select>
+              <div class="form-error" id="formTaskVersionError"></div>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label required" for="formTemplateName">关联问卷</label>
+              <select class="ax-select form-control" id="formTemplateName"></select>
+              <div class="form-error" id="formTemplateNameError"></div>
             </div>
 
             <div class="form-row hidden">
@@ -352,7 +335,7 @@
             </div>
 
             <div class="form-row file-row">
-              <label class="form-label" for="audienceFile">投放人群</label>
+              <label class="form-label required" for="audienceFile">投放人群</label>
               <div class="file-field">
                 <input class="file-input" id="audienceFile" type="file" accept=".xlsx,.csv" multiple />
                 <div class="file-topline">
@@ -360,6 +343,7 @@
                 </div>
                 <div class="file-note">支持.xlsx, .csv格式文件，文件大小不超过 5M。支持上传多个文件。点击<a class="template-download" href="./nps-audience-template.csv" download>下载模板</a>。</div>
                 <div class="file-name-list" id="audienceFileList">未上传文件</div>
+                <div class="form-error file-error" id="formAudienceFilesError"></div>
               </div>
             </div>
 
@@ -451,8 +435,9 @@
               </div>
 
               <div class="form-row">
-                <label class="form-label" for="formTemplateDisplayName">问卷名称(网页显示名)</label>
+                <label class="form-label required" for="formTemplateDisplayName">问卷名称(用于 APP 展示)</label>
                 <input class="ax-input form-control" id="formTemplateDisplayName" type="text" autocomplete="off" />
+                <div class="form-error" id="formTemplateDisplayNameError"></div>
               </div>
 
               <div class="form-row survey-hidden-field">
@@ -493,26 +478,39 @@
                 <div class="form-error" id="formTemplateChannelError"></div>
               </div>
 
-              <div class="form-row version-row template-version-row survey-hidden-field" id="templateVersionRow">
-                <label class="form-label required">可用版本</label>
+              <div class="form-row version-row template-version-row" id="templateVersionRow">
+                <label class="form-label required">
+                  <span class="legacy-version-label">可用版本</span>
+                  <span class="survey-version-label">最低可用版本</span>
+                </label>
                 <div class="version-fields">
                   <div class="version-line">
-                    <span>安卓</span>
-                    <input class="ax-input version-input" id="templateAndroidVersion" type="text" placeholder="V4.2" />
-                    <span>至</span>
-                    <input class="ax-input version-input" id="templateAndroidVersionEnd" type="text" placeholder="可为空" />
+                    <span>Android</span>
+                    <select class="ax-select version-input" id="templateAndroidVersion">
+                      <option value="">请选择版本</option>
+                      <option value="V3.13">V3.13</option>
+                      <option value="V3.16">V3.16</option>
+                      <option value="V4.X(待定)">V4.X(待定)</option>
+                    </select>
+                    <span class="version-range-field">至</span>
+                    <input class="ax-input version-input version-range-field" id="templateAndroidVersionEnd" type="text" placeholder="可为空" />
                   </div>
                   <div class="version-line">
                     <span>iOS</span>
-                    <input class="ax-input version-input" id="templateIosVersion" type="text" placeholder="V4.2" />
-                    <span>至</span>
-                    <input class="ax-input version-input" id="templateIosVersionEnd" type="text" placeholder="可为空" />
+                    <select class="ax-select version-input" id="templateIosVersion">
+                      <option value="">请选择版本</option>
+                      <option value="V3.13">V3.13</option>
+                      <option value="V3.16">V3.16</option>
+                      <option value="V4.X(待定)">V4.X(待定)</option>
+                    </select>
+                    <span class="version-range-field">至</span>
+                    <input class="ax-input version-input version-range-field" id="templateIosVersionEnd" type="text" placeholder="可为空" />
                   </div>
                 </div>
                 <div class="form-error version-error" id="formTemplateVersionError"></div>
               </div>
 
-              <div class="form-row" id="templateBannerTitleRow">
+              <div class="form-row survey-hidden-field" id="templateBannerTitleRow">
                 <label class="form-label with-note required" for="templateBannerTitle">
                   <span>Banner标题</span>
                   <span class="label-note">(APP通知中展示的标题)</span>
@@ -521,7 +519,7 @@
                 <div class="form-error" id="formTemplateBannerTitleError"></div>
               </div>
 
-              <div class="form-row" id="templateBannerSubtitleRow">
+              <div class="form-row survey-hidden-field" id="templateBannerSubtitleRow">
                 <label class="form-label required" for="templateBannerSubtitle">
                   <span>Banner副标题</span>
                 </label>
@@ -529,7 +527,7 @@
                 <div class="form-error" id="formTemplateBannerSubtitleError"></div>
               </div>
 
-              <div class="form-row" id="templateBannerButtonRow">
+              <div class="form-row survey-hidden-field" id="templateBannerButtonRow">
                 <label class="form-label with-note required" for="templateBannerButton">
                   <span>Banner按钮文案</span>
                   <span class="label-note">(APP通知中对应按钮文字)</span>
@@ -547,6 +545,13 @@
                 <div class="form-row richtext-row">
                   <label class="form-label required" for="popupCopy">弹窗文案</label>
                   <div class="richtext-field">
+                    <div class="popup-copy-mode" id="popupCopyMode">
+                      <span>文案类型</span>
+                      <div class="radio-row" role="radiogroup" aria-label="弹窗文案类型">
+                        <label><input id="popupCopyModeResearch" name="popupCopyMode" type="radio" value="用研" /> 用研</label>
+                        <label><input id="popupCopyModeDesign" name="popupCopyMode" type="radio" value="设计" checked /> 设计</label>
+                      </div>
+                    </div>
                     <div class="richtext-toolbar" aria-label="弹窗文案格式工具栏">
                       <button class="rich-button" type="button" data-command="bold">B</button>
                       <button class="rich-button underline" type="button" data-command="underline">U</button>
@@ -616,11 +621,6 @@
                 </div>
               </div>
 
-              <div class="template-form-actions">
-                <button class="ax-button hidden" id="submitTemplateFromStepOneBtn" type="submit">提交</button>
-                <button class="ax-button" id="nextTemplateStepBtn" type="button">下一步</button>
-                <button class="ax-button" id="cancelTemplateFromStepOneBtn" type="button">取消</button>
-              </div>
             </div>
 
             <div class="template-step-panel" id="templateStepTwoPanel">
@@ -634,16 +634,26 @@
                 </button>
               </div>
 
-              <div class="template-form-actions">
-                <button class="ax-button long" id="prevTemplateStepBtn" type="button">返回上一步</button>
-                <button class="ax-button" id="submitTemplateBtn" type="submit">提交</button>
-                <button class="ax-button" id="cancelTemplateBtn" type="button">取消</button>
-              </div>
             </div>
 
             <div class="template-step-panel" id="templateStepThreePanel">
               <div class="plan-b-section-repeater" id="planBSectionsStepThree"></div>
-              <div class="template-form-actions">
+            </div>
+
+            <div class="template-fixed-actions" aria-label="问卷编辑操作">
+              <div class="template-form-actions template-action-group active" data-template-action-step="1">
+                <button class="ax-button hidden" id="submitTemplateFromStepOneBtn" type="submit">提交</button>
+                <button class="ax-button" id="nextTemplateStepBtn" type="button">下一步</button>
+                <button class="ax-button" id="cancelTemplateFromStepOneBtn" type="button">取消</button>
+                <button class="ax-button ghost template-draft-button" id="saveTemplateDraftFromStepOneBtn" type="button">存为草稿</button>
+              </div>
+              <div class="template-form-actions template-action-group" data-template-action-step="2">
+                <button class="ax-button long" id="prevTemplateStepBtn" type="button">返回上一步</button>
+                <button class="ax-button" id="submitTemplateBtn" type="submit">提交</button>
+                <button class="ax-button" id="cancelTemplateBtn" type="button">取消</button>
+                <button class="ax-button ghost template-draft-button" id="saveTemplateDraftBtn" type="button">存为草稿</button>
+              </div>
+              <div class="template-form-actions template-action-group" data-template-action-step="3">
                 <button class="ax-button long" id="prevTemplateStepThreeBtn" type="button">返回上一步</button>
                 <button class="ax-button" id="submitTemplateStepThreeBtn" type="submit">提交</button>
                 <button class="ax-button" id="cancelTemplateStepThreeBtn" type="button">取消</button>
@@ -660,16 +670,6 @@
         <div class="confirm-actions">
           <button class="ax-button small danger-confirm" id="confirmTaskDelete" type="button">确定</button>
           <button class="ax-button small" id="cancelTaskDelete" type="button">取消</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="lightbox" id="templateStatusLightbox" aria-hidden="true">
-      <div class="confirm-panel" role="dialog" aria-modal="true" aria-labelledby="templateStatusConfirmText">
-        <div class="confirm-text" id="templateStatusConfirmText"></div>
-        <div class="confirm-actions">
-          <button class="ax-button small" id="confirmTemplateStatus" type="button">确定</button>
-          <button class="ax-button small" id="cancelTemplateStatus" type="button">取消</button>
         </div>
       </div>
     </div>
@@ -725,8 +725,53 @@
       </div>
     </div>
 
+    <div class="lightbox" id="i18nTranslationLightbox" aria-hidden="true">
+      <section class="i18n-translation-dialog" role="dialog" aria-modal="true" aria-labelledby="i18nTranslationDialogTitle">
+        <div class="i18n-dialog-header">
+          <div class="i18n-dialog-title" id="i18nTranslationDialogTitle">查看翻译</div>
+          <button class="i18n-dialog-close" id="closeI18nTranslationDialog" type="button" aria-label="关闭">×</button>
+        </div>
+        <div class="i18n-dialog-meta">
+          <div><span>多语言 Key</span><code id="i18nTranslationKey"></code></div>
+          <div><span>中文原文</span><strong id="i18nTranslationSource"></strong></div>
+        </div>
+        <div class="i18n-translation-table-wrap">
+          <table class="i18n-translation-table">
+            <thead><tr><th>语言</th><th>翻译文案</th></tr></thead>
+            <tbody id="i18nTranslationRows"></tbody>
+          </table>
+        </div>
+        <div class="i18n-dialog-actions" id="i18nTranslationDialogActions"></div>
+      </section>
+    </div>
+
+    <div class="lightbox" id="i18nUploadLightbox" aria-hidden="true">
+      <section class="i18n-upload-dialog" role="dialog" aria-modal="true" aria-labelledby="i18nUploadDialogTitle">
+        <div class="i18n-dialog-header">
+          <div class="i18n-dialog-title" id="i18nUploadDialogTitle">上传翻译文案</div>
+        </div>
+        <div class="i18n-upload-form">
+          <div class="i18n-upload-file-row">
+            <span class="i18n-upload-file-label">文件</span>
+            <label class="ax-button" for="i18nFileInput">选择文件</label>
+            <input class="file-input" id="i18nFileInput" type="file" accept=".xlsx" />
+            <span class="i18n-upload-file-name" id="i18nUploadFileName">未选择文件</span>
+          </div>
+          <div class="i18n-upload-note">只允许单个 XLSX；文件不超过 5M</div>
+        </div>
+        <div class="i18n-upload-loading" id="i18nUploadLoading" aria-live="polite">
+          <span class="i18n-upload-spinner" aria-hidden="true"></span>
+          <span>文件处理中...</span>
+        </div>
+        <div class="i18n-upload-actions">
+          <button class="ax-button" id="cancelI18nUploadBtn" type="button">取消</button>
+          <button class="ax-button i18n-upload-submit" id="submitI18nUploadBtn" type="button">提交</button>
+        </div>
+      </section>
+    </div>
+
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260721-13"></script>
+    <script src="./app.js?v=20260724-11"></script>
   </body>
 </html>
