@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260724-11" />
+    <link rel="stylesheet" href="./styles.css?v=20260727-01" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -39,6 +39,7 @@
                 <select class="ax-select" id="templateStatusSearch">
                   <option value="所有状态">所有状态</option>
                   <option value="草稿">草稿</option>
+                  <option value="待补充多语言">待补充多语言</option>
                   <option value="生效中">生效中</option>
                 </select>
               </div>
@@ -64,7 +65,7 @@
                   <option value="所有问卷类型">所有问卷类型</option>
                   <option value="弹窗问卷(全局)">弹窗问卷(全局)</option>
                   <option value="弹窗问卷(用研/设计)">弹窗问卷(用研/设计)</option>
-                  <option value="功能问卷">功能问卷</option>
+                  <option value="常规问卷">常规问卷</option>
                 </select>
               </div>
 
@@ -84,7 +85,6 @@
                     <th class="tpl-name">问卷名称</th>
                     <th class="tpl-status">状态</th>
                     <th class="tpl-type">问卷类型</th>
-                    <th class="tpl-i18n">多语言状态</th>
                     <th class="tpl-creator">创建者</th>
                     <th class="tpl-updated">最近一次更新时间</th>
                     <th class="tpl-actions">操作</th>
@@ -229,8 +229,8 @@
                     <th class="w-version">投放版本</th>
                     <th class="w-count">总用户数</th>
                     <th class="w-count-wide">实际投放用户数</th>
-                    <th class="w-count-wide">提交用户数 <span class="header-help" tabindex="0" aria-label="提交用户包含提交部分问卷和提交完整问卷用户">?</span></th>
                     <th class="w-count">曝光用户数</th>
+                    <th class="w-count-wide">提交用户数 <span class="header-help" tabindex="0" aria-label="提交用户包含提交部分问卷和提交完整问卷用户">?</span></th>
                     <th class="w-actions">操作列</th>
                   </tr>
                 </thead>
@@ -462,7 +462,7 @@
                   <option value="">问卷类型</option>
                   <option value="弹窗问卷(全局)">弹窗问卷(全局)</option>
                   <option value="弹窗问卷(用研/设计)">弹窗问卷(用研/设计)</option>
-                  <option value="功能问卷">功能问卷</option>
+                  <option value="常规问卷">常规问卷</option>
                 </select>
                 <div class="form-error" id="formQuestionnaireTypeError"></div>
               </div>
@@ -733,7 +733,7 @@
         </div>
         <div class="i18n-dialog-meta">
           <div><span>多语言 Key</span><code id="i18nTranslationKey"></code></div>
-          <div><span>中文原文</span><strong id="i18nTranslationSource"></strong></div>
+          <div><span>后台文案</span><strong id="i18nTranslationSource"></strong></div>
         </div>
         <div class="i18n-translation-table-wrap">
           <table class="i18n-translation-table">
@@ -772,6 +772,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260724-11"></script>
+    <script src="./app.js?v=20260727-01"></script>
   </body>
 </html>

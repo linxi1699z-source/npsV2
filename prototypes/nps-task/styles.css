@@ -1163,10 +1163,6 @@ select {
   width: 160px;
 }
 
-.tpl-i18n {
-  width: 90px;
-}
-
 .tpl-updated {
   width: 160px;
 }
@@ -3211,6 +3207,7 @@ select {
 
 .i18n-dialog-header {
   display: flex;
+  flex: 0 0 58px;
   align-items: center;
   justify-content: space-between;
   min-height: 58px;
@@ -3244,10 +3241,13 @@ select {
 
 .i18n-dialog-meta {
   display: grid;
+  flex: 0 0 auto;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  padding: 14px 20px;
+  margin: 0;
+  padding: 18px 20px 16px;
   color: var(--ant-color-text);
+  border-bottom: 1px solid var(--ant-color-border-secondary);
   background: var(--ant-color-fill-tertiary);
 }
 
@@ -3266,8 +3266,9 @@ select {
 }
 
 .i18n-translation-table-wrap {
+  flex: 1 1 auto;
   overflow: auto;
-  padding: 0 20px 20px;
+  padding: 16px 20px 20px;
 }
 
 .i18n-translation-table {

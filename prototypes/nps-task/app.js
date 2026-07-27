@@ -311,8 +311,8 @@ const npsTemplates = [
     template_status: "有效",
     channel: "APP",
     scene: "睡眠",
-    raw_questionnaire_type: "功能问卷",
-    questionnaire_type: "功能问卷",
+    raw_questionnaire_type: "常规问卷",
+    questionnaire_type: "常规问卷",
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-06-23 14:10",
@@ -423,8 +423,8 @@ const npsTemplates = [
     template_status: "有效",
     channel: "APP",
     scene: "运动",
-    raw_questionnaire_type: "功能问卷",
-    questionnaire_type: "功能问卷",
+    raw_questionnaire_type: "常规问卷",
+    questionnaire_type: "常规问卷",
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-06-23 11:20",
@@ -456,8 +456,8 @@ const npsTemplates = [
     template_status: "无效",
     channel: "APP",
     scene: "*******",
-    raw_questionnaire_type: "功能问卷",
-    questionnaire_type: "功能问卷",
+    raw_questionnaire_type: "常规问卷",
+    questionnaire_type: "常规问卷",
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-06-23 09:10",
@@ -686,6 +686,7 @@ function getStatusClass(status) {
     有效: "status-success",
     无效: "status-error",
     草稿: "status-default",
+    待补充多语言: "status-warning",
     待投放: "status-info",
     投放中: "status-warning",
     投放完成: "status-success",
@@ -932,7 +933,7 @@ function renderTemplateOptions() {
   const matchingTemplates = npsTemplates.filter((template) => {
     if (template.template_status !== "有效" || template.is_deleted) return false;
     const templateType = getSurveyListQuestionnaireType(getTemplateRawType(template));
-    if (module !== "全局") return getTemplateDisplayType(getTemplateRawType(template)) === "功能问卷";
+    if (module !== "全局") return getTemplateDisplayType(getTemplateRawType(template)) === "常规问卷";
     const templateVersion = normalizeTemplateMinVersionValue(template.min_version || "");
     return template.scene === "全局" &&
       Boolean(questionnaireType) &&
@@ -990,7 +991,6 @@ function renderTemplates(rows) {
       : template.template_status;
     const isGlobalPopupQuestionnaire = isPopupAppQuestionnaireType(templateType);
     const i18nDisabled = isGlobalPopupQuestionnaire && !isSurveyListVariant();
-    const i18nStatus = i18nDisabled ? "--" : (template.i18n_uploaded ? "已上传" : "未上传");
     const i18nActionText = template.i18n_uploaded ? "编辑多语言" : "新增多语言";
     return `
       <tr data-template-id="${escapeText(template.template_id)}">
@@ -998,7 +998,6 @@ function renderTemplates(rows) {
         <td>${escapeText(template.template_name)}</td>
         <td><span class="status-pill ${statusClass}">${escapeText(statusText)}</span></td>
         <td>${escapeText(templateType || "-")}</td>
-        <td>${escapeText(i18nStatus)}</td>
         <td>${escapeText(template.creator)}</td>
         <td>${escapeText(template.updated_at)}</td>
         <td>
@@ -1026,7 +1025,7 @@ function applyTemplateFilters() {
     const nameOk = !nameValue || template.template_name.includes(nameValue);
     const displayStatus = getSurveyListStatus(template.template_status);
     const statusOk = statusValue === "所有状态"
-      ? ["草稿", "生效中"].includes(displayStatus)
+      ? ["草稿", "待补充多语言", "生效中"].includes(displayStatus)
       : displayStatus === statusValue;
     const sceneOk = sceneValue === "所有功能模块" || template.scene === sceneValue;
     const templateType = isSurveyListVariant()
@@ -1178,8 +1177,8 @@ function renderRows(rows) {
         <td>${escapeText(formatTaskDeliveryVersion(task))}</td>
         <td>${escapeText(task.total_users)}</td>
         <td>${escapeText(task.actual_delivery_users)}</td>
-        <td>${escapeText(task.submitted_users || "0")}</td>
         <td>${escapeText(task.exposed_users)}</td>
+        <td>${escapeText(task.submitted_users || "0")}</td>
         <td>
           <div class="table-actions">
             <button class="table-action-button is-primary edit-link" type="button" data-task-id="${escapeText(task.task_id)}" ${editDisabled ? "disabled" : ""}>编辑</button>
@@ -2253,7 +2252,7 @@ function renderI18nBindings(template) {
     <section class="i18n-binding-section">
       <div class="i18n-binding-section-title">
         <span>${escapeText(group.title)}</span>
-        <span>中文文案</span>
+        <span>后台文案</span>
         <span>Key</span>
         <span class="i18n-section-action-title">操作</span>
       </div>
@@ -2268,11 +2267,54 @@ function renderI18nBindings(template) {
 }
 
 function getI18nTranslationValue(bindingKey, source, languageKey) {
-  return i18nTranslationOverrides.get(`${bindingKey}:${languageKey}`) || translateI18nValue(source, languageKey);
+  const overrideKey = `${bindingKey}:${languageKey}`;
+  return i18nTranslationOverrides.has(overrideKey)
+    ? i18nTranslationOverrides.get(overrideKey)
+    : translateI18nValue(source, languageKey);
+}
+
+function seedTemplateI18nTranslations(template) {
+  getTemplateI18nRows(template).forEach((row) => {
+    const bindingKey = getI18nBindingKey(template, row);
+    I18N_LANGUAGES.filter((language) => language.key !== "zh_cn").forEach((language) => {
+      const overrideKey = `${bindingKey}:${language.key}`;
+      if (!i18nTranslationOverrides.has(overrideKey)) {
+        i18nTranslationOverrides.set(overrideKey, translateI18nValue(row.value, language.key));
+      }
+    });
+  });
+}
+
+function hasCompleteI18nTranslations(template) {
+  const rows = getTemplateI18nRows(template);
+  if (!rows.length) return false;
+  return rows.every((row) => {
+    const bindingKey = getI18nBindingKey(template, row);
+    return I18N_LANGUAGES
+      .filter((language) => language.key !== "zh_cn")
+      .every((language) => {
+        const value = i18nTranslationOverrides.get(`${bindingKey}:${language.key}`);
+        return typeof value === "string" && value.trim().length > 0;
+      });
+  });
+}
+
+function clearTemplateI18nTranslations(template) {
+  const templatePrefix = `nps.${template.template_id}.`;
+  [...i18nTranslationOverrides.keys()].forEach((key) => {
+    if (key.startsWith(templatePrefix)) i18nTranslationOverrides.delete(key);
+  });
+}
+
+function updateTemplateI18nCompletion(template) {
+  const complete = hasCompleteI18nTranslations(template);
+  template.i18n_complete = complete;
+  template.template_status = complete ? "有效" : "待补充多语言";
+  return complete;
 }
 
 function getI18nLanguageOrder() {
-  return I18N_LANGUAGES.filter((language) => language.key !== "zh_cn").sort(() => Math.random() - 0.5);
+  return I18N_LANGUAGES;
 }
 
 function closeI18nTranslationDialog() {
@@ -2287,10 +2329,11 @@ function openI18nTranslationDialog(bindingKey, source, editable) {
   i18nTranslationKey.textContent = bindingKey;
   i18nTranslationSource.textContent = source;
   i18nTranslationRows.innerHTML = getI18nLanguageOrder().map((language) => {
-    const value = getI18nTranslationValue(bindingKey, source, language.key);
+    const isChinese = language.key === "zh_cn";
+    const value = isChinese ? source : getI18nTranslationValue(bindingKey, source, language.key);
     return `<tr>
       <td>${escapeText(language.label)}</td>
-      <td>${editable
+      <td>${editable && !isChinese
         ? `<input class="i18n-translation-input" data-i18n-language="${escapeText(language.key)}" value="${escapeText(value)}" />`
         : escapeText(value)}</td>
     </tr>`;
@@ -2305,6 +2348,11 @@ function openI18nTranslationDialog(bindingKey, source, editable) {
       i18nTranslationRows.querySelectorAll("[data-i18n-language]").forEach((input) => {
         i18nTranslationOverrides.set(`${bindingKey}:${input.dataset.i18nLanguage}`, input.value.trim());
       });
+      const template = getCurrentI18nTemplate();
+      if (template && template.i18n_uploaded) {
+        updateTemplateI18nCompletion(template);
+        renderTemplates(filteredTemplates);
+      }
       closeI18nTranslationDialog();
       showToast("翻译文案已保存。");
     });
@@ -2445,6 +2493,10 @@ function renderI18nPreview() {
 function openTemplateI18nPage(templateId) {
   const template = npsTemplates.find((item) => item.template_id === templateId);
   if (!template) return;
+  if (template.i18n_uploaded && template.i18n_complete !== false) {
+    seedTemplateI18nTranslations(template);
+    template.i18n_complete = hasCompleteI18nTranslations(template);
+  }
   const isEditMode = Boolean(template.i18n_uploaded);
   currentI18nTemplateId = templateId;
   i18nFileReady = false;
@@ -2783,7 +2835,7 @@ function updateSurveyMinVersionOptions() {
 
 function updateTemplateVersionVisibility() {
   const isSurveyList = isSurveyListVariant();
-  const isFunctionalQuestionnaire = templateFormFields.questionnaireType.value === "功能问卷";
+  const isFunctionalQuestionnaire = isRegularQuestionnaireType(templateFormFields.questionnaireType.value);
   const requiresVersion = isSurveyList
     ? !isFunctionalQuestionnaire
     : (templateFormFields.channelApp.checked && (isPlanBTemplateForm() || templateFormFields.questionnaireType.value !== "分组问卷"));
@@ -2976,8 +3028,12 @@ function isDesignQuestionnaireType(type) {
   ].includes(type);
 }
 
+function isRegularQuestionnaireType(type) {
+  return ["功能问卷", "常规问卷", "常规"].includes(type);
+}
+
 function supportsQuestionnaireStyle(type = templateFormFields.questionnaireType.value) {
-  return isDesignQuestionnaireType(type) || type === "功能问卷";
+  return isDesignQuestionnaireType(type) || isRegularQuestionnaireType(type);
 }
 
 function getQuestionnaireStyle() {
@@ -3008,7 +3064,7 @@ function shouldSubmitTemplateFromStepOne() {
 function updateQuestionnaireTypeByScene() {
   const scene = templateFormFields.scene.value;
   const typeSelect = templateFormFields.questionnaireType;
-  const functionOption = typeSelect.querySelector('option[value="功能问卷"]');
+  const functionOption = typeSelect.querySelector('option[value="常规问卷"]');
   const groupOption = typeSelect.querySelector('option[value="分组问卷"]');
   const globalOnlyOptions = [
     'option[value="弹窗问卷(APP功能)"]',
@@ -3042,13 +3098,13 @@ function updateQuestionnaireTypeByScene() {
       globalOnlyOptions.forEach((option) => setOptionState(option));
       setOptionState(functionOption, { hidden: true, disabled: true });
       setOptionState(groupOption, { hidden: true, disabled: true });
-      if (typeSelect.value === "功能问卷" || typeSelect.value === "分组问卷") typeSelect.value = "";
+      if (isRegularQuestionnaireType(typeSelect.value) || typeSelect.value === "分组问卷") typeSelect.value = "";
     } else {
       typeSelect.disabled = false;
       globalOnlyOptions.forEach((option) => setOptionState(option, { hidden: true, disabled: true }));
       setOptionState(functionOption);
       setOptionState(groupOption, { hidden: true, disabled: true });
-      if (typeSelect.value !== "功能问卷") typeSelect.value = "功能问卷";
+      if (!isRegularQuestionnaireType(typeSelect.value)) typeSelect.value = "常规问卷";
     }
     clearTemplateError("questionnaireType");
     updateTemplateTypePanel();
@@ -3066,14 +3122,14 @@ function updateQuestionnaireTypeByScene() {
     globalOnlyOptions.forEach((option) => setOptionState(option));
     setOptionState(functionOption, { hidden: true, disabled: true });
     setOptionState(groupOption);
-    if (typeSelect.value === "功能问卷") typeSelect.value = "";
+    if (isRegularQuestionnaireType(typeSelect.value)) typeSelect.value = "";
   } else {
     typeSelect.disabled = false;
     globalOnlyOptions.forEach((option) => setOptionState(option, { hidden: true, disabled: true }));
     setOptionState(functionOption);
     setOptionState(groupOption);
-    if (!["功能问卷", "分组问卷"].includes(typeSelect.value)) {
-      typeSelect.value = "功能问卷";
+    if (!isRegularQuestionnaireType(typeSelect.value) && typeSelect.value !== "分组问卷") {
+      typeSelect.value = "常规问卷";
     }
   }
 
@@ -3146,20 +3202,21 @@ function getTemplateDisplayType(questionnaireType) {
   if (isDesignQuestionnaireType(questionnaireType)) return "弹窗问卷(用研)";
   if (isPopupAppQuestionnaireType(questionnaireType)) return "弹窗问卷(APP功能)";
   if (questionnaireType === "分组问卷" || questionnaireType === "分组") return "分组问卷";
-  if (questionnaireType === "功能问卷" || questionnaireType === "常规") return "功能问卷";
+  if (isRegularQuestionnaireType(questionnaireType)) return "常规问卷";
   if (questionnaireType === "弹窗") return "弹窗问卷(APP功能)";
-  return "功能问卷";
+  return "常规问卷";
 }
 
 function getSurveyListQuestionnaireType(questionnaireType) {
   if (!questionnaireType) return "";
   if (isPopupAppQuestionnaireType(questionnaireType)) return "弹窗问卷(全局)";
   if (isDesignQuestionnaireType(questionnaireType)) return "弹窗问卷(用研/设计)";
-  return "功能问卷";
+  return "常规问卷";
 }
 
 function getSurveyListStatus(status) {
   if (status === "草稿") return "草稿";
+  if (status === "待补充多语言") return "待补充多语言";
   return isTemplateEnabled(status) ? "生效中" : "已禁用";
 }
 
@@ -3214,7 +3271,7 @@ function updateTemplateTypePanel() {
   if (isDesignType) {
     document.getElementById("typePanelDesign").classList.add("active");
   }
-  if ((isDesignType || type === "功能问卷" || type === "分组问卷") && !usesSectionQuestionEditor()) {
+  if ((isDesignType || isRegularQuestionnaireType(type) || type === "分组问卷") && !usesSectionQuestionEditor()) {
     document.getElementById("typePanelCommon").classList.add("active");
   }
   document.getElementById("questionnaireDescriptionLabel").classList.remove("required");
@@ -3253,7 +3310,7 @@ function isGlobalAppQuestionnaire() {
 }
 
 function isCommonQuestionnaire() {
-  return templateFormFields.questionnaireType.value === "功能问卷" || templateFormFields.questionnaireType.value === "分组问卷";
+  return isRegularQuestionnaireType(templateFormFields.questionnaireType.value) || templateFormFields.questionnaireType.value === "分组问卷";
 }
 
 function isConfigurableQuestionnaire() {
@@ -3768,9 +3825,9 @@ function validateTemplateStepOne() {
   clearTemplateFormErrors();
   let valid = true;
   const questionnaireType = templateFormFields.questionnaireType.value;
-  const isCommonQuestionnaireType = questionnaireType === "功能问卷" || questionnaireType === "分组问卷";
+  const isCommonQuestionnaireType = isRegularQuestionnaireType(questionnaireType) || questionnaireType === "分组问卷";
   const isSurveyList = isSurveyListVariant();
-  const requiresSurveyVersion = isSurveyList && questionnaireType !== "功能问卷";
+  const requiresSurveyVersion = isSurveyList && !isRegularQuestionnaireType(questionnaireType);
   const requiresBannerFields = !isSurveyList && questionnaireType !== "分组问卷";
   const requiresLinkedQuestionnaire = shouldUseLinkedQuestionnaire();
   const requiresPageSize = shouldShowPageSize();
@@ -3851,7 +3908,7 @@ function validateTemplateStepOne() {
 }
 
 function buildTemplateVersionText() {
-  if (isSurveyListVariant() && templateFormFields.questionnaireType.value === "功能问卷") return "-";
+  if (isSurveyListVariant() && isRegularQuestionnaireType(templateFormFields.questionnaireType.value)) return "-";
   if (isSurveyListVariant()) return templateFormFields.androidVersion.value.trim() || "-";
   if (!templateFormFields.channelApp.checked || templateFormFields.questionnaireType.value === "分组问卷") return "-";
   const versions = [];
@@ -4399,7 +4456,13 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
       return;
     }
     Object.assign(template, templatePayload);
-    if (isSurveyListVariant() && template.template_status === "草稿") {
+    if (isSurveyListVariant()) {
+      template.template_status = "待补充多语言";
+      template.i18n_uploaded = false;
+      template.i18n_complete = false;
+      clearTemplateI18nTranslations(template);
+      templateStatusSearch.value = "所有状态";
+    } else if (template.template_status === "草稿") {
       template.template_status = "有效";
     }
     syncTemplateNameOptions(template.template_name);
@@ -4410,15 +4473,16 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
       : null;
     const newTemplate = {
       template_id: getNextId(npsTemplates, "template_id"),
-      template_status: saveAsDraft ? "草稿" : "有效",
+      template_status: saveAsDraft ? "草稿" : (isSurveyListVariant() ? "待补充多语言" : "有效"),
       creator: "谢敏",
-      i18n_uploaded: sourceTemplate ? Boolean(sourceTemplate.i18n_uploaded) : false,
+      i18n_uploaded: false,
+      i18n_complete: false,
       ...templatePayload,
     };
     npsTemplates.push(newTemplate);
-    if (sourceTemplate) copyTemplateI18nTranslations(sourceTemplate, newTemplate);
+    if (sourceTemplate && !isSurveyListVariant()) copyTemplateI18nTranslations(sourceTemplate, newTemplate);
     syncTemplateNameOptions(newTemplate.template_name);
-    if (saveAsDraft) {
+    if (saveAsDraft || isSurveyListVariant()) {
       templateStatusSearch.value = "所有状态";
     }
     showToast(saveAsDraft
@@ -4581,12 +4645,14 @@ function uploadSelectedI18nFile() {
   i18nUploadTimer = window.setTimeout(() => {
     i18nFileReady = true;
     template.i18n_uploaded = true;
+    seedTemplateI18nTranslations(template);
+    const isComplete = updateTemplateI18nCompletion(template);
     renderTemplates(filteredTemplates);
     i18nUploadLightbox.classList.remove("loading", "show");
     i18nUploadLightbox.setAttribute("aria-hidden", "true");
     i18nFileInput.value = "";
     i18nUploadFileName.textContent = "未选择文件";
-    showToast("上传成功。");
+    showToast(isComplete ? "上传成功，问卷已生效。" : "上传成功，仍有文案待补充。");
   }, 900);
 }
 
