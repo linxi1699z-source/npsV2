@@ -66,7 +66,7 @@ select {
 
 .prototype-shell {
   position: relative;
-  width: 1479px;
+  width: 1472px;
   min-height: 956px;
   background: var(--ant-color-bg-container);
   border: 1px solid var(--ant-color-border);
@@ -74,67 +74,77 @@ select {
 }
 
 .prototype-shell.template-layout {
-  width: 1479px;
+  width: 1472px;
 }
 
 .side-nav {
   position: absolute;
   left: 0;
   top: 0;
-  width: 150px;
+  width: 160px;
   height: 956px;
-  background: var(--ant-color-fill);
-  border-right: 1px solid var(--ant-color-border);
+  background: var(--ant-color-bg-container);
+  border-right: 1px solid var(--ant-color-border-secondary);
 }
 
 .brand {
   position: absolute;
-  left: 32px;
-  top: 25px;
-  width: 84px;
-  height: 21px;
+  left: 24px;
+  top: 28px;
+  width: 128px;
+  height: 29px;
+  color: var(--ant-color-text);
   font-family: "Arial-BoldMT", "Arial Bold", "Arial", sans-serif;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 700;
-  line-height: 21px;
+  line-height: 29px;
 }
 
 .tree {
   position: absolute;
-  left: 3px;
-  top: 77px;
-  width: 146px;
+  left: 0;
+  top: 84px;
+  width: 160px;
+  padding: 0 8px;
 }
 
 .tree-root,
 .tree-node {
   position: relative;
-  width: 132px;
-  height: 20px;
+  width: 144px;
+  height: 40px;
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--ant-color-text);
+  color: var(--ant-color-text-secondary);
   font-family: "PingFangSC-Regular", "PingFang SC", sans-serif;
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 14px;
+  line-height: 40px;
   text-align: left;
 }
 
 .tree-root {
-  margin-left: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border-radius: 6px;
+  color: var(--ant-color-text);
+  font-family: "PingFangSC-Semibold", "PingFang SC", sans-serif;
+  font-weight: 600;
 }
 
 .tree-node {
   display: block;
-  width: 108px;
-  margin-left: 36px;
+  margin-left: 0;
+  padding: 0 10px 0 32px;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 #surveyListNav,
 #templatePlanBNav {
-  width: 132px;
+  width: 144px;
 }
 
 #surveyListNav .tree-label,
@@ -149,48 +159,32 @@ select {
   font-weight: 650;
 }
 
+.tree-node:hover {
+  color: var(--ant-color-text);
+  background: var(--ant-color-fill);
+}
+
+.tree-node.active {
+  color: var(--ant-color-primary);
+  background: var(--ant-color-fill-selected);
+}
+
 .tree-label {
-  position: relative;
+  position: static;
   display: inline-block;
-}
-
-.tree-root.selected .tree-label::after,
-.tree-node.active .tree-label::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 3px;
-  background: var(--active-line-color);
-}
-
-.prototype-shell.template-plan-b #templateNav .tree-label::after {
-  display: none;
-}
-
-.prototype-shell.template-plan-b #templatePlanBNav .tree-label::after {
-  display: block;
-}
-
-.prototype-shell.survey-list-layout #templateNav .tree-label::after,
-.prototype-shell.survey-list-layout #templatePlanBNav .tree-label::after {
-  display: none;
-}
-
-.prototype-shell.survey-list-layout #surveyListNav .tree-label::after {
-  display: block;
 }
 
 .tree-dot {
   display: inline-block;
-  width: 18px;
+  width: 16px;
+  margin-right: 4px;
+  color: var(--ant-color-text-secondary);
   text-align: center;
 }
 
 .main-canvas {
   position: absolute;
-  left: 163px;
+  left: 172px;
   top: 0;
   width: var(--content-width);
   min-height: 956px;
@@ -328,6 +322,27 @@ select {
 
 .hour-field.error .date-only-input,
 .hour-field.error .hour-select {
+  border-color: var(--ant-color-error);
+}
+
+.datetime-field {
+  display: flex;
+  width: 260px;
+}
+
+.datetime-picker-input {
+  width: 100%;
+  height: 32px;
+  color: var(--ant-color-text);
+  border-color: var(--ant-color-border);
+}
+
+.datetime-picker-input:hover,
+.datetime-picker-input:focus {
+  border-color: var(--ant-color-primary);
+}
+
+.datetime-field.error .datetime-picker-input {
   border-color: var(--ant-color-error);
 }
 

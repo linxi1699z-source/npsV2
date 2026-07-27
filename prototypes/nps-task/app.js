@@ -267,6 +267,40 @@ const audienceUsers = [
 
 const npsTemplates = [
   {
+    template_id: "10010",
+    template_name: "健康体验调研问卷",
+    template_status: "待补充多语言",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "弹窗问卷(用研/设计)",
+    questionnaire_type: "弹窗问卷(用研/设计)",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-07-27 10:20",
+    min_version: "V3.16",
+    popup_copy_mode: "设计",
+    popup_copy: SURVEY_POPUP_COPY_PRESETS.设计,
+    questions: [
+      { type: "评分(普通)", title: "您对近期健康体验满意吗？", subtitle: "", options: "1-10" },
+    ],
+  },
+  {
+    template_id: "10009",
+    template_name: "睡眠体验问卷草稿",
+    template_status: "草稿",
+    channel: "APP",
+    scene: "睡眠",
+    raw_questionnaire_type: "常规问卷",
+    questionnaire_type: "常规问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-07-27 09:50",
+    min_version: "-",
+    questions: [
+      { type: "单选题", title: "您最关注哪项睡眠指标？", subtitle: "", options: "睡眠时长, 深睡时长, 清醒次数" },
+    ],
+  },
+  {
     template_id: "10005",
     template_name: "全局 NPS 调查问卷",
     template_status: "有效",
@@ -565,8 +599,7 @@ const formFields = {
   questionnaireType: document.getElementById("formTaskQuestionnaireType"),
   questionnaireTypeRow: document.getElementById("formTaskQuestionnaireTypeRow"),
   startTime: document.getElementById("formStartTime"),
-  startDate: document.getElementById("formStartDate"),
-  startHour: document.getElementById("formStartHour"),
+  startDateTime: document.getElementById("formStartDateTime"),
   taskVersion: document.getElementById("formTaskVersion"),
   endTime: document.getElementById("formEndTime"),
   endDate: document.getElementById("formEndDate"),
@@ -737,6 +770,34 @@ function getCurrentHour() {
   const now = new Date();
   now.setMinutes(0, 0, 0);
   return now;
+}
+
+function getCurrentBeijingHourValue() {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date()).reduce((result, part) => {
+    if (part.type !== "literal") result[part.type] = part.value;
+    return result;
+  }, {});
+  return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:00`;
+}
+
+function formatDateTimeHour(value) {
+  if (!value) return "";
+  const match = value.match(/^(\d{4}-\d{2}-\d{2})T(\d{2})/);
+  return match ? `${match[1]} ${match[2]}` : "";
+}
+
+function setDateTimeHourValue(field, value) {
+  field.value = "";
+  if (!value) return;
+  const match = value.match(/^(\d{4}-\d{2}-\d{2})(?:\s+|T)(\d{2})/);
+  if (match) field.value = `${match[1]}T${match[2]}:00`;
 }
 
 function populateHourOptions(selectElement) {
@@ -991,6 +1052,7 @@ function renderTemplates(rows) {
       : template.template_status;
     const isGlobalPopupQuestionnaire = isPopupAppQuestionnaireType(templateType);
     const i18nDisabled = isGlobalPopupQuestionnaire && !isSurveyListVariant();
+    const deleteDisabled = isSurveyListVariant() && statusText === "生效中";
     const i18nActionText = template.i18n_uploaded ? "编辑多语言" : "新增多语言";
     return `
       <tr data-template-id="${escapeText(template.template_id)}">
@@ -1005,7 +1067,7 @@ function renderTemplates(rows) {
             <button class="table-action-button is-primary template-i18n-link" type="button" data-template-id="${escapeText(template.template_id)}" ${i18nDisabled ? "disabled" : ""}>${i18nActionText}</button>
             <button class="table-action-button is-primary edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}">${isSurveyListVariant() ? "编辑问卷" : "编辑模板"}</button>
             ${isSurveyListVariant() ? `<button class="table-action-button is-primary copy-template-link" type="button" data-template-id="${escapeText(template.template_id)}">复制问卷</button>` : ""}
-            ${isSurveyListVariant() ? `<button class="table-action-button is-danger delete-template-link" type="button" data-template-id="${escapeText(template.template_id)}">删除</button>` : ""}
+            ${isSurveyListVariant() ? `<button class="table-action-button is-danger delete-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${deleteDisabled ? "disabled" : ""}>删除</button>` : ""}
           </div>
         </td>
       </tr>
@@ -2493,24 +2555,13 @@ function renderI18nPreview() {
 function openTemplateI18nPage(templateId) {
   const template = npsTemplates.find((item) => item.template_id === templateId);
   if (!template) return;
-  if (template.i18n_uploaded && template.i18n_complete !== false) {
-    seedTemplateI18nTranslations(template);
-    template.i18n_complete = hasCompleteI18nTranslations(template);
-  }
-  const isEditMode = Boolean(template.i18n_uploaded);
-  currentI18nTemplateId = templateId;
-  i18nFileReady = false;
-  i18nFileInput.value = "";
-  i18nUploadFileName.textContent = "未选择文件";
-  i18nUploadLightbox.classList.remove("show", "loading");
-  i18nUploadLightbox.setAttribute("aria-hidden", "true");
-  setActiveNav(getTemplateNavName());
-  setTemplateLayout(true);
-  hideAllMainPanels();
-  document.getElementById("templateI18nPanel").classList.add("active");
-  document.querySelector(".breadcrumb").textContent = `NPS管理 / ${getTemplatePageName()} / ${isEditMode ? "编辑多语言" : "新增多语言"}`;
-  window.location.hash = "nps-template-i18n";
-  renderI18nBindings(template);
+
+  const workflowParams = new URLSearchParams({
+    templateId: template.template_id,
+    templateName: template.template_name,
+    mode: template.i18n_uploaded ? "edit" : "add",
+  });
+  window.location.href = `./i18n-translation-workflow.html?v=20260727-22&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {
@@ -2560,8 +2611,7 @@ function setTaskFormReadonly(readonly) {
     formFields.planName,
     formFields.taskScene,
     formFields.questionnaireType,
-    formFields.startDate,
-    formFields.startHour,
+    formFields.startDateTime,
     formFields.endDate,
     formFields.endHour,
     formFields.appTrigger,
@@ -2630,7 +2680,7 @@ function fillTaskForm(task) {
   updateTaskVersionOptions({ preserveSelection: false });
   setTaskVersionValues(getTaskStoredVersions(task));
   renderTemplateOptions();
-  setDateHourValue(formFields.startDate, formFields.startHour, task.start_time);
+  setDateTimeHourValue(formFields.startDateTime, task.start_time);
   setDateHourValue(formFields.endDate, formFields.endHour, task.end_time);
   formFields.templateName.value = task.template_name;
   formFields.appClientApp.checked = true;
@@ -2664,8 +2714,7 @@ function openTaskForm(mode, taskId = "") {
     if (mode === "copy") {
       formFields.editingTaskId.value = "";
       formFields.taskName.value = buildCopyTaskName(task.task_name);
-      formFields.startDate.value = "";
-      formFields.startHour.value = "";
+      formFields.startDateTime.value = "";
       formFields.endDate.value = "";
       formFields.endHour.value = "";
       clearAudienceFile();
@@ -2680,8 +2729,7 @@ function openTaskForm(mode, taskId = "") {
 function validateTaskForm() {
   clearFormErrors();
   let valid = true;
-  const currentHour = getCurrentHour();
-  const startTime = parseDateHour(formFields.startDate.value, formFields.startHour.value);
+  const startTime = formFields.startDateTime.value;
 
   if (!formFields.taskName.value.trim()) {
     setError("taskName", "任务名不能为空。");
@@ -2698,7 +2746,7 @@ function validateTaskForm() {
   if (!startTime) {
     setError("startTime", "投放时间不能为空。");
     valid = false;
-  } else if (startTime < currentHour) {
+  } else if (startTime < getCurrentBeijingHourValue()) {
     setError("startTime", "投放时间必须大于等于当前小时。");
     valid = false;
   }
@@ -2736,7 +2784,7 @@ function submitTaskForm() {
     audience_link_text: "查看",
     audience_file_names: audienceFileNames,
     audience_file_name: audienceFileNames.join(","),
-    start_time: formatDateHour(formFields.startDate.value, formFields.startHour.value),
+    start_time: formatDateTimeHour(formFields.startDateTime.value),
     delivery_versions: getSelectedTaskVersions(),
     template_name: formFields.templateName.value,
   };
@@ -4524,9 +4572,17 @@ function templateHasDeliveryTask(template) {
   return tasks.some((task) => task.template_name === template.template_name);
 }
 
+function isActiveSurveyTemplate(template) {
+  return isSurveyListVariant() && getSurveyListStatus(template.template_status) === "生效中";
+}
+
 function openTemplateDeleteDialog(templateId) {
   const template = npsTemplates.find((item) => item.template_id === templateId && !item.is_deleted);
   if (!template) return;
+  if (isActiveSurveyTemplate(template)) {
+    showToast("生效中问卷不允许删除。");
+    return;
+  }
   if (template.template_status !== "草稿" && templateHasDeliveryTask(template)) {
     showToast("该问卷已关联投放任务，不允许删除。");
     return;
@@ -4546,6 +4602,11 @@ function confirmTemplateDelete() {
   const template = npsTemplates.find((item) => item.template_id === selectedTemplateDeleteId && !item.is_deleted);
   if (!template) {
     closeTemplateDeleteDialog();
+    return;
+  }
+  if (isActiveSurveyTemplate(template)) {
+    closeTemplateDeleteDialog();
+    showToast("生效中问卷不允许删除。");
     return;
   }
   if (template.template_status !== "草稿" && templateHasDeliveryTask(template)) {
@@ -5021,6 +5082,17 @@ npsEstimateLightbox.addEventListener("click", (event) => {
   if (event.target === npsEstimateLightbox) closeNpsEstimate();
 });
 
+const savedI18nTemplateId = new URLSearchParams(window.location.search).get("i18nSaved");
+if (savedI18nTemplateId) {
+  const savedTemplate = npsTemplates.find((item) => item.template_id === savedI18nTemplateId);
+  if (savedTemplate) {
+    savedTemplate.i18n_uploaded = true;
+    seedTemplateI18nTranslations(savedTemplate);
+    updateTemplateI18nCompletion(savedTemplate);
+  }
+  window.history.replaceState({}, "", `${window.location.pathname}#survey-list`);
+}
+
 renderRows(filteredTasks);
 renderTemplates(filteredTemplates);
 renderPlanOptions();
@@ -5039,7 +5111,6 @@ if (window.location.hash === "#nps-task") {
 } else {
   showSurveyList();
 }
-populateHourOptions(formFields.startHour);
 populateHourOptions(formFields.endHour);
 updateAppTrigger();
 updateRangeTrigger();
