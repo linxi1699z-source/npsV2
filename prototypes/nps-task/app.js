@@ -277,7 +277,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-27 10:20",
-    min_version: "V3.16",
+    min_version: "V4.X(待定)",
     popup_copy_mode: "设计",
     popup_copy: SURVEY_POPUP_COPY_PRESETS.设计,
     questions: [
@@ -286,18 +286,21 @@ const npsTemplates = [
   },
   {
     template_id: "10009",
-    template_name: "睡眠体验问卷草稿",
+    template_name: "用户研究招募问卷草稿",
     template_status: "草稿",
     channel: "APP",
-    scene: "睡眠",
-    raw_questionnaire_type: "常规问卷",
-    questionnaire_type: "常规问卷",
+    scene: "全局",
+    raw_questionnaire_type: "弹窗问卷(用研/设计)",
+    questionnaire_type: "弹窗问卷(用研/设计)",
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-27 09:50",
-    min_version: "-",
+    min_version: "V4.X(待定)",
+    i18n_uploaded: true,
+    popup_copy_mode: "用研",
+    popup_copy: SURVEY_POPUP_COPY_PRESETS.用研,
     questions: [
-      { type: "单选题", title: "您最关注哪项睡眠指标？", subtitle: "", options: "睡眠时长, 深睡时长, 清醒次数" },
+      { type: "单选题", title: "您愿意参与用户研究访谈吗？", subtitle: "", options: "愿意, 暂不参与, 需要了解更多" },
     ],
   },
   {
@@ -350,7 +353,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-06-23 14:10",
-    min_version: "Android > V4.2, iOS > V4.2",
+    min_version: "V4.X(待定)",
     questions: [
       { type: "评分(普通)", title: "您对睡眠分析结果满意吗？", subtitle: "", options: "1-10" },
     ],
@@ -366,7 +369,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-09 16:20",
-    min_version: "Android > V4.2, iOS > V4.2",
+    min_version: "V4.X(待定)",
     questionnaire_title: "问卷",
     questionnaire_description: "根据您的使用感受，是否认同以下描述？",
     questionnaire_remark: "5=非常认同，1=非常不认同",
@@ -388,7 +391,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-09 16:10",
-    min_version: "Android > V4.2, iOS > V4.2",
+    min_version: "V4.X(待定)",
     questionnaire_title: "问卷",
     questionnaire_description: "根据您对App的设计感受，是否认同以下描述？",
     questionnaire_remark: "5=非常认同，1=非常不认同",
@@ -411,7 +414,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-09 16:00",
-    min_version: "Android > V4.2, iOS > V4.2",
+    min_version: "V4.X(待定)",
     questionnaire_title: "问卷",
     questionnaire_description: "",
     questionnaire_remark: "",
@@ -462,7 +465,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-06-23 11:20",
-    min_version: "Android > V4.1, iOS > V4.1",
+    min_version: "V4.X(待定)",
     questions: [
       { type: "单选题", title: "您最常查看哪类运动数据？", subtitle: "", options: "步数, 卡路里, 活动时长, 其他" },
     ],
@@ -478,7 +481,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-06-23 10:00",
-    min_version: "Android > V4.0, iOS > V4.0",
+    min_version: "V4.X(待定)",
     questions: [
       { type: "评分(普通)", title: "您对整体功能体验满意吗？", subtitle: "", options: "1-10" },
       { type: "多选题", title: "请选择您关注的功能分组", subtitle: "", options: "睡眠, 计划, 健康画像, AI Partner" },
@@ -520,7 +523,7 @@ let formMode = "add";
 let currentAudienceTaskId = "";
 let filteredAudienceUsers = [...audienceUsers];
 let audienceDeliveryStatuses = new Set();
-let audienceUploadedFileNames = [];
+let audienceRegionFiles = { us: "", uk: "", cn: "" };
 let templateFormMode = "add";
 let templateVariant = "default";
 let templateStep = 1;
@@ -600,7 +603,9 @@ const formFields = {
   questionnaireTypeRow: document.getElementById("formTaskQuestionnaireTypeRow"),
   startTime: document.getElementById("formStartTime"),
   startDateTime: document.getElementById("formStartDateTime"),
-  taskVersion: document.getElementById("formTaskVersion"),
+  taskVersion: document.getElementById("formTaskVersionStart"),
+  taskVersionStart: document.getElementById("formTaskVersionStart"),
+  taskVersionEnd: document.getElementById("formTaskVersionEnd"),
   endTime: document.getElementById("formEndTime"),
   endDate: document.getElementById("formEndDate"),
   endHour: document.getElementById("formEndHour"),
@@ -608,9 +613,13 @@ const formFields = {
   appPanel: document.getElementById("appClientPanel"),
   appClientApp: document.getElementById("appClientApp"),
   templateName: document.getElementById("formTemplateName"),
-  audienceFile: document.getElementById("audienceFile"),
-  audienceFileList: document.getElementById("audienceFileList"),
-  audienceFiles: document.getElementById("audienceFileList"),
+  audienceFiles: document.getElementById("audienceRegionFiles"),
+  audienceFileUs: document.getElementById("audienceFileUs"),
+  audienceFileUk: document.getElementById("audienceFileUk"),
+  audienceFileCn: document.getElementById("audienceFileCn"),
+  audienceFileNameUs: document.getElementById("audienceFileNameUs"),
+  audienceFileNameUk: document.getElementById("audienceFileNameUk"),
+  audienceFileNameCn: document.getElementById("audienceFileNameCn"),
   newPlanName: document.getElementById("newPlanName"),
 };
 const templateFormFields = {
@@ -779,25 +788,26 @@ function getCurrentBeijingHourValue() {
     month: "2-digit",
     day: "2-digit",
     hour: "2-digit",
+    minute: "2-digit",
     hourCycle: "h23",
   }).formatToParts(new Date()).reduce((result, part) => {
     if (part.type !== "literal") result[part.type] = part.value;
     return result;
   }, {});
-  return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:00`;
+  return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
 }
 
 function formatDateTimeHour(value) {
   if (!value) return "";
-  const match = value.match(/^(\d{4}-\d{2}-\d{2})T(\d{2})/);
-  return match ? `${match[1]} ${match[2]}` : "";
+  const match = value.match(/^(\d{4}-\d{2}-\d{2})T(\d{2})(?::(\d{2}))?/);
+  return match ? `${match[1]} ${match[2]}:${match[3] || "00"}` : "";
 }
 
 function setDateTimeHourValue(field, value) {
   field.value = "";
   if (!value) return;
-  const match = value.match(/^(\d{4}-\d{2}-\d{2})(?:\s+|T)(\d{2})/);
-  if (match) field.value = `${match[1]}T${match[2]}:00`;
+  const match = value.match(/^(\d{4}-\d{2}-\d{2})(?:\s+|T)(\d{2})(?::(\d{2}))?/);
+  if (match) field.value = `${match[1]}T${match[2]}:${match[3] || "00"}`;
 }
 
 function populateHourOptions(selectElement) {
@@ -908,62 +918,57 @@ function getSelectedApps() {
   return ["APP"];
 }
 
-const DEFAULT_TASK_VERSION_OPTIONS = ["V3.13"];
 const HIGH_VERSION_MODULES = ["睡眠", "活动", "压力", "生命体征"];
 
 function getSelectedTaskVersions() {
-  return formFields.taskVersion.value ? [formFields.taskVersion.value] : [];
+  const start = normalizeTaskVersionValue(formFields.taskVersionStart.value);
+  const end = normalizeTaskVersionValue(formFields.taskVersionEnd.value);
+  const version = start || end;
+  return version ? [`V${version}`] : [];
 }
 
-function setTaskVersionValues(values) {
-  const selectedValue = (values || []).find((value) => [...formFields.taskVersion.options].some((option) => option.value === value));
-  formFields.taskVersion.value = selectedValue || "";
+function normalizeTaskVersionValue(value) {
+  return String(value || "").trim().replace(/^v/i, "");
 }
 
-function getAllowedTaskVersions() {
-  const module = formFields.taskScene.value;
-  const questionnaireType = formFields.questionnaireType.value;
-  if (module === "全局" && questionnaireType === "弹窗问卷(用研/设计)") return ["V3.16", "V4.X(待定)"];
-  if (module === "全局" && questionnaireType === "弹窗问卷(全局)") return ["V3.13", "V4.X(待定)"];
-  if (HIGH_VERSION_MODULES.includes(module)) return ["V3.16"];
-  return DEFAULT_TASK_VERSION_OPTIONS;
+function setTaskVersionRange(start = "", end = "") {
+  formFields.taskVersionStart.value = normalizeTaskVersionValue(start);
+  formFields.taskVersionEnd.value = normalizeTaskVersionValue(end);
 }
 
 function getTaskVersionDefault() {
   const module = formFields.taskScene.value;
+  const questionnaireType = formFields.questionnaireType.value;
   if (!module || (module === "全局" && !formFields.questionnaireType.value)) return "";
-  return getAllowedTaskVersions()[0] || "V3.13";
-}
-
-function updateTaskVersionOptions({ preserveSelection = true } = {}) {
-  const allowed = getAllowedTaskVersions();
-  const currentValue = preserveSelection ? formFields.taskVersion.value : "";
-  formFields.taskVersion.innerHTML = [
-    '<option value="">请选择投放版本</option>',
-    ...allowed.map((value) => `<option value="${value}">&gt;=${value}</option>`),
-  ].join("");
-  setTaskVersionValues([allowed.includes(currentValue) ? currentValue : getTaskVersionDefault()]);
-  clearError("taskVersion");
+  if (module === "全局" && questionnaireType === "弹窗问卷(用研/设计)") return "V3.16";
+  if (module === "全局" && questionnaireType === "弹窗问卷(全局)") return "V3.13";
+  if (HIGH_VERSION_MODULES.includes(module)) return "V3.16";
+  return "V3.13";
 }
 
 function applyTaskVersionDefaults() {
-  updateTaskVersionOptions({ preserveSelection: false });
+  setTaskVersionRange(getTaskVersionDefault());
+  clearError("taskVersion");
 }
 
 function setTaskVersionReadonly(readonly) {
-  formFields.taskVersion.disabled = readonly;
+  formFields.taskVersionStart.disabled = readonly;
+  formFields.taskVersionEnd.disabled = readonly;
 }
 
-function getTaskStoredVersions(task) {
-  if (Array.isArray(task.delivery_versions) && task.delivery_versions.length) return task.delivery_versions;
+function getTaskStoredVersionRange(task) {
+  if (task.delivery_version_start) {
+    return { start: task.delivery_version_start, end: task.delivery_version_end || "" };
+  }
+  if (Array.isArray(task.delivery_versions) && task.delivery_versions.length) return { start: task.delivery_versions[0], end: "" };
   if (task.delivery_versions && typeof task.delivery_versions === "object") {
     const legacyValues = [
       ...(Array.isArray(task.delivery_versions.android) ? task.delivery_versions.android : []),
       ...(Array.isArray(task.delivery_versions.ios) ? task.delivery_versions.ios : []),
     ];
-    if (legacyValues.length) return [...new Set(legacyValues)];
+    if (legacyValues.length) return { start: legacyValues[0], end: "" };
   }
-  return [getTaskVersionDefault()];
+  return { start: getTaskVersionDefault(), end: "" };
 }
 
 function updateAppTrigger() {
@@ -1051,7 +1056,10 @@ function renderTemplates(rows) {
       ? getSurveyListStatus(template.template_status)
       : template.template_status;
     const isGlobalPopupQuestionnaire = isPopupAppQuestionnaireType(templateType);
-    const i18nDisabled = isGlobalPopupQuestionnaire && !isSurveyListVariant();
+    const isLegacySurveyQuestionnaire = isSurveyListVariant() && ["V3.13", "V3.16"].includes(normalizeTemplateMinVersionValue(template.min_version));
+    const i18nDisabled = (isGlobalPopupQuestionnaire && !isSurveyListVariant()) || isLegacySurveyQuestionnaire;
+    const editDisabled = isLegacySurveyQuestionnaire;
+    const copyDisabled = isLegacySurveyQuestionnaire;
     const deleteDisabled = isSurveyListVariant() && statusText === "生效中";
     const i18nActionText = template.i18n_uploaded ? "编辑多语言" : "新增多语言";
     return `
@@ -1060,13 +1068,14 @@ function renderTemplates(rows) {
         <td>${escapeText(template.template_name)}</td>
         <td><span class="status-pill ${statusClass}">${escapeText(statusText)}</span></td>
         <td>${escapeText(templateType || "-")}</td>
+        <td>${escapeText(template.min_version || "-")}</td>
         <td>${escapeText(template.creator)}</td>
         <td>${escapeText(template.updated_at)}</td>
         <td>
           <div class="table-actions">
             <button class="table-action-button is-primary template-i18n-link" type="button" data-template-id="${escapeText(template.template_id)}" ${i18nDisabled ? "disabled" : ""}>${i18nActionText}</button>
-            <button class="table-action-button is-primary edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}">${isSurveyListVariant() ? "编辑问卷" : "编辑模板"}</button>
-            ${isSurveyListVariant() ? `<button class="table-action-button is-primary copy-template-link" type="button" data-template-id="${escapeText(template.template_id)}">复制问卷</button>` : ""}
+            <button class="table-action-button is-primary edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${editDisabled ? "disabled" : ""}>${isSurveyListVariant() ? "编辑问卷" : "编辑模板"}</button>
+            ${isSurveyListVariant() ? `<button class="table-action-button is-primary copy-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${copyDisabled ? "disabled" : ""}>复制问卷</button>` : ""}
             ${isSurveyListVariant() ? `<button class="table-action-button is-danger delete-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${deleteDisabled ? "disabled" : ""}>删除</button>` : ""}
           </div>
         </td>
@@ -1256,8 +1265,13 @@ function renderRows(rows) {
 }
 
 function formatTaskDeliveryVersion(task) {
-  const [version] = getTaskStoredVersions(task);
-  return version ? `>=${String(version).replace(/^>=/, "")}` : "-";
+  const { start, end } = getTaskStoredVersionRange(task);
+  const startVersion = normalizeTaskVersionValue(start);
+  const endVersion = normalizeTaskVersionValue(end);
+  if (startVersion && endVersion) return `>=V${startVersion} & <=V${endVersion}`;
+  if (startVersion) return `>=V${startVersion}`;
+  if (endVersion) return `<=V${endVersion}`;
+  return "-";
 }
 
 function parseDateRange(value) {
@@ -2561,32 +2575,39 @@ function openTemplateI18nPage(templateId) {
     templateName: template.template_name,
     mode: template.i18n_uploaded ? "edit" : "add",
   });
-  window.location.href = `./i18n-translation-workflow.html?v=20260727-22&${workflowParams.toString()}`;
+  window.location.href = `./i18n-translation-workflow.html?v=20260728-11&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {
-  return [...audienceUploadedFileNames];
+  return Object.values(audienceRegionFiles).filter(Boolean);
 }
 
-function renderAudienceFiles(fileNames) {
-  audienceUploadedFileNames = [...fileNames];
-  if (!fileNames.length) {
-    formFields.audienceFileList.textContent = "未上传文件";
-    return;
-  }
-  formFields.audienceFileList.innerHTML = fileNames
-    .map((fileName, index) => `
-      <div class="file-name-item">
-        <span class="file-name-text" title="${escapeText(fileName)}">${escapeText(fileName)}</span>
-        <button class="link-button file-remove" type="button" data-file-index="${index}">删除文件</button>
-      </div>
-    `)
-    .join("");
+function renderAudienceRegionFiles(files = {}) {
+  audienceRegionFiles = { us: "", uk: "", cn: "", ...files };
+  const regions = [
+    ["us", formFields.audienceFileNameUs],
+    ["uk", formFields.audienceFileNameUk],
+    ["cn", formFields.audienceFileNameCn],
+  ];
+  regions.forEach(([region, field]) => {
+    const fileName = audienceRegionFiles[region];
+    field.innerHTML = fileName
+      ? `<span class="file-name-text" title="${escapeText(fileName)}">${escapeText(fileName)}</span><button class="link-button file-remove" type="button" data-audience-region-remove="${region}">删除文件</button>`
+      : "未上传文件";
+  });
 }
 
 function clearAudienceFile() {
-  formFields.audienceFile.value = "";
-  renderAudienceFiles([]);
+  [formFields.audienceFileUs, formFields.audienceFileUk, formFields.audienceFileCn].forEach((field) => { field.value = ""; });
+  renderAudienceRegionFiles();
+}
+
+function getTaskAudienceRegionFiles(task) {
+  if (task.audience_region_files) return task.audience_region_files;
+  const fileName = (task.audience_file_names || [task.audience_file_name]).find(Boolean) || "";
+  if (task.delivery_region === "美国") return { us: fileName };
+  if (task.delivery_region === "中国大陆") return { cn: fileName };
+  return { uk: fileName };
 }
 
 function escapeRegExp(value) {
@@ -2616,12 +2637,14 @@ function setTaskFormReadonly(readonly) {
     formFields.endHour,
     formFields.appTrigger,
     formFields.templateName,
-    formFields.audienceFile,
+    formFields.audienceFileUs,
+    formFields.audienceFileUk,
+    formFields.audienceFileCn,
   ].forEach((field) => {
     field.disabled = readonly;
   });
   document.getElementById("addPlanBtn").disabled = readonly;
-  document.getElementById("chooseFileBtn").disabled = readonly;
+  document.querySelectorAll(".audience-file-choose").forEach((button) => { button.disabled = readonly; });
   document.getElementById("submitTaskBtn").classList.toggle("hidden", readonly);
   document.getElementById("cancelTaskBtn").textContent = readonly ? "返回" : "取消";
   setTaskVersionReadonly(readonly);
@@ -2677,19 +2700,15 @@ function fillTaskForm(task) {
   formFields.taskScene.value = task.task_scene;
   updateTaskQuestionnaireTypeVisibility();
   formFields.questionnaireType.value = task.task_scene === "全局" ? getTaskTemplateType(task) : "";
-  updateTaskVersionOptions({ preserveSelection: false });
-  setTaskVersionValues(getTaskStoredVersions(task));
+  const versionRange = getTaskStoredVersionRange(task);
+  setTaskVersionRange(versionRange.start, versionRange.end);
   renderTemplateOptions();
   setDateTimeHourValue(formFields.startDateTime, task.start_time);
   setDateHourValue(formFields.endDate, formFields.endHour, task.end_time);
   formFields.templateName.value = task.template_name;
   formFields.appClientApp.checked = true;
   updateAppTrigger();
-  if (task.audience_file_names && task.audience_file_names.length) {
-    renderAudienceFiles(task.audience_file_names);
-  } else if (task.audience_file_name) {
-    renderAudienceFiles([task.audience_file_name]);
-  }
+  renderAudienceRegionFiles(getTaskAudienceRegionFiles(task));
 }
 
 function openTaskForm(mode, taskId = "") {
@@ -2747,7 +2766,7 @@ function validateTaskForm() {
     setError("startTime", "投放时间不能为空。");
     valid = false;
   } else if (startTime < getCurrentBeijingHourValue()) {
-    setError("startTime", "投放时间必须大于等于当前小时。");
+    setError("startTime", "投放时间必须大于等于当前北京时间。");
     valid = false;
   }
   if (!formFields.templateName.value) {
@@ -2755,7 +2774,7 @@ function validateTaskForm() {
     valid = false;
   }
   if (!getSelectedTaskVersions().length) {
-    setError("taskVersion", "请设置投放版本。");
+    setError("taskVersion", "请至少设置一个投放版本值。");
     valid = false;
   }
   if (!getAudienceFileNames().length) {
@@ -2782,10 +2801,13 @@ function submitTaskForm() {
     task_scene: formFields.taskScene.value,
     questionnaire_type: formFields.questionnaireType.value,
     audience_link_text: "查看",
+    audience_region_files: { ...audienceRegionFiles },
     audience_file_names: audienceFileNames,
     audience_file_name: audienceFileNames.join(","),
     start_time: formatDateTimeHour(formFields.startDateTime.value),
     delivery_versions: getSelectedTaskVersions(),
+    delivery_version_start: getSelectedTaskVersions()[0] || "",
+    delivery_version_end: normalizeTaskVersionValue(formFields.taskVersionEnd.value) ? `V${normalizeTaskVersionValue(formFields.taskVersionEnd.value)}` : "",
     template_name: formFields.templateName.value,
   };
 
@@ -2869,15 +2891,10 @@ function isSurveyGlobalQuestionEditable() {
 }
 
 function updateSurveyMinVersionOptions() {
-  const questionnaireType = templateFormFields.questionnaireType.value;
-  const isDesignType = isDesignQuestionnaireType(questionnaireType);
-  const isGlobalType = isPopupAppQuestionnaireType(questionnaireType);
-  const options = isDesignType
-    ? ["V3.16", "V4.X(待定)"]
-    : (isGlobalType ? ["V3.13", "V4.X(待定)"] : TEMPLATE_MIN_VERSION_OPTIONS);
+  const options = ["V4.X(待定)"];
   const currentValue = templateFormFields.androidVersion.value;
-  templateFormFields.androidVersion.innerHTML = `<option value="">请选择版本</option>${options.map((value) => `<option value="${value}">${value}</option>`).join("")}`;
-  templateFormFields.androidVersion.value = options.includes(currentValue) ? currentValue : "";
+  templateFormFields.androidVersion.innerHTML = options.map((value) => `<option value="${value}">${value}</option>`).join("");
+  templateFormFields.androidVersion.value = options.includes(currentValue) ? currentValue : options[0];
   templateFormFields.iosVersion.value = "";
 }
 
@@ -4848,29 +4865,56 @@ formFields.questionnaireType.addEventListener("change", () => {
   applyTaskVersionDefaults();
   renderTemplateOptions();
 });
-formFields.taskVersion.addEventListener("change", () => {
+formFields.taskVersionStart.addEventListener("input", () => {
   renderTemplateOptions();
   clearError("taskVersion");
 });
+formFields.taskVersionEnd.addEventListener("input", () => clearError("taskVersion"));
 
-document.getElementById("chooseFileBtn").addEventListener("click", () => {
-  if (formMode === "view" || formFields.audienceFile.disabled) return;
-  formFields.audienceFile.click();
+const audienceRegionInputMap = {
+  us: formFields.audienceFileUs,
+  uk: formFields.audienceFileUk,
+  cn: formFields.audienceFileCn,
+};
+
+document.querySelectorAll(".audience-file-choose").forEach((button) => {
+  button.addEventListener("click", () => {
+    const region = button.dataset.audienceRegion;
+    const input = audienceRegionInputMap[region];
+    if (formMode === "view" || !input || input.disabled) return;
+    input.click();
+  });
 });
-formFields.audienceFile.addEventListener("change", () => {
-  const fileNames = Array.from(formFields.audienceFile.files).map((file) => file.name);
-  renderAudienceFiles([...new Set([...audienceUploadedFileNames, ...fileNames])]);
-  formFields.audienceFile.value = "";
-  clearError("audienceFiles");
+
+Object.entries(audienceRegionInputMap).forEach(([region, input]) => {
+  input.addEventListener("change", () => {
+    const file = input.files && input.files[0];
+    if (!file) return;
+    if (!/\.(xlsx|csv)$/i.test(file.name)) {
+      showToast("仅支持上传 .xlsx、.csv 文件。");
+      input.value = "";
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      showToast("文件大小不能超过 5M。");
+      input.value = "";
+      return;
+    }
+    audienceRegionFiles = { ...audienceRegionFiles, [region]: file.name };
+    renderAudienceRegionFiles(audienceRegionFiles);
+    input.value = "";
+    clearError("audienceFiles");
+  });
 });
-formFields.audienceFileList.addEventListener("click", (event) => {
+
+formFields.audienceFiles.addEventListener("click", (event) => {
   if (formMode === "view") return;
   const target = event.target;
   if (!(target instanceof HTMLElement) || !target.classList.contains("file-remove")) return;
-  const fileIndex = Number(target.dataset.fileIndex);
-  if (Number.isNaN(fileIndex)) return;
-  const nextFiles = audienceUploadedFileNames.filter((_, index) => index !== fileIndex);
-  renderAudienceFiles(nextFiles);
+  const region = target.dataset.audienceRegionRemove;
+  if (!region) return;
+  audienceRegionFiles = { ...audienceRegionFiles, [region]: "" };
+  renderAudienceRegionFiles(audienceRegionFiles);
 });
 
 function clearDefaultChoiceOptionOnHover(target) {

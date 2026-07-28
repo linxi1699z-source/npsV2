@@ -2892,8 +2892,34 @@ select {
   min-height: 42px;
 }
 
-.task-version-select {
-  width: 260px;
+.task-version-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 390px;
+}
+
+.version-prefix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--ant-color-border);
+  border-right: 0;
+  border-radius: 4px 0 0 4px;
+  color: var(--ant-color-text-secondary);
+  background: var(--ant-color-fill-tertiary);
+}
+
+.task-version-input {
+  width: 128px;
+  margin-left: -8px;
+  border-radius: 0 4px 4px 0;
+}
+
+.task-version-separator {
+  color: var(--ant-color-text-secondary);
 }
 
 .version-input {
@@ -2930,6 +2956,98 @@ select {
   display: flex;
   align-items: flex-start;
   height: 32px;
+}
+
+.audience-region-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.audience-upload-table {
+  width: 620px;
+  border: 1px solid var(--ant-color-border-secondary);
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: var(--ant-color-bg-container);
+}
+
+.audience-upload-table th,
+.audience-upload-table td {
+  padding: 10px 14px;
+  border-right: 1px solid var(--ant-color-border-secondary);
+  border-bottom: 1px solid var(--ant-color-border-secondary);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.audience-upload-table th {
+  color: var(--ant-color-text);
+  background: var(--ant-color-fill-tertiary);
+  font-weight: 600;
+}
+
+.audience-upload-table th:first-child,
+.audience-upload-table td:first-child {
+  width: 190px;
+}
+
+.audience-upload-table th:last-child,
+.audience-upload-table td:last-child {
+  border-right: 0;
+}
+
+.audience-upload-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.audience-region-note {
+  display: block;
+  margin-top: 4px;
+  color: var(--ant-color-text-tertiary);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.audience-region-upload {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+}
+
+.audience-region-label {
+  width: 180px;
+  color: var(--ant-color-text);
+  text-align: right;
+}
+
+.audience-region-label em {
+  margin-left: 8px;
+  color: var(--ant-color-text-tertiary);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.audience-file-choose {
+  margin-left: 12px;
+}
+
+.audience-region-file-name {
+  display: inline-flex;
+  align-items: center;
+  min-width: 160px;
+  margin-left: 14px;
+  color: var(--ant-color-text-secondary);
+  line-height: 32px;
+}
+
+.audience-upload-table .audience-region-file-name {
+  max-width: 230px;
+  min-width: 0;
+}
+
+.audience-region-file-name .file-remove {
+  margin-left: 32px;
 }
 
 .file-name-list {

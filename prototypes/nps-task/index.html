@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260727-22" />
+    <link rel="stylesheet" href="./styles.css?v=20260728-11" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -85,6 +85,7 @@
                     <th class="tpl-name">问卷名称</th>
                     <th class="tpl-status">状态</th>
                     <th class="tpl-type">问卷类型</th>
+                    <th class="tpl-version">最低可用版本</th>
                     <th class="tpl-creator">创建者</th>
                     <th class="tpl-updated">最近一次更新时间</th>
                     <th class="tpl-actions">操作</th>
@@ -295,15 +296,21 @@
             <div class="form-row">
               <label class="form-label required" for="formStartDateTime">投放时间</label>
               <div class="datetime-field" id="formStartTime">
-                <input class="ax-input datetime-picker-input" id="formStartDateTime" type="datetime-local" step="3600" />
+                <input class="ax-input datetime-picker-input" id="formStartDateTime" type="datetime-local" step="60" />
               </div>
               <span class="field-side-note">投放时间为北京时间</span>
               <div class="form-error" id="formStartTimeError"></div>
             </div>
 
             <div class="form-row task-version-row">
-              <label class="form-label required" for="formTaskVersion">投放版本</label>
-              <select class="ax-select form-control task-version-select" id="formTaskVersion"></select>
+              <label class="form-label required" for="formTaskVersionStart">投放版本</label>
+              <div class="task-version-range">
+                <span class="version-prefix">V</span>
+                <input class="ax-input task-version-input" id="formTaskVersionStart" type="text" autocomplete="off" placeholder="如 3.13" />
+                <span class="task-version-separator">-</span>
+                <span class="version-prefix">V</span>
+                <input class="ax-input task-version-input" id="formTaskVersionEnd" type="text" autocomplete="off" placeholder="可为空" />
+              </div>
               <div class="form-error" id="formTaskVersionError"></div>
             </div>
 
@@ -334,14 +341,28 @@
             </div>
 
             <div class="form-row file-row">
-              <label class="form-label required" for="audienceFile">投放人群</label>
+              <label class="form-label required" for="audienceFileUs">投放人群</label>
               <div class="file-field">
-                <input class="file-input" id="audienceFile" type="file" accept=".xlsx,.csv" multiple />
-                <div class="file-topline">
-                  <button class="ax-button long" id="chooseFileBtn" type="button">选择文件</button>
+                <div id="audienceRegionFiles">
+                  <table class="audience-upload-table">
+                    <thead><tr><th>投放地区</th><th>上传文件</th></tr></thead>
+                    <tbody>
+                      <tr>
+                        <td>美区</td>
+                        <td><input class="file-input" id="audienceFileUs" type="file" accept=".xlsx,.csv" /><button class="ax-button long audience-file-choose" type="button" data-audience-region="us">选择文件</button><span class="audience-region-file-name" id="audienceFileNameUs">未上传文件</span></td>
+                      </tr>
+                      <tr>
+                        <td>英区<span class="audience-region-note">除美国和中国大陆外的地区</span></td>
+                        <td><input class="file-input" id="audienceFileUk" type="file" accept=".xlsx,.csv" /><button class="ax-button long audience-file-choose" type="button" data-audience-region="uk">选择文件</button><span class="audience-region-file-name" id="audienceFileNameUk">未上传文件</span></td>
+                      </tr>
+                      <tr>
+                        <td>中国大陆</td>
+                        <td><input class="file-input" id="audienceFileCn" type="file" accept=".xlsx,.csv" /><button class="ax-button long audience-file-choose" type="button" data-audience-region="cn">选择文件</button><span class="audience-region-file-name" id="audienceFileNameCn">未上传文件</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div class="file-note">支持.xlsx, .csv格式文件，文件大小不超过 5M。支持上传多个文件。点击<a class="template-download" href="./nps-audience-template.csv" download>下载模板</a>。</div>
-                <div class="file-name-list" id="audienceFileList">未上传文件</div>
+                <div class="file-note">支持.xlsx, .csv格式文件，文件大小不超过 5M。<br />每个投放地区仅允许上传一个文件。点击<a class="template-download" href="./nps-audience-template.csv" download>下载模板</a>。</div>
                 <div class="form-error file-error" id="formAudienceFilesError"></div>
               </div>
             </div>
@@ -771,6 +792,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260727-22"></script>
+    <script src="./app.js?v=20260728-11"></script>
   </body>
 </html>
