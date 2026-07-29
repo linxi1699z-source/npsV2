@@ -36,7 +36,7 @@ const tasks = [
     start_time: "2026-06-20 10",
     end_time: "2026-07-10 20",
     template_name: "OSA问卷模板",
-    delivery_versions: ["V3.13"],
+    delivery_versions: ["V3.13.2"],
     plan_id: "10002",
     plan_name: "OSA 体验计划",
     total_users: "80,000",
@@ -61,7 +61,7 @@ const tasks = [
     start_time: "2026-06-01 09",
     end_time: "2026-06-30 18",
     template_name: "血压NPS模板",
-    delivery_versions: ["V3.13"],
+    delivery_versions: ["V3.13.2"],
     plan_id: "10003",
     plan_name: "血压 NPS 计划",
     total_users: "50,000",
@@ -86,7 +86,7 @@ const tasks = [
     start_time: "2026-06-15 10",
     end_time: "2026-07-15 19",
     template_name: "AI Partner模板",
-    delivery_versions: ["V3.13"],
+    delivery_versions: ["V3.13.2"],
     plan_id: "10004",
     plan_name: "AI Partner 计划",
     total_users: "30,000",
@@ -111,7 +111,7 @@ const tasks = [
     start_time: "2026-06-10 09",
     end_time: "2026-07-31 18",
     template_name: "生理NPS模板",
-    delivery_versions: ["V3.13"],
+    delivery_versions: ["V3.13.2"],
     plan_id: "10005",
     plan_name: "生理 NPS 计划",
     total_users: "60,000",
@@ -136,7 +136,7 @@ const tasks = [
     start_time: "2026-07-01 08",
     end_time: "2026-07-31 18",
     template_name: "计划NPS模板",
-    delivery_versions: ["V3.13"],
+    delivery_versions: ["V3.13.2"],
     plan_id: "10006",
     plan_name: "计划 NPS 计划",
     total_users: "90,000",
@@ -314,7 +314,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-06-23 16:30",
-    min_version: "V3.13",
+    min_version: "V3.13.2",
     linked_questionnaires: ["NPS分组问卷-监测准确性", "NPS分组问卷-App设计体验", "NPS分组问卷-渠道与改进"],
     questions: [
       { type: "评分(全局)", title: "您愿意向朋友推荐 RingConn 吗？", subtitle: "1=非常不认可，10=非常认可", options: "1-10" },
@@ -941,9 +941,9 @@ function getTaskVersionDefault() {
   const questionnaireType = formFields.questionnaireType.value;
   if (!module || (module === "全局" && !formFields.questionnaireType.value)) return "";
   if (module === "全局" && questionnaireType === "弹窗问卷(用研/设计)") return "V3.16";
-  if (module === "全局" && questionnaireType === "弹窗问卷(全局)") return "V3.13";
+  if (module === "全局" && questionnaireType === "弹窗问卷(全局)") return "V3.13.2";
   if (HIGH_VERSION_MODULES.includes(module)) return "V3.16";
-  return "V3.13";
+  return "V3.13.2";
 }
 
 function applyTaskVersionDefaults() {
@@ -1056,7 +1056,7 @@ function renderTemplates(rows) {
       ? getSurveyListStatus(template.template_status)
       : template.template_status;
     const isGlobalPopupQuestionnaire = isPopupAppQuestionnaireType(templateType);
-    const isLegacySurveyQuestionnaire = isSurveyListVariant() && ["V3.13", "V3.16"].includes(normalizeTemplateMinVersionValue(template.min_version));
+    const isLegacySurveyQuestionnaire = isSurveyListVariant() && ["V3.13.2", "V3.16"].includes(normalizeTemplateMinVersionValue(template.min_version));
     const i18nDisabled = (isGlobalPopupQuestionnaire && !isSurveyListVariant()) || isLegacySurveyQuestionnaire;
     const editDisabled = isLegacySurveyQuestionnaire;
     const copyDisabled = isLegacySurveyQuestionnaire;
@@ -2575,7 +2575,7 @@ function openTemplateI18nPage(templateId) {
     templateName: template.template_name,
     mode: template.i18n_uploaded ? "edit" : "add",
   });
-  window.location.href = `./i18n-translation-workflow.html?v=20260728-11&${workflowParams.toString()}`;
+  window.location.href = `./i18n-translation-workflow.html?v=20260729-03&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {
@@ -2880,7 +2880,7 @@ function updateTemplateChannelTrigger() {
   updateTemplateVersionVisibility();
 }
 
-const TEMPLATE_MIN_VERSION_OPTIONS = ["V3.13", "V3.16", "V4.X(待定)"];
+const TEMPLATE_MIN_VERSION_OPTIONS = ["V3.13.2", "V3.16", "V4.X(待定)"];
 
 function isSurveyV4PendingVersion() {
   return isSurveyListVariant() && templateFormFields.androidVersion.value === "V4.X(待定)";
@@ -3515,8 +3515,8 @@ function renderPlanBQuestionSections() {
     <section class="question-card has-question-remove" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">
       <button class="link-button section-question-remove" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除</button>
       <div class="question-row question-type-row"><label class="question-label required">问题类型</label><select class="ax-select question-control" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-question-field="type">${availableTypes.map((type) => `<option value="${type}"${question.type === type ? " selected" : ""}>${escapeText(getQuestionTypeLabel(type))}</option>`).join("")}</select><span class="question-type-note">不同类型展示不同字段</span></div>
-      <div class="question-row"><label class="question-label required">问题标题</label><input class="ax-input question-control" type="text" value="${escapeText(question.title)}" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-question-field="title" /></div>
-      <div class="question-row"><label class="question-label">${surveyList ? "问题标题备注" : "问题副标题"}</label><input class="ax-input question-control" type="text" value="${escapeText(question.subtitle)}" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-question-field="subtitle" /></div>
+      <div class="question-row question-textarea-row"><label class="question-label required">问题标题</label><textarea class="ax-input question-control question-auto-grow" rows="1" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-question-field="title">${escapeText(question.title)}</textarea></div>
+      <div class="question-row question-textarea-row"><label class="question-label">${surveyList ? "问题标题备注" : "问题副标题"}</label><textarea class="ax-input question-control question-auto-grow" rows="1" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-question-field="subtitle">${escapeText(question.subtitle)}</textarea></div>
       ${renderPlanBQuestionBody(question, sectionIndex, questionIndex)}
     </section>
   `;
@@ -3533,6 +3533,7 @@ function renderPlanBQuestionSections() {
   }).join("") + `<div class="template-question-summary${surveyList ? " survey-page-add-summary" : ""}">${surveyList ? '<div class="survey-page-divider"></div>' : ""}<button class="icon-add-button section-add" type="button"><span class="button-icon">+</span><span>${surveyList ? "新增分页" : "新增分区"}</span></button>${surveyList ? '<span class="page-add-note">(表示问卷里的问题在下一页展示)</span>' : ""}</div>`;
   templateFormFields.sectionRepeaterStepTwo.innerHTML = markup;
   templateFormFields.sectionRepeaterStepThree.innerHTML = markup;
+  requestAnimationFrame(autoResizeQuestionTextareas);
 }
 
 function getPlanBSectionQuestion(sectionIndex, questionIndex) {
@@ -3834,8 +3835,8 @@ function renderSurveyGlobalQuestions() {
   templateFormFields.globalQuestionRepeater.innerHTML = `
     <section class="question-card global-question-card" data-question-index="0">
       <div class="question-row question-type-row"><label class="question-label required">问题类型</label><select class="ax-select question-control question-field" data-question-index="0" data-question-field="type" disabled><option>评分(全局)</option></select><span class="question-type-note">固定问题类型</span></div>
-      <div class="question-row"><label class="question-label required">问题标题</label><input class="ax-input question-control question-field" type="text" value="${escapeText(scoreQuestion.title)}" data-question-index="0" data-question-field="title" ${fixedAttribute} /></div>
-      <div class="question-row"><label class="question-label">问题标题备注</label><input class="ax-input question-control question-field" type="text" value="${escapeText(scoreQuestion.subtitle)}" data-question-index="0" data-question-field="subtitle" ${fixedAttribute} /></div>
+      <div class="question-row question-textarea-row"><label class="question-label required">问题标题</label><textarea class="ax-input question-control question-field question-auto-grow" rows="1" data-question-index="0" data-question-field="title" ${fixedAttribute}>${escapeText(scoreQuestion.title)}</textarea></div>
+      <div class="question-row question-textarea-row"><label class="question-label">问题标题备注</label><textarea class="ax-input question-control question-field question-auto-grow" rows="1" data-question-index="0" data-question-field="subtitle" ${fixedAttribute}>${escapeText(scoreQuestion.subtitle)}</textarea></div>
       <div class="question-row"><label class="question-label required">选项</label><select class="ax-select question-control question-field" data-question-index="0" data-question-field="scoreRange" ${fixedAttribute}><option value="10"${scoreQuestion.scoreRange === "10" ? " selected" : ""}>10</option><option value="5"${scoreQuestion.scoreRange === "5" ? " selected" : ""}>5</option></select></div>
       <div class="score-preview">${renderScorePreview(scoreQuestion.scoreRange)}</div>
       <div class="question-row"><label class="question-label">最小值描述</label><input class="ax-input question-control question-field" type="text" value="${escapeText(scoreQuestion.scoreMinDesc)}" data-question-index="0" data-question-field="scoreMinDesc" ${fixedAttribute} /></div>
@@ -3849,6 +3850,7 @@ function renderSurveyGlobalQuestions() {
       <div class="question-row options-row"><label class="question-label">选项</label><div class="question-options">${renderChoiceOptions(choiceQuestion, 1, "checkbox")}</div></div>
     </section>
   `;
+  requestAnimationFrame(autoResizeQuestionTextareas);
 }
 
 function renderTemplateQuestionList() {
@@ -3872,18 +3874,19 @@ function renderTemplateQuestionList() {
         </select>
         <span class="question-type-note">${escapeText(getQuestionTypeNote())}</span>
       </div>
-      <div class="question-row">
+      <div class="question-row question-textarea-row">
         <label class="question-label required">问题标题</label>
-        <input class="ax-input question-control question-field" type="text" value="${escapeText(question.title)}" data-question-index="${index}" data-question-field="title" ${fixedQuestionAttribute} />
+        <textarea class="ax-input question-control question-field question-auto-grow" rows="1" data-question-index="${index}" data-question-field="title" ${fixedQuestionAttribute}>${escapeText(question.title)}</textarea>
         ${renderQuestionError(question.errors && question.errors.title)}
       </div>
-      <div class="question-row">
+      <div class="question-row question-textarea-row">
         <label class="question-label">问题副标题</label>
-        <input class="ax-input question-control question-field" type="text" value="${escapeText(question.subtitle)}" data-question-index="${index}" data-question-field="subtitle" ${fixedQuestionAttribute} />
+        <textarea class="ax-input question-control question-field question-auto-grow" rows="1" data-question-index="${index}" data-question-field="subtitle" ${fixedQuestionAttribute}>${escapeText(question.subtitle)}</textarea>
       </div>
       ${renderQuestionBody(question, index)}
     </section>
   `).join("");
+  requestAnimationFrame(autoResizeQuestionTextareas);
 }
 
 function validateTemplateStepOne() {
@@ -4344,7 +4347,7 @@ function normalizeTemplateMinVersionValue(value) {
   if (TEMPLATE_MIN_VERSION_OPTIONS.includes(rawValue)) return rawValue;
   if (/V4(?:\.|\b)/i.test(rawValue)) return "V4.X(待定)";
   if (/V3\.16/i.test(rawValue)) return "V3.16";
-  if (/V3\.13/i.test(rawValue)) return "V3.13";
+  if (/V3\.13(?:\.2)?/i.test(rawValue)) return "V3.13.2";
   return "";
 }
 
@@ -4939,6 +4942,16 @@ function clearDefaultChoiceOptionOnHover(target) {
   target.value = "";
 }
 
+function autoResizeQuestionTextarea(target) {
+  if (!(target instanceof HTMLTextAreaElement) || !target.classList.contains("question-auto-grow")) return;
+  target.style.height = "auto";
+  target.style.height = `${Math.max(target.scrollHeight, 32)}px`;
+}
+
+function autoResizeQuestionTextareas() {
+  document.querySelectorAll("textarea.question-auto-grow").forEach(autoResizeQuestionTextarea);
+}
+
 document.getElementById("templateForm").addEventListener("mouseover", (event) => {
   clearDefaultChoiceOptionOnHover(event.target);
 });
@@ -4950,6 +4963,7 @@ document.getElementById("templateForm").addEventListener("focusin", (event) => {
 document.getElementById("templateForm").addEventListener("input", (event) => {
   const target = event.target;
   if (!(target instanceof HTMLElement)) return;
+  autoResizeQuestionTextarea(target);
   if (target.dataset.sectionField || target.dataset.sectionQuestionField) {
     updatePlanBSectionField(target);
   }

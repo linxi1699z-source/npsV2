@@ -2459,6 +2459,10 @@ select {
   margin-bottom: 1px;
 }
 
+.question-row.question-textarea-row {
+  align-items: flex-start;
+}
+
 .question-card .radio-row {
   gap: 0;
 }
@@ -2492,6 +2496,17 @@ select {
 
 .question-control {
   width: 180px;
+}
+
+textarea.question-control.question-auto-grow {
+  box-sizing: border-box;
+  min-height: 32px;
+  height: 32px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  line-height: 20px;
+  resize: none;
+  overflow: hidden;
 }
 
 .question-type-note {
