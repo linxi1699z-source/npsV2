@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260729-03" />
+    <link rel="stylesheet" href="./styles.css?v=20260731-04" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -283,6 +283,15 @@
               <div class="form-error" id="formTaskSceneError"></div>
             </div>
 
+            <div class="form-row hidden" id="formTaskGynecologyRow">
+              <label class="form-label required">是否国妇婴问卷</label>
+              <div class="radio-row questionnaire-style-options" role="radiogroup" aria-label="是否国妇婴问卷">
+                <label><input id="formTaskGynecologyNo" name="taskGynecologyQuestionnaire" type="radio" value="否" checked /> 否</label>
+                <label><input id="formTaskGynecologyYes" name="taskGynecologyQuestionnaire" type="radio" value="是" /> 是</label>
+              </div>
+              <div class="form-error" id="formTaskGynecologyError"></div>
+            </div>
+
             <div class="form-row hidden" id="formTaskQuestionnaireTypeRow">
               <label class="form-label required" for="formTaskQuestionnaireType">问卷类型</label>
               <select class="ax-select form-control" id="formTaskQuestionnaireType">
@@ -291,15 +300,6 @@
                 <option value="弹窗问卷(用研/设计)">弹窗问卷(用研/设计)</option>
               </select>
               <div class="form-error" id="formTaskQuestionnaireTypeError"></div>
-            </div>
-
-            <div class="form-row">
-              <label class="form-label required" for="formStartDateTime">投放时间</label>
-              <div class="datetime-field" id="formStartTime">
-                <input class="ax-input datetime-picker-input" id="formStartDateTime" type="datetime-local" step="60" />
-              </div>
-              <span class="field-side-note">投放时间为北京时间</span>
-              <div class="form-error" id="formStartTimeError"></div>
             </div>
 
             <div class="form-row task-version-row">
@@ -318,6 +318,15 @@
               <label class="form-label required" for="formTemplateName">关联问卷</label>
               <select class="ax-select form-control" id="formTemplateName"></select>
               <div class="form-error" id="formTemplateNameError"></div>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label required" for="formStartDateTime">投放时间</label>
+              <div class="datetime-field" id="formStartTime">
+                <input class="ax-input datetime-picker-input" id="formStartDateTime" type="datetime-local" step="60" />
+              </div>
+              <span class="field-side-note">投放时间为北京时间</span>
+              <div class="form-error" id="formStartTimeError"></div>
             </div>
 
             <div class="form-row hidden">
@@ -485,6 +494,14 @@
                   <option value="常规问卷">常规问卷</option>
                 </select>
                 <div class="form-error" id="formQuestionnaireTypeError"></div>
+              </div>
+
+              <div class="form-row hidden" id="templateGynecologyRow">
+                <label class="form-label required">是否国妇婴问卷</label>
+                <div class="radio-row questionnaire-style-options" role="radiogroup" aria-label="是否国妇婴问卷">
+                  <label><input id="templateGynecologyNo" name="templateGynecologyQuestionnaire" type="radio" value="否" checked /> 否</label>
+                  <label><input id="templateGynecologyYes" name="templateGynecologyQuestionnaire" type="radio" value="是" /> 是</label>
+                </div>
               </div>
 
               <div class="form-row survey-hidden-field">
@@ -792,6 +809,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260729-03"></script>
+    <script src="./app.js?v=20260731-04"></script>
   </body>
 </html>
