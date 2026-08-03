@@ -2070,7 +2070,8 @@ select {
 }
 
 .rich-button,
-.color-swatch {
+.color-swatch,
+.consent-rich-button {
   width: 24px;
   height: 24px;
   border: 1px solid var(--ant-color-border);
@@ -2084,18 +2085,32 @@ select {
 }
 
 .rich-button:hover,
-.color-swatch:hover {
+.color-swatch:hover,
+.consent-rich-button:hover {
   border-color: var(--ant-color-primary-hover);
 }
 
 .rich-button:disabled,
-.color-swatch:disabled {
+.color-swatch:disabled,
+.consent-rich-button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
 }
 
 .rich-button.underline {
   text-decoration: underline;
+}
+
+.consent-rich-button.underline {
+  text-decoration: underline;
+}
+
+.consent-link-button {
+  width: auto;
+  padding: 0 7px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
 }
 
 .color-swatch.red {
@@ -2119,6 +2134,16 @@ select {
   line-height: 20px;
   outline: none;
   overflow: auto;
+}
+
+.consent-richtext-field {
+  width: 600px;
+}
+
+.consent-editor {
+  height: 136px;
+  min-height: 136px;
+  max-height: 136px;
 }
 
 .rich-editor.is-readonly {

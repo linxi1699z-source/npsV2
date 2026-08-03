@@ -151,10 +151,16 @@
                 <div class="section-title">基础信息</div>
                 <table class="translation-table"><thead><tr><th>字段</th><th>原文案</th><th>多语言 Key</th><th>英文翻译</th><th>操作</th></tr></thead><tbody>
                   <tr><td>问卷名称(用于 APP 展示)</td><td>健康体验调研问卷</td><td><code>nps.10010.display_name</code></td><td class="translation-ok">Health Experience Survey</td></tr>
-                  <tr><td>弹窗文案</td><td>我们一直致力于从用户视角出发，打造更专业、更易用的健康管理体验。</td><td><code>nps.10010.popup_copy</code></td><td class="translation-ok">We are always improving RingConn from your perspective.</td></tr>
+                  <tr id="popupCopyTranslationRow"><td>弹窗文案</td><td>我们一直致力于从用户视角出发，打造更专业、更易用的健康管理体验。</td><td><code>nps.10010.popup_copy</code></td><td class="translation-ok">We are always improving RingConn from your perspective.</td></tr>
                 </tbody></table>
               </section>
-              <section class="translation-section">
+              <section class="translation-section" id="consentTranslationSection" hidden>
+                <div class="section-title">知情同意书</div>
+                <table class="translation-table"><thead><tr><th>字段</th><th>原文案</th><th>多语言 Key</th><th>英文翻译</th><th>操作</th></tr></thead><tbody>
+                  <tr><td>知情同意书内容</td><td id="consentTranslationSource"></td><td><code>nps.10010.informed_consent</code></td><td class="translation-ok" id="consentTranslationEnglish">Informed consent for user research.</td></tr>
+                </tbody></table>
+              </section>
+              <section class="translation-section" id="globalTranslationSection">
                 <div class="section-title">全局问题</div>
                 <div class="question-title">问题 1 · 评分</div>
                 <table class="translation-table"><thead><tr><th>字段</th><th>原文案</th><th>多语言 Key</th><th>英文翻译</th><th>操作</th></tr></thead><tbody>
@@ -217,6 +223,19 @@
       const targetTemplateId = workflowParams.get("templateId") || "10010";
       const targetTemplateName = workflowParams.get("templateName") || "健康体验调研问卷";
       const isEditMode = workflowParams.get("mode") === "edit";
+      const isRegularQuestionnaire = workflowParams.get("questionnaireType") === "常规问卷";
+      if (isRegularQuestionnaire) {
+        document.getElementById("popupCopyTranslationRow").remove();
+        document.getElementById("globalTranslationSection").remove();
+      }
+      const consentTranslationSection = document.getElementById("consentTranslationSection");
+      const consentContent = workflowParams.get("consentContent") || "";
+      if (workflowParams.get("consent") === "1" && consentContent) {
+        consentTranslationSection.hidden = false;
+        document.getElementById("consentTranslationSource").textContent = consentContent;
+      } else {
+        consentTranslationSection.remove();
+      }
       const languageDefinitions = [
         ["zh_cn", "中文"], ["zh_tw", "繁体中文"], ["en", "英文"], ["ja", "日本语"], ["de", "德语"], ["es", "西班牙语"], ["fr", "法语"], ["ar", "阿拉伯语"], ["cs", "捷克语"],
         ["tr", "土耳其语"], ["pl", "波兰语"], ["fi", "芬兰语"], ["it", "意大利语"], ["hu", "匈牙利语"], ["ro", "罗马尼亚语"], ["ko", "韩语"], ["lt", "立陶宛语"], ["ms", "马来语"],

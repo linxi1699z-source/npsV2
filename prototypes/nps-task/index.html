@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260731-04" />
+    <link rel="stylesheet" href="./styles.css?v=20260803-10" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -547,6 +547,41 @@
                 <div class="form-error version-error" id="formTemplateVersionError"></div>
               </div>
 
+              <div class="form-row hidden" id="templateConsentRow">
+                <label class="form-label">知情同意书</label>
+                <div class="radio-row questionnaire-style-options" role="radiogroup" aria-label="知情同意书">
+                  <label><input id="templateConsentNotRequired" name="templateConsentRequired" type="radio" value="不需要" checked /> 不需要</label>
+                  <label><input id="templateConsentRequired" name="templateConsentRequired" type="radio" value="需要" /> 需要</label>
+                </div>
+              </div>
+
+              <div class="form-row richtext-row hidden" id="templateConsentContentRow">
+                <label class="form-label required" for="templateConsentContent">知情同意书内容</label>
+                <div class="richtext-field consent-richtext-field">
+                  <div class="richtext-toolbar" aria-label="知情同意书格式工具栏">
+                    <button class="consent-rich-button" type="button" data-consent-command="bold">B</button>
+                    <button class="consent-rich-button underline" type="button" data-consent-command="underline">U</button>
+                    <button class="consent-rich-button consent-link-button" type="button" data-consent-command="createLink">链接</button>
+                  </div>
+                  <div class="rich-editor consent-editor" id="templateConsentContent" contenteditable="true"></div>
+                </div>
+                <div class="form-error" id="formTemplateConsentError"></div>
+              </div>
+
+              <div class="form-row hidden" id="templateThirdPartyRow">
+                <label class="form-label">是否跳转三方问卷</label>
+                <div class="radio-row questionnaire-style-options" role="radiogroup" aria-label="是否跳转三方问卷">
+                  <label><input id="templateThirdPartyNo" name="templateThirdPartyQuestionnaire" type="radio" value="否" checked /> 否</label>
+                  <label><input id="templateThirdPartyYes" name="templateThirdPartyQuestionnaire" type="radio" value="是" /> 是</label>
+                </div>
+              </div>
+
+              <div class="form-row hidden" id="templateThirdPartyUrlRow">
+                <label class="form-label required" for="templateThirdPartyUrl">三方问卷 URL</label>
+                <input class="ax-input form-control" id="templateThirdPartyUrl" type="url" autocomplete="off" placeholder="请输入 https:// 开头的问卷链接" />
+                <div class="form-error" id="formTemplateThirdPartyUrlError"></div>
+              </div>
+
               <div class="form-row survey-hidden-field" id="templateBannerTitleRow">
                 <label class="form-label with-note required" for="templateBannerTitle">
                   <span>Banner标题</span>
@@ -809,6 +844,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260731-04"></script>
+    <script src="./app.js?v=20260803-10"></script>
   </body>
 </html>

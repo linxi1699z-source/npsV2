@@ -172,6 +172,8 @@ read? Does the data make sense? Does everything feel intuitive? Take this
 quick survey about our new design and help us make RingConn everbetter for
 you.`;
 
+const DEFAULT_INFORMED_CONSENT_HTML = `感谢您参与本次用户调研。<br><br>本问卷旨在了解您对 RingConn 产品体验的真实感受。参与完全出于自愿，您可随时退出且无需说明原因。我们将仅在本次研究目的范围内使用您提交的信息，并依据适用的隐私政策进行保护。<br><br><strong>点击继续即表示您已阅读并同意上述说明。</strong>`;
+
 const SURVEY_POPUP_COPY_PRESETS = {
   设计: "我们一直致力于从用户视角出发，打造更专业、更易用的健康管理体验。你的真实评价对我们至关重要。现在的图表够直观吗？数据解读是否轻松？操作逻辑是否顺手？我们诚邀你参与本次设计体验调研，帮助我们打磨出更懂你的 RingConn。",
   用研: `面向受访者的简述
@@ -676,6 +678,16 @@ const templateFormFields = {
   androidVersionEnd: document.getElementById("templateAndroidVersionEnd"),
   iosVersion: document.getElementById("templateIosVersion"),
   iosVersionEnd: document.getElementById("templateIosVersionEnd"),
+  consentRow: document.getElementById("templateConsentRow"),
+  consentNotRequired: document.getElementById("templateConsentNotRequired"),
+  consentRequired: document.getElementById("templateConsentRequired"),
+  consentContentRow: document.getElementById("templateConsentContentRow"),
+  consentContent: document.getElementById("templateConsentContent"),
+  thirdPartyRow: document.getElementById("templateThirdPartyRow"),
+  thirdPartyNo: document.getElementById("templateThirdPartyNo"),
+  thirdPartyYes: document.getElementById("templateThirdPartyYes"),
+  thirdPartyUrlRow: document.getElementById("templateThirdPartyUrlRow"),
+  thirdPartyUrl: document.getElementById("templateThirdPartyUrl"),
   bannerTitle: document.getElementById("templateBannerTitle"),
   bannerSubtitle: document.getElementById("templateBannerSubtitle"),
   bannerButton: document.getElementById("templateBannerButton"),
@@ -723,6 +735,8 @@ const templateFormErrors = {
   linked: document.getElementById("formLinkedQuestionnaireError"),
   pageSize: document.getElementById("formPageSizeError"),
   version: document.getElementById("formTemplateVersionError"),
+  consent: document.getElementById("formTemplateConsentError"),
+  thirdPartyUrl: document.getElementById("formTemplateThirdPartyUrlError"),
   questionnaireTitle: document.getElementById("formQuestionnaireTitleError"),
   questionnaireDescription: document.getElementById("formQuestionnaireDescriptionError"),
 };
@@ -1122,7 +1136,8 @@ function renderTemplates(rows) {
       : (template.min_version || "-");
     const isGlobalPopupQuestionnaire = isPopupAppQuestionnaireType(templateType);
     const isLegacySurveyQuestionnaire = isSurveyListVariant() && ["V3.13.2", "V3.16"].includes(normalizeTemplateMinVersionValue(template.min_version));
-    const i18nDisabled = (isGlobalPopupQuestionnaire && !isSurveyListVariant()) || isLegacySurveyQuestionnaire;
+    const isThirdPartyRegularQuestionnaire = isSurveyListVariant() && templateType === "常规问卷" && Boolean(template.is_third_party_questionnaire);
+    const i18nDisabled = (isGlobalPopupQuestionnaire && !isSurveyListVariant()) || isLegacySurveyQuestionnaire || isThirdPartyRegularQuestionnaire;
     const editDisabled = isLegacySurveyQuestionnaire;
     const copyDisabled = isLegacySurveyQuestionnaire;
     const deleteDisabled = isSurveyListVariant() && statusText === "生效中";
@@ -1970,14 +1985,27 @@ function getQuestionI18nRows(question, questionIndex, keyPrefix, module) {
   return rows;
 }
 
+function getRichTextPlainText(value) {
+  const container = document.createElement("div");
+  container.innerHTML = String(value || "");
+  return container.textContent.trim();
+}
+
 function getTemplateI18nRows(template) {
+  const templateType = getTemplateDisplayType(getTemplateRawType(template));
+  const isRegularQuestionnaire = isRegularQuestionnaireType(templateType);
   const rows = [
     { module: "base", key: "app_display_name", name: "问卷标题(APP展示)", value: template.web_display_name || template.template_name },
-    { module: "base", key: "popup_copy", name: "弹窗文案", value: template.popup_copy || "" },
-    { module: "base", key: "questionnaire_title", name: "问卷标题", value: template.questionnaire_description || "" },
-    { module: "base", key: "questionnaire_subtitle", name: "问卷标题备注", value: template.questionnaire_remark || "" },
   ];
-  const templateType = getTemplateDisplayType(getTemplateRawType(template));
+
+  if (!isRegularQuestionnaire) {
+    rows.push(
+      { module: "base", key: "popup_copy", name: "弹窗文案", value: template.popup_copy || "" },
+      { module: "base", key: "questionnaire_title", name: "问卷标题", value: template.questionnaire_description || "" },
+      { module: "base", key: "questionnaire_subtitle", name: "问卷标题备注", value: template.questionnaire_remark || "" },
+      { module: "base", key: "informed_consent", name: "知情同意书", value: template.informed_consent_required ? getRichTextPlainText(template.informed_consent_content) : "" },
+    );
+  }
 
   if (isPopupAppQuestionnaireType(templateType)) {
     getTemplatePreviewQuestions(template).forEach((question, questionIndex) => {
@@ -2634,13 +2662,20 @@ function renderI18nPreview() {
 function openTemplateI18nPage(templateId) {
   const template = npsTemplates.find((item) => item.template_id === templateId);
   if (!template) return;
+  if (isSurveyListVariant() && getSurveyListQuestionnaireType(getTemplateRawType(template)) === "常规问卷" && template.is_third_party_questionnaire) {
+    showToast("跳转三方的常规问卷无需配置多语言。");
+    return;
+  }
 
   const workflowParams = new URLSearchParams({
     templateId: template.template_id,
     templateName: template.template_name,
     mode: template.i18n_uploaded ? "edit" : "add",
+    questionnaireType: getSurveyListQuestionnaireType(getTemplateRawType(template)),
+    consent: template.informed_consent_required ? "1" : "0",
+    consentContent: template.informed_consent_required ? getRichTextPlainText(template.informed_consent_content) : "",
   });
-  window.location.href = `./i18n-translation-workflow.html?v=20260731-04&${workflowParams.toString()}`;
+  window.location.href = `./i18n-translation-workflow.html?v=20260803-10&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {
@@ -3151,6 +3186,17 @@ function applyRichTextCommand(command, value = null) {
   updateRichTextCount();
 }
 
+function applyConsentRichTextCommand(command) {
+  templateFormFields.consentContent.focus();
+  if (command === "createLink") {
+    const url = window.prompt("请输入链接地址", "https://");
+    if (!url) return;
+    document.execCommand("createLink", false, url);
+    return;
+  }
+  document.execCommand(command, false, null);
+}
+
 function isPopupAppQuestionnaireType(type) {
   return type === "弹窗问卷(APP功能)" || type === "弹窗问卷(全局)" || type === "全局问卷(APP功能)" || type === "全局问题(APP功能)";
 }
@@ -3185,6 +3231,52 @@ function updateTemplateGynecologyVisibility() {
   if (!shouldShow) setTemplateGynecologyQuestionnaire(false);
 }
 
+function isTemplateConsentRequired() {
+  return templateFormFields.consentRequired.checked;
+}
+
+function setTemplateConsentRequired(required = false) {
+  templateFormFields.consentRequired.checked = Boolean(required);
+  templateFormFields.consentNotRequired.checked = !required;
+}
+
+function isTemplateThirdPartyQuestionnaire() {
+  return templateFormFields.thirdPartyYes.checked;
+}
+
+function setTemplateThirdPartyQuestionnaire(enabled = false) {
+  templateFormFields.thirdPartyYes.checked = Boolean(enabled);
+  templateFormFields.thirdPartyNo.checked = !enabled;
+}
+
+function updateTemplateConsentVisibility() {
+  const hasType = Boolean(templateFormFields.questionnaireType.value);
+  const shouldShow = isSurveyListVariant() && hasType && !isRegularQuestionnaireType(templateFormFields.questionnaireType.value);
+  const showContent = shouldShow && isTemplateConsentRequired();
+  templateFormFields.consentRow.classList.toggle("hidden", !shouldShow);
+  templateFormFields.consentContentRow.classList.toggle("hidden", !showContent);
+  if (!shouldShow) {
+    setTemplateConsentRequired(false);
+    templateFormFields.consentContent.innerHTML = "";
+    clearTemplateError("consent");
+  } else if (showContent && !templateFormFields.consentContent.textContent.trim()) {
+    templateFormFields.consentContent.innerHTML = DEFAULT_INFORMED_CONSENT_HTML;
+  }
+}
+
+function updateTemplateThirdPartyVisibility() {
+  const shouldShow = isSurveyListVariant();
+  const showUrl = shouldShow && isTemplateThirdPartyQuestionnaire();
+  templateFormFields.thirdPartyRow.classList.toggle("hidden", !shouldShow);
+  templateFormFields.thirdPartyUrlRow.classList.toggle("hidden", !showUrl);
+  if (!shouldShow) {
+    setTemplateThirdPartyQuestionnaire(false);
+    templateFormFields.thirdPartyUrl.value = "";
+    clearTemplateError("thirdPartyUrl");
+  }
+  updateTemplateStepControls();
+}
+
 function supportsQuestionnaireStyle(type = templateFormFields.questionnaireType.value) {
   return isDesignQuestionnaireType(type) || isRegularQuestionnaireType(type);
 }
@@ -3210,6 +3302,7 @@ function shouldShowPageSize() {
 }
 
 function shouldSubmitTemplateFromStepOne() {
+  if (isSurveyListVariant() && isTemplateThirdPartyQuestionnaire()) return true;
   if (usesSectionQuestionEditor()) return false;
   return supportsQuestionnaireStyle() && getQuestionnaireStyle() === "分组问卷";
 }
@@ -3297,15 +3390,15 @@ function getTemplateFormActionName(mode) {
 }
 
 function updateTemplateStepControls() {
+  const submitFromStepOne = shouldSubmitTemplateFromStepOne();
   if (usesSectionQuestionEditor()) {
     const isAppQuestionnaire = isPlanBAppQuestionnaire();
-    document.getElementById("submitTemplateFromStepOneBtn").classList.add("hidden");
-    document.getElementById("nextTemplateStepBtn").classList.remove("hidden");
+    document.getElementById("submitTemplateFromStepOneBtn").classList.toggle("hidden", !submitFromStepOne);
+    document.getElementById("nextTemplateStepBtn").classList.toggle("hidden", submitFromStepOne);
     document.getElementById("templateStepThree").classList.toggle("hidden", !isAppQuestionnaire);
     document.getElementById("addQuestionBtn").classList.add("hidden");
     return;
   }
-  const submitFromStepOne = shouldSubmitTemplateFromStepOne();
   document.getElementById("submitTemplateFromStepOneBtn").classList.toggle("hidden", !submitFromStepOne);
   document.getElementById("nextTemplateStepBtn").classList.toggle("hidden", submitFromStepOne);
   document.getElementById("templateStepTwo").classList.toggle("hidden", submitFromStepOne);
@@ -3398,6 +3491,8 @@ function updateTemplateTypePanel() {
   const isPlanB = isPlanBTemplateForm();
   const isSurveyList = isSurveyListVariant();
   updateTemplateGynecologyVisibility();
+  updateTemplateConsentVisibility();
+  updateTemplateThirdPartyVisibility();
   document.getElementById("popupCopyMode").classList.toggle("hidden", !isSurveyList || !isDesignType);
   const hasQuestionnaireStyle = supportsQuestionnaireStyle(type);
   const usesLinkedQuestionnaire = shouldUseLinkedQuestionnaire();
@@ -3988,6 +4083,8 @@ function validateTemplateStepOne() {
   const requiresBannerFields = !isSurveyList && questionnaireType !== "分组问卷";
   const requiresLinkedQuestionnaire = shouldUseLinkedQuestionnaire();
   const requiresPageSize = shouldShowPageSize();
+  const requiresConsent = isSurveyList && !isRegularQuestionnaireType(questionnaireType) && isTemplateConsentRequired();
+  const isThirdPartyQuestionnaire = isSurveyList && isTemplateThirdPartyQuestionnaire();
   const versionPairs = [
     [templateFormFields.androidVersion.value.trim(), templateFormFields.androidVersionEnd.value.trim()],
     [templateFormFields.iosVersion.value.trim(), templateFormFields.iosVersionEnd.value.trim()],
@@ -4036,6 +4133,17 @@ function validateTemplateStepOne() {
   if (requiresPageSize && !templateFormFields.pageSize.value) {
     setTemplateError("pageSize", "分页数量不能为空。");
     valid = false;
+  }
+  if (requiresConsent && !templateFormFields.consentContent.textContent.trim()) {
+    setTemplateError("consent", "知情同意书内容不能为空。");
+    valid = false;
+  }
+  if (isThirdPartyQuestionnaire) {
+    const url = templateFormFields.thirdPartyUrl.value.trim();
+    if (!/^https?:\/\/.+/i.test(url)) {
+      setTemplateError("thirdPartyUrl", "请填写三方问卷 URL");
+      valid = false;
+    }
   }
   if (requiresLinkedQuestionnaire && !getSelectedLinkedQuestionnaires().length) {
     setTemplateError("linked", "关联分组问卷不能为空。");
@@ -4241,6 +4349,10 @@ function captureTemplateFormState() {
     androidVersionEnd: templateFormFields.androidVersionEnd.value,
     iosVersion: templateFormFields.iosVersion.value,
     iosVersionEnd: templateFormFields.iosVersionEnd.value,
+    consentRequired: isTemplateConsentRequired(),
+    consentContent: templateFormFields.consentContent.innerHTML,
+    thirdPartyQuestionnaire: isTemplateThirdPartyQuestionnaire(),
+    thirdPartyUrl: templateFormFields.thirdPartyUrl.value,
     bannerTitle: templateFormFields.bannerTitle.value,
     bannerSubtitle: templateFormFields.bannerSubtitle.value,
     bannerButton: templateFormFields.bannerButton.value,
@@ -4299,6 +4411,10 @@ function applyTemplateFormState(state, linkedTemplateName = "") {
   templateFormFields.androidVersionEnd.value = state.androidVersionEnd;
   templateFormFields.iosVersion.value = state.iosVersion;
   templateFormFields.iosVersionEnd.value = state.iosVersionEnd;
+  setTemplateConsentRequired(state.consentRequired);
+  templateFormFields.consentContent.innerHTML = state.consentContent || "";
+  setTemplateThirdPartyQuestionnaire(state.thirdPartyQuestionnaire);
+  templateFormFields.thirdPartyUrl.value = state.thirdPartyUrl || "";
   templateFormFields.bannerTitle.value = state.bannerTitle;
   templateFormFields.bannerSubtitle.value = state.bannerSubtitle;
   templateFormFields.bannerButton.value = state.bannerButton;
@@ -4396,6 +4512,10 @@ function resetTemplateForm() {
   templateFormFields.pageSize.value = "5";
   setPopupCopyMode("设计");
   templateFormFields.popupCopy.innerHTML = "";
+  setTemplateConsentRequired(false);
+  templateFormFields.consentContent.innerHTML = "";
+  setTemplateThirdPartyQuestionnaire(false);
+  templateFormFields.thirdPartyUrl.value = "";
   savedRichTextRange = null;
   updateRichTextCount();
   updateQuestionnaireDescriptionCount();
@@ -4497,6 +4617,10 @@ function openTemplateForm(mode, templateId = "") {
   templateFormFields.popupCopy.innerHTML = template.popup_copy || "";
   updateRichTextCount();
   fillTemplateVersionFields(template.min_version || "");
+  setTemplateConsentRequired(Boolean(template.informed_consent_required));
+  templateFormFields.consentContent.innerHTML = template.informed_consent_content || "";
+  setTemplateThirdPartyQuestionnaire(Boolean(template.is_third_party_questionnaire));
+  templateFormFields.thirdPartyUrl.value = template.third_party_url || "";
   templateFormFields.questionnaireTitle.value = template.questionnaire_title || (rawQuestionnaireType === "分组问卷" ? "" : template.template_name);
   templateFormFields.questionnaireDescription.value = template.questionnaire_description || "";
   templateFormFields.questionnaireRemark.value = template.questionnaire_remark || "";
@@ -4550,7 +4674,11 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
 
   const isGroupType = templateFormFields.questionnaireType.value === "分组问卷";
   const isDesignType = isDesignQuestionnaireType(templateFormFields.questionnaireType.value);
+  const isRegularQuestionnaire = isRegularQuestionnaireType(templateFormFields.questionnaireType.value);
+  const isThirdPartyQuestionnaire = isSurveyListVariant() && isTemplateThirdPartyQuestionnaire();
+  const shouldActivateThirdPartyQuestionnaire = isThirdPartyQuestionnaire && isRegularQuestionnaire;
   const usesLinkedGroupStyle = shouldSubmitTemplateFromStepOne();
+  const skipQuestionConfiguration = isThirdPartyQuestionnaire || usesLinkedGroupStyle;
   if (!saveAsDraft && isPlanBAppQuestionnaire() && templateStep === 2) {
     if (!validateTemplateQuestions()) {
       showToast("请完善 APP 弹窗问卷问题。");
@@ -4559,11 +4687,11 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
     setTemplateStep(3);
     return;
   }
-  if (!saveAsDraft && usesSectionQuestionEditor() && !validatePlanBQuestionSections()) {
+  if (!saveAsDraft && usesSectionQuestionEditor() && !skipQuestionConfiguration && !validatePlanBQuestionSections()) {
     setTemplateStep(isPlanBAppQuestionnaire() ? 3 : 2);
     return;
   }
-  if (!saveAsDraft && !usesSectionQuestionEditor() && !usesLinkedGroupStyle && !validateTemplateQuestions()) {
+  if (!saveAsDraft && !usesSectionQuestionEditor() && !skipQuestionConfiguration && !validateTemplateQuestions()) {
     setTemplateStep(2);
     showToast("提交失败，请检查问卷问题。");
     return;
@@ -4579,6 +4707,12 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
       ? getTemplateDisplayType(templateFormFields.questionnaireType.value)
       : "",
     is_gfy_questionnaire: isRegularQuestionnaireType(templateFormFields.questionnaireType.value) && isTemplateGynecologyQuestionnaire(),
+    is_third_party_questionnaire: isThirdPartyQuestionnaire,
+    third_party_url: isThirdPartyQuestionnaire ? templateFormFields.thirdPartyUrl.value.trim() : "",
+    informed_consent_required: !isRegularQuestionnaire && isTemplateConsentRequired(),
+    informed_consent_content: !isRegularQuestionnaire && isTemplateConsentRequired()
+      ? templateFormFields.consentContent.innerHTML
+      : "",
     detail_text: "查看",
     updated_at: formatDateMinute(new Date()),
     min_version: buildTemplateVersionText(),
@@ -4593,14 +4727,16 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
     questionnaire_title: templateFormFields.questionnaireTitle.value.trim(),
     questionnaire_description: templateFormFields.questionnaireDescription.value.trim(),
     questionnaire_remark: templateFormFields.questionnaireRemark.value.trim(),
-    questions: usesSectionQuestionEditor()
+    questions: skipQuestionConfiguration
+      ? []
+      : usesSectionQuestionEditor()
       ? [
         ...((isPlanBAppQuestionnaire() || (isSurveyListVariant() && isGlobalAppQuestionnaire())) ? templateQuestions.map(buildQuestionPayload) : []),
         ...templateQuestionSections.flatMap((section) => section.questions.map(buildQuestionPayload)),
       ]
-      : (usesLinkedGroupStyle ? [] : templateQuestions.map(buildQuestionPayload)),
-    app_questions: (isPlanBAppQuestionnaire() || (isSurveyListVariant() && isGlobalAppQuestionnaire())) ? templateQuestions.map(buildQuestionPayload) : [],
-    question_sections: usesSectionQuestionEditor()
+      : templateQuestions.map(buildQuestionPayload),
+    app_questions: !skipQuestionConfiguration && (isPlanBAppQuestionnaire() || (isSurveyListVariant() && isGlobalAppQuestionnaire())) ? templateQuestions.map(buildQuestionPayload) : [],
+    question_sections: !skipQuestionConfiguration && usesSectionQuestionEditor()
       ? templateQuestionSections.map((section) => ({
         page_title: section.pageTitle.trim(),
         title: section.title.trim(),
@@ -4619,10 +4755,10 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
     }
     Object.assign(template, templatePayload);
     if (isSurveyListVariant()) {
-      template.template_status = "待补充多语言";
+      template.template_status = shouldActivateThirdPartyQuestionnaire ? "有效" : "待补充多语言";
       template.i18n_uploaded = false;
       template.i18n_complete = false;
-      clearTemplateI18nTranslations(template);
+      if (!shouldActivateThirdPartyQuestionnaire) clearTemplateI18nTranslations(template);
       templateStatusSearch.value = "所有状态";
     } else if (template.template_status === "草稿") {
       template.template_status = "有效";
@@ -4635,7 +4771,7 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
       : null;
     const newTemplate = {
       template_id: getNextId(npsTemplates, "template_id"),
-      template_status: saveAsDraft ? "草稿" : (isSurveyListVariant() ? "待补充多语言" : "有效"),
+      template_status: saveAsDraft ? "草稿" : (isSurveyListVariant() ? (shouldActivateThirdPartyQuestionnaire ? "有效" : "待补充多语言") : "有效"),
       creator: "谢敏",
       i18n_uploaded: false,
       i18n_complete: false,
@@ -4943,6 +5079,13 @@ templateFormFields.scene.addEventListener("change", updateQuestionnaireTypeBySce
 templateFormFields.questionnaireType.addEventListener("change", updateTemplateTypePanel);
 templateFormFields.gynecologyNo.addEventListener("change", updateTemplateGynecologyVisibility);
 templateFormFields.gynecologyYes.addEventListener("change", updateTemplateGynecologyVisibility);
+[templateFormFields.consentNotRequired, templateFormFields.consentRequired].forEach((field) => {
+  field.addEventListener("change", updateTemplateConsentVisibility);
+});
+[templateFormFields.thirdPartyNo, templateFormFields.thirdPartyYes].forEach((field) => {
+  field.addEventListener("change", updateTemplateThirdPartyVisibility);
+});
+templateFormFields.thirdPartyUrl.addEventListener("input", () => clearTemplateError("thirdPartyUrl"));
 templateFormFields.androidVersion.addEventListener("change", updateTemplateTypePanel);
 templateFormFields.iosVersion.addEventListener("change", updateTemplateTypePanel);
 templateFormFields.questionnaireStyleNormal.addEventListener("change", updateTemplateTypePanel);
@@ -5102,6 +5245,9 @@ document.getElementById("templateForm").addEventListener("click", (event) => {
   }
   if (target.classList.contains("rich-button")) {
     applyRichTextCommand(target.dataset.command);
+  }
+  if (target.classList.contains("consent-rich-button")) {
+    applyConsentRichTextCommand(target.dataset.consentCommand);
   }
   if (target.classList.contains("color-swatch")) {
     applyRichTextCommand("foreColor", target.dataset.color);
