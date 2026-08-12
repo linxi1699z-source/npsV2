@@ -967,7 +967,7 @@ function getSelectedApps() {
   return ["APP"];
 }
 
-const HIGH_VERSION_MODULES = ["睡眠", "活动", "压力", "生命体征"];
+const HIGH_VERSION_MODULES = ["睡眠", "活动", "压力", "生命体征", "国妇婴"];
 
 function getSelectedTaskVersions() {
   const start = normalizeTaskVersionValue(formFields.taskVersionStart.value);
@@ -2691,7 +2691,7 @@ function openTemplateI18nPage(templateId) {
     consent: template.informed_consent_required ? "1" : "0",
     consentContent: template.informed_consent_required ? getRichTextPlainText(template.informed_consent_content) : "",
   });
-  window.location.href = `./i18n-translation-workflow.html?v=20260812-07&${workflowParams.toString()}`;
+  window.location.href = `./i18n-translation-workflow.html?v=20260812-08&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {
