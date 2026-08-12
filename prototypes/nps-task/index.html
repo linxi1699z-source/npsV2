@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260803-10" />
+    <link rel="stylesheet" href="./styles.css?v=20260812-07" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -277,19 +277,19 @@
                 <option value="计划">计划</option>
                 <option value="OSA">OSA</option>
                 <option value="生理">生理</option>
+                <option value="国妇婴">国妇婴</option>
                 <option value="血压">血压</option>
                 <option value="AI Partner">AI Partner</option>
               </select>
               <div class="form-error" id="formTaskSceneError"></div>
             </div>
 
-            <div class="form-row hidden" id="formTaskGynecologyRow">
-              <label class="form-label required">是否国妇婴问卷</label>
-              <div class="radio-row questionnaire-style-options" role="radiogroup" aria-label="是否国妇婴问卷">
-                <label><input id="formTaskGynecologyNo" name="taskGynecologyQuestionnaire" type="radio" value="否" checked /> 否</label>
-                <label><input id="formTaskGynecologyYes" name="taskGynecologyQuestionnaire" type="radio" value="是" /> 是</label>
+            <div class="form-row hidden" id="formTaskForceRequiredRow">
+              <label class="form-label required">是否强制填写</label>
+              <div class="radio-row questionnaire-style-options" role="radiogroup" aria-label="是否强制填写">
+                <label><input id="formTaskForceRequiredYes" name="taskForceRequired" type="radio" value="是" checked /> 是</label>
+                <label><input id="formTaskForceRequiredNo" name="taskForceRequired" type="radio" value="否" /> 否</label>
               </div>
-              <div class="form-error" id="formTaskGynecologyError"></div>
             </div>
 
             <div class="form-row hidden" id="formTaskQuestionnaireTypeRow">
@@ -496,14 +496,6 @@
                 <div class="form-error" id="formQuestionnaireTypeError"></div>
               </div>
 
-              <div class="form-row hidden" id="templateGynecologyRow">
-                <label class="form-label required">是否国妇婴问卷</label>
-                <div class="radio-row questionnaire-style-options" role="radiogroup" aria-label="是否国妇婴问卷">
-                  <label><input id="templateGynecologyNo" name="templateGynecologyQuestionnaire" type="radio" value="否" checked /> 否</label>
-                  <label><input id="templateGynecologyYes" name="templateGynecologyQuestionnaire" type="radio" value="是" /> 是</label>
-                </div>
-              </div>
-
               <div class="form-row survey-hidden-field">
                 <label class="form-label required" for="templateChannelTrigger">应用端</label>
                 <div class="multi-select">
@@ -562,8 +554,12 @@
                     <button class="consent-rich-button" type="button" data-consent-command="bold">B</button>
                     <button class="consent-rich-button underline" type="button" data-consent-command="underline">U</button>
                     <button class="consent-rich-button consent-link-button" type="button" data-consent-command="createLink">链接</button>
+                    <button class="consent-rich-button consent-align-button align-left" type="button" data-consent-command="justifyLeft" title="左对齐" aria-label="左对齐"><span class="alignment-icon" aria-hidden="true"><i></i><i></i><i></i></span></button>
+                    <button class="consent-rich-button consent-align-button align-center" type="button" data-consent-command="justifyCenter" title="居中对齐" aria-label="居中对齐"><span class="alignment-icon" aria-hidden="true"><i></i><i></i><i></i></span></button>
+                    <button class="consent-rich-button consent-align-button align-right" type="button" data-consent-command="justifyRight" title="右对齐" aria-label="右对齐"><span class="alignment-icon" aria-hidden="true"><i></i><i></i><i></i></span></button>
                   </div>
                   <div class="rich-editor consent-editor" id="templateConsentContent" contenteditable="true"></div>
+                  <span class="consent-char-note">10000 个字符</span>
                 </div>
                 <div class="form-error" id="formTemplateConsentError"></div>
               </div>
@@ -844,6 +840,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260803-10"></script>
+    <script src="./app.js?v=20260812-07"></script>
   </body>
 </html>

@@ -172,7 +172,6 @@ read? Does the data make sense? Does everything feel intuitive? Take this
 quick survey about our new design and help us make RingConn everbetter for
 you.`;
 
-const DEFAULT_INFORMED_CONSENT_HTML = `感谢您参与本次用户调研。<br><br>本问卷旨在了解您对 RingConn 产品体验的真实感受。参与完全出于自愿，您可随时退出且无需说明原因。我们将仅在本次研究目的范围内使用您提交的信息，并依据适用的隐私政策进行保护。<br><br><strong>点击继续即表示您已阅读并同意上述说明。</strong>`;
 
 const SURVEY_POPUP_COPY_PRESETS = {
   设计: "我们一直致力于从用户视角出发，打造更专业、更易用的健康管理体验。你的真实评价对我们至关重要。现在的图表够直观吗？数据解读是否轻松？操作逻辑是否顺手？我们诚邀你参与本次设计体验调研，帮助我们打磨出更懂你的 RingConn。",
@@ -270,13 +269,12 @@ const audienceUsers = [
 const npsTemplates = [
   {
     template_id: "10012",
-    template_name: "生理(国妇婴)NPS问卷",
+    template_name: "国妇婴NPS问卷",
     template_status: "有效",
     channel: "APP",
-    scene: "生理",
+    scene: "国妇婴",
     raw_questionnaire_type: "常规问卷",
     questionnaire_type: "常规问卷",
-    is_gfy_questionnaire: true,
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-31 10:10",
@@ -287,13 +285,12 @@ const npsTemplates = [
   },
   {
     template_id: "10011",
-    template_name: "生理(常规)NPS问卷",
+    template_name: "生理NPS问卷",
     template_status: "有效",
     channel: "APP",
     scene: "生理",
     raw_questionnaire_type: "常规问卷",
     questionnaire_type: "常规问卷",
-    is_gfy_questionnaire: false,
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-31 10:00",
@@ -568,6 +565,7 @@ let templateQuestionSections = [];
 let templateGroupCreationContext = null;
 let templateCopySourceId = "";
 let savedRichTextRange = null;
+let savedConsentRichTextRange = null;
 let currentI18nTemplateId = "";
 let currentI18nLanguage = "en";
 let currentI18nGroupIndex = 0;
@@ -637,9 +635,9 @@ const formFields = {
   taskScene: document.getElementById("formTaskScene"),
   questionnaireType: document.getElementById("formTaskQuestionnaireType"),
   questionnaireTypeRow: document.getElementById("formTaskQuestionnaireTypeRow"),
-  gynecologyRow: document.getElementById("formTaskGynecologyRow"),
-  gynecologyNo: document.getElementById("formTaskGynecologyNo"),
-  gynecologyYes: document.getElementById("formTaskGynecologyYes"),
+  forceRequiredRow: document.getElementById("formTaskForceRequiredRow"),
+  forceRequiredYes: document.getElementById("formTaskForceRequiredYes"),
+  forceRequiredNo: document.getElementById("formTaskForceRequiredNo"),
   startTime: document.getElementById("formStartTime"),
   startDateTime: document.getElementById("formStartDateTime"),
   taskVersion: document.getElementById("formTaskVersionStart"),
@@ -667,9 +665,6 @@ const templateFormFields = {
   templateDisplayName: document.getElementById("formTemplateDisplayName"),
   scene: document.getElementById("formTemplateScene"),
   questionnaireType: document.getElementById("formQuestionnaireType"),
-  gynecologyRow: document.getElementById("templateGynecologyRow"),
-  gynecologyNo: document.getElementById("templateGynecologyNo"),
-  gynecologyYes: document.getElementById("templateGynecologyYes"),
   channelTrigger: document.getElementById("templateChannelTrigger"),
   channelPanel: document.getElementById("templateChannelPanel"),
   channelApp: document.getElementById("templateChannelApp"),
@@ -994,27 +989,25 @@ function getTaskVersionDefault() {
   const module = formFields.taskScene.value;
   const questionnaireType = formFields.questionnaireType.value;
   if (!module || (module === "全局" && !formFields.questionnaireType.value)) return "";
-  if (module === "生理" && isTaskGynecologyQuestionnaire()) return "V3.16";
   if (module === "全局" && questionnaireType === "弹窗问卷(用研/设计)") return "V3.16";
   if (module === "全局" && questionnaireType === "弹窗问卷(全局)") return "V3.13.2";
   if (HIGH_VERSION_MODULES.includes(module)) return "V3.16";
   return "V3.13.2";
 }
 
-function isTaskGynecologyQuestionnaire() {
-  return formFields.gynecologyYes.checked;
+function isTaskForceRequired() {
+  return formFields.forceRequiredYes.checked;
 }
 
-function setTaskGynecologyQuestionnaire(isGynecologyQuestionnaire = false) {
-  formFields.gynecologyYes.checked = Boolean(isGynecologyQuestionnaire);
-  formFields.gynecologyNo.checked = !isGynecologyQuestionnaire;
+function setTaskForceRequired(isForceRequired = true) {
+  formFields.forceRequiredYes.checked = Boolean(isForceRequired);
+  formFields.forceRequiredNo.checked = !isForceRequired;
 }
 
-function updateTaskGynecologyVisibility() {
-  const isPhysiologyModule = formFields.taskScene.value === "生理";
-  formFields.gynecologyRow.classList.toggle("hidden", !isPhysiologyModule);
-  formFields.gynecologyYes.required = isPhysiologyModule;
-  if (!isPhysiologyModule) setTaskGynecologyQuestionnaire(false);
+function updateTaskForceRequiredVisibility() {
+  const isGynecologyModule = formFields.taskScene.value === "国妇婴";
+  formFields.forceRequiredRow.classList.toggle("hidden", !isGynecologyModule);
+  if (!isGynecologyModule) setTaskForceRequired(true);
 }
 
 function applyTaskVersionDefaults() {
@@ -1072,8 +1065,7 @@ function renderTemplateOptions() {
     const templateType = getSurveyListQuestionnaireType(getTemplateRawType(template));
     if (module !== "全局") {
       if (getTemplateDisplayType(getTemplateRawType(template)) !== "常规问卷") return false;
-      if (module !== "生理") return true;
-      return template.scene === "生理" && Boolean(template.is_gfy_questionnaire) === isTaskGynecologyQuestionnaire();
+      return true;
     }
     const templateVersion = normalizeTemplateMinVersionValue(template.min_version || "");
     return template.scene === "全局" &&
@@ -1098,7 +1090,7 @@ function updateTaskQuestionnaireTypeVisibility() {
   formFields.questionnaireTypeRow.classList.toggle("hidden", !isGlobalModule);
   formFields.questionnaireType.required = isGlobalModule;
   if (!isGlobalModule) formFields.questionnaireType.value = "";
-  updateTaskGynecologyVisibility();
+  updateTaskForceRequiredVisibility();
   formFields.templateName.value = "";
   renderTemplateOptions();
 }
@@ -1141,7 +1133,7 @@ function renderTemplates(rows) {
     const editDisabled = isLegacySurveyQuestionnaire;
     const copyDisabled = isLegacySurveyQuestionnaire;
     const deleteDisabled = isSurveyListVariant() && statusText === "生效中";
-    const i18nActionText = template.i18n_uploaded ? "编辑多语言" : "新增多语言";
+    const i18nActionText = "编辑多语言";
     return `
       <tr data-template-id="${escapeText(template.template_id)}">
         <td>${escapeText(template.template_id)}</td>
@@ -1630,13 +1622,14 @@ function createZip(files) {
 }
 
 function buildI18nXlsxBlob(template) {
-  const headers = ["key", "后台文案", ...I18N_LANGUAGES.map((language) => language.label)];
+  const translationLanguages = I18N_LANGUAGES;
+  const headers = ["key", "后台文案", ...translationLanguages.map((language) => language.label)];
   const sheetRows = [
     headers,
     ...getTemplateI18nRows(template).map((row) => [
       getI18nBindingKey(template, row),
       row.value,
-      ...I18N_LANGUAGES.map((language) => getI18nTranslationValue(
+      ...translationLanguages.map((language) => getI18nTranslationValue(
         getI18nBindingKey(template, row),
         row.value,
         language.key,
@@ -1940,6 +1933,7 @@ function getTemplatePreviewQuestions(template) {
         : []
     );
     return {
+      question_id: question.question_id || question.questionId || "",
       type: question.type === "评分(功能/分组)" ? "评分(普通)" : question.type,
       title: question.title || "",
       subtitle: question.subtitle || "",
@@ -1956,11 +1950,12 @@ function getTemplatePreviewQuestions(template) {
   });
 }
 
-function getQuestionI18nRows(question, questionIndex, keyPrefix, module) {
-  const rowMeta = { module, questionIndex, questionType: question.type };
+function getQuestionI18nRows(question, questionIndex, keyPrefix, module, questionId) {
+  const rowMeta = { module, questionIndex, questionId, questionType: question.type };
   const row = (suffix, label, value) => ({
     ...rowMeta,
     key: `${keyPrefix}_${suffix}`,
+    databaseField: suffix,
     name: `问题${questionIndex}${label}`,
     value,
   });
@@ -1995,32 +1990,32 @@ function getTemplateI18nRows(template) {
   const templateType = getTemplateDisplayType(getTemplateRawType(template));
   const isRegularQuestionnaire = isRegularQuestionnaireType(templateType);
   const rows = [
-    { module: "base", key: "app_display_name", name: "问卷标题(APP展示)", value: template.web_display_name || template.template_name },
+    { module: "base", key: "app_display_name", databaseField: "display_name", name: "问卷标题(APP展示)", value: template.web_display_name || template.template_name },
   ];
 
   if (!isRegularQuestionnaire) {
     rows.push(
-      { module: "base", key: "popup_copy", name: "弹窗文案", value: template.popup_copy || "" },
-      { module: "base", key: "questionnaire_title", name: "问卷标题", value: template.questionnaire_description || "" },
-      { module: "base", key: "questionnaire_subtitle", name: "问卷标题备注", value: template.questionnaire_remark || "" },
-      { module: "base", key: "informed_consent", name: "知情同意书", value: template.informed_consent_required ? getRichTextPlainText(template.informed_consent_content) : "" },
+      { module: "base", key: "popup_copy", databaseField: "popup_copy", name: "弹窗文案", value: template.popup_copy || "" },
+      { module: "base", key: "questionnaire_title", databaseField: "questionnaire_title", name: "问卷标题", value: template.questionnaire_description || "" },
+      { module: "base", key: "questionnaire_subtitle", databaseField: "questionnaire_subtitle", name: "问卷标题备注", value: template.questionnaire_remark || "" },
+      { module: "base", key: "informed_consent", databaseField: "informed_consent", name: "知情同意书", value: template.informed_consent_required ? getRichTextPlainText(template.informed_consent_content) : "" },
     );
   }
 
   if (isPopupAppQuestionnaireType(templateType)) {
     getTemplatePreviewQuestions(template).forEach((question, questionIndex) => {
-      rows.push(...getQuestionI18nRows(question, questionIndex + 1, `global_question_${questionIndex + 1}`, "global"));
+      rows.push(...getQuestionI18nRows(question, questionIndex + 1, `global_question_${questionIndex + 1}`, "global", getI18nQuestionId(template.template_id, question, questionIndex + 1)));
     });
     let questionnaireQuestionIndex = 0;
     getLinkedGroupTemplates(template).forEach((linkedTemplate) => {
       getTemplatePreviewQuestions(linkedTemplate).forEach((question) => {
         questionnaireQuestionIndex += 1;
-        rows.push(...getQuestionI18nRows(question, questionnaireQuestionIndex, `question_${questionnaireQuestionIndex}`, "question"));
+        rows.push(...getQuestionI18nRows(question, questionnaireQuestionIndex, `question_${questionnaireQuestionIndex}`, "question", getI18nQuestionId(template.template_id, question, questionnaireQuestionIndex)));
       });
     });
   } else {
     getTemplatePreviewQuestions(template).forEach((question, questionIndex) => {
-      rows.push(...getQuestionI18nRows(question, questionIndex + 1, `question_${questionIndex + 1}`, "question"));
+      rows.push(...getQuestionI18nRows(question, questionIndex + 1, `question_${questionIndex + 1}`, "question", getI18nQuestionId(template.template_id, question, questionIndex + 1)));
     });
   }
 
@@ -2352,14 +2347,35 @@ function getI18nValue(rows, key, languageKey) {
   return row ? translateI18nValue(row.value, languageKey) : "";
 }
 
-const SHARED_I18N_KEYS = {
-  "不推荐": "survey.score.min_label",
-  "非常推荐": "survey.score.max_label",
-  "其他": "common.other_option",
-};
+function getI18nQuestionId(templateId, question, questionIndex) {
+  return String(question.question_id || question.questionId || `${templateId}${String(questionIndex).padStart(3, "0")}`);
+}
+
+function getI18nKeyVersion(template, row) {
+  const sourceValue = String(row.value || "");
+  const identity = row.module === "base"
+    ? `base.${row.databaseField}`
+    : `${row.module}.${row.questionId}.${row.databaseField}`;
+  const keyVersions = template.i18n_key_versions || (template.i18n_key_versions = {});
+  const previous = keyVersions[identity];
+  if (!previous) {
+    keyVersions[identity] = { source_value: sourceValue, version: 1 };
+    return 1;
+  }
+  if (previous.source_value !== sourceValue) {
+    previous.source_value = sourceValue;
+    previous.version = Number(previous.version || 1) + 1;
+  }
+  return Number(previous.version || 1);
+}
 
 function getI18nBindingKey(template, row) {
-  return SHARED_I18N_KEYS[row.value] || `nps.${template.template_id}.${row.key}`;
+  const version = getI18nKeyVersion(template, row);
+  if (row.module === "base") {
+    return `nps.${template.template_id}.${row.databaseField}_${version}`;
+  }
+  const scope = row.module === "global" ? "global_question" : "question";
+  return `nps.${template.template_id}.${scope}.${row.questionId}.${row.databaseField}_${version}`;
 }
 
 function getI18nBindingGroups(template) {
@@ -2648,7 +2664,7 @@ function renderI18nPreview() {
   i18nPreviewRows.innerHTML = rows.length
     ? rows.map((row) => `
       <tr>
-        <td class="i18n-key-cell"><code>${escapeText(row.key)}</code></td>
+        <td class="i18n-key-cell"><code>${escapeText(getI18nBindingKey(template, row))}</code></td>
         <td>
           <span class="i18n-row-name">${escapeText(row.name)}</span>
           <span class="i18n-row-content">${escapeText(translateI18nValue(row.value, "zh_cn"))}</span>
@@ -2670,12 +2686,12 @@ function openTemplateI18nPage(templateId) {
   const workflowParams = new URLSearchParams({
     templateId: template.template_id,
     templateName: template.template_name,
-    mode: template.i18n_uploaded ? "edit" : "add",
+    mode: "edit",
     questionnaireType: getSurveyListQuestionnaireType(getTemplateRawType(template)),
     consent: template.informed_consent_required ? "1" : "0",
     consentContent: template.informed_consent_required ? getRichTextPlainText(template.informed_consent_content) : "",
   });
-  window.location.href = `./i18n-translation-workflow.html?v=20260803-10&${workflowParams.toString()}`;
+  window.location.href = `./i18n-translation-workflow.html?v=20260812-07&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {
@@ -2732,8 +2748,8 @@ function setTaskFormReadonly(readonly) {
     formFields.planName,
     formFields.taskScene,
     formFields.questionnaireType,
-    formFields.gynecologyNo,
-    formFields.gynecologyYes,
+    formFields.forceRequiredYes,
+    formFields.forceRequiredNo,
     formFields.startDateTime,
     formFields.endDate,
     formFields.endHour,
@@ -2755,7 +2771,7 @@ function setTaskFormReadonly(readonly) {
 
 function setTaskFormEditLock(locked) {
   document.getElementById("taskForm").classList.toggle("edit-lock", locked);
-  [formFields.taskScene, formFields.questionnaireType, formFields.gynecologyNo, formFields.gynecologyYes].forEach((field) => {
+  [formFields.taskScene, formFields.questionnaireType].forEach((field) => {
     field.disabled = locked;
   });
 }
@@ -2767,8 +2783,8 @@ function setTaskFormCopyMode(enabled) {
     formFields.planName,
     formFields.taskScene,
     formFields.questionnaireType,
-    formFields.gynecologyNo,
-    formFields.gynecologyYes,
+    formFields.forceRequiredYes,
+    formFields.forceRequiredNo,
     formFields.appTrigger,
     formFields.templateName,
   ].forEach((field) => {
@@ -2789,7 +2805,7 @@ function resetTaskForm() {
   formFields.planName.value = "";
   formFields.taskScene.value = "";
   formFields.questionnaireType.value = "";
-  setTaskGynecologyQuestionnaire(false);
+  setTaskForceRequired(true);
   formFields.templateName.value = "";
   formFields.appClientApp.checked = true;
   updateAppTrigger();
@@ -2805,7 +2821,8 @@ function fillTaskForm(task) {
   formFields.taskScene.value = task.task_scene;
   updateTaskQuestionnaireTypeVisibility();
   formFields.questionnaireType.value = task.task_scene === "全局" ? getTaskTemplateType(task) : "";
-  setTaskGynecologyQuestionnaire(Boolean(task.is_gfy_questionnaire));
+  setTaskForceRequired(task.is_force_required !== false);
+  updateTaskForceRequiredVisibility();
   const versionRange = getTaskStoredVersionRange(task);
   setTaskVersionRange(versionRange.start, versionRange.end);
   renderTemplateOptions();
@@ -2906,7 +2923,7 @@ function submitTaskForm() {
     task_name: formFields.taskName.value.trim(),
     task_scene: formFields.taskScene.value,
     questionnaire_type: formFields.questionnaireType.value,
-    is_gfy_questionnaire: isTaskGynecologyQuestionnaire(),
+    is_force_required: formFields.taskScene.value === "国妇婴" ? isTaskForceRequired() : false,
     audience_link_text: "查看",
     audience_region_files: { ...audienceRegionFiles },
     audience_file_names: audienceFileNames,
@@ -3188,13 +3205,33 @@ function applyRichTextCommand(command, value = null) {
 
 function applyConsentRichTextCommand(command) {
   templateFormFields.consentContent.focus();
+  restoreConsentRichTextSelection();
   if (command === "createLink") {
     const url = window.prompt("请输入链接地址", "https://");
     if (!url) return;
     document.execCommand("createLink", false, url);
+    saveConsentRichTextSelection();
     return;
   }
   document.execCommand(command, false, null);
+  saveConsentRichTextSelection();
+}
+
+function saveConsentRichTextSelection() {
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) return;
+  const range = selection.getRangeAt(0);
+  if (templateFormFields.consentContent.contains(range.commonAncestorContainer)) {
+    savedConsentRichTextRange = range;
+  }
+}
+
+function restoreConsentRichTextSelection() {
+  if (!savedConsentRichTextRange) return;
+  const selection = window.getSelection();
+  if (!selection) return;
+  selection.removeAllRanges();
+  selection.addRange(savedConsentRichTextRange);
 }
 
 function isPopupAppQuestionnaireType(type) {
@@ -3213,22 +3250,6 @@ function isDesignQuestionnaireType(type) {
 
 function isRegularQuestionnaireType(type) {
   return ["功能问卷", "常规问卷", "常规"].includes(type);
-}
-
-function isTemplateGynecologyQuestionnaire() {
-  return templateFormFields.gynecologyYes.checked;
-}
-
-function setTemplateGynecologyQuestionnaire(isGynecologyQuestionnaire = false) {
-  templateFormFields.gynecologyYes.checked = Boolean(isGynecologyQuestionnaire);
-  templateFormFields.gynecologyNo.checked = !isGynecologyQuestionnaire;
-}
-
-function updateTemplateGynecologyVisibility() {
-  const shouldShow = isSurveyListVariant() && isRegularQuestionnaireType(templateFormFields.questionnaireType.value);
-  templateFormFields.gynecologyRow.classList.toggle("hidden", !shouldShow);
-  templateFormFields.gynecologyYes.required = shouldShow;
-  if (!shouldShow) setTemplateGynecologyQuestionnaire(false);
 }
 
 function isTemplateConsentRequired() {
@@ -3259,8 +3280,6 @@ function updateTemplateConsentVisibility() {
     setTemplateConsentRequired(false);
     templateFormFields.consentContent.innerHTML = "";
     clearTemplateError("consent");
-  } else if (showContent && !templateFormFields.consentContent.textContent.trim()) {
-    templateFormFields.consentContent.innerHTML = DEFAULT_INFORMED_CONSENT_HTML;
   }
 }
 
@@ -3490,7 +3509,6 @@ function updateTemplateTypePanel() {
   const isDesignType = isDesignQuestionnaireType(type);
   const isPlanB = isPlanBTemplateForm();
   const isSurveyList = isSurveyListVariant();
-  updateTemplateGynecologyVisibility();
   updateTemplateConsentVisibility();
   updateTemplateThirdPartyVisibility();
   document.getElementById("popupCopyMode").classList.toggle("hidden", !isSurveyList || !isDesignType);
@@ -3687,7 +3705,7 @@ function renderPlanBQuestionBody(question, sectionIndex, questionIndex) {
   if (question.type === "文本描述") return "";
   return `
     <div class="question-row radio-row"><label class="question-label required">必填/选填</label><label><input type="radio" name="sectionOpenRequired-${sectionIndex}-${questionIndex}" value="必填" ${field("required")} ${question.required === "必填" ? "checked" : ""} /> 必填</label><label><input type="radio" name="sectionOpenRequired-${sectionIndex}-${questionIndex}" value="选填" ${field("required")} ${question.required === "选填" ? "checked" : ""} /> 选填</label></div>
-    <div class="question-row"><label class="question-label required">字符限制</label><select class="ax-select question-control" ${field("charLimit")}><option value="500"${question.charLimit === "500" ? " selected" : ""}>500</option><option value="1000"${question.charLimit === "1000" ? " selected" : ""}>1000</option><option value="20000"${question.charLimit === "20000" ? " selected" : ""}>20000</option></select></div>
+    <div class="question-row"><label class="question-label required">字符限制</label><select class="ax-select question-control" ${field("charLimit")}><option value="500"${question.charLimit === "500" ? " selected" : ""}>500</option><option value="1000"${question.charLimit === "1000" ? " selected" : ""}>1000</option><option value="2000"${question.charLimit === "2000" ? " selected" : ""}>2000</option></select></div>
   `;
 }
 
@@ -3846,7 +3864,7 @@ function normalizeTemplateQuestion(question) {
     highScoreGuide: question.highScoreGuide || question.high_score_guide || "",
     otherScoreGuide: question.otherScoreGuide || question.other_score_guide || "",
     required: question.required || (optionText.includes("选填") ? "选填" : "必填"),
-    charLimit: ["500", "1000", "20000"].includes(rawCharLimit) ? rawCharLimit : "500",
+    charLimit: ["500", "1000", "2000"].includes(rawCharLimit) ? rawCharLimit : "500",
     choiceOptions: normalizeQuestionOptions(rawOptions),
     errors: {},
   };
@@ -4001,7 +4019,7 @@ function renderQuestionBody(question, index) {
       <select class="ax-select question-control question-field" data-question-index="${index}" data-question-field="charLimit">
         <option value="500"${question.charLimit === "500" ? " selected" : ""}>500</option>
         <option value="1000"${question.charLimit === "1000" ? " selected" : ""}>1000</option>
-        <option value="20000"${question.charLimit === "20000" ? " selected" : ""}>20000</option>
+        <option value="2000"${question.charLimit === "2000" ? " selected" : ""}>2000</option>
       </select>
     </div>
   `;
@@ -4343,7 +4361,6 @@ function captureTemplateFormState() {
     templateDisplayName: templateFormFields.templateDisplayName.value,
     scene: templateFormFields.scene.value,
     questionnaireType: templateFormFields.questionnaireType.value,
-    isGynecologyQuestionnaire: isTemplateGynecologyQuestionnaire(),
     channelApp: templateFormFields.channelApp.checked,
     androidVersion: templateFormFields.androidVersion.value,
     androidVersionEnd: templateFormFields.androidVersionEnd.value,
@@ -4405,7 +4422,6 @@ function applyTemplateFormState(state, linkedTemplateName = "") {
   templateFormFields.templateDisplayName.value = state.templateDisplayName;
   templateFormFields.scene.value = state.scene;
   templateFormFields.questionnaireType.value = state.questionnaireType;
-  setTemplateGynecologyQuestionnaire(state.isGynecologyQuestionnaire);
   templateFormFields.channelApp.checked = true;
   templateFormFields.androidVersion.value = state.androidVersion;
   templateFormFields.androidVersionEnd.value = state.androidVersionEnd;
@@ -4520,7 +4536,6 @@ function resetTemplateForm() {
   updateRichTextCount();
   updateQuestionnaireDescriptionCount();
   templateFormFields.questionnaireType.value = "";
-  setTemplateGynecologyQuestionnaire(false);
   templateFormFields.scene.value = isSurveyListVariant() ? "全局" : "";
   templateQuestions = [createDefaultQuestion()];
   templateQuestionSections = [createPlanBQuestionSection()];
@@ -4604,7 +4619,6 @@ function openTemplateForm(mode, templateId = "") {
   templateFormFields.questionnaireType.value = isSurveyListVariant()
     ? getSurveyListQuestionnaireType(rawQuestionnaireType)
     : rawQuestionnaireType;
-  setTemplateGynecologyQuestionnaire(Boolean(template.is_gfy_questionnaire));
   updateQuestionnaireTypeByScene();
   templateFormFields.channelApp.checked = true;
   updateTemplateChannelTrigger();
@@ -4706,7 +4720,6 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
     questionnaire_type: templateFormFields.questionnaireType.value
       ? getTemplateDisplayType(templateFormFields.questionnaireType.value)
       : "",
-    is_gfy_questionnaire: isRegularQuestionnaireType(templateFormFields.questionnaireType.value) && isTemplateGynecologyQuestionnaire(),
     is_third_party_questionnaire: isThirdPartyQuestionnaire,
     third_party_url: isThirdPartyQuestionnaire ? templateFormFields.thirdPartyUrl.value.trim() : "",
     informed_consent_required: !isRegularQuestionnaire && isTemplateConsentRequired(),
@@ -5073,12 +5086,12 @@ templateFormFields.linkedPanel.addEventListener("change", (event) => {
 templateFormFields.popupCopy.addEventListener("mouseup", saveRichTextSelection);
 templateFormFields.popupCopy.addEventListener("keyup", saveRichTextSelection);
 templateFormFields.popupCopy.addEventListener("input", updateRichTextCount);
+templateFormFields.consentContent.addEventListener("mouseup", saveConsentRichTextSelection);
+templateFormFields.consentContent.addEventListener("keyup", saveConsentRichTextSelection);
 templateFormFields.popupCopyModeResearch.addEventListener("change", () => applyPopupCopyPreset(true));
 templateFormFields.popupCopyModeDesign.addEventListener("change", () => applyPopupCopyPreset(true));
 templateFormFields.scene.addEventListener("change", updateQuestionnaireTypeByScene);
 templateFormFields.questionnaireType.addEventListener("change", updateTemplateTypePanel);
-templateFormFields.gynecologyNo.addEventListener("change", updateTemplateGynecologyVisibility);
-templateFormFields.gynecologyYes.addEventListener("change", updateTemplateGynecologyVisibility);
 [templateFormFields.consentNotRequired, templateFormFields.consentRequired].forEach((field) => {
   field.addEventListener("change", updateTemplateConsentVisibility);
 });
@@ -5106,13 +5119,6 @@ formFields.questionnaireType.addEventListener("change", () => {
   formFields.templateName.value = "";
   applyTaskVersionDefaults();
   renderTemplateOptions();
-});
-[formFields.gynecologyNo, formFields.gynecologyYes].forEach((field) => {
-  field.addEventListener("change", () => {
-    formFields.templateName.value = "";
-    applyTaskVersionDefaults();
-    renderTemplateOptions();
-  });
 });
 formFields.taskVersionStart.addEventListener("input", () => {
   renderTemplateOptions();
