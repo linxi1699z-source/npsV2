@@ -1986,6 +1986,10 @@ function getRichTextPlainText(value) {
   return container.textContent.trim();
 }
 
+function getRichTextExportValue(value) {
+  return String(value || "").trim();
+}
+
 function getTemplateI18nRows(template) {
   const templateType = getTemplateDisplayType(getTemplateRawType(template));
   const isRegularQuestionnaire = isRegularQuestionnaireType(templateType);
@@ -1995,10 +1999,10 @@ function getTemplateI18nRows(template) {
 
   if (!isRegularQuestionnaire) {
     rows.push(
-      { module: "base", key: "popup_copy", databaseField: "popup_copy", name: "弹窗文案", value: template.popup_copy || "" },
+      { module: "base", key: "popup_copy", databaseField: "popup_copy", name: "弹窗文案", value: getRichTextExportValue(template.popup_copy) },
       { module: "base", key: "questionnaire_title", databaseField: "questionnaire_title", name: "问卷标题", value: template.questionnaire_description || "" },
       { module: "base", key: "questionnaire_subtitle", databaseField: "questionnaire_subtitle", name: "问卷标题备注", value: template.questionnaire_remark || "" },
-      { module: "base", key: "informed_consent", databaseField: "informed_consent", name: "知情同意书", value: template.informed_consent_required ? getRichTextPlainText(template.informed_consent_content) : "" },
+      { module: "base", key: "informed_consent", databaseField: "informed_consent", name: "知情同意书", value: template.informed_consent_required ? getRichTextExportValue(template.informed_consent_content) : "" },
     );
   }
 
@@ -2689,9 +2693,10 @@ function openTemplateI18nPage(templateId) {
     mode: "edit",
     questionnaireType: getSurveyListQuestionnaireType(getTemplateRawType(template)),
     consent: template.informed_consent_required ? "1" : "0",
-    consentContent: template.informed_consent_required ? getRichTextPlainText(template.informed_consent_content) : "",
+    popupCopy: getRichTextExportValue(template.popup_copy),
+    consentContent: template.informed_consent_required ? getRichTextExportValue(template.informed_consent_content) : "",
   });
-  window.location.href = `./i18n-translation-workflow.html?v=20260812-08&${workflowParams.toString()}`;
+  window.location.href = `./i18n-translation-workflow.html?v=20260813-02&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {

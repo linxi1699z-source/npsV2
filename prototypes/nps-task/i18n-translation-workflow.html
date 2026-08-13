@@ -224,15 +224,29 @@
       const targetTemplateName = workflowParams.get("templateName") || "健康体验调研问卷";
       const isEditMode = workflowParams.get("mode") === "edit";
       const isRegularQuestionnaire = workflowParams.get("questionnaireType") === "常规问卷";
+      function getRichTextDisplayValue(value) {
+        const container = document.createElement("div");
+        container.innerHTML = String(value || "");
+        return container.textContent.trim();
+      }
       if (isRegularQuestionnaire) {
         document.getElementById("popupCopyTranslationRow").remove();
         document.getElementById("globalTranslationSection").remove();
+      } else {
+        const popupCopyContent = workflowParams.get("popupCopy") || "";
+        if (popupCopyContent) {
+          const popupCopyCell = document.querySelector("#popupCopyTranslationRow td:nth-child(2)");
+          popupCopyCell.textContent = getRichTextDisplayValue(popupCopyContent);
+          popupCopyCell.dataset.exportValue = popupCopyContent;
+        }
       }
       const consentTranslationSection = document.getElementById("consentTranslationSection");
       const consentContent = workflowParams.get("consentContent") || "";
       if (workflowParams.get("consent") === "1" && consentContent) {
         consentTranslationSection.hidden = false;
-        document.getElementById("consentTranslationSource").textContent = consentContent;
+        const consentSourceCell = document.getElementById("consentTranslationSource");
+        consentSourceCell.textContent = getRichTextDisplayValue(consentContent);
+        consentSourceCell.dataset.exportValue = consentContent;
       } else {
         consentTranslationSection.remove();
       }
@@ -268,7 +282,7 @@
       const rows = [...document.querySelectorAll(".translation-table tbody tr")].map((row) => {
         const cells = row.querySelectorAll("td");
         const key = cells[2].textContent.trim().replace(/^nps\.10010(?=\.)/, `nps.${targetTemplateId}`);
-        return { element: row, field: cells[0].textContent.trim(), source: cells[1].textContent.trim(), key, english: cells[3].textContent.trim() };
+        return { element: row, field: cells[0].textContent.trim(), source: cells[1].dataset.exportValue || cells[1].textContent.trim(), key, english: cells[3].textContent.trim() };
       });
 
       function showToast(message) { toast.textContent = message; toast.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove("show"), 2400); }
