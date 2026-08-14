@@ -2070,7 +2070,6 @@ select {
 }
 
 .rich-button,
-.color-swatch,
 .consent-rich-button {
   width: 24px;
   height: 24px;
@@ -2085,13 +2084,11 @@ select {
 }
 
 .rich-button:hover,
-.color-swatch:hover,
 .consent-rich-button:hover {
   border-color: var(--ant-color-primary-hover);
 }
 
 .rich-button:disabled,
-.color-swatch:disabled,
 .consent-rich-button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
@@ -2113,7 +2110,8 @@ select {
   font-weight: 400;
 }
 
-.consent-align-button {
+.consent-align-button,
+.rich-align-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2156,18 +2154,6 @@ select {
 .align-right .alignment-icon i:nth-child(2),
 .align-right .alignment-icon i:nth-child(3) {
   align-self: flex-end;
-}
-
-.color-swatch.red {
-  background: var(--ant-color-error);
-}
-
-.color-swatch.blue {
-  background: var(--ant-color-primary);
-}
-
-.color-swatch.black {
-  background: var(--ant-color-text);
 }
 
 .rich-editor {

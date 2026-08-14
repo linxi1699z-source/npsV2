@@ -2696,7 +2696,7 @@ function openTemplateI18nPage(templateId) {
     popupCopy: getRichTextExportValue(template.popup_copy),
     consentContent: template.informed_consent_required ? getRichTextExportValue(template.informed_consent_content) : "",
   });
-  window.location.href = `./i18n-translation-workflow.html?v=20260813-02&${workflowParams.toString()}`;
+  window.location.href = `./i18n-translation-workflow.html?v=20260814-02&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {
@@ -3173,7 +3173,7 @@ function updateTemplateLockedDefaults() {
   const popupCopyReadonly = isDesignType && !canEditPopupCopy;
   templateFormFields.popupCopy.contentEditable = popupCopyReadonly ? "false" : "true";
   templateFormFields.popupCopy.classList.toggle("is-readonly", popupCopyReadonly);
-  document.querySelectorAll(".rich-button, .color-swatch").forEach((button) => {
+  document.querySelectorAll(".rich-button").forEach((button) => {
     button.disabled = popupCopyReadonly;
   });
   if (isDesignType && (!canEditPopupCopy || !templateFormFields.popupCopy.textContent.trim())) {
@@ -5259,9 +5259,6 @@ document.getElementById("templateForm").addEventListener("click", (event) => {
   }
   if (target.classList.contains("consent-rich-button")) {
     applyConsentRichTextCommand(target.dataset.consentCommand);
-  }
-  if (target.classList.contains("color-swatch")) {
-    applyRichTextCommand("foreColor", target.dataset.color);
   }
   if (target.classList.contains("question-add-option")) {
     const questionIndex = Number(target.dataset.questionIndex);
