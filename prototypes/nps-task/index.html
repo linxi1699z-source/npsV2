@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260814-02" />
+    <link rel="stylesheet" href="./styles.css?v=20260814-06" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -139,6 +139,7 @@
                   <option value="计划">计划</option>
                   <option value="OSA">OSA</option>
                   <option value="生理">生理</option>
+                  <option value="国妇婴">国妇婴</option>
                   <option value="血压">血压</option>
                   <option value="AI Partner">AI Partner</option>
                 </select>
@@ -391,6 +392,16 @@
                 <input class="ax-input" id="audienceRingconnIdSearch" type="text" autocomplete="off" />
               </div>
 
+              <div class="field-group">
+                <label class="field-label wide" for="audienceUserStatus">用户状态</label>
+                <select class="ax-select audience-filter-control" id="audienceUserStatus">
+                  <option value="所有状态">所有状态</option>
+                  <option value="满足投放条件">满足投放条件</option>
+                  <option value="APP 版本过低">APP 版本过低</option>
+                  <option value="非区域内用户">非区域内用户</option>
+                </select>
+              </div>
+
               <div class="field-group audience-status-filter">
                 <label class="field-label wide" for="audienceDeliveryStatusTrigger">投放状态</label>
                 <div class="multi-select audience-filter-select">
@@ -426,9 +437,9 @@
                 <thead>
                   <tr>
                     <th class="aud-ringconn">RingConn ID</th>
-                    <th class="aud-country">国家</th>
+                    <th class="aud-region">投放区域</th>
                     <th class="aud-date">注册时间</th>
-                    <th class="aud-user-flag">用户标识</th>
+                    <th class="aud-user-status">用户状态</th>
                     <th class="aud-exposure">曝光状态</th>
                     <th class="aud-delivery">投放状态</th>
                   </tr>
@@ -840,6 +851,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260814-02"></script>
+    <script src="./app.js?v=20260814-06"></script>
   </body>
 </html>

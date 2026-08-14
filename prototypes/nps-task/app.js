@@ -246,25 +246,27 @@ const I18N_LANGUAGES = [
 ];
 
 const audienceUsers = [
-  { task_id: "10001", ringconn_id: "RC10001001", country: "中国", registered_at: "2024-11-18", user_flag: "老用户", exposure_status: "未曝光", delivery_status: "未开始" },
-  { task_id: "10001", ringconn_id: "RC10001002", country: "美国", registered_at: "2025-02-07", user_flag: "新用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
-  { task_id: "10001", ringconn_id: "RC10001003", country: "德国", registered_at: "2023-09-26", user_flag: "波动用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
-  { task_id: "10002", ringconn_id: "RC10002001", country: "日本", registered_at: "2024-08-11", user_flag: "老用户", exposure_status: "已曝光", delivery_status: "已关闭" },
-  { task_id: "10002", ringconn_id: "RC10002002", country: "中国", registered_at: "2025-12-03", user_flag: "新用户", exposure_status: "未曝光", delivery_status: "未开始" },
-  { task_id: "10002", ringconn_id: "RC10002003", country: "法国", registered_at: "2024-03-14", user_flag: "波动用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
-  { task_id: "10003", ringconn_id: "RC10003001", country: "美国", registered_at: "2023-07-09", user_flag: "老用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
-  { task_id: "10003", ringconn_id: "RC10003002", country: "加拿大", registered_at: "2024-10-21", user_flag: "波动用户", exposure_status: "未曝光", delivery_status: "已关闭" },
-  { task_id: "10003", ringconn_id: "RC10003003", country: "中国", registered_at: "2026-01-06", user_flag: "新用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
-  { task_id: "10004", ringconn_id: "RC10004001", country: "英国", registered_at: "2025-04-02", user_flag: "新用户", exposure_status: "未曝光", delivery_status: "未开始" },
-  { task_id: "10004", ringconn_id: "RC10004002", country: "德国", registered_at: "2024-12-19", user_flag: "波动用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
-  { task_id: "10004", ringconn_id: "RC10004003", country: "美国", registered_at: "2022-06-30", user_flag: "老用户", exposure_status: "未曝光", delivery_status: "已关闭" },
-  { task_id: "10005", ringconn_id: "RC10005001", country: "中国", registered_at: "2024-05-12", user_flag: "老用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
-  { task_id: "10005", ringconn_id: "RC10005002", country: "日本", registered_at: "2025-08-24", user_flag: "新用户", exposure_status: "未曝光", delivery_status: "未开始" },
-  { task_id: "10005", ringconn_id: "RC10005003", country: "澳大利亚", registered_at: "2023-11-05", user_flag: "波动用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
-  { task_id: "10006", ringconn_id: "RC10006001", country: "中国", registered_at: "2025-01-16", user_flag: "老用户", exposure_status: "未曝光", delivery_status: "未开始" },
-  { task_id: "10006", ringconn_id: "RC10006002", country: "美国", registered_at: "2026-02-09", user_flag: "新用户", exposure_status: "已曝光", delivery_status: "已关闭" },
-  { task_id: "10006", ringconn_id: "RC10006003", country: "新加坡", registered_at: "2024-09-17", user_flag: "波动用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10001", ringconn_id: "RC10001001", delivery_region: "中国大陆", registered_at: "2024-11-18", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10001", ringconn_id: "RC10001002", delivery_region: "美区", registered_at: "2025-02-07", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10001", ringconn_id: "RC10001003", delivery_region: "英区", registered_at: "2023-09-26", user_status: "APP 版本过低", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10002", ringconn_id: "RC10002001", delivery_region: "英区", registered_at: "2024-08-11", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已关闭" },
+  { task_id: "10002", ringconn_id: "RC10002002", delivery_region: "中国大陆", registered_at: "2025-12-03", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10002", ringconn_id: "RC10002003", delivery_region: "英区", registered_at: "2024-03-14", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10003", ringconn_id: "RC10003001", delivery_region: "美区", registered_at: "2023-07-09", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10003", ringconn_id: "RC10003002", delivery_region: "英区", registered_at: "2024-10-21", user_status: "APP 版本过低", exposure_status: "未曝光", delivery_status: "已关闭" },
+  { task_id: "10003", ringconn_id: "RC10003003", delivery_region: "中国大陆", registered_at: "2026-01-06", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10004", ringconn_id: "RC10004001", delivery_region: "英区", registered_at: "2025-04-02", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10004", ringconn_id: "RC10004002", delivery_region: "英区", registered_at: "2024-12-19", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10004", ringconn_id: "RC10004003", delivery_region: "美区", registered_at: "2022-06-30", user_status: "APP 版本过低", exposure_status: "未曝光", delivery_status: "已关闭" },
+  { task_id: "10005", ringconn_id: "RC10005001", delivery_region: "中国大陆", registered_at: "2024-05-12", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10005", ringconn_id: "RC10005002", delivery_region: "英区", registered_at: "2025-08-24", user_status: "非区域内用户", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10005", ringconn_id: "RC10005003", delivery_region: "英区", registered_at: "2023-11-05", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10006", ringconn_id: "RC10006001", delivery_region: "中国大陆", registered_at: "2025-01-16", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10006", ringconn_id: "RC10006002", delivery_region: "美区", registered_at: "2026-02-09", user_status: "APP 版本过低", exposure_status: "已曝光", delivery_status: "已关闭" },
+  { task_id: "10006", ringconn_id: "RC10006003", delivery_region: "英区", registered_at: "2024-09-17", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
 ];
+
+const AUDIENCE_REGION_ORDER = ["美区", "英区", "中国大陆"];
 
 const npsTemplates = [
   {
@@ -593,6 +595,7 @@ const audienceRingconnIdSearch = document.getElementById("audienceRingconnIdSear
 const audienceDeliveryStatusTrigger = document.getElementById("audienceDeliveryStatusTrigger");
 const audienceDeliveryStatusPanel = document.getElementById("audienceDeliveryStatusPanel");
 const audienceExposureStatus = document.getElementById("audienceExposureStatus");
+const audienceUserStatus = document.getElementById("audienceUserStatus");
 const templateNameSearch = document.getElementById("templateNameSearch");
 const templateStatusSearch = document.getElementById("templateStatusSearch");
 const templateSceneSearch = document.getElementById("templateSceneSearch");
@@ -1392,9 +1395,13 @@ function applyFilters() {
 }
 
 function getAudienceBaseRows() {
-  return currentAudienceTaskId
+  const rows = currentAudienceTaskId
     ? audienceUsers.filter((item) => item.task_id === currentAudienceTaskId)
     : [...audienceUsers];
+  return rows.sort((left, right) => (
+    AUDIENCE_REGION_ORDER.indexOf(left.delivery_region) - AUDIENCE_REGION_ORDER.indexOf(right.delivery_region)
+    || left.ringconn_id.localeCompare(right.ringconn_id)
+  ));
 }
 
 function getAudienceStatusClass(type, value) {
@@ -1410,9 +1417,9 @@ function renderAudienceRows(rows) {
     ? rows.map((item) => `
       <tr>
         <td>${escapeText(item.ringconn_id)}</td>
-        <td>${escapeText(item.country)}</td>
+        <td>${escapeText(item.delivery_region)}</td>
         <td>${escapeText(item.registered_at)}</td>
-        <td>${escapeText(item.user_flag)}</td>
+        <td>${escapeText(item.user_status)}</td>
         <td><span class="status-pill ${getAudienceStatusClass("exposure", item.exposure_status)}">${escapeText(item.exposure_status)}</span></td>
         <td><span class="status-pill ${getAudienceStatusClass("delivery", item.delivery_status)}">${escapeText(item.delivery_status)}</span></td>
       </tr>
@@ -1437,16 +1444,19 @@ function resetAudienceStatusFilters() {
     input.checked = false;
   });
   audienceExposureStatus.value = "所有曝光状态";
+  audienceUserStatus.value = "所有状态";
   updateAudienceDeliveryStatusTrigger();
 }
 
 function applyAudienceFilters() {
   const ringconnId = audienceRingconnIdSearch.value.trim().toLowerCase();
   const exposureStatus = audienceExposureStatus.value;
+  const userStatus = audienceUserStatus.value;
   filteredAudienceUsers = getAudienceBaseRows().filter((item) => (
     (!ringconnId || item.ringconn_id.toLowerCase().includes(ringconnId))
     && (!audienceDeliveryStatuses.size || audienceDeliveryStatuses.has(item.delivery_status))
     && (exposureStatus === "所有曝光状态" || item.exposure_status === exposureStatus)
+    && (userStatus === "所有状态" || item.user_status === userStatus)
   ));
   renderAudienceRows(filteredAudienceUsers);
 }
@@ -2696,7 +2706,7 @@ function openTemplateI18nPage(templateId) {
     popupCopy: getRichTextExportValue(template.popup_copy),
     consentContent: template.informed_consent_required ? getRichTextExportValue(template.informed_consent_content) : "",
   });
-  window.location.href = `./i18n-translation-workflow.html?v=20260814-02&${workflowParams.toString()}`;
+  window.location.href = `./i18n-translation-workflow.html?v=20260814-04&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {

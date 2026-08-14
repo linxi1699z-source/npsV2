@@ -742,13 +742,13 @@ select {
   position: absolute;
   left: 0;
   top: 68px;
-  width: 980px;
-  height: 52px;
+  width: var(--content-width);
+  height: 102px;
 }
 
 .audience-search-fields {
   width: var(--content-width);
-  column-gap: 28px;
+  column-gap: 24px;
   row-gap: 18px;
 }
 
@@ -767,7 +767,7 @@ select {
 .audience-list-area {
   position: absolute;
   left: 0;
-  top: 120px;
+  top: 170px;
   width: var(--content-width);
 }
 
@@ -789,7 +789,7 @@ select {
   width: 190px;
 }
 
-.aud-country {
+.aud-region {
   width: 150px;
 }
 
@@ -797,7 +797,7 @@ select {
   width: 170px;
 }
 
-.aud-user-flag,
+.aud-user-status,
 .aud-exposure,
 .aud-delivery {
   width: 195px;
