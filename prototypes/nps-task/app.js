@@ -248,12 +248,12 @@ const I18N_LANGUAGES = [
 const audienceUsers = [
   { task_id: "10001", ringconn_id: "RC10001001", delivery_region: "中国大陆", registered_at: "2024-11-18", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
   { task_id: "10001", ringconn_id: "RC10001002", delivery_region: "美区", registered_at: "2025-02-07", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
-  { task_id: "10001", ringconn_id: "RC10001003", delivery_region: "英区", registered_at: "2023-09-26", user_status: "APP 版本过低", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10001", ringconn_id: "RC10001003", delivery_region: "英区", registered_at: "2023-09-26", user_status: "近 3 月内已投放", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
   { task_id: "10002", ringconn_id: "RC10002001", delivery_region: "英区", registered_at: "2024-08-11", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已关闭" },
   { task_id: "10002", ringconn_id: "RC10002002", delivery_region: "中国大陆", registered_at: "2025-12-03", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
   { task_id: "10002", ringconn_id: "RC10002003", delivery_region: "英区", registered_at: "2024-03-14", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
   { task_id: "10003", ringconn_id: "RC10003001", delivery_region: "美区", registered_at: "2023-07-09", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
-  { task_id: "10003", ringconn_id: "RC10003002", delivery_region: "英区", registered_at: "2024-10-21", user_status: "APP 版本过低", exposure_status: "未曝光", delivery_status: "已关闭" },
+  { task_id: "10003", ringconn_id: "RC10003002", delivery_region: "英区", registered_at: "2024-10-21", user_status: "近 3 月内已投放", exposure_status: "未曝光", delivery_status: "已关闭" },
   { task_id: "10003", ringconn_id: "RC10003003", delivery_region: "中国大陆", registered_at: "2026-01-06", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
   { task_id: "10004", ringconn_id: "RC10004001", delivery_region: "英区", registered_at: "2025-04-02", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
   { task_id: "10004", ringconn_id: "RC10004002", delivery_region: "英区", registered_at: "2024-12-19", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
@@ -313,6 +313,11 @@ const npsTemplates = [
     creator: "谢敏",
     updated_at: "2026-07-27 10:20",
     min_version: "V4.X(待定)",
+    i18n_bound_keys: {
+      app_display_name: "nps.10010.display_name_1",
+      popup_copy: "nps.10010.popup_copy_1",
+      question_1_title: "nps.10010.question.1001001.title_1",
+    },
     popup_copy_mode: "设计",
     popup_copy: SURVEY_POPUP_COPY_PRESETS.设计,
     questions: [
@@ -596,6 +601,7 @@ const audienceDeliveryStatusTrigger = document.getElementById("audienceDeliveryS
 const audienceDeliveryStatusPanel = document.getElementById("audienceDeliveryStatusPanel");
 const audienceExposureStatus = document.getElementById("audienceExposureStatus");
 const audienceUserStatus = document.getElementById("audienceUserStatus");
+const audienceDeliveryRegion = document.getElementById("audienceDeliveryRegion");
 const templateNameSearch = document.getElementById("templateNameSearch");
 const templateStatusSearch = document.getElementById("templateStatusSearch");
 const templateSceneSearch = document.getElementById("templateSceneSearch");
@@ -1445,6 +1451,7 @@ function resetAudienceStatusFilters() {
   });
   audienceExposureStatus.value = "所有曝光状态";
   audienceUserStatus.value = "所有状态";
+  audienceDeliveryRegion.value = "所有区域";
   updateAudienceDeliveryStatusTrigger();
 }
 
@@ -1452,11 +1459,13 @@ function applyAudienceFilters() {
   const ringconnId = audienceRingconnIdSearch.value.trim().toLowerCase();
   const exposureStatus = audienceExposureStatus.value;
   const userStatus = audienceUserStatus.value;
+  const deliveryRegion = audienceDeliveryRegion.value;
   filteredAudienceUsers = getAudienceBaseRows().filter((item) => (
     (!ringconnId || item.ringconn_id.toLowerCase().includes(ringconnId))
     && (!audienceDeliveryStatuses.size || audienceDeliveryStatuses.has(item.delivery_status))
     && (exposureStatus === "所有曝光状态" || item.exposure_status === exposureStatus)
     && (userStatus === "所有状态" || item.user_status === userStatus)
+    && (deliveryRegion === "所有区域" || item.delivery_region === deliveryRegion)
   ));
   renderAudienceRows(filteredAudienceUsers);
 }
@@ -2026,6 +2035,20 @@ function getTemplateI18nRows(template) {
         questionnaireQuestionIndex += 1;
         rows.push(...getQuestionI18nRows(question, questionnaireQuestionIndex, `question_${questionnaireQuestionIndex}`, "question", getI18nQuestionId(template.template_id, question, questionnaireQuestionIndex)));
       });
+    });
+    // The survey-list editor stores its own questionnaire pages separately from fixed global questions.
+    const configuredQuestions = template.question_sections && template.question_sections.length
+      ? template.question_sections.flatMap((section) => section.questions || [])
+      : (template.questions || []).slice((template.app_questions || DEFAULT_GLOBAL_APP_QUESTIONS).length);
+    const configuredQuestionTemplate = {
+      ...template,
+      raw_questionnaire_type: "常规问卷",
+      questionnaire_type: "常规问卷",
+      questions: configuredQuestions,
+    };
+    getTemplatePreviewQuestions(configuredQuestionTemplate).forEach((question) => {
+      questionnaireQuestionIndex += 1;
+      rows.push(...getQuestionI18nRows(question, questionnaireQuestionIndex, `question_${questionnaireQuestionIndex}`, "question", getI18nQuestionId(template.template_id, question, questionnaireQuestionIndex)));
     });
   } else {
     getTemplatePreviewQuestions(template).forEach((question, questionIndex) => {
@@ -2697,16 +2720,27 @@ function openTemplateI18nPage(templateId) {
     return;
   }
 
+  const storedKeys = template.i18n_bound_keys || {};
+  const hasAllExistingKeys = ["有效", "生效中"].includes(template.template_status) || Boolean(template.i18n_uploaded);
+  const hasExistingKeys = hasAllExistingKeys || Object.keys(storedKeys).length > 0;
+  const workflowRows = getTemplateI18nRows(template).map((row) => ({
+    name: row.name,
+    value: row.value,
+    module: row.module,
+    questionIndex: row.questionIndex,
+    questionType: row.questionType,
+    questionId: row.questionId,
+    databaseField: row.databaseField,
+    bindingKey: hasAllExistingKeys ? getI18nBindingKey(template, row) : (storedKeys[row.key] || ""),
+  }));
   const workflowParams = new URLSearchParams({
     templateId: template.template_id,
     templateName: template.template_name,
-    mode: "edit",
     questionnaireType: getSurveyListQuestionnaireType(getTemplateRawType(template)),
-    consent: template.informed_consent_required ? "1" : "0",
-    popupCopy: getRichTextExportValue(template.popup_copy),
-    consentContent: template.informed_consent_required ? getRichTextExportValue(template.informed_consent_content) : "",
+    existingKeys: hasExistingKeys ? "1" : "0",
+    rows: JSON.stringify(workflowRows),
   });
-  window.location.href = `./i18n-translation-workflow.html?v=20260814-04&${workflowParams.toString()}`;
+  window.location.href = `./i18n-translation-workflow.html?v=20260820-08&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {
@@ -5411,6 +5445,7 @@ const savedI18nTemplateId = new URLSearchParams(window.location.search).get("i18
 if (savedI18nTemplateId) {
   const savedTemplate = npsTemplates.find((item) => item.template_id === savedI18nTemplateId);
   if (savedTemplate) {
+    savedTemplate.i18n_keys_bound = true;
     savedTemplate.i18n_uploaded = true;
     seedTemplateI18nTranslations(savedTemplate);
     updateTemplateI18nCompletion(savedTemplate);

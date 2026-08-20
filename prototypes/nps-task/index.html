@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260814-06" />
+    <link rel="stylesheet" href="./styles.css?v=20260820-08" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -399,6 +399,17 @@
                   <option value="满足投放条件">满足投放条件</option>
                   <option value="APP 版本过低">APP 版本过低</option>
                   <option value="非区域内用户">非区域内用户</option>
+                  <option value="近 3 月内已投放">近 3 月内已投放</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label wide" for="audienceDeliveryRegion">投放区域</label>
+                <select class="ax-select audience-filter-control" id="audienceDeliveryRegion">
+                  <option value="所有区域">所有区域</option>
+                  <option value="美区">美区</option>
+                  <option value="英区">英区</option>
+                  <option value="中国大陆">中国大陆</option>
                 </select>
               </div>
 
@@ -851,6 +862,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260814-06"></script>
+    <script src="./app.js?v=20260820-08"></script>
   </body>
 </html>

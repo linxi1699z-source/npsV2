@@ -6,550 +6,81 @@
     <title>NPS 多语言配置</title>
     <style>
       * { box-sizing: border-box; }
-      :root {
-        --primary: #1677ff; --primary-hover: #4096ff; --primary-active: #0958d9;
-        --text: #1f1f1f; --text-secondary: #595959; --text-tertiary: rgba(0, 0, 0, .45);
-        --border: #d9d9d9; --border-light: #f0f0f0; --fill: #f5f5f5; --fill-secondary: #fafafa;
-        --bg: #f5f5f5; --success: #52c41a; --success-bg: #f6ffed; --success-border: #b7eb8f;
-      }
-      body { min-width: 1180px; margin: 0; color: var(--text); background: var(--bg); font: 14px/1.5 -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif; }
-      .shell { display: flex; min-height: 100vh; }
-      .sider { width: 160px; padding: 28px 8px; border-right: 1px solid var(--border-light); background: #fff; }
-      .brand { margin: 0 16px 28px; color: var(--text); font-size: 22px; font-weight: 700; line-height: 29px; }
-      .nav-root { display: flex; align-items: center; height: 40px; margin: 0 0 4px; padding: 0 10px; border-radius: 6px; color: var(--text); font-weight: 600; }
-      .nav-root::before { width: 16px; margin-right: 4px; color: var(--text-secondary); content: "▾"; }
-      .nav-item { display: block; width: 100%; height: 40px; margin: 0; padding: 0 10px 0 32px; border: 0; border-radius: 6px; color: var(--text-secondary); background: transparent; font: inherit; text-align: left; cursor: pointer; transition: .2s; }
-      .nav-item:hover { color: var(--text); background: var(--fill); }
-      .nav-item.active { color: var(--primary); background: #e6f4ff; font-weight: 600; }
-      .main { width: calc(100% - 160px); padding: 0 28px 32px; }
-      .breadcrumb { height: 58px; padding: 19px 0; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
-      .page-head { display: flex; align-items: flex-start; justify-content: space-between; padding: 24px 0 16px; }
-      h1 { margin: 0; font-size: 20px; line-height: 30px; }
-      .steps { display: grid; grid-template-columns: 220px 220px; column-gap: 44px; width: 484px; padding: 8px 0 22px; }
-      .step { position: relative; display: flex; align-items: center; gap: 8px; height: 32px; color: var(--text-tertiary); white-space: nowrap; }
-      .step:not(:last-child)::after { position: absolute; top: 15px; left: calc(100% + 8px); width: 28px; height: 1px; background: var(--border); content: ""; }
-      .step.active:not(:last-child)::after, .step.done:not(:last-child)::after { background: var(--primary); }
-      .step-no { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 50%; background: #fff; }
-      .step.active, .step.done { color: var(--primary); }
-      .step.active .step-no, .step.done .step-no { border-color: var(--primary); color: #fff; background: var(--primary); }
-      .step-name { font-weight: 600; }
-      .step-panel { display: none; min-height: 640px; border: 1px solid var(--border-light); border-radius: 6px; background: #fff; }
-      .step-panel.active { display: block; }
-      .upload-layout { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 570px; padding: 48px 32px; }
-      .upload-zone { display: flex; flex-direction: column; align-items: center; justify-content: center; width: min(860px, 80%); min-height: 330px; padding: 40px; border: 1px dashed #91caff; border-radius: 8px; background: #f0f7ff; text-align: center; transition: .2s; }
-      .upload-zone.dragging { border-color: var(--primary); background: #e6f4ff; }
-      .upload-icon { display: flex; align-items: center; justify-content: center; width: 58px; height: 58px; margin-bottom: 18px; border-radius: 50%; color: var(--primary); background: #e6f4ff; font-size: 30px; }
-      .upload-title { margin-bottom: 8px; font-size: 16px; font-weight: 600; }
-      .upload-note { color: var(--text-tertiary); font-size: 13px; }
-      .selected-file { min-height: 22px; margin-top: 16px; color: var(--text-secondary); }
-      .button { height: 32px; padding: 0 16px; border: 1px solid var(--border); border-radius: 4px; color: var(--text); background: #fff; font: inherit; cursor: pointer; transition: .2s; }
-      .button:hover { border-color: var(--primary-hover); color: var(--primary); }
-      .button.primary { border-color: var(--primary); color: #fff; background: var(--primary); }
-      .button.primary:hover { border-color: var(--primary-hover); color: #fff; background: var(--primary-hover); }
-      .button:disabled, .button:disabled:hover { border-color: #d9d9d9; color: rgba(0,0,0,.25); background: #f5f5f5; cursor: not-allowed; }
-      .button + .button { margin-left: 8px; }
-      .choose-file { margin-top: 18px; }
-      .upload-actions { display: flex; gap: 8px; margin-top: 28px; }
-      .upload-file { display: none; }
-      .export-copy { width: min(860px, 80%); margin-top: 32px; padding: 16px 20px; border-top: 1px solid var(--border-light); color: var(--text-secondary); text-align: center; }
-      .export-copy p { margin: 0 0 8px; }
-      .export-link { padding: 0; border: 0; color: var(--primary); background: transparent; font: inherit; cursor: pointer; }
-      .export-link:hover { color: var(--primary-hover); }
-      .confirm-panel { position: relative; overflow: hidden; min-height: 640px; }
-      .confirm-toolbar { display: flex; align-items: center; justify-content: space-between; height: 52px; padding: 0 20px; border-bottom: 1px solid var(--border-light); background: var(--fill-secondary); }
-      .confirm-toolbar strong { font-weight: 600; }
-      .upload-file-name { color: var(--text-tertiary); font-size: 13px; }
-      .translation-scroll { height: 500px; overflow: auto; padding: 0 20px 20px; }
-      .translation-section { margin-top: 20px; border: 1px solid var(--border-light); border-radius: 6px; overflow: hidden; }
-      .section-title { height: 42px; padding: 10px 16px; background: var(--fill-secondary); font-weight: 600; }
-      .question-title { padding: 14px 16px 0; color: var(--text-secondary); font-weight: 600; }
-      .question-title + .translation-table { margin-top: 8px; }
-      .translation-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-      .translation-table th, .translation-table td { min-height: 42px; padding: 10px 12px; border-top: 1px solid var(--border-light); color: var(--text); text-align: left; vertical-align: middle; word-break: break-word; }
-      .translation-table th { color: var(--text-secondary); background: var(--fill-secondary); font-size: 12px; font-weight: 600; }
-      .translation-table th:nth-child(1) { width: 16%; }
-      .translation-table th:nth-child(2) { width: 30%; }
-      .translation-table th:nth-child(3) { width: 24%; }
-      .translation-table th:nth-child(4) { width: 22%; }
-      .translation-table th:nth-child(5) { width: 8%; }
-      code { color: var(--text); font: 12px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-      .translation-ok { color: #389e0d; }
-      .translation-view { padding: 0; border: 0; color: var(--primary); background: transparent; font: inherit; white-space: nowrap; cursor: pointer; }
-      .translation-view:hover { color: var(--primary-hover); }
-      .translation-view:disabled, .translation-view:disabled:hover { color: rgba(0,0,0,.25); cursor: not-allowed; }
-      .fixed-actions { display: flex; justify-content: flex-end; padding: 16px 20px; border-top: 1px solid var(--border-light); background: #fff; }
-      .edit-file-name { color: var(--text-tertiary); font-size: 13px; }
-      body.edit-mode .steps, body.edit-mode #uploadStep { display: none; }
-      body.edit-mode #confirmStep { display: block; margin-top: 24px; }
-      body.edit-mode .confirm-panel { min-height: 0; }
-      body.edit-mode .confirm-toolbar { display: none; }
-      body.edit-mode .translation-scroll { height: min(640px, calc(100vh - 178px)); }
-      body.edit-mode .fixed-actions { justify-content: space-between; }
-      .direct-export-copy { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px; border-bottom: 1px solid var(--border-light); color: var(--text-secondary); font-size: 13px; }
-      .toast { position: fixed; z-index: 10; top: 24px; left: 50%; display: none; transform: translateX(-50%); padding: 10px 16px; border-radius: 4px; color: var(--text); background: #fff; box-shadow: 0 3px 6px rgba(0,0,0,.12); }
-      .toast.show { display: block; }
-      .translation-modal { position: fixed; z-index: 20; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,.45); }
-      .translation-modal.show { display: flex; }
-      .translation-modal-card { display: flex; flex-direction: column; width: 720px; max-height: 76vh; overflow: hidden; border-radius: 8px; background: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.16); }
-      .translation-modal-head { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 24px; border-bottom: 1px solid var(--border-light); font-size: 16px; font-weight: 600; }
-      .translation-modal-close { width: 32px; height: 32px; border: 0; border-radius: 4px; color: var(--text-secondary); background: transparent; font-size: 24px; line-height: 28px; cursor: pointer; }
-      .translation-modal-close:hover { color: var(--text); background: var(--fill); }
-      .translation-modal-meta { padding: 14px 24px; border-bottom: 1px solid var(--border-light); color: var(--text-secondary); font-size: 13px; }
-      .translation-modal-meta code { margin-left: 8px; color: var(--text); }
-      .translation-modal-body { max-height: calc(76vh - 166px); overflow: auto; padding: 0 24px 24px; }
-      .translation-language-table { width: 100%; border-collapse: collapse; }
-      .translation-language-table th, .translation-language-table td { padding: 10px 12px; border-bottom: 1px solid var(--border-light); text-align: left; vertical-align: top; }
-      .translation-language-table th { color: var(--text-secondary); background: var(--fill-secondary); font-size: 12px; }
-      .translation-modal-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 14px 24px; border-top: 1px solid var(--border-light); }
-      .translation-edit-input { width: 100%; height: 32px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 4px; color: var(--text); font: inherit; }
-      .translation-edit-input:focus { border-color: var(--primary); outline: 0; }
-      .upload-dialog { position: fixed; z-index: 21; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,.45); }
-      .upload-dialog.show { display: flex; }
-      .upload-dialog-card { width: 680px; overflow: hidden; border-radius: 8px; background: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.16); }
-      .upload-dialog-title { height: 56px; padding: 17px 24px; border-bottom: 1px solid var(--border-light); font-size: 16px; font-weight: 600; }
-      .upload-dialog-body { padding: 24px; }
-      .upload-dialog .upload-zone { width: 100%; min-height: 250px; }
-      .upload-dialog-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 14px 24px; border-top: 1px solid var(--border-light); }
+      :root { --primary:#1677ff; --primary-hover:#4096ff; --text:#1f1f1f; --secondary:#595959; --tertiary:rgba(0,0,0,.45); --border:#d9d9d9; --border-light:#f0f0f0; --fill:#f5f5f5; --fill-secondary:#fafafa; --bg:#f5f5f5; }
+      body { min-width:1180px; margin:0; color:var(--text); background:var(--bg); font:14px/1.5 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial,sans-serif; }
+      .shell { display:flex; min-height:100vh; }.sider { width:160px; padding:28px 8px; border-right:1px solid var(--border-light); background:#fff; }.brand { margin:0 16px 28px; font-size:22px; font-weight:700; }.nav-root { height:40px; padding:10px; font-weight:600; }.nav-root::before { margin-right:4px; color:var(--secondary); content:"▾"; }.nav-item { width:100%; height:40px; padding:0 10px 0 32px; border:0; border-radius:6px; color:var(--secondary); background:transparent; font:inherit; text-align:left; cursor:pointer; }.nav-item.active { color:var(--primary); background:#e6f4ff; font-weight:600; }
+      .main { width:calc(100% - 160px); padding:0 28px 32px; }.breadcrumb { height:58px; padding:19px 0; border-bottom:1px solid var(--border); color:var(--secondary); }.workflow-tabs { display:flex; gap:40px; padding:24px 0 18px; }.workflow-tab { position:relative; display:flex; align-items:center; gap:8px; height:32px; color:var(--tertiary); font-weight:600; }.workflow-tab:not(:last-child)::after { position:absolute; top:15px; left:calc(100% + 10px); width:20px; height:1px; background:var(--border); content:""; }.workflow-tab.active,.workflow-tab.done { color:var(--primary); }.workflow-tab.done::after { background:var(--primary); }.tab-number { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border:1px solid var(--border); border-radius:50%; background:#fff; }.workflow-tab.active .tab-number,.workflow-tab.done .tab-number { border-color:var(--primary); color:#fff; background:var(--primary); }
+      .workflow-panel { display:none; border:1px solid var(--border-light); border-radius:6px; background:#fff; }.workflow-panel.active { display:block; }.panel-head,.translation-toolbar { display:flex; align-items:center; justify-content:space-between; min-height:54px; padding:10px 20px; border-bottom:1px solid var(--border-light); background:var(--fill-secondary); }.panel-head strong,.translation-toolbar strong { font-size:16px; }.panel-head-note,.translation-toolbar-note { color:var(--tertiary); font-size:13px; }.binding-scroll { height:min(620px,calc(100vh - 236px)); min-height:430px; overflow:auto; padding:0 20px 24px; }.binding-section { margin-top:28px; }.binding-section + .binding-section { padding-top:28px; border-top:1px dashed var(--border); }.binding-section-title { margin-bottom:10px; font-size:16px; font-weight:600; }.question-title { margin:18px 0 8px; color:var(--secondary); font-weight:600; }
+      .binding-table { width:100%; border-collapse:collapse; table-layout:fixed; }.binding-table th,.binding-table td { padding:10px 12px; border:1px solid var(--border-light); text-align:left; vertical-align:middle; word-break:break-word; }.binding-table th { color:var(--secondary); background:var(--fill-secondary); font-size:12px; font-weight:600; }.binding-table th:nth-child(1) { width:18%; }.binding-table th:nth-child(2) { width:34%; }.binding-table th:nth-child(3) { width:30%; }.binding-table th:nth-child(4) { width:12%; }.binding-table th:nth-child(5) { width:6%; } code { color:var(--text); font:12px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }.key-combobox { position:relative; }.key-input,.translation-input { width:100%; height:32px; padding:4px 58px 4px 8px; border:1px solid var(--border); border-radius:4px; color:var(--text); background:#fff; font:inherit; }.key-input { font-size:12px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }.key-input:hover,.key-input:focus,.translation-input:focus { border-color:var(--primary); outline:0; }.key-combo-arrow,.key-clear { position:absolute; top:1px; width:28px; height:30px; border:0; color:var(--secondary); background:transparent; cursor:pointer; }.key-combo-arrow { right:1px; }.key-clear { right:29px; display:none; font-size:18px; line-height:28px; }.key-clear.show { display:block; }.key-clear:hover { color:var(--text); }.key-options { position:absolute; z-index:4; top:36px; left:0; right:0; display:none; max-height:220px; overflow:auto; border:1px solid var(--border); border-radius:4px; background:#fff; box-shadow:0 3px 6px rgba(0,0,0,.12); }.key-options.show { display:block; }.key-option { display:block; width:100%; padding:8px 10px; border:0; color:var(--text); background:#fff; font:12px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; text-align:left; cursor:pointer; }.key-option:hover { background:#e6f4ff; }.key-empty { padding:8px 10px; color:var(--tertiary); font-size:12px; }.action-link { padding:0; border:0; color:var(--primary); background:transparent; font:inherit; white-space:nowrap; cursor:pointer; }.action-link:disabled { color:rgba(0,0,0,.25); cursor:not-allowed; }
+      .panel-actions,.dialog-actions { display:flex; justify-content:flex-end; gap:8px; padding:16px 20px; border-top:1px solid var(--border-light); background:#fff; }.panel-actions.spread { justify-content:space-between; }.button { height:32px; padding:0 16px; border:1px solid var(--border); border-radius:4px; color:var(--text); background:#fff; font:inherit; cursor:pointer; }.button:hover { border-color:var(--primary-hover); color:var(--primary); }.button.primary { border-color:var(--primary); color:#fff; background:var(--primary); }.button.primary:hover { border-color:var(--primary-hover); color:#fff; background:var(--primary-hover); }.button:disabled,.button:disabled:hover { border-color:#d9d9d9; color:rgba(0,0,0,.25); background:#f5f5f5; cursor:not-allowed; }
+      .upload-dialog,.translation-dialog { position:fixed; z-index:10; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,.45); }.upload-dialog.show,.translation-dialog.show { display:flex; }.dialog-card { display:flex; flex-direction:column; width:720px; max-height:78vh; overflow:hidden; border-radius:8px; background:#fff; box-shadow:0 6px 16px rgba(0,0,0,.16); }.dialog-head { display:flex; align-items:center; justify-content:space-between; height:56px; padding:0 24px; border-bottom:1px solid var(--border-light); font-size:16px; font-weight:600; }.dialog-close { width:32px; height:32px; border:0; border-radius:4px; color:var(--secondary); background:transparent; font-size:24px; cursor:pointer; }.dialog-body { overflow:auto; padding:24px; }.upload-zone { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:260px; border:1px dashed #91caff; border-radius:8px; background:#f0f7ff; text-align:center; }.upload-zone.dragging { border-color:var(--primary); background:#e6f4ff; }.upload-icon { display:flex; align-items:center; justify-content:center; width:54px; height:54px; margin-bottom:16px; border-radius:50%; color:var(--primary); background:#e6f4ff; font-size:28px; }.upload-title { font-size:16px; font-weight:600; }.upload-note { margin-top:8px; color:var(--tertiary); }.selected-file { min-height:22px; margin-top:16px; color:var(--secondary); }.upload-input { display:none; }.language-table { width:100%; border-collapse:collapse; }.language-table th,.language-table td { padding:10px 12px; border-bottom:1px solid var(--border-light); text-align:left; vertical-align:top; }.language-table th { background:var(--fill-secondary); color:var(--secondary); font-size:12px; }.toast { position:fixed; z-index:20; top:24px; left:50%; display:none; transform:translateX(-50%); padding:10px 16px; border-radius:4px; background:#fff; box-shadow:0 3px 6px rgba(0,0,0,.12); }.toast.show { display:block; }
     </style>
   </head>
   <body>
     <div class="shell">
-      <aside class="sider">
-        <div class="brand">Ringconn</div>
-        <div class="nav-root">NPS管理</div>
-        <button class="nav-item active" id="goSurveyList" type="button">问卷列表</button>
-        <button class="nav-item" id="goTaskList" type="button">投放任务</button>
-      </aside>
+      <aside class="sider"><div class="brand">Ringconn</div><div class="nav-root">NPS管理</div><button class="nav-item active" id="goSurveyList" type="button">问卷列表</button><button class="nav-item" id="goTaskList" type="button">投放任务</button></aside>
       <main class="main">
-        <div class="breadcrumb">NPS管理 / 问卷列表 / 新增多语言</div>
-        <div class="steps">
-          <div class="step active" id="stepOne"><span class="step-no">1</span><span class="step-name">上传翻译</span></div>
-          <div class="step" id="stepTwo"><span class="step-no">2</span><span class="step-name">确认翻译</span></div>
-        </div>
-
-        <section class="step-panel active" id="uploadStep">
-          <div class="upload-layout">
-            <div class="upload-zone" id="uploadZone">
-              <div class="upload-icon">↑</div>
-              <div class="upload-title">拖拽文件到此处，或点击选择文件</div>
-              <div class="upload-note">只允许上传一个 XLSX 文件且不超过 5 M。<button class="export-link" id="downloadUploadTemplate" type="button">下载模板</button></div>
-              <input class="upload-file" id="translationFile" type="file" accept=".xlsx" />
-              <button class="button choose-file" id="chooseFile" type="button">选择文件</button>
-              <div class="selected-file" id="selectedFile">未选择文件</div>
-            </div>
-            <div class="export-copy"><p>如果你不知道哪些文案需要翻译，请先导出系统整理好的待翻译文案。</p><button class="export-link" id="exportCopy" type="button">下载问卷文案</button></div>
-            <div class="upload-actions"><button class="button primary" id="nextStep" type="button">下一步</button><button class="button" id="cancelUpload" type="button">取消</button></div>
-          </div>
-        </section>
-
-        <section class="step-panel" id="confirmStep">
-          <div class="confirm-panel">
-            <div class="confirm-toolbar"><strong>确认翻译</strong><span class="upload-file-name" id="confirmedFileName">已上传：健康体验调研问卷多语言.xlsx</span></div>
-            <div class="direct-export-copy"><span>如果你不知道哪些文案需要翻译，请先导出系统整理好的待翻译文案。</span><button class="export-link" id="downloadQuestionnaireCopy" type="button">下载问卷文案</button></div>
-            <div class="translation-scroll">
-              <section class="translation-section">
-                <div class="section-title">基础信息</div>
-                <table class="translation-table"><thead><tr><th>字段</th><th>后台文案</th><th>多语言 Key</th><th>英文翻译</th><th>操作</th></tr></thead><tbody>
-                  <tr><td>问卷名称(用于 APP 展示)</td><td>健康体验调研问卷</td><td><code>nps.10010.display_name_1</code></td><td class="translation-ok">Health Experience Survey</td></tr>
-                  <tr id="popupCopyTranslationRow"><td>弹窗文案</td><td>我们一直致力于从用户视角出发，打造更专业、更易用的健康管理体验。</td><td><code>nps.10010.popup_copy_1</code></td><td class="translation-ok">We are always improving RingConn from your perspective.</td></tr>
-                </tbody></table>
-              </section>
-              <section class="translation-section" id="consentTranslationSection" hidden>
-                <div class="section-title">知情同意书</div>
-                <table class="translation-table"><thead><tr><th>字段</th><th>后台文案</th><th>多语言 Key</th><th>英文翻译</th><th>操作</th></tr></thead><tbody>
-                  <tr><td>知情同意书内容</td><td id="consentTranslationSource"></td><td><code>nps.10010.informed_consent_1</code></td><td class="translation-ok" id="consentTranslationEnglish">Informed consent for user research.</td></tr>
-                </tbody></table>
-              </section>
-              <section class="translation-section" id="globalTranslationSection">
-                <div class="section-title">全局问题</div>
-                <div class="question-title">问题 1 · 评分</div>
-                <table class="translation-table"><thead><tr><th>字段</th><th>后台文案</th><th>多语言 Key</th><th>英文翻译</th><th>操作</th></tr></thead><tbody>
-                  <tr><td>问题标题</td><td>您有多大可能会向朋友或同事推荐 RingConn？</td><td><code>nps.10010.global_question.1001001.title_1</code></td><td class="translation-ok">How likely are you to recommend RingConn?</td></tr>
-                  <tr><td>问题标题备注</td><td>请根据您的真实感受评分</td><td><code>nps.10010.global_question.1001001.subtitle_1</code></td><td class="translation-ok">Please rate based on your experience.</td></tr>
-                  <tr><td>最小值描述</td><td>不推荐</td><td><code>nps.10010.global_question.1001001.min_desc_1</code></td><td class="translation-ok">Not likely</td></tr>
-                  <tr><td>最大值描述</td><td>非常推荐</td><td><code>nps.10010.global_question.1001001.max_desc_1</code></td><td class="translation-ok">Extremely likely</td></tr>
-                </tbody></table>
-              </section>
-              <section class="translation-section">
-                <div class="section-title">问卷问题</div>
-                <div class="question-title">问题 1 · 评分</div>
-                <table class="translation-table"><thead><tr><th>字段</th><th>后台文案</th><th>多语言 Key</th><th>英文翻译</th><th>操作</th></tr></thead><tbody>
-                  <tr><td>问题标题</td><td>您对近期健康体验满意吗？</td><td><code>nps.10010.question.1001001.title_1</code></td><td class="translation-ok">Are you satisfied with your recent health experience?</td></tr>
-                  <tr><td>问题标题备注</td><td>请根据您的真实感受评分</td><td><code>nps.10010.question.1001001.subtitle_1</code></td><td class="translation-ok">Please rate based on your experience.</td></tr>
-                  <tr><td>最小值描述</td><td>非常不满意</td><td><code>nps.10010.question.1001001.min_desc_1</code></td><td class="translation-ok">Very dissatisfied</td></tr>
-                  <tr><td>最大值描述</td><td>非常满意</td><td><code>nps.10010.question.1001001.max_desc_1</code></td><td class="translation-ok">Very satisfied</td></tr>
-                </tbody></table>
-                <div class="question-title">问题 2 · 多选题</div>
-                <table class="translation-table"><thead><tr><th>字段</th><th>后台文案</th><th>多语言 Key</th><th>英文翻译</th><th>操作</th></tr></thead><tbody>
-                  <tr><td>问题标题</td><td>您最希望我们优先优化哪些方面？</td><td><code>nps.10010.question.1001002.title_1</code></td><td class="translation-ok">What would you like us to improve first?</td></tr>
-                  <tr><td>选项 1</td><td>数据解读</td><td><code>nps.10010.question.1001002.option_1_1</code></td><td class="translation-ok">Data insights</td></tr>
-                  <tr><td>选项 2</td><td>App 使用体验</td><td><code>nps.10010.question.1001002.option_2_1</code></td><td class="translation-ok">App experience</td></tr>
-                  <tr><td>其他选项描述</td><td>请填写您的建议</td><td><code>nps.10010.question.1001002.option_3_prompt_1</code></td><td class="translation-ok">Please share your suggestion</td></tr>
-                </tbody></table>
-              </section>
-            </div>
-            <div class="fixed-actions" id="workflowActions"><button class="button" id="backStep" type="button">返回上一步</button><button class="button primary" id="submitTranslations" type="button">提交</button><button class="button" id="cancel" type="button">取消</button></div>
-          </div>
-        </section>
+        <div class="breadcrumb">NPS管理 / 问卷列表 / 编辑多语言</div>
+        <div class="workflow-tabs"><div class="workflow-tab active" id="keyTab"><span class="tab-number">1</span><span>选择可复用 Key</span></div><div class="workflow-tab" id="uploadTab"><span class="tab-number">2</span><span>上传翻译</span></div></div>
+        <section class="workflow-panel active" id="keyPanel"><div class="panel-head"><strong>选择可复用 Key</strong><span class="panel-head-note">选择已有 Key 后，剩余文案系统将自动分配Key</span></div><div class="binding-scroll" id="keyBindingList"></div><div class="panel-actions"><button class="button primary" id="submitKeys" type="button">提交 Key</button><button class="button" id="cancelKey" type="button">取消</button></div></section>
+        <section class="workflow-panel" id="uploadPanel"><div class="translation-toolbar"><strong>上传翻译</strong><span class="translation-toolbar-note" id="translationFileName">未上传翻译文件</span></div><div class="binding-scroll" id="translationBindingList"></div><div class="panel-actions spread"><span><button class="button" id="downloadQuestionnaireCopy" type="button">下载问卷文案</button><button class="button" id="uploadTranslation" type="button">上传翻译</button></span><span><button class="button primary" id="submitTranslations" type="button">提交</button><button class="button" id="cancelTranslations" type="button">取消</button></span></div></section>
       </main>
     </div>
+    <div class="upload-dialog" id="uploadDialog" aria-hidden="true"><section class="dialog-card" role="dialog" aria-modal="true"><div class="dialog-head"><span>上传翻译</span><button class="dialog-close" data-close-upload type="button">×</button></div><div class="dialog-body"><div class="upload-zone" id="uploadZone"><div class="upload-icon">↑</div><div class="upload-title">拖拽文件到此处，或点击选择文件</div><div class="upload-note">只允许上传一个 XLSX 文件且不超过 5 M。</div><input class="upload-input" id="uploadFile" type="file" accept=".xlsx" /><button class="button" id="chooseUploadFile" type="button">选择文件</button><div class="selected-file" id="selectedUploadFile">未选择文件</div></div></div><div class="dialog-actions"><button class="button" data-close-upload type="button">取消</button><button class="button primary" id="confirmUpload" type="button">确认</button></div></section></div>
+    <div class="translation-dialog" id="translationDialog" aria-hidden="true"><section class="dialog-card" role="dialog" aria-modal="true"><div class="dialog-head"><span id="translationDialogTitle">查看翻译</span><button class="dialog-close" data-close-translation type="button">×</button></div><div class="dialog-body"><div id="translationDialogMeta"></div><table class="language-table"><thead><tr><th>语言</th><th>翻译文案</th></tr></thead><tbody id="translationRows"></tbody></table></div><div class="dialog-actions" id="translationDialogActions"></div></section></div>
     <div class="toast" id="toast"></div>
-    <div class="translation-modal" id="translationModal" aria-hidden="true">
-      <div class="translation-modal-card" role="dialog" aria-modal="true" aria-labelledby="translationModalTitle">
-        <div class="translation-modal-head"><span id="translationModalTitle">查看翻译</span><button class="translation-modal-close" id="closeTranslationModal" type="button" aria-label="关闭">×</button></div>
-        <div class="translation-modal-meta">多语言 Key <code id="translationModalKey"></code></div>
-        <div class="translation-modal-body"><table class="translation-language-table"><thead><tr><th>语言</th><th>翻译文案</th></tr></thead><tbody id="translationLanguageRows"></tbody></table></div>
-        <div class="translation-modal-actions" id="translationModalActions"></div>
-      </div>
-    </div>
-    <div class="upload-dialog" id="editUploadDialog" aria-hidden="true">
-      <div class="upload-dialog-card" role="dialog" aria-modal="true" aria-labelledby="editUploadDialogTitle">
-        <div class="upload-dialog-title" id="editUploadDialogTitle">上传翻译</div>
-        <div class="upload-dialog-body">
-          <div class="upload-zone" id="editUploadZone">
-            <div class="upload-icon">↑</div>
-            <div class="upload-title">拖拽文件到此处，或点击选择文件</div>
-            <div class="upload-note">只允许上传一个 XLSX 文件且不超过 5 M。<button class="export-link" id="downloadEditUploadTemplate" type="button">下载模板</button></div>
-            <input class="upload-file" id="editTranslationFile" type="file" accept=".xlsx" />
-            <button class="button choose-file" id="chooseEditFile" type="button">选择文件</button>
-            <div class="selected-file" id="editSelectedFile">未选择文件</div>
-          </div>
-        </div>
-        <div class="upload-dialog-actions"><button class="button" id="cancelEditUpload" type="button">取消</button><button class="button primary" id="confirmEditUpload" type="button">确认</button></div>
-      </div>
-    </div>
     <script>
-      const workflowParams = new URLSearchParams(window.location.search);
-      const targetTemplateId = workflowParams.get("templateId") || "10010";
-      const targetTemplateName = workflowParams.get("templateName") || "健康体验调研问卷";
-      const isEditMode = workflowParams.get("mode") === "edit";
-      const isRegularQuestionnaire = workflowParams.get("questionnaireType") === "常规问卷";
-      function getRichTextDisplayValue(value) {
-        const container = document.createElement("div");
-        container.innerHTML = String(value || "");
-        return container.textContent.trim();
-      }
-      if (isRegularQuestionnaire) {
-        document.getElementById("popupCopyTranslationRow").remove();
-        document.getElementById("globalTranslationSection").remove();
-      } else {
-        const popupCopyContent = workflowParams.get("popupCopy") || "";
-        if (popupCopyContent) {
-          const popupCopyCell = document.querySelector("#popupCopyTranslationRow td:nth-child(2)");
-          popupCopyCell.textContent = getRichTextDisplayValue(popupCopyContent);
-          popupCopyCell.dataset.exportValue = popupCopyContent;
-        }
-      }
-      const consentTranslationSection = document.getElementById("consentTranslationSection");
-      const consentContent = workflowParams.get("consentContent") || "";
-      if (workflowParams.get("consent") === "1" && consentContent) {
-        consentTranslationSection.hidden = false;
-        const consentSourceCell = document.getElementById("consentTranslationSource");
-        consentSourceCell.textContent = getRichTextDisplayValue(consentContent);
-        consentSourceCell.dataset.exportValue = consentContent;
-      } else {
-        consentTranslationSection.remove();
-      }
-      const languageDefinitions = [
-        ["zh_cn", "中文"], ["zh_tw", "繁体中文"], ["en", "英文"], ["ja", "日本语"], ["de", "德语"], ["es", "西班牙语"], ["fr", "法语"], ["ar", "阿拉伯语"], ["cs", "捷克语"],
-        ["tr", "土耳其语"], ["pl", "波兰语"], ["fi", "芬兰语"], ["it", "意大利语"], ["hu", "匈牙利语"], ["ro", "罗马尼亚语"], ["ko", "韩语"], ["lt", "立陶宛语"], ["ms", "马来语"],
-      ].map(([key, label]) => ({ key, label }));
-      const translationPrefixes = {
-        zh_tw: "繁體翻譯：", ja: "日本語訳：", de: "Deutsche Übersetzung: ", es: "Traducción al español: ", fr: "Traduction française : ", ar: "الترجمة العربية: ", cs: "Český překlad: ", tr: "Türkçe çeviri: ", pl: "Tłumaczenie polskie: ", fi: "Suomenkielinen käännös: ", it: "Traduzione italiana: ", hu: "Magyar fordítás: ", ro: "Traducere în română: ", ko: "한국어 번역: ", lt: "Vertimas į lietuvių kalbą: ", ms: "Terjemahan Bahasa Melayu: ",
-      };
-      const toast = document.getElementById("toast");
-      const uploadStep = document.getElementById("uploadStep");
-      const confirmStep = document.getElementById("confirmStep");
-      const stepOne = document.getElementById("stepOne");
-      const stepTwo = document.getElementById("stepTwo");
-      const confirmedFileName = document.getElementById("confirmedFileName");
-      const workflowActions = document.getElementById("workflowActions");
-      const translationModal = document.getElementById("translationModal");
-      const translationModalKey = document.getElementById("translationModalKey");
-      const translationLanguageRows = document.getElementById("translationLanguageRows");
-      const translationModalActions = document.getElementById("translationModalActions");
-      const editUploadDialog = document.getElementById("editUploadDialog");
-      const editTranslationFile = document.getElementById("editTranslationFile");
-      const editSelectedFile = document.getElementById("editSelectedFile");
-      const editUploadZone = document.getElementById("editUploadZone");
-      let selectedTranslationFile = null;
-      let selectedEditFile = null;
-      let toastTimer;
-      let editLocked = false;
-      let uploadLocked = false;
-      let newTranslationUploaded = isEditMode;
-      const translationStore = new Map();
-      const rows = [...document.querySelectorAll(".translation-table tbody tr")].map((row) => {
-        const cells = row.querySelectorAll("td");
-        const key = cells[2].textContent.trim().replace(/^nps\.10010(?=\.)/, `nps.${targetTemplateId}`);
-        return { element: row, field: cells[0].textContent.trim(), source: cells[1].dataset.exportValue || cells[1].textContent.trim(), key, english: cells[3].textContent.trim() };
-      });
-
-      function showToast(message) { toast.textContent = message; toast.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove("show"), 2400); }
-      function returnToList() { window.location.href = "./index.html#survey-list"; }
-      function automaticTranslation(row, language) {
-        if (language.key === "zh_cn") return row.source;
-        if (language.key === "en") return row.english;
-        return `${translationPrefixes[language.key]}${row.english}`;
-      }
-      function resetAutomaticTranslations() {
-        rows.forEach((row) => languageDefinitions.forEach((language) => {
-          translationStore.set(`${row.key}:${language.key}`, automaticTranslation(row, language));
-        }));
-      }
-      function getTranslation(row, language) { return translationStore.get(`${row.key}:${language.key}`) || automaticTranslation(row, language); }
-      function getDisplayedTranslation(row, language) {
-        if (!isEditMode && !newTranslationUploaded && language.key !== "zh_cn") return "";
-        return getTranslation(row, language);
-      }
-      function updateKeyDisplay() {
-        const translationVisible = isEditMode || newTranslationUploaded;
-        rows.forEach((row) => {
-          const keyCell = row.element.cells[2];
-          const englishCell = row.element.cells[3];
-          keyCell.replaceChildren();
-          const key = document.createElement("code");
-          key.textContent = row.key;
-          keyCell.append(key);
-          englishCell.textContent = translationVisible ? getTranslation(row, languageDefinitions[2]) : "";
-        });
-      }
-      function syncUploadButton() {
-        const uploadButton = document.getElementById("openEditUpload");
-        if (uploadButton) uploadButton.disabled = uploadLocked;
-      }
-      function closeTranslationModal() { translationModal.classList.remove("show"); translationModal.setAttribute("aria-hidden", "true"); }
-      function openTranslationModal(row, editable) {
-        translationModalKey.textContent = row.key;
-        document.getElementById("translationModalTitle").textContent = editable ? "编辑翻译" : "查看翻译";
-        translationLanguageRows.replaceChildren();
-        languageDefinitions.forEach((language) => {
-          const tableRow = document.createElement("tr");
-          const languageCell = document.createElement("td");
-          const valueCell = document.createElement("td");
-          languageCell.textContent = language.label;
-          if (editable && language.key !== "zh_cn") {
-            const input = document.createElement("input");
-            input.className = "translation-edit-input";
-            input.dataset.language = language.key;
-            input.value = getDisplayedTranslation(row, language);
-            valueCell.append(input);
-          } else {
-            valueCell.textContent = getDisplayedTranslation(row, language);
-          }
-          tableRow.append(languageCell, valueCell);
-          translationLanguageRows.append(tableRow);
-        });
-        translationModalActions.replaceChildren();
-        const cancel = document.createElement("button");
-        cancel.className = "button";
-        cancel.type = "button";
-        cancel.textContent = editable ? "取消" : "关闭";
-        cancel.addEventListener("click", closeTranslationModal);
-        translationModalActions.append(cancel);
-        if (editable) {
-          const save = document.createElement("button");
-          save.className = "button primary";
-          save.type = "button";
-          save.textContent = "确定";
-          save.addEventListener("click", () => {
-            translationLanguageRows.querySelectorAll("[data-language]").forEach((input) => translationStore.set(`${row.key}:${input.dataset.language}`, input.value.trim()));
-            row.element.cells[3].textContent = getTranslation(row, languageDefinitions[2]);
-            uploadLocked = true;
-            syncUploadButton();
-            closeTranslationModal();
-            showToast("翻译已暂存，点击提交才会生效。");
-          });
-          translationModalActions.append(save);
-        }
-        translationModal.classList.add("show");
-        translationModal.setAttribute("aria-hidden", "false");
-      }
-      function renderRowActions() {
-        rows.forEach((row) => {
-          let actionCell = row.element.querySelector(".translation-action-cell");
-          if (!actionCell) { actionCell = document.createElement("td"); actionCell.className = "translation-action-cell"; row.element.append(actionCell); }
-          actionCell.replaceChildren();
-          const view = document.createElement("button");
-          view.className = "translation-view";
-          view.type = "button";
-          view.textContent = "查看翻译";
-          view.addEventListener("click", () => openTranslationModal(row, false));
-          actionCell.append(view);
-          const edit = document.createElement("button");
-          edit.className = "translation-view";
-          edit.type = "button";
-          edit.disabled = editLocked;
-          edit.textContent = "编辑";
-          edit.addEventListener("click", () => {
-            openTranslationModal(row, true);
-          });
-          actionCell.append(document.createTextNode("  "));
-          actionCell.append(edit);
-        });
-      }
-      function setFile(file, isEditUpload = false) {
-        if (!file) return;
-        if (!file.name.toLowerCase().endsWith(".xlsx")) { showToast("仅支持上传 XLSX 文件。"); return; }
-        if (file.size > 5 * 1024 * 1024) { showToast("文件大小不能超过 5 M。"); return; }
-        if (isEditUpload) { selectedEditFile = file; editSelectedFile.textContent = `已选择：${file.name}`; }
-        else { selectedTranslationFile = file; document.getElementById("selectedFile").textContent = `已选择：${file.name}`; }
-      }
-      function bindUploadZone(zone, fileInput, isEditUpload) {
-        ["dragenter", "dragover"].forEach((eventName) => zone.addEventListener(eventName, (event) => { event.preventDefault(); zone.classList.add("dragging"); }));
-        ["dragleave", "drop"].forEach((eventName) => zone.addEventListener(eventName, (event) => { event.preventDefault(); zone.classList.remove("dragging"); }));
-        zone.addEventListener("drop", (event) => setFile(event.dataTransfer.files[0], isEditUpload));
-        zone.addEventListener("click", (event) => { if (event.target === zone) fileInput.click(); });
-      }
-      function escapeXml(value) {
-        return String(value).replace(/[<>&"']/g, (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;", "'": "&apos;" })[char]);
-      }
-      function encodeUtf8(value) { return new TextEncoder().encode(value); }
-      function createCrc32Table() {
-        return Array.from({ length: 256 }, (_, index) => {
-          let crc = index;
-          for (let bit = 0; bit < 8; bit += 1) crc = crc & 1 ? 0xedb88320 ^ (crc >>> 1) : crc >>> 1;
-          return crc >>> 0;
-        });
-      }
-      const crc32Table = createCrc32Table();
-      function crc32(bytes) {
-        let crc = 0xffffffff;
-        bytes.forEach((byte) => { crc = crc32Table[(crc ^ byte) & 0xff] ^ (crc >>> 8); });
-        return (crc ^ 0xffffffff) >>> 0;
-      }
-      function writeUint16(bytes, value) { bytes.push(value & 0xff, (value >>> 8) & 0xff); }
-      function writeUint32(bytes, value) { bytes.push(value & 0xff, (value >>> 8) & 0xff, (value >>> 16) & 0xff, (value >>> 24) & 0xff); }
-      function createZip(files) {
-        const output = [];
-        const centralDirectory = [];
-        let offset = 0;
-        files.forEach((file) => {
-          const nameBytes = encodeUtf8(file.name);
-          const contentBytes = encodeUtf8(file.content);
-          const checksum = crc32(contentBytes);
-          const localHeader = [];
-          writeUint32(localHeader, 0x04034b50); writeUint16(localHeader, 20); writeUint16(localHeader, 0); writeUint16(localHeader, 0); writeUint16(localHeader, 0); writeUint16(localHeader, 0);
-          writeUint32(localHeader, checksum); writeUint32(localHeader, contentBytes.length); writeUint32(localHeader, contentBytes.length); writeUint16(localHeader, nameBytes.length); writeUint16(localHeader, 0);
-          output.push(...localHeader, ...nameBytes, ...contentBytes);
-          const centralHeader = [];
-          writeUint32(centralHeader, 0x02014b50); writeUint16(centralHeader, 20); writeUint16(centralHeader, 20); writeUint16(centralHeader, 0); writeUint16(centralHeader, 0); writeUint16(centralHeader, 0); writeUint16(centralHeader, 0);
-          writeUint32(centralHeader, checksum); writeUint32(centralHeader, contentBytes.length); writeUint32(centralHeader, contentBytes.length); writeUint16(centralHeader, nameBytes.length); writeUint16(centralHeader, 0); writeUint16(centralHeader, 0); writeUint16(centralHeader, 0); writeUint16(centralHeader, 0); writeUint32(centralHeader, 0); writeUint32(centralHeader, offset);
-          centralDirectory.push(...centralHeader, ...nameBytes);
-          offset = output.length;
-        });
-        const centralDirectoryOffset = output.length;
-        output.push(...centralDirectory);
-        const endRecord = [];
-        writeUint32(endRecord, 0x06054b50); writeUint16(endRecord, 0); writeUint16(endRecord, 0); writeUint16(endRecord, files.length); writeUint16(endRecord, files.length); writeUint32(endRecord, centralDirectory.length); writeUint32(endRecord, centralDirectoryOffset); writeUint16(endRecord, 0);
-        output.push(...endRecord);
-        return new Blob([new Uint8Array(output)], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-      }
-      function createI18nExportBlob() {
-        const translationLanguages = languageDefinitions;
-        const exportRows = [
-          ["key", "后台文案", ...translationLanguages.map((language) => language.label)],
-          ...rows.map((row) => [row.key, row.source, ...translationLanguages.map((language) => getTranslation(row, language))]),
-        ];
-        const sheetData = exportRows.map((exportRow, rowIndex) => `<row r="${rowIndex + 1}">${exportRow.map((cell, cellIndex) => {
-          const column = String.fromCharCode(65 + cellIndex);
-          return `<c r="${column}${rowIndex + 1}" t="inlineStr"><is><t>${escapeXml(cell)}</t></is></c>`;
-        }).join("")}</row>`).join("");
-        const worksheet = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${sheetData}</sheetData></worksheet>`;
-        const workbook = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="问卷文案" sheetId="1" r:id="rId1"/></sheets></workbook>`;
-        const workbookRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>`;
-        const rootRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`;
-        const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>`;
-        return createZip([
-          { name: "[Content_Types].xml", content: contentTypes }, { name: "_rels/.rels", content: rootRels }, { name: "xl/workbook.xml", content: workbook }, { name: "xl/_rels/workbook.xml.rels", content: workbookRels }, { name: "xl/worksheets/sheet1.xml", content: worksheet },
-        ]);
-      }
-      function downloadQuestionnaireCopy(filename, message) {
-        const link = document.createElement("a");
-        const url = URL.createObjectURL(createI18nExportBlob());
-        link.href = url;
-        link.download = filename;
-        link.click();
-        window.setTimeout(() => URL.revokeObjectURL(url), 0);
-        showToast(message);
-      }
-      function downloadXlsxTemplate(filename, sourceFile, message) {
-        const link = document.createElement("a");
-        link.href = `./${sourceFile}`;
-        link.download = filename;
-        link.click();
-        showToast(message);
-      }
-
-      resetAutomaticTranslations();
-      updateKeyDisplay();
-      renderRowActions();
-      confirmedFileName.textContent = `已上传：${targetTemplateName}多语言.xlsx`;
-      document.getElementById("goSurveyList").addEventListener("click", returnToList);
-      document.getElementById("goTaskList").addEventListener("click", () => { window.location.href = "./index.html#nps-task"; });
-      document.getElementById("closeTranslationModal").addEventListener("click", closeTranslationModal);
-      translationModal.addEventListener("click", (event) => { if (event.target === translationModal) closeTranslationModal(); });
-
-      const fileInput = document.getElementById("translationFile");
-      const uploadZone = document.getElementById("uploadZone");
-      document.getElementById("chooseFile").addEventListener("click", () => fileInput.click());
-      fileInput.addEventListener("change", () => setFile(fileInput.files[0]));
-      bindUploadZone(uploadZone, fileInput, false);
-      document.getElementById("exportCopy").addEventListener("click", () => downloadQuestionnaireCopy(`${targetTemplateName}问卷文案.xlsx`, "问卷文案已开始导出。"));
-      document.getElementById("downloadUploadTemplate").addEventListener("click", () => {
-        downloadXlsxTemplate("上传翻译模板.xlsx", "i18n-upload-template.xlsx", "上传翻译模板已开始下载。");
-      });
-      document.getElementById("downloadQuestionnaireCopy").addEventListener("click", () => downloadQuestionnaireCopy(`${targetTemplateName}问卷文案.xlsx`, "问卷文案已开始导出。"));
-      document.getElementById("nextStep").addEventListener("click", () => {
-        if (!selectedTranslationFile) { showToast("请先上传翻译文案。"); return; }
-        confirmedFileName.textContent = `已上传：${selectedTranslationFile.name}`;
-        uploadStep.classList.remove("active"); confirmStep.classList.add("active"); stepOne.classList.remove("active"); stepOne.classList.add("done"); stepTwo.classList.add("active");
-      });
-      document.getElementById("backStep").addEventListener("click", () => { confirmStep.classList.remove("active"); uploadStep.classList.add("active"); stepTwo.classList.remove("active"); stepOne.classList.remove("done"); stepOne.classList.add("active"); });
-      document.getElementById("cancelUpload").addEventListener("click", returnToList);
-      document.getElementById("submitTranslations").addEventListener("click", () => { showToast("多语言 Key 和翻译已保存。"); setTimeout(() => { window.location.href = `./index.html?i18nSaved=${encodeURIComponent(targetTemplateId)}#survey-list`; }, 700); });
-      document.getElementById("cancel").addEventListener("click", returnToList);
-
-      function closeEditUploadDialog() { editUploadDialog.classList.remove("show"); editUploadDialog.setAttribute("aria-hidden", "true"); }
-      document.getElementById("chooseEditFile").addEventListener("click", () => editTranslationFile.click());
-      editTranslationFile.addEventListener("change", () => setFile(editTranslationFile.files[0], true));
-      bindUploadZone(editUploadZone, editTranslationFile, true);
-      document.getElementById("downloadEditUploadTemplate").addEventListener("click", () => downloadXlsxTemplate("上传翻译模板.xlsx", "i18n-upload-template.xlsx", "上传翻译模板已开始下载。"));
-      document.getElementById("cancelEditUpload").addEventListener("click", closeEditUploadDialog);
-      editUploadDialog.addEventListener("click", (event) => { if (event.target === editUploadDialog) closeEditUploadDialog(); });
-      document.getElementById("confirmEditUpload").addEventListener("click", () => {
-        if (!selectedEditFile) { showToast("请先上传翻译文案。"); return; }
-        const confirmButton = document.getElementById("confirmEditUpload");
-        confirmButton.disabled = true; confirmButton.textContent = "处理中...";
-        setTimeout(() => {
-          resetAutomaticTranslations();
-          editLocked = true;
-          newTranslationUploaded = true;
-          updateKeyDisplay();
-          renderRowActions();
-          workflowActions.querySelector(".edit-file-name").textContent = `已上传：${selectedEditFile.name}`;
-          closeEditUploadDialog();
-          confirmButton.disabled = false; confirmButton.textContent = "确认";
-          showToast("翻译已暂存，点击提交才会生效。");
-        }, 800);
-      });
-      document.body.classList.add("edit-mode");
-      document.querySelector(".breadcrumb").textContent = `NPS管理 / 问卷列表 / ${isEditMode ? "编辑多语言" : "新增多语言"}`;
-      uploadStep.classList.remove("active");
-      confirmStep.classList.add("active");
-      workflowActions.innerHTML = '<span class="edit-file-name"></span><span><button class="button" id="openEditUpload" type="button">上传翻译</button><button class="button primary" id="submitEditTranslations" type="button">提交</button><button class="button" id="cancelEditTranslations" type="button">取消</button></span>';
-      syncUploadButton();
-      document.getElementById("openEditUpload").addEventListener("click", () => {
-        if (uploadLocked) { showToast("已编辑翻译，无法上传文件。"); return; }
-        if (isEditMode) { editLocked = true; renderRowActions(); }
-        editTranslationFile.value = "";
-        editSelectedFile.textContent = "未选择文件";
-        selectedEditFile = null;
-        editUploadDialog.classList.add("show");
-        editUploadDialog.setAttribute("aria-hidden", "false");
-      });
-      document.getElementById("submitEditTranslations").addEventListener("click", () => { showToast("多语言 Key 和翻译已提交。 "); setTimeout(() => { window.location.href = `./index.html?i18nSaved=${encodeURIComponent(targetTemplateId)}#survey-list`; }, 700); });
-      document.getElementById("cancelEditTranslations").addEventListener("click", returnToList);
+      const params = new URLSearchParams(window.location.search);
+      const templateId = params.get("templateId") || "10010";
+      const templateName = params.get("templateName") || "健康体验调研问卷";
+      const existingKeys = params.get("existingKeys") === "1";
+      const languageDefinitions = [["zh_cn","中文"],["zh_tw","繁体中文"],["en","英文"],["ja","日本语"],["de","德语"],["es","西班牙语"],["fr","法语"],["ar","阿拉伯语"],["cs","捷克语"],["tr","土耳其语"],["pl","波兰语"],["fi","芬兰语"],["it","意大利语"],["hu","匈牙利语"],["ro","罗马尼亚语"],["ko","韩语"],["lt","立陶宛语"],["ms","马来语"]].map(([key,label]) => ({ key,label }));
+      const fallbackRows = [{name:"问卷名称(用于 APP 展示)",value:templateName,module:"base",databaseField:"app_display_name"},{name:"弹窗文案",value:"我们一直致力于从用户视角出发，打造更专业、更易用的健康管理体验。",module:"base",databaseField:"popup_copy"},{name:"问题标题",value:"您对近期健康体验满意吗？",module:"question",questionIndex:1,questionType:"评分",questionId:`${templateId}001`,databaseField:"title"},{name:"最小值描述",value:"非常不满意",module:"question",questionIndex:1,questionType:"评分",questionId:`${templateId}001`,databaseField:"min_desc"},{name:"最大值描述",value:"非常满意",module:"question",questionIndex:1,questionType:"评分",questionId:`${templateId}001`,databaseField:"max_desc"}];
+      let rows; try { rows = JSON.parse(params.get("rows") || "[]"); } catch { rows = []; }
+      rows = (rows.length ? rows : fallbackRows).filter((row) => String(row.value || "").trim()).map((row,index) => ({ ...row,index,bindingKey:existingKeys ? row.bindingKey || "" : "" }));
+      const candidateKeys = ["nps.10004.app_display_name_1","nps.10004.popup_copy_1","nps.10005.global_question.1005001.title_1","nps.10005.global_question.1005001.subtitle_1","nps.10005.global_question.1005001.min_desc_1","nps.10005.global_question.1005001.max_desc_1","nps.10003.question.1003001.title_1","nps.10003.question.1003001.subtitle_1","nps.10003.question.1003001.min_desc_1","nps.10003.question.1003001.max_desc_1"];
+      const translations = new Map(); let uploadedFile = null; let uploadLocked = false; let editLocked = false; let toastTimer;
+      const keyPanel=document.getElementById("keyPanel"), uploadPanel=document.getElementById("uploadPanel"), keyTab=document.getElementById("keyTab"), uploadTab=document.getElementById("uploadTab"), toast=document.getElementById("toast");
+      const showToast=(message)=>{toast.textContent=message;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),2400);};
+      const escapeHtml=(value)=>String(value || "").replace(/[&<>'"]/g,(char)=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"})[char]);
+      const sectionRows=(module)=>rows.filter((row)=>row.module===module);
+      const groupByQuestion=(items)=>items.reduce((groups,row)=>{const key=String(row.questionIndex||1);(groups[key] ||= []).push(row);return groups;},{});
+      function sectionMarkup(title,items,isKeyStep){if(!items.length)return"";const table=(tableRows)=>`<table class="binding-table"><thead><tr><th>字段</th><th>后台文案</th><th>多语言 Key</th>${isKeyStep?"":"<th>英文翻译</th><th>操作</th>"}</tr></thead><tbody>${tableRows.map((row)=>`<tr data-row-index="${row.index}"><td>${escapeHtml(row.name)}</td><td>${escapeHtml(row.value)}</td><td>${isKeyStep?`<div class="key-combobox"><input class="key-input" data-key-input="${row.index}" value="${escapeHtml(row.bindingKey)}" placeholder="请选择Key" autocomplete="off" /><button class="key-clear${row.bindingKey ? " show" : ""}" data-key-clear="${row.index}" type="button" aria-label="清除已选Key">×</button><button class="key-combo-arrow" data-key-toggle="${row.index}" type="button" aria-label="选择Key">⌄</button><div class="key-options" data-key-options="${row.index}"></div></div>`:`<code>${escapeHtml(row.bindingKey)}</code>`}</td>${isKeyStep?"":`<td>${escapeHtml(getTranslation(row,"en"))}</td><td><button class="action-link view-translation" type="button">查看翻译</button> <button class="action-link edit-translation" type="button" ${editLocked?"disabled":""}>编辑</button></td>`}</tr>`).join("")}</tbody></table>`;const body=title==="基础信息"?table(items):Object.entries(groupByQuestion(items)).map(([index,group])=>`<div class="question-title">问题 ${index} · ${escapeHtml(group[0].questionType||"")}</div>${table(group)}`).join("");return `<section class="binding-section"><div class="binding-section-title">${title}</div>${body}</section>`;}
+      const renderKeyStep=()=>{document.getElementById("keyBindingList").innerHTML=sectionMarkup("基础信息",sectionRows("base"),true)+sectionMarkup("全局问题",sectionRows("global"),true)+sectionMarkup("问卷问题",sectionRows("question"),true);};
+      const renderUploadStep=()=>{document.getElementById("translationBindingList").innerHTML=sectionMarkup("基础信息",sectionRows("base"),false)+sectionMarkup("全局问题",sectionRows("global"),false)+sectionMarkup("问卷问题",sectionRows("question"),false);};
+      function generatedKey(row){if(row.module==="base")return`nps.${templateId}.${row.databaseField}_1`;const scope=row.module==="global"?"global_question":"question";const id=row.questionId||`${templateId}${String(row.questionIndex||1).padStart(3,"0")}`;return`nps.${templateId}.${scope}.${id}.${row.databaseField}_1`;}
+      function getTranslation(row,language){if(language==="zh_cn")return row.value;return translations.get(`${row.bindingKey}:${language}`)||"";}
+      function setAutomaticTranslations(){rows.forEach((row)=>languageDefinitions.filter((language)=>language.key!=="zh_cn").forEach((language)=>translations.set(`${row.bindingKey}:${language.key}`,`${language.key==="en"?"English":language.label} ${row.value}`)));}
+      function escapeXml(value){return String(value||"").replace(/[<>&"']/g,(char)=>({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&apos;"})[char]);}
+      const write16=(bytes,value)=>bytes.push(value&255,(value>>>8)&255);
+      const write32=(bytes,value)=>bytes.push(value&255,(value>>>8)&255,(value>>>16)&255,(value>>>24)&255);
+      const crcTable=Array.from({length:256},(_,index)=>{let crc=index;for(let bit=0;bit<8;bit+=1)crc=crc&1?0xedb88320^(crc>>>1):crc>>>1;return crc>>>0;});
+      const crc32=(bytes)=>{let crc=0xffffffff;bytes.forEach((byte)=>{crc=crcTable[(crc^byte)&255]^(crc>>>8);});return(crc^0xffffffff)>>>0;};
+      function createZip(files){const encoder=new TextEncoder(),output=[],central=[];let offset=0;files.forEach((file)=>{const name=encoder.encode(file.name),content=encoder.encode(file.content),checksum=crc32(content),local=[];write32(local,0x04034b50);write16(local,20);write16(local,0);write16(local,0);write16(local,0);write16(local,0);write32(local,checksum);write32(local,content.length);write32(local,content.length);write16(local,name.length);write16(local,0);output.push(...local,...name,...content);const header=[];write32(header,0x02014b50);write16(header,20);write16(header,20);write16(header,0);write16(header,0);write16(header,0);write16(header,0);write32(header,checksum);write32(header,content.length);write32(header,content.length);write16(header,name.length);write16(header,0);write16(header,0);write16(header,0);write16(header,0);write32(header,0);write32(header,offset);central.push(...header,...name);offset=output.length;});const centralOffset=output.length;output.push(...central);const ending=[];write32(ending,0x06054b50);write16(ending,0);write16(ending,0);write16(ending,files.length);write16(ending,files.length);write32(ending,central.length);write32(ending,centralOffset);write16(ending,0);output.push(...ending);return new Blob([new Uint8Array(output)],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});}
+      function downloadQuestionnaireCopy(){const exportRows=[["key","后台文案",...languageDefinitions.map((language)=>language.label)],...rows.map((row)=>[row.bindingKey,row.value,...languageDefinitions.map((language)=>getTranslation(row,language.key))])];const sheetData=exportRows.map((row,rowIndex)=>`<row r="${rowIndex+1}">${row.map((cell,cellIndex)=>`<c r="${String.fromCharCode(65+cellIndex)}${rowIndex+1}" t="inlineStr"><is><t>${escapeXml(cell)}</t></is></c>`).join("")}</row>`).join("");const worksheet=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${sheetData}</sheetData></worksheet>`;const workbook=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="问卷文案" sheetId="1" r:id="rId1"/></sheets></workbook>`;const rels=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`;const workbookRels=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>`;const types=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>`;const link=document.createElement("a"),url=URL.createObjectURL(createZip([{name:"[Content_Types].xml",content:types},{name:"_rels/.rels",content:rels},{name:"xl/workbook.xml",content:workbook},{name:"xl/_rels/workbook.xml.rels",content:workbookRels},{name:"xl/worksheets/sheet1.xml",content:worksheet}]));link.href=url;link.download=`${templateName.replace(/[\\/:*?"<>|]/g,"_")}问卷文案.xlsx`;link.click();setTimeout(()=>URL.revokeObjectURL(url),0);showToast("问卷文案已开始导出。");}
+      function switchToUpload(){keyPanel.classList.remove("active");uploadPanel.classList.add("active");keyTab.classList.remove("active");keyTab.classList.add("done");uploadTab.classList.add("active");renderUploadStep();}
+      const returnToList=()=>{window.location.href="./index.html#survey-list";};
+      function closeKeyOptions(){document.querySelectorAll("[data-key-options]").forEach((panel)=>panel.classList.remove("show"));}
+      function renderKeyOptions(index){const input=document.querySelector(`[data-key-input="${index}"]`),panel=document.querySelector(`[data-key-options="${index}"]`);if(!input||!panel)return;const query=input.value.trim().toLowerCase();const matches=candidateKeys.filter((key)=>!query||key.toLowerCase().includes(query));panel.innerHTML=matches.length?matches.map((key)=>`<button class="key-option" data-key-value="${escapeHtml(key)}" type="button">${escapeHtml(key)}</button>`).join(""):'<div class="key-empty">暂无匹配 Key</div>';closeKeyOptions();panel.classList.add("show");}
+      renderKeyStep();
+      document.getElementById("keyBindingList").addEventListener("focusin",(event)=>{if(event.target.classList.contains("key-input"))renderKeyOptions(event.target.dataset.keyInput);});
+      document.getElementById("keyBindingList").addEventListener("input",(event)=>{if(event.target.classList.contains("key-input")){const clear=event.target.closest(".key-combobox").querySelector(".key-clear");clear.classList.toggle("show",Boolean(event.target.value));renderKeyOptions(event.target.dataset.keyInput);}});
+      document.getElementById("keyBindingList").addEventListener("click",(event)=>{const option=event.target.closest("[data-key-value]"),toggle=event.target.closest("[data-key-toggle]"),clear=event.target.closest("[data-key-clear]");if(option){const box=option.closest(".key-combobox"),input=box.querySelector(".key-input");input.value=option.dataset.keyValue;box.querySelector(".key-clear").classList.add("show");closeKeyOptions();return;}if(clear){const box=clear.closest(".key-combobox"),input=box.querySelector(".key-input");input.value="";clear.classList.remove("show");input.focus();renderKeyOptions(clear.dataset.keyClear);return;}if(toggle){renderKeyOptions(toggle.dataset.keyToggle);}});
+      document.addEventListener("click",(event)=>{if(!document.getElementById("keyBindingList").contains(event.target))closeKeyOptions();});
+      document.getElementById("submitKeys").addEventListener("click",()=>{document.querySelectorAll("[data-key-input]").forEach((input)=>{rows[Number(input.dataset.keyInput)].bindingKey=input.value.trim();});if(rows.some((row)=>row.bindingKey.toLowerCase().includes("error"))){showToast("提交失败，请稍后重试");return;}const button=document.getElementById("submitKeys");button.disabled=true;button.textContent="提交中...";setTimeout(()=>{rows.forEach((row)=>{if(!row.bindingKey)row.bindingKey=generatedKey(row);});button.disabled=false;button.textContent="提交 Key";showToast("Key已保存。");switchToUpload();},700);});
+      document.getElementById("cancelKey").addEventListener("click",returnToList);document.getElementById("goSurveyList").addEventListener("click",returnToList);document.getElementById("goTaskList").addEventListener("click",()=>{window.location.href="./index.html#nps-task";});
+      const uploadDialog=document.getElementById("uploadDialog"),translationDialog=document.getElementById("translationDialog"),uploadFile=document.getElementById("uploadFile");
+      const closeUploadDialog=()=>{uploadDialog.classList.remove("show");uploadDialog.setAttribute("aria-hidden","true");};
+      function openUploadDialog(){if(uploadLocked){showToast("已编辑翻译，无法上传文件。");return;}uploadFile.value="";uploadedFile=null;document.getElementById("selectedUploadFile").textContent="未选择文件";uploadDialog.classList.add("show");uploadDialog.setAttribute("aria-hidden","false");}
+      function setFile(file){if(!file)return;if(!file.name.toLowerCase().endsWith(".xlsx")){showToast("仅支持上传 XLSX 文件。");return;}if(file.size>5*1024*1024){showToast("文件大小不能超过 5 M。");return;}uploadedFile=file;document.getElementById("selectedUploadFile").textContent=`已选择：${file.name}`;}
+      document.getElementById("uploadTranslation").addEventListener("click",openUploadDialog);document.getElementById("chooseUploadFile").addEventListener("click",()=>uploadFile.click());uploadFile.addEventListener("change",()=>setFile(uploadFile.files[0]));
+      document.getElementById("downloadQuestionnaireCopy").addEventListener("click",downloadQuestionnaireCopy);
+      const uploadZone=document.getElementById("uploadZone");["dragenter","dragover"].forEach((name)=>uploadZone.addEventListener(name,(event)=>{event.preventDefault();uploadZone.classList.add("dragging");}));["dragleave","drop"].forEach((name)=>uploadZone.addEventListener(name,(event)=>{event.preventDefault();uploadZone.classList.remove("dragging");}));uploadZone.addEventListener("drop",(event)=>setFile(event.dataTransfer.files[0]));document.querySelectorAll("[data-close-upload]").forEach((button)=>button.addEventListener("click",closeUploadDialog));
+      document.getElementById("confirmUpload").addEventListener("click",()=>{if(!uploadedFile){showToast("请先上传翻译文案。");return;}const button=document.getElementById("confirmUpload");button.disabled=true;button.textContent="处理中...";setTimeout(()=>{uploadLocked=true;editLocked=true;setAutomaticTranslations();document.getElementById("translationFileName").textContent=`已上传：${uploadedFile.name}`;button.disabled=false;button.textContent="确认";closeUploadDialog();renderUploadStep();showToast("翻译已暂存，点击提交才会生效。");},700);});
+      document.getElementById("translationBindingList").addEventListener("click",(event)=>{const button=event.target.closest("button"),element=event.target.closest("tr[data-row-index]");if(!button||!element)return;const row=rows[Number(element.dataset.rowIndex)];if(button.classList.contains("view-translation"))openTranslationDialog(row,false);if(button.classList.contains("edit-translation"))openTranslationDialog(row,true);});
+      const closeTranslationDialog=()=>{translationDialog.classList.remove("show");translationDialog.setAttribute("aria-hidden","true");};
+      function openTranslationDialog(row,editable){document.getElementById("translationDialogTitle").textContent=editable?"编辑翻译":"查看翻译";document.getElementById("translationDialogMeta").innerHTML=`<p><strong>多语言 Key：</strong><code>${escapeHtml(row.bindingKey)}</code></p><p><strong>后台文案：</strong>${escapeHtml(row.value)}</p>`;const table=document.getElementById("translationRows");table.innerHTML=languageDefinitions.map((language)=>`<tr><td>${language.label}</td><td>${editable&&language.key!=="zh_cn"?`<input class="translation-input" data-language="${language.key}" value="${escapeHtml(getTranslation(row,language.key))}" />`:escapeHtml(getTranslation(row,language.key))}</td></tr>`).join("");const actions=document.getElementById("translationDialogActions");actions.innerHTML=`<button class="button" id="cancelTranslationDialog" type="button">${editable?"取消":"关闭"}</button>${editable?'<button class="button primary" id="saveTranslationDialog" type="button">确定</button>':""}`;document.getElementById("cancelTranslationDialog").addEventListener("click",closeTranslationDialog);if(editable)document.getElementById("saveTranslationDialog").addEventListener("click",()=>{table.querySelectorAll("[data-language]").forEach((input)=>translations.set(`${row.bindingKey}:${input.dataset.language}`,input.value.trim()));uploadLocked=true;renderUploadStep();closeTranslationDialog();showToast("翻译已暂存，点击提交才会生效。");});translationDialog.classList.add("show");translationDialog.setAttribute("aria-hidden","false");}
+      document.querySelectorAll("[data-close-translation]").forEach((button)=>button.addEventListener("click",closeTranslationDialog));document.getElementById("submitTranslations").addEventListener("click",()=>{showToast("多语言 Key 和翻译已提交。");setTimeout(()=>{window.location.href=`./index.html?i18nSaved=${encodeURIComponent(templateId)}#survey-list`;},650);});document.getElementById("cancelTranslations").addEventListener("click",returnToList);
     </script>
   </body>
 </html>
