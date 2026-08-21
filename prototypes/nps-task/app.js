@@ -149,6 +149,70 @@ const tasks = [
     nps_detractors: "0",
     nps_updated_at: "",
   },
+  {
+    task_id: "10007",
+    task_name: "活动体验投放任务",
+    task_status: "待投放",
+    task_scene: "活动",
+    delivery_region: "中国大陆",
+    audience_link_text: "查看",
+    audience_file_names: ["活动投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-07-05 09",
+    end_time: "2026-08-05 18",
+    template_name: "活动体验问卷",
+    delivery_versions: ["V3.16"],
+    total_users: "72,000", actual_delivery_users: "0", submitted_users: "0", exposed_users: "0",
+    nps_estimate: "", nps_promoters: "0", nps_passives: "0", nps_detractors: "0", nps_updated_at: "",
+  },
+  {
+    task_id: "10008",
+    task_name: "生命体征满意度任务",
+    task_status: "投放中",
+    task_scene: "生命体征",
+    delivery_region: "美国",
+    audience_link_text: "查看",
+    audience_file_names: ["生命体征投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-07-07 10",
+    end_time: "2026-08-07 18",
+    template_name: "生命体征问卷",
+    delivery_versions: ["V3.16"],
+    total_users: "45,000", actual_delivery_users: "21,000", submitted_users: "7,900", exposed_users: "16,800",
+    nps_estimate: "42", nps_promoters: "5,200", nps_passives: "1,900", nps_detractors: "1,000", nps_updated_at: "2026-07-08",
+  },
+  {
+    task_id: "10009",
+    task_name: "国妇婴健康调研任务",
+    task_status: "投放完成",
+    task_scene: "国妇婴",
+    delivery_region: "中国大陆",
+    audience_link_text: "查看",
+    audience_file_names: ["国妇婴投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-06-08 09",
+    end_time: "2026-07-08 18",
+    template_name: "国妇婴NPS问卷",
+    delivery_versions: ["V3.16"],
+    total_users: "20,000", actual_delivery_users: "20,000", submitted_users: "9,300", exposed_users: "16,100",
+    nps_estimate: "38", nps_promoters: "6,000", nps_passives: "2,200", nps_detractors: "1,100", nps_updated_at: "2026-07-08",
+  },
+  {
+    task_id: "10010",
+    task_name: "全球体验调研任务",
+    task_status: "待投放",
+    task_scene: "全局",
+    delivery_region: "其他(除美国和中国大陆)",
+    audience_link_text: "查看",
+    audience_file_names: ["全球体验投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-07-12 08",
+    end_time: "2026-08-12 18",
+    template_name: "全球产品体验问卷",
+    delivery_versions: ["V4.X(待定)"],
+    total_users: "120,000", actual_delivery_users: "0", submitted_users: "0", exposed_users: "0",
+    nps_estimate: "", nps_promoters: "0", nps_passives: "0", nps_detractors: "0", nps_updated_at: "",
+  },
 ];
 
 const plans = [
@@ -269,6 +333,49 @@ const audienceUsers = [
 const AUDIENCE_REGION_ORDER = ["美区", "英区", "中国大陆"];
 
 const npsTemplates = [
+  {
+    template_id: "10014",
+    template_name: "全球产品体验问卷",
+    template_status: "有效",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "弹窗问卷(APP功能)",
+    questionnaire_type: "弹窗问卷(APP功能)",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-08-20 16:40",
+    min_version: "V4.X(待定)",
+    defer_question_i18n_keys: true,
+    app_questions: [
+      { type: "评分(全局)", title: "您有多大可能会向朋友或者同事推荐RingConn?", subtitle: "", scoreRange: "10", scoreMinDesc: "不推荐", scoreMaxDesc: "非常推荐", lowScoreGuide: "我们有哪些做的不好的地方？", highScoreGuide: "我们有哪些做得好的地方?", otherScoreGuide: "我们有哪些值得改进的地方?" },
+      { type: "多选题", title: "我们有哪些值得改进的地方?", subtitle: "", choiceOptions: [{ label: "戒指外观设计与质感" }, { label: "佩戴舒适度与尺寸" }, { label: "核心功能价值" }] },
+    ],
+    question_sections: [{ page_title: "全球体验", title: "", subtitle: "", questions: [
+      { type: "评分(普通)", title: "您对健康数据解读的满意度如何？", subtitle: "", scoreRange: "10", scoreMinDesc: "非常不满意", scoreMaxDesc: "非常满意" },
+      { type: "评分(普通)", title: "您对 RingConn 整体使用体验的满意度如何？", subtitle: "", scoreRange: "10", scoreMinDesc: "非常不满意", scoreMaxDesc: "非常满意" },
+    ] }],
+    questions: [],
+  },
+  {
+    template_id: "10013",
+    template_name: "海外用户体验研究问卷",
+    template_status: "有效",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "弹窗问卷(用研/设计)",
+    questionnaire_type: "弹窗问卷(用研/设计)",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-08-20 16:20",
+    min_version: "V4.X(待定)",
+    defer_question_i18n_keys: true,
+    popup_copy_mode: "用研",
+    popup_copy: SURVEY_POPUP_COPY_PRESETS.用研,
+    questions: [
+      { type: "评分(普通)", title: "您对 RingConn 健康功能的整体满意度如何？", subtitle: "", scoreRange: "10", scoreMinDesc: "非常不满意", scoreMaxDesc: "非常满意" },
+      { type: "评分(普通)", title: "您是否愿意继续使用 RingConn 的健康服务？", subtitle: "", scoreRange: "10", scoreMinDesc: "完全不愿意", scoreMaxDesc: "非常愿意" },
+    ],
+  },
   {
     template_id: "10012",
     template_name: "国妇婴NPS问卷",
@@ -540,6 +647,7 @@ const npsTemplates = [
     updated_at: "2026-06-23 09:10",
     min_version: "-",
     questions: [],
+    is_deleted: true,
   },
 ];
 
@@ -558,6 +666,8 @@ let filteredTasks = [...tasks];
 let filteredTemplates = [...npsTemplates];
 let selectedTaskDeleteId = null;
 let selectedTemplateDeleteId = null;
+const selectedTemplateIds = new Set();
+let templateSyncTimer = null;
 let exportTimer = null;
 let formMode = "add";
 let currentAudienceTaskId = "";
@@ -584,10 +694,13 @@ let activeI18nTranslation = null;
 const taskRows = document.getElementById("taskRows");
 const audienceRows = document.getElementById("audienceRows");
 const templateRows = document.getElementById("templateRows");
+const templateSelectAll = document.getElementById("templateSelectAll");
+const syncTemplatesBtn = document.getElementById("syncTemplatesBtn");
 const rowCount = document.getElementById("rowCount");
 const audienceRowCount = document.getElementById("audienceRowCount");
 const templateRowCount = document.getElementById("templateRowCount");
 const templateDeleteLightbox = document.getElementById("templateDeleteLightbox");
+const templateSyncLightbox = document.getElementById("templateSyncLightbox");
 const templateNav = document.getElementById("templateNav");
 const surveyListNav = document.getElementById("surveyListNav");
 const templatePlanBNav = document.getElementById("templatePlanBNav");
@@ -1142,9 +1255,11 @@ function renderTemplates(rows) {
     const editDisabled = isLegacySurveyQuestionnaire;
     const copyDisabled = isLegacySurveyQuestionnaire;
     const deleteDisabled = isSurveyListVariant() && statusText === "生效中";
+    const syncDisabled = isSurveyListVariant() && statusText !== "生效中";
     const i18nActionText = "编辑多语言";
     return `
       <tr data-template-id="${escapeText(template.template_id)}">
+        <td class="tpl-select"><input class="template-select" type="checkbox" value="${escapeText(template.template_id)}" aria-label="选择问卷 ${escapeText(template.template_name)}" title="${syncDisabled ? "仅生效中问卷允许同步" : "选择问卷"}" ${selectedTemplateIds.has(template.template_id) ? "checked" : ""} ${syncDisabled ? "disabled" : ""} /></td>
         <td>${escapeText(template.template_id)}</td>
         <td>${escapeText(template.template_name)}</td>
         <td><span class="status-pill ${statusClass}">${escapeText(statusText)}</span></td>
@@ -1164,7 +1279,66 @@ function renderTemplates(rows) {
     `;
   }).join("");
 
+  if (templateSelectAll) {
+    const syncableRows = displayRows.filter((template) => getSurveyListStatus(template.template_status) === "生效中");
+    templateSelectAll.checked = syncableRows.length > 0 && syncableRows.every((template) => selectedTemplateIds.has(template.template_id));
+    templateSelectAll.indeterminate = syncableRows.some((template) => selectedTemplateIds.has(template.template_id)) && !templateSelectAll.checked;
+    templateSelectAll.disabled = syncableRows.length === 0;
+  }
+  updateTemplateSyncButton();
   templateRowCount.textContent = `共 ${variantRows.length} 条`;
+}
+
+function updateTemplateSyncButton() {
+  if (!syncTemplatesBtn) return;
+  syncTemplatesBtn.disabled = selectedTemplateIds.size === 0;
+}
+
+function openTemplateSyncDialog() {
+  if (!selectedTemplateIds.size) {
+    showToast("请先选择需要同步的问卷。");
+    return;
+  }
+  templateSyncLightbox.classList.add("show");
+  templateSyncLightbox.setAttribute("aria-hidden", "false");
+}
+
+function closeTemplateSyncDialog() {
+  window.clearTimeout(templateSyncTimer);
+  document.getElementById("confirmTemplateSync").disabled = false;
+  document.getElementById("confirmTemplateSync").textContent = "确定";
+  templateSyncLightbox.classList.remove("show");
+  templateSyncLightbox.setAttribute("aria-hidden", "true");
+}
+
+function confirmTemplateSync() {
+  const templatesToSync = npsTemplates.filter((template) => selectedTemplateIds.has(template.template_id) && !template.is_deleted && isActiveSurveyTemplate(template));
+  if (!templatesToSync.length) {
+    closeTemplateSyncDialog();
+    showToast("请先选择需要同步的问卷。");
+    return;
+  }
+  const button = document.getElementById("confirmTemplateSync");
+  button.disabled = true;
+  button.textContent = "同步中...";
+  window.clearTimeout(templateSyncTimer);
+  templateSyncTimer = window.setTimeout(() => {
+    const allCentersSucceeded = templatesToSync.every((template) => template.data_center_sync !== "failed");
+    button.disabled = false;
+    button.textContent = "确定";
+    if (allCentersSucceeded) {
+      templatesToSync.forEach((template) => {
+        template.updated_at = formatDateMinute(new Date());
+      });
+      selectedTemplateIds.clear();
+      closeTemplateSyncDialog();
+      applyTemplateFilters();
+      showToast("问卷已同步到各个数据中心。");
+      return;
+    }
+    closeTemplateSyncDialog();
+    showToast("问卷同步失败，请稍后重试。");
+  }, 850);
 }
 
 function applyTemplateFilters() {
@@ -2731,7 +2905,9 @@ function openTemplateI18nPage(templateId) {
     questionType: row.questionType,
     questionId: row.questionId,
     databaseField: row.databaseField,
-    bindingKey: hasAllExistingKeys ? getI18nBindingKey(template, row) : (storedKeys[row.key] || ""),
+    bindingKey: hasAllExistingKeys && !(template.defer_question_i18n_keys && row.module === "question")
+      ? getI18nBindingKey(template, row)
+      : (storedKeys[row.key] || ""),
   }));
   const workflowParams = new URLSearchParams({
     templateId: template.template_id,
@@ -2740,7 +2916,7 @@ function openTemplateI18nPage(templateId) {
     existingKeys: hasExistingKeys ? "1" : "0",
     rows: JSON.stringify(workflowRows),
   });
-  window.location.href = `./i18n-translation-workflow.html?v=20260820-08&${workflowParams.toString()}`;
+  window.location.href = `./i18n-translation-workflow.html?v=20260821-11&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {
@@ -4927,6 +5103,7 @@ function confirmTemplateDelete() {
     return;
   }
   template.is_deleted = true;
+  selectedTemplateIds.delete(template.template_id);
   template.updated_at = formatDateMinute(new Date());
   closeTemplateDeleteDialog();
   applyTemplateFilters();
@@ -5414,6 +5591,9 @@ document.addEventListener("click", (event) => {
     if (target.disabled) return;
     openTemplateI18nPage(target.dataset.templateId);
   }
+  if (target.id === "openTranslationQueryBtn") {
+    window.location.href = "./translation-query.html?v=20260821-11";
+  }
   if (target.classList.contains("delete-template-link")) {
     openTemplateDeleteDialog(target.dataset.templateId);
   }
@@ -5428,6 +5608,36 @@ document.getElementById("confirmTemplateDelete").addEventListener("click", confi
 document.getElementById("cancelTemplateDelete").addEventListener("click", closeTemplateDeleteDialog);
 templateDeleteLightbox.addEventListener("click", (event) => {
   if (event.target === templateDeleteLightbox) closeTemplateDeleteDialog();
+});
+templateRows.addEventListener("change", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement) || !target.classList.contains("template-select")) return;
+  if (target.checked) {
+    selectedTemplateIds.add(target.value);
+  } else {
+    selectedTemplateIds.delete(target.value);
+  }
+  const visibleRows = [...templateRows.querySelectorAll(".template-select:not(:disabled)")];
+  if (templateSelectAll) {
+    templateSelectAll.checked = visibleRows.length > 0 && visibleRows.every((input) => input.checked);
+    templateSelectAll.indeterminate = visibleRows.some((input) => input.checked) && !templateSelectAll.checked;
+  }
+  updateTemplateSyncButton();
+});
+templateSelectAll.addEventListener("change", () => {
+  templateRows.querySelectorAll(".template-select:not(:disabled)").forEach((input) => {
+    input.checked = templateSelectAll.checked;
+    if (input.checked) selectedTemplateIds.add(input.value);
+    else selectedTemplateIds.delete(input.value);
+  });
+  templateSelectAll.indeterminate = false;
+  updateTemplateSyncButton();
+});
+syncTemplatesBtn.addEventListener("click", openTemplateSyncDialog);
+document.getElementById("confirmTemplateSync").addEventListener("click", confirmTemplateSync);
+document.getElementById("cancelTemplateSync").addEventListener("click", closeTemplateSyncDialog);
+templateSyncLightbox.addEventListener("click", (event) => {
+  if (event.target === templateSyncLightbox) closeTemplateSyncDialog();
 });
 planLightbox.addEventListener("click", (event) => {
   if (event.target === planLightbox) closePlanDialog();

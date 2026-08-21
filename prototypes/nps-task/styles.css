@@ -574,7 +574,9 @@ select {
 }
 
 #templateSearchBtn,
+#openTranslationQueryBtn,
 #addTemplateBtn,
+#syncTemplatesBtn,
 #searchBtn,
 #addBtn,
 #submitTaskBtn,
@@ -594,7 +596,9 @@ select {
 }
 
 #templateSearchBtn:hover,
+#openTranslationQueryBtn:hover,
 #addTemplateBtn:hover,
+#syncTemplatesBtn:hover,
 #searchBtn:hover,
 #addBtn:hover,
 #submitTaskBtn:hover,
@@ -614,7 +618,9 @@ select {
 }
 
 #templateSearchBtn:active,
+#openTranslationQueryBtn:active,
 #addTemplateBtn:active,
+#syncTemplatesBtn:active,
 #searchBtn:active,
 #addBtn:active,
 #submitTaskBtn:active,
@@ -1154,6 +1160,19 @@ select {
 
 .tpl-id {
   width: 80px;
+}
+
+.tpl-select {
+  width: 44px;
+}
+
+#syncTemplatesBtn[disabled],
+#syncTemplatesBtn[disabled]:hover,
+#syncTemplatesBtn[disabled]:active {
+  border-color: var(--ant-color-border);
+  background: var(--ant-color-disabled-bg);
+  color: var(--ant-color-text-disabled);
+  cursor: not-allowed;
 }
 
 .tpl-status,

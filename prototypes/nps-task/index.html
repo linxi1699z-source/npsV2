@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260820-08" />
+    <link rel="stylesheet" href="./styles.css?v=20260821-11" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -72,6 +72,8 @@
               <div class="button-group">
                 <button class="ax-button" id="templateSearchBtn" type="submit">查询</button>
                 <button class="ax-button long" id="addTemplateBtn" type="button" onclick="event.preventDefault(); event.stopPropagation(); window.openTemplateForm && window.openTemplateForm('add')">+新增问卷</button>
+                <button class="ax-button" id="openTranslationQueryBtn" type="button">查看所有翻译</button>
+                <button class="ax-button" id="syncTemplatesBtn" type="button" disabled>一键同步</button>
               </div>
             </div>
           </form>
@@ -81,6 +83,7 @@
               <table class="ax-table template-table">
                 <thead>
                   <tr>
+                    <th class="tpl-select"><input id="templateSelectAll" type="checkbox" aria-label="全选问卷" /></th>
                     <th class="tpl-id">问卷 ID</th>
                     <th class="tpl-name">问卷名称</th>
                     <th class="tpl-status">状态</th>
@@ -774,6 +777,16 @@
       </div>
     </div>
 
+    <div class="lightbox" id="templateSyncLightbox" aria-hidden="true">
+      <div class="confirm-panel" role="dialog" aria-modal="true" aria-labelledby="templateSyncConfirmText">
+        <div class="confirm-text" id="templateSyncConfirmText">确定将问卷同步到各个数据中心吗？</div>
+        <div class="confirm-actions">
+          <button class="ax-button small" id="confirmTemplateSync" type="button">确定</button>
+          <button class="ax-button small" id="cancelTemplateSync" type="button">取消</button>
+        </div>
+      </div>
+    </div>
+
     <div class="lightbox" id="planLightbox" aria-hidden="true">
       <div class="plan-dialog" role="dialog" aria-modal="true" aria-labelledby="planDialogTitle">
         <div class="dialog-title" id="planDialogTitle">新增计划</div>
@@ -862,6 +875,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260820-08"></script>
+    <script src="./app.js?v=20260821-11"></script>
   </body>
 </html>
