@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260821-11" />
+    <link rel="stylesheet" href="./styles.css?v=20260831-05" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -787,6 +787,30 @@
       </div>
     </div>
 
+    <div class="lightbox" id="questionAssociationLightbox" aria-hidden="true">
+      <section class="question-association-dialog" role="dialog" aria-modal="true" aria-labelledby="questionAssociationTitle">
+        <div class="i18n-dialog-header">
+          <div class="i18n-dialog-title" id="questionAssociationTitle">题目关联</div>
+          <button class="i18n-dialog-close" id="closeQuestionAssociation" type="button" aria-label="关闭">×</button>
+        </div>
+        <div class="question-association-body" id="questionAssociationBody"></div>
+        <div class="question-association-actions">
+          <button class="ax-button" id="saveQuestionAssociation" type="button">保存</button>
+          <button class="ax-button" id="cancelQuestionAssociation" type="button">取消</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="lightbox" id="questionAssociationDeleteLightbox" aria-hidden="true">
+      <div class="confirm-panel" role="dialog" aria-modal="true" aria-labelledby="questionAssociationDeleteText">
+        <div class="confirm-text" id="questionAssociationDeleteText"></div>
+        <div class="confirm-actions">
+          <button class="ax-button small danger-confirm" id="confirmQuestionAssociationDelete" type="button">确定</button>
+          <button class="ax-button small" id="cancelQuestionAssociationDelete" type="button">取消</button>
+        </div>
+      </div>
+    </div>
+
     <div class="lightbox" id="planLightbox" aria-hidden="true">
       <div class="plan-dialog" role="dialog" aria-modal="true" aria-labelledby="planDialogTitle">
         <div class="dialog-title" id="planDialogTitle">新增计划</div>
@@ -875,6 +899,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260821-11"></script>
+    <script src="./app.js?v=20260831-11"></script>
   </body>
 </html>

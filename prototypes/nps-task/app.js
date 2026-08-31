@@ -651,6 +651,36 @@ const npsTemplates = [
   },
 ];
 
+const PROTOTYPE_SESSION_CACHE_KEY = "nps-admin-prototype-session-v1";
+
+function restorePrototypeSessionCache() {
+  try {
+    const savedCache = window.sessionStorage.getItem(PROTOTYPE_SESSION_CACHE_KEY);
+    if (!savedCache) return;
+    const cache = JSON.parse(savedCache);
+    if (Array.isArray(cache.tasks)) tasks.splice(0, tasks.length, ...cache.tasks);
+    if (Array.isArray(cache.templates)) npsTemplates.splice(0, npsTemplates.length, ...cache.templates);
+    if (Array.isArray(cache.audienceUsers)) audienceUsers.splice(0, audienceUsers.length, ...cache.audienceUsers);
+  } catch {
+    window.sessionStorage.removeItem(PROTOTYPE_SESSION_CACHE_KEY);
+  }
+}
+
+function persistPrototypeSessionCache() {
+  try {
+    window.sessionStorage.setItem(PROTOTYPE_SESSION_CACHE_KEY, JSON.stringify({
+      tasks,
+      templates: npsTemplates,
+      audienceUsers,
+    }));
+  } catch {
+    // Storage is optional for this static prototype.
+  }
+}
+
+restorePrototypeSessionCache();
+window.addEventListener("pagehide", persistPrototypeSessionCache);
+
 const templates = [
   ...npsTemplates.map((template) => template.template_name),
   "睡眠NPS模板",
@@ -681,6 +711,8 @@ let templateQuestions = [];
 let templateQuestionSections = [];
 let templateGroupCreationContext = null;
 let templateCopySourceId = "";
+let questionAssociationMode = false;
+let activeQuestionAssociation = null;
 let savedRichTextRange = null;
 let savedConsentRichTextRange = null;
 let currentI18nTemplateId = "";
@@ -749,6 +781,10 @@ const i18nTranslationKey = document.getElementById("i18nTranslationKey");
 const i18nTranslationSource = document.getElementById("i18nTranslationSource");
 const i18nTranslationRows = document.getElementById("i18nTranslationRows");
 const i18nTranslationDialogActions = document.getElementById("i18nTranslationDialogActions");
+const questionAssociationLightbox = document.getElementById("questionAssociationLightbox");
+const questionAssociationBody = document.getElementById("questionAssociationBody");
+const questionAssociationDeleteLightbox = document.getElementById("questionAssociationDeleteLightbox");
+const questionAssociationDeleteText = document.getElementById("questionAssociationDeleteText");
 const toast = document.getElementById("toast");
 const formFields = {
   editingTaskId: document.getElementById("editingTaskId"),
@@ -1270,7 +1306,8 @@ function renderTemplates(rows) {
         <td>
           <div class="table-actions">
             <button class="table-action-button is-primary template-i18n-link" type="button" data-template-id="${escapeText(template.template_id)}" ${i18nDisabled ? "disabled" : ""}>${i18nActionText}</button>
-            <button class="table-action-button is-primary edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${editDisabled ? "disabled" : ""}>${isSurveyListVariant() ? "编辑问卷" : "编辑模板"}</button>
+            ${!isSurveyListVariant() ? `<button class="table-action-button is-primary edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${editDisabled ? "disabled" : ""}>编辑模板</button>` : ""}
+            ${isSurveyListVariant() ? `<button class="table-action-button is-primary template-association-edit-link" type="button" data-template-id="${escapeText(template.template_id)}" ${editDisabled ? "disabled" : ""}>编辑问卷(!)</button>` : ""}
             ${isSurveyListVariant() ? `<button class="table-action-button is-primary copy-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${copyDisabled ? "disabled" : ""}>复制问卷</button>` : ""}
             ${isSurveyListVariant() ? `<button class="table-action-button is-danger delete-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${deleteDisabled ? "disabled" : ""}>删除</button>` : ""}
           </div>
@@ -1331,6 +1368,7 @@ function confirmTemplateSync() {
         template.updated_at = formatDateMinute(new Date());
       });
       selectedTemplateIds.clear();
+      persistPrototypeSessionCache();
       closeTemplateSyncDialog();
       applyTemplateFilters();
       showToast("问卷已同步到各个数据中心。");
@@ -1694,6 +1732,7 @@ function confirmTaskDelete() {
   for (let index = audienceUsers.length - 1; index >= 0; index -= 1) {
     if (audienceUsers[index].task_id === task.task_id) audienceUsers.splice(index, 1);
   }
+  persistPrototypeSessionCache();
   closeTaskDeleteDialog();
   applyFilters();
   showToast("任务已删除。");
@@ -2916,7 +2955,7 @@ function openTemplateI18nPage(templateId) {
     existingKeys: hasExistingKeys ? "1" : "0",
     rows: JSON.stringify(workflowRows),
   });
-  window.location.href = `./i18n-translation-workflow.html?v=20260821-11&${workflowParams.toString()}`;
+  window.location.href = `./i18n-translation-workflow.html?v=20260831-01&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {
@@ -3190,6 +3229,7 @@ function submitTaskForm() {
     showToast("新增成功。");
   }
 
+  persistPrototypeSessionCache();
   filteredTasks = [...tasks];
   renderRows(filteredTasks);
   showTaskList();
@@ -3630,7 +3670,7 @@ function updateQuestionnaireTypeByScene() {
 function getTemplateFormActionName(mode) {
   const entityName = isSurveyListVariant() ? "问卷" : "模板";
   const action = mode === "edit" ? "编辑" : (mode === "copy" ? "复制" : "新增");
-  return `${action}${entityName}`;
+  return `${action}${entityName}${questionAssociationMode ? "(!)" : ""}`;
 }
 
 function updateTemplateStepControls() {
@@ -3875,6 +3915,36 @@ function createPlanBQuestionSection(questions = [createDefaultQuestion("评分(�
   };
 }
 
+function createQuestionAssociationSampleQuestion(pageIndex, questionIndex) {
+  const samples = [
+    [
+      { type: "评分(普通)", title: "您对 RingConn 整体体验的满意度如何？", subtitle: "请根据实际使用感受评分", scoreRange: "10", scoreMinDesc: "非常不满意", scoreMaxDesc: "非常满意" },
+      { type: "单选题", title: "您使用 RingConn 的主要场景是？", subtitle: "", choiceOptions: [{ label: "睡眠监测" }, { label: "健康管理" }, { label: "运动记录" }] },
+      { type: "多选题", title: "您最常使用哪些功能？", subtitle: "可多选", choiceOptions: [{ label: "睡眠" }, { label: "活动" }, { label: "生命体征" }] },
+      { type: "开放题", title: "请描述您希望优化的体验。", subtitle: "", required: "选填", charLimit: "500" },
+      { type: "评分(普通)", title: "您会向朋友推荐 RingConn 吗？", subtitle: "", scoreRange: "10", scoreMinDesc: "不会推荐", scoreMaxDesc: "非常愿意推荐" },
+    ],
+    [
+      { type: "多选题", title: "您希望后续优先优化哪些方面？", subtitle: "可多选", choiceOptions: [{ label: "数据准确性" }, { label: "界面易读性" }, { label: "功能易用性" }] },
+      { type: "单选题", title: "您使用 App 的频率是？", subtitle: "", choiceOptions: [{ label: "每天" }, { label: "每周" }, { label: "偶尔" }] },
+      { type: "评分(普通)", title: "您对 App 操作流畅度的评价是？", subtitle: "", scoreRange: "5", scoreMinDesc: "非常不满意", scoreMaxDesc: "非常满意" },
+      { type: "开放题", title: "还有哪些建议想告诉我们？", subtitle: "", required: "选填", charLimit: "1000" },
+      { type: "多选题", title: "您希望收到哪些健康提醒？", subtitle: "可多选", choiceOptions: [{ label: "睡眠提醒" }, { label: "活动提醒" }, { label: "健康报告" }] },
+    ],
+  ];
+  return normalizePlanBSectionQuestion(samples[pageIndex % samples.length][questionIndex % 5]);
+}
+
+function ensureQuestionAssociationSamplePages() {
+  if (!questionAssociationMode || !isSurveyListVariant()) return;
+  while (templateQuestionSections.length < 2) templateQuestionSections.push(createPlanBQuestionSection([]));
+  templateQuestionSections.forEach((section, pageIndex) => {
+    while (section.questions.length < 5) {
+      section.questions.push(createQuestionAssociationSampleQuestion(pageIndex, section.questions.length));
+    }
+  });
+}
+
 function ensurePlanBQuestionSections() {
   if (!usesSectionQuestionEditor()) return;
   if (!templateQuestionSections.length) {
@@ -3934,19 +4004,227 @@ function renderPlanBQuestionBody(question, sectionIndex, questionIndex) {
   `;
 }
 
+function getQuestionAssociationReferences() {
+  const references = [];
+  if (isGlobalAppQuestionnaire()) {
+    templateQuestions.slice(0, 2).forEach((question, index) => {
+      references.push({
+        ref: `global-${index}`,
+        scope: "global",
+        index,
+        number: index + 1,
+        question,
+        label: `全局问题 ${index + 1}${question.title ? `：${question.title}` : ""}`,
+      });
+    });
+  }
+  let surveyNumber = 0;
+  templateQuestionSections.forEach((section, sectionIndex) => {
+    section.questions.forEach((question, questionIndex) => {
+      surveyNumber += 1;
+      references.push({
+        ref: `survey-${sectionIndex}-${questionIndex}`,
+        scope: "survey",
+        sectionIndex,
+        questionIndex,
+        number: surveyNumber,
+        question,
+        label: `问卷问题 ${surveyNumber}${question.title ? `：${question.title}` : ""}`,
+      });
+    });
+  });
+  return references;
+}
+
+function getSurveyQuestionNumber(sectionIndex, questionIndex) {
+  const reference = getQuestionAssociationReferences().find((item) => (
+    item.scope === "survey" && item.sectionIndex === sectionIndex && item.questionIndex === questionIndex
+  ));
+  return reference ? reference.number : questionIndex + 1;
+}
+
+function normalizeQuestionAssociationConditions(conditions) {
+  const source = Array.isArray(conditions) ? conditions : [];
+  return source.map((condition) => ({
+    sourceRef: condition.sourceRef || "",
+    answers: Array.isArray(condition.answers) ? condition.answers : [],
+    reuseTargets: Array.isArray(condition.reuseTargets) && condition.reuseTargets.length ? condition.reuseTargets : [""],
+  }));
+}
+
+function getAssociationAnswerOptions(question) {
+  if (!question) return [];
+  if (["评分(全局)", "评分(普通)", "评分(功能/分组)"].includes(question.type)) {
+    return Array.from({ length: Number(question.scoreRange) || 10 }, (_, index) => String(index + 1));
+  }
+  if (["单选题", "多选题"].includes(question.type)) {
+    return normalizeQuestionOptions(question.choiceOptions).map((option) => option.label).filter(Boolean);
+  }
+  return ["有填写", "未填写"];
+}
+
+function getQuestionByAssociationReference(reference) {
+  const item = getQuestionAssociationReferences().find((candidate) => candidate.ref === reference);
+  return item ? item.question : null;
+}
+
+function getAssociationAnswerSummary(answers) {
+  return answers.length ? answers.join("，") : "请选择答案";
+}
+
+function closeAssociationAnswerPanels() {
+  questionAssociationBody.querySelectorAll(".association-answer-panel.open").forEach((panel) => panel.classList.remove("open"));
+}
+
+function closeQuestionAssociationDialog() {
+  activeQuestionAssociation = null;
+  questionAssociationLightbox.classList.remove("show");
+  questionAssociationLightbox.setAttribute("aria-hidden", "true");
+}
+
+function renderQuestionAssociationDialog() {
+  if (!activeQuestionAssociation) return;
+  const references = getQuestionAssociationReferences();
+  const currentIndex = references.findIndex((item) => item.ref === activeQuestionAssociation.currentRef);
+  const priorQuestions = references.slice(0, currentIndex);
+  const laterQuestions = references.slice(currentIndex + 1).filter((item) => item.scope === "survey");
+  const currentNumber = getSurveyQuestionNumber(activeQuestionAssociation.sectionIndex, activeQuestionAssociation.questionIndex);
+  const conditionMarkup = activeQuestionAssociation.conditions.map((condition, conditionIndex) => {
+    const answerOptions = getAssociationAnswerOptions(getQuestionByAssociationReference(condition.sourceRef));
+    const selectedAnswers = new Set(condition.answers);
+    return `
+      <section class="association-condition-card" data-condition-index="${conditionIndex}">
+        <div class="association-condition-heading">
+          <strong>条件 ${conditionIndex + 1}</strong>
+          ${activeQuestionAssociation.conditions.length > 1 ? `<button class="association-icon-button association-remove-condition" type="button" data-condition-index="${conditionIndex}" title="删除条件" aria-label="删除条件">−</button>` : ""}
+        </div>
+        <div class="association-field-row">
+          <label>前置题目</label>
+          <select class="ax-select association-source-select" data-condition-index="${conditionIndex}">
+            <option value="">请选择前置题目</option>
+            ${priorQuestions.map((item) => `<option value="${item.ref}"${item.ref === condition.sourceRef ? " selected" : ""}>${escapeText(item.label)}</option>`).join("")}
+          </select>
+        </div>
+        <div class="association-field-row association-answer-row">
+          <label>对应答案</label>
+          ${condition.sourceRef ? `<div class="association-answer-multi"><button class="ax-select association-answer-trigger" type="button" data-condition-index="${conditionIndex}">${getAssociationAnswerSummary(condition.answers)}</button><div class="association-answer-panel">${answerOptions.map((answer) => `<label><input class="association-answer-checkbox" type="checkbox" value="${escapeText(answer)}" data-condition-index="${conditionIndex}"${selectedAnswers.has(answer) ? " checked" : ""} /> ${escapeText(answer)}</label>`).join("")}</div></div>` : `<span class="association-empty-note">请先选择前置题目</span>`}
+        </div>
+        <div class="association-field-row association-reuse-field">
+          <label>条件复用</label>
+          <div class="association-reuse-stack">
+            ${condition.reuseTargets.map((targetRef, reuseIndex) => `
+              <div class="association-reuse-row">
+              <select class="ax-select association-reuse-select" data-condition-index="${conditionIndex}" data-reuse-index="${reuseIndex}">
+                <option value="">请选择复用题目</option>
+                ${laterQuestions.map((item) => `<option value="${item.ref}"${item.ref === targetRef ? " selected" : ""}>${escapeText(item.label)}</option>`).join("")}
+              </select>
+              ${condition.reuseTargets.length > 1 ? `<button class="association-icon-button association-remove-reuse" type="button" data-condition-index="${conditionIndex}" data-reuse-index="${reuseIndex}" title="删除复用题目" aria-label="删除复用题目">−</button>` : ""}
+              </div>
+            `).join("")}
+            <button class="association-icon-button association-add-reuse" type="button" data-condition-index="${conditionIndex}" title="添加复用题目" aria-label="添加复用题目">+</button>
+          </div>
+        </div>
+      </section>
+    `;
+  }).join("");
+
+  questionAssociationBody.innerHTML = `
+    <div class="association-current-question">当前题目：问卷问题 ${currentNumber}</div>
+    ${priorQuestions.length ? conditionMarkup : `<div class="association-empty-state">当前题目前暂无可作为条件的题目。</div>`}
+    ${priorQuestions.length ? `<button class="link-button association-add-condition" type="button">+ 添加条件</button>` : ""}
+  `;
+}
+
+function openQuestionAssociationDialog(sectionIndex, questionIndex) {
+  const currentRef = `survey-${sectionIndex}-${questionIndex}`;
+  const question = getPlanBSectionQuestion(sectionIndex, questionIndex);
+  if (!question) return;
+  activeQuestionAssociation = {
+    sectionIndex,
+    questionIndex,
+    currentRef,
+    conditions: normalizeQuestionAssociationConditions(question.logic_conditions),
+  };
+  if (!activeQuestionAssociation.conditions.length) activeQuestionAssociation.conditions = [{ sourceRef: "", answers: [], reuseTargets: [""] }];
+  questionAssociationLightbox.classList.add("show");
+  questionAssociationLightbox.setAttribute("aria-hidden", "false");
+  renderQuestionAssociationDialog();
+}
+
+function saveQuestionAssociation() {
+  if (!activeQuestionAssociation) return;
+  const currentQuestion = getPlanBSectionQuestion(activeQuestionAssociation.sectionIndex, activeQuestionAssociation.questionIndex);
+  const conditions = activeQuestionAssociation.conditions.map((condition) => ({
+    sourceRef: condition.sourceRef,
+    answers: [...new Set(condition.answers)],
+    reuseTargets: [...new Set(condition.reuseTargets.filter(Boolean))],
+  }));
+  if (!conditions.length || conditions.some((condition) => !condition.sourceRef || !condition.answers.length)) {
+    showToast("请完善关联条件。");
+    return;
+  }
+  currentQuestion.logic_conditions = JSON.parse(JSON.stringify(conditions));
+  conditions.forEach((condition) => {
+    condition.reuseTargets.forEach((reference) => {
+      const match = reference.match(/^survey-(\d+)-(\d+)$/);
+      if (!match) return;
+      const target = getPlanBSectionQuestion(Number(match[1]), Number(match[2]));
+      if (target) target.logic_conditions = JSON.parse(JSON.stringify(conditions));
+    });
+  });
+  closeQuestionAssociationDialog();
+  renderPlanBQuestionSections();
+  showToast("题目关联已保存。");
+}
+
+function openQuestionAssociationDeleteDialog(sectionIndex, questionIndex) {
+  activeQuestionAssociation = { sectionIndex, questionIndex };
+  questionAssociationDeleteText.textContent = `确定删除问题${getSurveyQuestionNumber(sectionIndex, questionIndex)}中设置的全部题目关联条件吗？`;
+  questionAssociationDeleteLightbox.classList.add("show");
+  questionAssociationDeleteLightbox.setAttribute("aria-hidden", "false");
+}
+
+function closeQuestionAssociationDeleteDialog() {
+  questionAssociationDeleteLightbox.classList.remove("show");
+  questionAssociationDeleteLightbox.setAttribute("aria-hidden", "true");
+}
+
+function confirmQuestionAssociationDelete() {
+  if (activeQuestionAssociation) {
+    const question = getPlanBSectionQuestion(activeQuestionAssociation.sectionIndex, activeQuestionAssociation.questionIndex);
+    if (question) delete question.logic_conditions;
+  }
+  closeQuestionAssociationDeleteDialog();
+  activeQuestionAssociation = null;
+  renderPlanBQuestionSections();
+  showToast("题目关联已删除。");
+}
+
 function renderPlanBQuestionSections() {
   ensurePlanBQuestionSections();
   const surveyList = isSurveyListVariant();
   const availableTypes = ["评分(普通)", "单选题", "多选题", "开放题", ...(surveyList ? ["文本描述"] : [])];
-  const renderQuestionCard = (question, sectionIndex, questionIndex) => `
-    <section class="question-card has-question-remove" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">
-      <button class="link-button section-question-remove" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除</button>
-      <div class="question-row question-type-row"><label class="question-label required">问题类型</label><select class="ax-select question-control" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-question-field="type">${availableTypes.map((type) => `<option value="${type}"${question.type === type ? " selected" : ""}>${escapeText(getQuestionTypeLabel(type))}</option>`).join("")}</select><span class="question-type-note">不同类型展示不同字段</span></div>
+  const renderQuestionCard = (question, sectionIndex, questionIndex) => {
+    const questionNumber = getSurveyQuestionNumber(sectionIndex, questionIndex);
+    const hasAssociation = Array.isArray(question.logic_conditions) && question.logic_conditions.length > 0;
+    const associationActions = questionAssociationMode && surveyList ? `
+      <div class="question-card-actions">
+        <button class="link-button question-association-trigger" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">${hasAssociation ? "编辑关联" : "题目关联"}</button>
+        ${hasAssociation ? `<button class="link-button danger-link question-association-delete" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除全部关联</button>` : ""}
+        <button class="link-button section-question-remove" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除</button>
+      </div>
+    ` : `<button class="link-button section-question-remove" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除</button>`;
+    return `
+    <section class="question-card has-question-remove${questionAssociationMode && surveyList ? " association-enabled" : ""}" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">
+      ${questionAssociationMode && surveyList ? `<div class="question-card-number">问题 ${questionNumber}</div>` : ""}
+      ${associationActions}
       <div class="question-row question-textarea-row"><label class="question-label required">问题标题</label><textarea class="ax-input question-control question-auto-grow" rows="1" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-question-field="title">${escapeText(question.title)}</textarea></div>
       <div class="question-row question-textarea-row"><label class="question-label">${surveyList ? "问题标题备注" : "问题副标题"}</label><textarea class="ax-input question-control question-auto-grow" rows="1" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-question-field="subtitle">${escapeText(question.subtitle)}</textarea></div>
+      <div class="question-row question-type-row"><label class="question-label required">问题类型</label><select class="ax-select question-control" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-question-field="type">${availableTypes.map((type) => `<option value="${type}"${question.type === type ? " selected" : ""}>${escapeText(getQuestionTypeLabel(type))}</option>`).join("")}</select><span class="question-type-note">不同类型展示不同字段</span></div>
       ${renderPlanBQuestionBody(question, sectionIndex, questionIndex)}
     </section>
   `;
+  };
   const markup = templateQuestionSections.map((section, sectionIndex) => {
     const questions = `<div class="section-question-list">${section.questions.map((question, questionIndex) => renderQuestionCard(question, sectionIndex, questionIndex)).join("")}</div><div class="survey-question-add-row"><button class="icon-add-button section-add-question" type="button" data-section-index="${sectionIndex}"><span class="button-icon">+</span><span>新增问题</span></button></div>`;
     if (surveyList && sectionIndex === 0) {
@@ -4059,7 +4337,7 @@ function getChoiceOptionValidationMessage(question) {
   if (!question || !["单选题", "多选题"].includes(question.type)) return "";
   const options = normalizeQuestionOptions(question.choiceOptions);
   if (options.length > 10) return "最多可以填写 10 个选型。";
-  if (options.filter((option) => option.label.trim()).length < 3) return "请至少填写 3 个选项。";
+  if (options.filter((option) => option.label.trim()).length < 2) return "请至少填写 2 个选项。";
   const otherOption = options.find((option) => option.isOther);
   if (otherOption && !otherOption.charLimit) return "请设置其他选项的字符限制。";
   return "";
@@ -4260,10 +4538,11 @@ function renderSurveyGlobalQuestions() {
   const choiceQuestion = templateQuestions[1];
   const fixedAttribute = isSurveyGlobalQuestionEditable() ? "" : "disabled";
   templateFormFields.globalQuestionRepeater.innerHTML = `
-    <section class="question-card global-question-card" data-question-index="0">
-      <div class="question-row question-type-row"><label class="question-label required">问题类型</label><select class="ax-select question-control question-field" data-question-index="0" data-question-field="type" disabled><option>评分(全局)</option></select><span class="question-type-note">固定问题类型</span></div>
+    <section class="question-card global-question-card${questionAssociationMode ? " association-enabled" : ""}" data-question-index="0">
+      ${questionAssociationMode ? '<div class="question-card-number">问题 1</div>' : ""}
       <div class="question-row question-textarea-row"><label class="question-label required">问题标题</label><textarea class="ax-input question-control question-field question-auto-grow" rows="1" data-question-index="0" data-question-field="title" ${fixedAttribute}>${escapeText(scoreQuestion.title)}</textarea></div>
       <div class="question-row question-textarea-row"><label class="question-label">问题标题备注</label><textarea class="ax-input question-control question-field question-auto-grow" rows="1" data-question-index="0" data-question-field="subtitle" ${fixedAttribute}>${escapeText(scoreQuestion.subtitle)}</textarea></div>
+      <div class="question-row question-type-row"><label class="question-label required">问题类型</label><select class="ax-select question-control question-field" data-question-index="0" data-question-field="type" disabled><option>评分(全局)</option></select><span class="question-type-note">固定问题类型</span></div>
       <div class="question-row"><label class="question-label required">选项</label><select class="ax-select question-control question-field" data-question-index="0" data-question-field="scoreRange" ${fixedAttribute}><option value="10"${scoreQuestion.scoreRange === "10" ? " selected" : ""}>10</option><option value="5"${scoreQuestion.scoreRange === "5" ? " selected" : ""}>5</option></select></div>
       <div class="score-preview">${renderScorePreview(scoreQuestion.scoreRange)}</div>
       <div class="question-row"><label class="question-label">最小值描述</label><input class="ax-input question-control question-field" type="text" value="${escapeText(scoreQuestion.scoreMinDesc)}" data-question-index="0" data-question-field="scoreMinDesc" ${fixedAttribute} /></div>
@@ -4272,7 +4551,8 @@ function renderSurveyGlobalQuestions() {
       <div class="question-row"><label class="question-label">高评分引导文案</label><input class="ax-input question-control question-field" type="text" value="${escapeText(scoreQuestion.highScoreGuide)}" data-question-index="0" data-question-field="highScoreGuide" ${fixedAttribute} /></div>
       <div class="question-row"><label class="question-label">其他评分引导文案</label><input class="ax-input question-control question-field" type="text" value="${escapeText(scoreQuestion.otherScoreGuide)}" data-question-index="0" data-question-field="otherScoreGuide" ${fixedAttribute} /></div>
     </section>
-    <section class="question-card global-question-card global-choice-card" data-question-index="1">
+    <section class="question-card global-question-card global-choice-card${questionAssociationMode ? " association-enabled" : ""}" data-question-index="1">
+      ${questionAssociationMode ? '<div class="question-card-number">问题 2</div>' : ""}
       <div class="question-row question-type-row"><label class="question-label required">问题类型</label><select class="ax-select question-control question-field" data-question-index="1" data-question-field="type" disabled><option>多选题</option></select><span class="question-type-note">固定问题类型</span></div>
       <div class="question-row options-row"><label class="question-label">选项</label><div class="question-options">${renderChoiceOptions(choiceQuestion, 1, "checkbox")}</div></div>
     </section>
@@ -4815,8 +5095,9 @@ function buildCopyTemplateName(templateName) {
   return `${baseName}(${maxIndex + 1})`;
 }
 
-function openTemplateForm(mode, templateId = "") {
+function openTemplateForm(mode, templateId = "", options = {}) {
   templateFormMode = mode;
+  questionAssociationMode = Boolean(options.questionAssociation);
   templateCopySourceId = "";
   resetTemplateForm();
   const showDraftActions = mode === "add" && isSurveyListVariant();
@@ -4881,6 +5162,7 @@ function openTemplateForm(mode, templateId = "") {
       section.collapsed = Boolean(template.question_sections[index].collapsed);
     });
   }
+  ensureQuestionAssociationSamplePages();
   renderTemplateQuestionList();
   updateTemplateTypePanel();
 }
@@ -5027,11 +5309,13 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
     filteredTemplates = [...npsTemplates];
     renderTemplates(filteredTemplates);
     if (templateGroupCreationContext) {
+      persistPrototypeSessionCache();
       returnToParentTemplateForm(newTemplate.template_name);
       return;
     }
   }
 
+  persistPrototypeSessionCache();
   filteredTemplates = [...npsTemplates];
   renderTemplates(filteredTemplates);
   showTemplateList(templateVariant);
@@ -5105,6 +5389,7 @@ function confirmTemplateDelete() {
   template.is_deleted = true;
   selectedTemplateIds.delete(template.template_id);
   template.updated_at = formatDateMinute(new Date());
+  persistPrototypeSessionCache();
   closeTemplateDeleteDialog();
   applyTemplateFilters();
   renderTemplateOptions();
@@ -5294,6 +5579,81 @@ document.getElementById("nextTemplateStepBtn").addEventListener("click", () => {
 });
 document.getElementById("prevTemplateStepBtn").addEventListener("click", () => setTemplateStep(1));
 document.getElementById("prevTemplateStepThreeBtn").addEventListener("click", () => setTemplateStep(2));
+questionAssociationBody.addEventListener("change", (event) => {
+  const target = event.target;
+  if (!activeQuestionAssociation) return;
+  if (target instanceof HTMLInputElement && target.classList.contains("association-answer-checkbox")) {
+    const condition = activeQuestionAssociation.conditions[Number(target.dataset.conditionIndex)];
+    if (!condition) return;
+    condition.answers = [...questionAssociationBody.querySelectorAll(`.association-answer-checkbox[data-condition-index="${target.dataset.conditionIndex}"]:checked`)].map((input) => input.value);
+    const trigger = questionAssociationBody.querySelector(`.association-answer-trigger[data-condition-index="${target.dataset.conditionIndex}"]`);
+    if (trigger) trigger.textContent = getAssociationAnswerSummary(condition.answers);
+    return;
+  }
+  if (!(target instanceof HTMLSelectElement)) return;
+  const conditionIndex = Number(target.dataset.conditionIndex);
+  const condition = activeQuestionAssociation.conditions[conditionIndex];
+  if (!condition) return;
+  if (target.classList.contains("association-source-select")) {
+    condition.sourceRef = target.value;
+    condition.answers = [];
+    renderQuestionAssociationDialog();
+    return;
+  }
+  if (target.classList.contains("association-reuse-select")) {
+    condition.reuseTargets[Number(target.dataset.reuseIndex)] = target.value;
+  }
+});
+questionAssociationBody.addEventListener("click", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement) || !activeQuestionAssociation) return;
+  const answerTrigger = target.closest(".association-answer-trigger");
+  if (answerTrigger instanceof HTMLElement) {
+    const panel = answerTrigger.nextElementSibling;
+    closeAssociationAnswerPanels();
+    if (panel instanceof HTMLElement) panel.classList.toggle("open");
+    return;
+  }
+  if (target.classList.contains("association-add-condition")) {
+    activeQuestionAssociation.conditions.push({ sourceRef: "", answers: [], reuseTargets: [""] });
+    renderQuestionAssociationDialog();
+    return;
+  }
+  if (target.classList.contains("association-remove-condition")) {
+    activeQuestionAssociation.conditions.splice(Number(target.dataset.conditionIndex), 1);
+    renderQuestionAssociationDialog();
+    return;
+  }
+  if (target.classList.contains("association-add-reuse")) {
+    const condition = activeQuestionAssociation.conditions[Number(target.dataset.conditionIndex)];
+    if (condition) condition.reuseTargets.push("");
+    renderQuestionAssociationDialog();
+    return;
+  }
+  if (target.classList.contains("association-remove-reuse")) {
+    const condition = activeQuestionAssociation.conditions[Number(target.dataset.conditionIndex)];
+    if (condition) condition.reuseTargets.splice(Number(target.dataset.reuseIndex), 1);
+    renderQuestionAssociationDialog();
+  }
+});
+document.addEventListener("click", (event) => {
+  if (!activeQuestionAssociation) return;
+  const target = event.target;
+  if (!(target instanceof Element) || !target.closest(".association-answer-multi")) {
+    closeAssociationAnswerPanels();
+  }
+});
+document.getElementById("saveQuestionAssociation").addEventListener("click", saveQuestionAssociation);
+document.getElementById("cancelQuestionAssociation").addEventListener("click", closeQuestionAssociationDialog);
+document.getElementById("closeQuestionAssociation").addEventListener("click", closeQuestionAssociationDialog);
+questionAssociationLightbox.addEventListener("click", (event) => {
+  if (event.target === questionAssociationLightbox) closeQuestionAssociationDialog();
+});
+document.getElementById("confirmQuestionAssociationDelete").addEventListener("click", confirmQuestionAssociationDelete);
+document.getElementById("cancelQuestionAssociationDelete").addEventListener("click", closeQuestionAssociationDeleteDialog);
+questionAssociationDeleteLightbox.addEventListener("click", (event) => {
+  if (event.target === questionAssociationDeleteLightbox) closeQuestionAssociationDeleteDialog();
+});
 templateFormFields.channelTrigger.addEventListener("click", () => {
   if (templateFormFields.channelTrigger.disabled) return;
   templateFormFields.channelPanel.classList.toggle("open");
@@ -5470,6 +5830,16 @@ document.getElementById("templateForm").addEventListener("change", (event) => {
 document.getElementById("templateForm").addEventListener("click", (event) => {
   const target = event.target;
   if (!(target instanceof HTMLElement)) return;
+  const associationTrigger = target.closest(".question-association-trigger");
+  if (associationTrigger instanceof HTMLElement) {
+    openQuestionAssociationDialog(Number(associationTrigger.dataset.sectionIndex), Number(associationTrigger.dataset.sectionQuestionIndex));
+    return;
+  }
+  const associationDelete = target.closest(".question-association-delete");
+  if (associationDelete instanceof HTMLElement) {
+    openQuestionAssociationDeleteDialog(Number(associationDelete.dataset.sectionIndex), Number(associationDelete.dataset.sectionQuestionIndex));
+    return;
+  }
   const sectionAction = target.closest(".section-add, .section-toggle, .section-remove, .section-add-question, .section-question-remove, .section-question-add-option, .section-question-add-other, .section-question-remove-option");
   if (sectionAction instanceof HTMLElement) {
     updatePlanBSectionAction(sectionAction);
@@ -5584,6 +5954,10 @@ document.addEventListener("click", (event) => {
   if (target.classList.contains("edit-template-link")) {
     openTemplateForm("edit", target.dataset.templateId);
   }
+  if (target.classList.contains("template-association-edit-link")) {
+    if (target.disabled) return;
+    openTemplateForm("edit", target.dataset.templateId, { questionAssociation: true });
+  }
   if (target.classList.contains("copy-template-link")) {
     openTemplateForm("copy", target.dataset.templateId);
   }
@@ -5592,7 +5966,7 @@ document.addEventListener("click", (event) => {
     openTemplateI18nPage(target.dataset.templateId);
   }
   if (target.id === "openTranslationQueryBtn") {
-    window.location.href = "./translation-query.html?v=20260821-11";
+    window.location.href = "./translation-query.html?v=20260831-01";
   }
   if (target.classList.contains("delete-template-link")) {
     openTemplateDeleteDialog(target.dataset.templateId);
@@ -5659,6 +6033,7 @@ if (savedI18nTemplateId) {
     savedTemplate.i18n_uploaded = true;
     seedTemplateI18nTranslations(savedTemplate);
     updateTemplateI18nCompletion(savedTemplate);
+    persistPrototypeSessionCache();
   }
   window.history.replaceState({}, "", `${window.location.pathname}#survey-list`);
 }
