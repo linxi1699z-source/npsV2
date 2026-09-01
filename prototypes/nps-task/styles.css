@@ -2624,8 +2624,7 @@ select {
   color: var(--ant-color-primary);
 }
 
-.association-field-row,
-.association-reuse-row {
+.association-field-row {
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -2633,14 +2632,13 @@ select {
 }
 
 .association-field-row > label {
-  flex: 0 0 70px;
+  flex: 0 0 96px;
   color: var(--ant-color-text-secondary);
   line-height: 32px;
   text-align: right;
 }
 
-.association-field-row .ax-select,
-.association-reuse-row .ax-select {
+.association-field-row .ax-select {
   width: 360px;
 }
 
@@ -2657,7 +2655,7 @@ select {
   text-align: left;
 }
 
-.association-answer-panel {
+.association-select-panel {
   position: absolute;
   z-index: 5;
   top: calc(100% + 4px);
@@ -2673,11 +2671,11 @@ select {
   box-shadow: var(--ant-box-shadow-secondary);
 }
 
-.association-answer-panel.open {
+.association-select-panel.open {
   display: block;
 }
 
-.association-answer-panel label {
+.association-select-panel label {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -2687,32 +2685,43 @@ select {
   cursor: pointer;
 }
 
-.association-answer-panel label:hover {
+.association-select-panel label:hover {
   background: var(--ant-color-fill-selected);
 }
 
-.association-empty-note,
-.association-reuse-title span {
+.association-target-list {
+  width: 360px;
+  max-height: 168px;
+  overflow-y: auto;
+  padding: 6px 12px;
+  border: 1px solid var(--ant-color-border);
+  border-radius: 4px;
+  background: var(--ant-color-bg-container);
+}
+
+.association-target-list label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 30px;
+  padding: 5px 0;
+  color: var(--ant-color-text);
+  line-height: 20px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.association-target-list input {
+  flex: 0 0 auto;
+  margin: 3px 0 0;
+}
+
+.association-empty-note {
   color: var(--ant-color-text-tertiary);
   font-size: 12px;
   line-height: 32px;
 }
 
-.association-reuse-field {
-  align-items: flex-start;
-}
-
-.association-reuse-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.association-reuse-row {
-  margin-bottom: 0;
-}
-
-.association-add-reuse,
 .association-add-condition {
   margin-top: 4px;
 }

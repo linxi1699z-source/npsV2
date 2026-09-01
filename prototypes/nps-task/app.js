@@ -1307,6 +1307,7 @@ function renderTemplates(rows) {
           <div class="table-actions">
             <button class="table-action-button is-primary template-i18n-link" type="button" data-template-id="${escapeText(template.template_id)}" ${i18nDisabled ? "disabled" : ""}>${i18nActionText}</button>
             ${!isSurveyListVariant() ? `<button class="table-action-button is-primary edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${editDisabled ? "disabled" : ""}>编辑模板</button>` : ""}
+            ${isSurveyListVariant() ? `<button class="table-action-button is-primary edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${editDisabled ? "disabled" : ""}>编辑问卷</button>` : ""}
             ${isSurveyListVariant() ? `<button class="table-action-button is-primary template-association-edit-link" type="button" data-template-id="${escapeText(template.template_id)}" ${editDisabled ? "disabled" : ""}>编辑问卷(!)</button>` : ""}
             ${isSurveyListVariant() ? `<button class="table-action-button is-primary copy-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${copyDisabled ? "disabled" : ""}>复制问卷</button>` : ""}
             ${isSurveyListVariant() ? `<button class="table-action-button is-danger delete-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${deleteDisabled ? "disabled" : ""}>删除</button>` : ""}
@@ -4046,9 +4047,10 @@ function getSurveyQuestionNumber(sectionIndex, questionIndex) {
 function normalizeQuestionAssociationConditions(conditions) {
   const source = Array.isArray(conditions) ? conditions : [];
   return source.map((condition) => ({
-    sourceRef: condition.sourceRef || "",
     answers: Array.isArray(condition.answers) ? condition.answers : [],
-    reuseTargets: Array.isArray(condition.reuseTargets) && condition.reuseTargets.length ? condition.reuseTargets : [""],
+    targetRefs: Array.isArray(condition.targetRefs)
+      ? condition.targetRefs
+      : (Array.isArray(condition.reuseTargets) ? condition.reuseTargets.filter(Boolean) : []),
   }));
 }
 
@@ -4068,12 +4070,12 @@ function getQuestionByAssociationReference(reference) {
   return item ? item.question : null;
 }
 
-function getAssociationAnswerSummary(answers) {
-  return answers.length ? answers.join("，") : "请选择答案";
+function getAssociationSelectionSummary(values, placeholder) {
+  return values.length ? values.join("，") : placeholder;
 }
 
-function closeAssociationAnswerPanels() {
-  questionAssociationBody.querySelectorAll(".association-answer-panel.open").forEach((panel) => panel.classList.remove("open"));
+function closeAssociationSelectPanels() {
+  questionAssociationBody.querySelectorAll(".association-select-panel.open").forEach((panel) => panel.classList.remove("open"));
 }
 
 function closeQuestionAssociationDialog() {
@@ -4086,42 +4088,30 @@ function renderQuestionAssociationDialog() {
   if (!activeQuestionAssociation) return;
   const references = getQuestionAssociationReferences();
   const currentIndex = references.findIndex((item) => item.ref === activeQuestionAssociation.currentRef);
-  const priorQuestions = references.slice(0, currentIndex);
   const laterQuestions = references.slice(currentIndex + 1).filter((item) => item.scope === "survey");
   const currentNumber = getSurveyQuestionNumber(activeQuestionAssociation.sectionIndex, activeQuestionAssociation.questionIndex);
+  const currentQuestion = getPlanBSectionQuestion(activeQuestionAssociation.sectionIndex, activeQuestionAssociation.questionIndex);
   const conditionMarkup = activeQuestionAssociation.conditions.map((condition, conditionIndex) => {
-    const answerOptions = getAssociationAnswerOptions(getQuestionByAssociationReference(condition.sourceRef));
+    const answerOptions = getAssociationAnswerOptions(currentQuestion);
     const selectedAnswers = new Set(condition.answers);
+    const selectedTargets = new Set(condition.targetRefs);
     return `
       <section class="association-condition-card" data-condition-index="${conditionIndex}">
         <div class="association-condition-heading">
           <strong>条件 ${conditionIndex + 1}</strong>
           ${activeQuestionAssociation.conditions.length > 1 ? `<button class="association-icon-button association-remove-condition" type="button" data-condition-index="${conditionIndex}" title="删除条件" aria-label="删除条件">−</button>` : ""}
         </div>
-        <div class="association-field-row">
-          <label>前置题目</label>
-          <select class="ax-select association-source-select" data-condition-index="${conditionIndex}">
-            <option value="">请选择前置题目</option>
-            ${priorQuestions.map((item) => `<option value="${item.ref}"${item.ref === condition.sourceRef ? " selected" : ""}>${escapeText(item.label)}</option>`).join("")}
-          </select>
-        </div>
         <div class="association-field-row association-answer-row">
-          <label>对应答案</label>
-          ${condition.sourceRef ? `<div class="association-answer-multi"><button class="ax-select association-answer-trigger" type="button" data-condition-index="${conditionIndex}">${getAssociationAnswerSummary(condition.answers)}</button><div class="association-answer-panel">${answerOptions.map((answer) => `<label><input class="association-answer-checkbox" type="checkbox" value="${escapeText(answer)}" data-condition-index="${conditionIndex}"${selectedAnswers.has(answer) ? " checked" : ""} /> ${escapeText(answer)}</label>`).join("")}</div></div>` : `<span class="association-empty-note">请先选择前置题目</span>`}
+          <label>当前问题答案</label>
+          <div class="association-answer-multi">
+            <button class="ax-select association-answer-trigger" type="button" data-condition-index="${conditionIndex}">${getAssociationSelectionSummary(condition.answers, "请选择答案")}</button>
+            <div class="association-select-panel association-answer-panel">${answerOptions.map((answer) => `<label><input class="association-answer-checkbox" type="checkbox" value="${escapeText(answer)}" data-condition-index="${conditionIndex}"${selectedAnswers.has(answer) ? " checked" : ""} /> ${escapeText(answer)}</label>`).join("")}</div>
+          </div>
         </div>
-        <div class="association-field-row association-reuse-field">
-          <label>条件复用</label>
-          <div class="association-reuse-stack">
-            ${condition.reuseTargets.map((targetRef, reuseIndex) => `
-              <div class="association-reuse-row">
-              <select class="ax-select association-reuse-select" data-condition-index="${conditionIndex}" data-reuse-index="${reuseIndex}">
-                <option value="">请选择复用题目</option>
-                ${laterQuestions.map((item) => `<option value="${item.ref}"${item.ref === targetRef ? " selected" : ""}>${escapeText(item.label)}</option>`).join("")}
-              </select>
-              ${condition.reuseTargets.length > 1 ? `<button class="association-icon-button association-remove-reuse" type="button" data-condition-index="${conditionIndex}" data-reuse-index="${reuseIndex}" title="删除复用题目" aria-label="删除复用题目">−</button>` : ""}
-              </div>
-            `).join("")}
-            <button class="association-icon-button association-add-reuse" type="button" data-condition-index="${conditionIndex}" title="添加复用题目" aria-label="添加复用题目">+</button>
+        <div class="association-field-row">
+          <label>显示问题</label>
+          <div class="association-target-list">
+            ${laterQuestions.map((item) => `<label><input class="association-target-checkbox" type="checkbox" value="${item.ref}" data-condition-index="${conditionIndex}"${selectedTargets.has(item.ref) ? " checked" : ""} /> ${escapeText(item.label)}</label>`).join("") || `<span class="association-empty-note">当前题目后暂无可展示题目</span>`}
           </div>
         </div>
       </section>
@@ -4129,9 +4119,9 @@ function renderQuestionAssociationDialog() {
   }).join("");
 
   questionAssociationBody.innerHTML = `
-    <div class="association-current-question">当前题目：问卷问题 ${currentNumber}</div>
-    ${priorQuestions.length ? conditionMarkup : `<div class="association-empty-state">当前题目前暂无可作为条件的题目。</div>`}
-    ${priorQuestions.length ? `<button class="link-button association-add-condition" type="button">+ 添加条件</button>` : ""}
+    <div class="association-current-question">当前题目：${escapeText(currentQuestion?.title || `问卷问题 ${currentNumber}`)}</div>
+    ${laterQuestions.length ? conditionMarkup : `<div class="association-empty-state">当前题目后暂无可设置展示逻辑的题目。</div>`}
+    ${laterQuestions.length ? `<button class="link-button association-add-condition" type="button">+ 添加条件</button>` : ""}
   `;
 }
 
@@ -4145,7 +4135,7 @@ function openQuestionAssociationDialog(sectionIndex, questionIndex) {
     currentRef,
     conditions: normalizeQuestionAssociationConditions(question.logic_conditions),
   };
-  if (!activeQuestionAssociation.conditions.length) activeQuestionAssociation.conditions = [{ sourceRef: "", answers: [], reuseTargets: [""] }];
+  if (!activeQuestionAssociation.conditions.length) activeQuestionAssociation.conditions = [{ answers: [], targetRefs: [] }];
   questionAssociationLightbox.classList.add("show");
   questionAssociationLightbox.setAttribute("aria-hidden", "false");
   renderQuestionAssociationDialog();
@@ -4155,26 +4145,35 @@ function saveQuestionAssociation() {
   if (!activeQuestionAssociation) return;
   const currentQuestion = getPlanBSectionQuestion(activeQuestionAssociation.sectionIndex, activeQuestionAssociation.questionIndex);
   const conditions = activeQuestionAssociation.conditions.map((condition) => ({
-    sourceRef: condition.sourceRef,
     answers: [...new Set(condition.answers)],
-    reuseTargets: [...new Set(condition.reuseTargets.filter(Boolean))],
+    targetRefs: [...new Set(condition.targetRefs.filter(Boolean))],
   }));
-  if (!conditions.length || conditions.some((condition) => !condition.sourceRef || !condition.answers.length)) {
+  if (!conditions.length || conditions.some((condition) => !condition.answers.length || !condition.targetRefs.length)) {
     showToast("请完善关联条件。");
     return;
   }
+  const selectedAnswers = new Set();
+  if (conditions.some((condition) => condition.answers.some((answer) => {
+    if (selectedAnswers.has(answer)) return true;
+    selectedAnswers.add(answer);
+    return false;
+  }))) {
+    showToast("不同条件的问题答案不允许删除。");
+    return;
+  }
+  const selectedTargetRefs = new Set();
+  if (conditions.some((condition) => condition.targetRefs.some((reference) => {
+    if (selectedTargetRefs.has(reference)) return true;
+    selectedTargetRefs.add(reference);
+    return false;
+  }))) {
+    showToast("不同条件对应显示问题不能重复。");
+    return;
+  }
   currentQuestion.logic_conditions = JSON.parse(JSON.stringify(conditions));
-  conditions.forEach((condition) => {
-    condition.reuseTargets.forEach((reference) => {
-      const match = reference.match(/^survey-(\d+)-(\d+)$/);
-      if (!match) return;
-      const target = getPlanBSectionQuestion(Number(match[1]), Number(match[2]));
-      if (target) target.logic_conditions = JSON.parse(JSON.stringify(conditions));
-    });
-  });
   closeQuestionAssociationDialog();
   renderPlanBQuestionSections();
-  showToast("题目关联已保存。");
+  showToast("问题关联已保存。");
 }
 
 function openQuestionAssociationDeleteDialog(sectionIndex, questionIndex) {
@@ -4197,7 +4196,7 @@ function confirmQuestionAssociationDelete() {
   closeQuestionAssociationDeleteDialog();
   activeQuestionAssociation = null;
   renderPlanBQuestionSections();
-  showToast("题目关联已删除。");
+  showToast("问题关联已删除。");
 }
 
 function renderPlanBQuestionSections() {
@@ -4207,10 +4206,11 @@ function renderPlanBQuestionSections() {
   const renderQuestionCard = (question, sectionIndex, questionIndex) => {
     const questionNumber = getSurveyQuestionNumber(sectionIndex, questionIndex);
     const hasAssociation = Array.isArray(question.logic_conditions) && question.logic_conditions.length > 0;
+    const hasFollowingQuestion = getQuestionAssociationReferences().some((item) => item.scope === "survey" && item.number > questionNumber);
     const associationActions = questionAssociationMode && surveyList ? `
       <div class="question-card-actions">
-        <button class="link-button question-association-trigger" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">${hasAssociation ? "编辑关联" : "题目关联"}</button>
-        ${hasAssociation ? `<button class="link-button danger-link question-association-delete" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除全部关联</button>` : ""}
+        ${hasFollowingQuestion ? `<button class="link-button question-association-trigger" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">${hasAssociation ? "编辑关联" : "问题关联"}</button>` : ""}
+        ${hasFollowingQuestion && hasAssociation ? `<button class="link-button danger-link question-association-delete" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除全部关联</button>` : ""}
         <button class="link-button section-question-remove" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除</button>
       </div>
     ` : `<button class="link-button section-question-remove" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除</button>`;
@@ -5583,25 +5583,30 @@ questionAssociationBody.addEventListener("change", (event) => {
   const target = event.target;
   if (!activeQuestionAssociation) return;
   if (target instanceof HTMLInputElement && target.classList.contains("association-answer-checkbox")) {
-    const condition = activeQuestionAssociation.conditions[Number(target.dataset.conditionIndex)];
+    const conditionIndex = Number(target.dataset.conditionIndex);
+    const condition = activeQuestionAssociation.conditions[conditionIndex];
     if (!condition) return;
+    if (target.checked && activeQuestionAssociation.conditions.some((item, index) => index !== conditionIndex && item.answers.includes(target.value))) {
+      target.checked = false;
+      showToast("不同条件的问题答案不允许删除。");
+      return;
+    }
     condition.answers = [...questionAssociationBody.querySelectorAll(`.association-answer-checkbox[data-condition-index="${target.dataset.conditionIndex}"]:checked`)].map((input) => input.value);
     const trigger = questionAssociationBody.querySelector(`.association-answer-trigger[data-condition-index="${target.dataset.conditionIndex}"]`);
-    if (trigger) trigger.textContent = getAssociationAnswerSummary(condition.answers);
+    if (trigger) trigger.textContent = getAssociationSelectionSummary(condition.answers, "请选择答案");
     return;
   }
-  if (!(target instanceof HTMLSelectElement)) return;
-  const conditionIndex = Number(target.dataset.conditionIndex);
-  const condition = activeQuestionAssociation.conditions[conditionIndex];
-  if (!condition) return;
-  if (target.classList.contains("association-source-select")) {
-    condition.sourceRef = target.value;
-    condition.answers = [];
-    renderQuestionAssociationDialog();
+  if (target instanceof HTMLInputElement && target.classList.contains("association-target-checkbox")) {
+    const conditionIndex = Number(target.dataset.conditionIndex);
+    const condition = activeQuestionAssociation.conditions[conditionIndex];
+    if (!condition) return;
+    if (target.checked && activeQuestionAssociation.conditions.some((item, index) => index !== conditionIndex && item.targetRefs.includes(target.value))) {
+      target.checked = false;
+      showToast("不同条件对应显示问题不能重复。");
+      return;
+    }
+    condition.targetRefs = [...questionAssociationBody.querySelectorAll(`.association-target-checkbox[data-condition-index="${target.dataset.conditionIndex}"]:checked`)].map((input) => input.value);
     return;
-  }
-  if (target.classList.contains("association-reuse-select")) {
-    condition.reuseTargets[Number(target.dataset.reuseIndex)] = target.value;
   }
 });
 questionAssociationBody.addEventListener("click", (event) => {
@@ -5610,12 +5615,12 @@ questionAssociationBody.addEventListener("click", (event) => {
   const answerTrigger = target.closest(".association-answer-trigger");
   if (answerTrigger instanceof HTMLElement) {
     const panel = answerTrigger.nextElementSibling;
-    closeAssociationAnswerPanels();
+    closeAssociationSelectPanels();
     if (panel instanceof HTMLElement) panel.classList.toggle("open");
     return;
   }
   if (target.classList.contains("association-add-condition")) {
-    activeQuestionAssociation.conditions.push({ sourceRef: "", answers: [], reuseTargets: [""] });
+    activeQuestionAssociation.conditions.push({ answers: [], targetRefs: [] });
     renderQuestionAssociationDialog();
     return;
   }
@@ -5624,23 +5629,12 @@ questionAssociationBody.addEventListener("click", (event) => {
     renderQuestionAssociationDialog();
     return;
   }
-  if (target.classList.contains("association-add-reuse")) {
-    const condition = activeQuestionAssociation.conditions[Number(target.dataset.conditionIndex)];
-    if (condition) condition.reuseTargets.push("");
-    renderQuestionAssociationDialog();
-    return;
-  }
-  if (target.classList.contains("association-remove-reuse")) {
-    const condition = activeQuestionAssociation.conditions[Number(target.dataset.conditionIndex)];
-    if (condition) condition.reuseTargets.splice(Number(target.dataset.reuseIndex), 1);
-    renderQuestionAssociationDialog();
-  }
 });
 document.addEventListener("click", (event) => {
   if (!activeQuestionAssociation) return;
   const target = event.target;
   if (!(target instanceof Element) || !target.closest(".association-answer-multi")) {
-    closeAssociationAnswerPanels();
+    closeAssociationSelectPanels();
   }
 });
 document.getElementById("saveQuestionAssociation").addEventListener("click", saveQuestionAssociation);
