@@ -4062,6 +4062,7 @@ function getAssociationAnswerOptions(question) {
   if (["单选题", "多选题"].includes(question.type)) {
     return normalizeQuestionOptions(question.choiceOptions).map((option) => option.label).filter(Boolean);
   }
+  if (question.type === "开放题") return ["有填写开放题"];
   return ["有填写", "未填写"];
 }
 
@@ -4158,7 +4159,7 @@ function saveQuestionAssociation() {
     selectedAnswers.add(answer);
     return false;
   }))) {
-    showToast("不同条件的问题答案不允许删除。");
+    showToast("不同条件的问题答案不允许重复。");
     return;
   }
   const selectedTargetRefs = new Set();
@@ -4207,10 +4208,11 @@ function renderPlanBQuestionSections() {
     const questionNumber = getSurveyQuestionNumber(sectionIndex, questionIndex);
     const hasAssociation = Array.isArray(question.logic_conditions) && question.logic_conditions.length > 0;
     const hasFollowingQuestion = getQuestionAssociationReferences().some((item) => item.scope === "survey" && item.number > questionNumber);
+    const supportsAssociation = !["文本描述", "纯文本"].includes(question.type);
     const associationActions = questionAssociationMode && surveyList ? `
       <div class="question-card-actions">
-        ${hasFollowingQuestion ? `<button class="link-button question-association-trigger" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">${hasAssociation ? "编辑关联" : "问题关联"}</button>` : ""}
-        ${hasFollowingQuestion && hasAssociation ? `<button class="link-button danger-link question-association-delete" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除全部关联</button>` : ""}
+        ${supportsAssociation && hasFollowingQuestion ? `<button class="link-button question-association-trigger" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">${hasAssociation ? "编辑关联" : "问题关联"}</button>` : ""}
+        ${supportsAssociation && hasFollowingQuestion && hasAssociation ? `<button class="link-button danger-link question-association-delete" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除全部关联</button>` : ""}
         <button class="link-button section-question-remove" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除</button>
       </div>
     ` : `<button class="link-button section-question-remove" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除</button>`;
@@ -5588,7 +5590,7 @@ questionAssociationBody.addEventListener("change", (event) => {
     if (!condition) return;
     if (target.checked && activeQuestionAssociation.conditions.some((item, index) => index !== conditionIndex && item.answers.includes(target.value))) {
       target.checked = false;
-      showToast("不同条件的问题答案不允许删除。");
+      showToast("不同条件的问题答案不允许重复。");
       return;
     }
     condition.answers = [...questionAssociationBody.querySelectorAll(`.association-answer-checkbox[data-condition-index="${target.dataset.conditionIndex}"]:checked`)].map((input) => input.value);
