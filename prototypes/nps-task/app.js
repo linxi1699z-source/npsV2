@@ -5766,8 +5766,8 @@ Object.entries(audienceRegionInputMap).forEach(([region, input]) => {
   input.addEventListener("change", () => {
     const file = input.files && input.files[0];
     if (!file) return;
-    if (!/\.(xlsx|csv)$/i.test(file.name)) {
-      showToast("仅支持上传 .xlsx、.csv 文件。");
+    if (!/\.xlsx$/i.test(file.name)) {
+      showToast("仅支持上传 .xlsx 文件。");
       input.value = "";
       return;
     }
