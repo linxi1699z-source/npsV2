@@ -733,6 +733,10 @@ select {
   width: var(--content-width);
 }
 
+#taskPanel .list-area {
+  top: 124px;
+}
+
 #taskPanel .ax-table {
   width: max(100%, 1960px);
   min-width: 1960px;
