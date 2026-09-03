@@ -734,7 +734,7 @@ select {
 }
 
 #taskPanel .ax-table {
-  width: 1960px;
+  width: max(100%, 1960px);
   min-width: 1960px;
 }
 
@@ -1196,6 +1196,10 @@ select {
 
 .tpl-version {
   width: 160px;
+}
+
+.tpl-sync-status {
+  width: 92px;
 }
 
 .tpl-updated {
