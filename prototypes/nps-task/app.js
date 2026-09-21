@@ -310,24 +310,24 @@ const I18N_LANGUAGES = [
 ];
 
 const audienceUsers = [
-  { task_id: "10001", ringconn_id: "RC10001001", delivery_region: "中国大陆", registered_at: "2024-11-18", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
-  { task_id: "10001", ringconn_id: "RC10001002", delivery_region: "美区", registered_at: "2025-02-07", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
-  { task_id: "10001", ringconn_id: "RC10001003", delivery_region: "英区", registered_at: "2023-09-26", user_status: "近 3 月内已投放", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
-  { task_id: "10002", ringconn_id: "RC10002001", delivery_region: "英区", registered_at: "2024-08-11", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已关闭" },
-  { task_id: "10002", ringconn_id: "RC10002002", delivery_region: "中国大陆", registered_at: "2025-12-03", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
-  { task_id: "10002", ringconn_id: "RC10002003", delivery_region: "英区", registered_at: "2024-03-14", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
-  { task_id: "10003", ringconn_id: "RC10003001", delivery_region: "美区", registered_at: "2023-07-09", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
-  { task_id: "10003", ringconn_id: "RC10003002", delivery_region: "英区", registered_at: "2024-10-21", user_status: "近 3 月内已投放", exposure_status: "未曝光", delivery_status: "已关闭" },
-  { task_id: "10003", ringconn_id: "RC10003003", delivery_region: "中国大陆", registered_at: "2026-01-06", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
-  { task_id: "10004", ringconn_id: "RC10004001", delivery_region: "英区", registered_at: "2025-04-02", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
-  { task_id: "10004", ringconn_id: "RC10004002", delivery_region: "英区", registered_at: "2024-12-19", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
-  { task_id: "10004", ringconn_id: "RC10004003", delivery_region: "美区", registered_at: "2022-06-30", user_status: "APP 版本过低", exposure_status: "未曝光", delivery_status: "已关闭" },
-  { task_id: "10005", ringconn_id: "RC10005001", delivery_region: "中国大陆", registered_at: "2024-05-12", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
-  { task_id: "10005", ringconn_id: "RC10005002", delivery_region: "英区", registered_at: "2025-08-24", user_status: "非区域内用户", exposure_status: "未曝光", delivery_status: "未开始" },
-  { task_id: "10005", ringconn_id: "RC10005003", delivery_region: "英区", registered_at: "2023-11-05", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
-  { task_id: "10006", ringconn_id: "RC10006001", delivery_region: "中国大陆", registered_at: "2025-01-16", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
-  { task_id: "10006", ringconn_id: "RC10006002", delivery_region: "美区", registered_at: "2026-02-09", user_status: "APP 版本过低", exposure_status: "已曝光", delivery_status: "已关闭" },
-  { task_id: "10006", ringconn_id: "RC10006003", delivery_region: "英区", registered_at: "2024-09-17", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10001", user_id: "34546", delivery_region: "中国大陆", registered_at: "2024-11-18", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10001", user_id: "34547", delivery_region: "美区", registered_at: "2025-02-07", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10001", user_id: "34548", delivery_region: "英区", registered_at: "2023-09-26", user_status: "近 3 月内已投放", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10002", user_id: "34549", delivery_region: "英区", registered_at: "2024-08-11", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已关闭" },
+  { task_id: "10002", user_id: "34550", delivery_region: "中国大陆", registered_at: "2025-12-03", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10002", user_id: "34551", delivery_region: "英区", registered_at: "2024-03-14", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10003", user_id: "34552", delivery_region: "美区", registered_at: "2023-07-09", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10003", user_id: "34553", delivery_region: "英区", registered_at: "2024-10-21", user_status: "近 3 月内已投放", exposure_status: "未曝光", delivery_status: "已关闭" },
+  { task_id: "10003", user_id: "34554", delivery_region: "中国大陆", registered_at: "2026-01-06", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10004", user_id: "34555", delivery_region: "英区", registered_at: "2025-04-02", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10004", user_id: "34556", delivery_region: "英区", registered_at: "2024-12-19", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10004", user_id: "34557", delivery_region: "美区", registered_at: "2022-06-30", user_status: "APP 版本过低", exposure_status: "未曝光", delivery_status: "已关闭" },
+  { task_id: "10005", user_id: "34558", delivery_region: "中国大陆", registered_at: "2024-05-12", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10005", user_id: "34559", delivery_region: "英区", registered_at: "2025-08-24", user_status: "非区域内用户", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10005", user_id: "34560", delivery_region: "英区", registered_at: "2023-11-05", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10006", user_id: "34561", delivery_region: "中国大陆", registered_at: "2025-01-16", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10006", user_id: "34562", delivery_region: "美区", registered_at: "2026-02-09", user_status: "APP 版本过低", exposure_status: "已曝光", delivery_status: "已关闭" },
+  { task_id: "10006", user_id: "34563", delivery_region: "英区", registered_at: "2024-09-17", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
 ];
 
 const AUDIENCE_REGION_ORDER = ["美区", "英区", "中国大陆"];
@@ -344,7 +344,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-08-20 16:40",
-    min_version: "V4.X(待定)",
+    min_version: "V4.6.0",
     data_center_sync: "synced",
     defer_question_i18n_keys: true,
     app_questions: [
@@ -368,7 +368,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-08-20 16:20",
-    min_version: "V4.X(待定)",
+    min_version: "V4.6.0",
     data_center_sync: "synced",
     defer_question_i18n_keys: true,
     popup_copy_mode: "用研",
@@ -389,7 +389,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-31 10:10",
-    min_version: "V4.X(待定)",
+    min_version: "V4.6.0",
     questions: [
       { type: "评分(普通)", title: "您对生理周期监测体验满意吗？", subtitle: "", options: "1-10" },
     ],
@@ -405,7 +405,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-31 10:00",
-    min_version: "V4.X(待定)",
+    min_version: "V4.6.0",
     questions: [
       { type: "评分(普通)", title: "您对生理周期功能满意吗？", subtitle: "", options: "1-10" },
     ],
@@ -421,7 +421,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-27 10:20",
-    min_version: "V4.X(待定)",
+    min_version: "V4.6.0",
     i18n_bound_keys: {
       app_display_name: "nps.10010.display_name_1",
       popup_copy: "nps.10010.popup_copy_1",
@@ -444,7 +444,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-27 09:50",
-    min_version: "V4.X(待定)",
+    min_version: "V4.6.0",
     i18n_uploaded: true,
     popup_copy_mode: "用研",
     popup_copy: SURVEY_POPUP_COPY_PRESETS.用研,
@@ -502,7 +502,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-06-23 14:10",
-    min_version: "V4.X(待定)",
+    min_version: "V4.6.0",
     questions: [
       { type: "评分(普通)", title: "您对睡眠分析结果满意吗？", subtitle: "", options: "1-10" },
     ],
@@ -518,7 +518,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-09 16:20",
-    min_version: "V4.X(待定)",
+    min_version: "V4.6.0",
     questionnaire_title: "问卷",
     questionnaire_description: "根据您的使用感受，是否认同以下描述？",
     questionnaire_remark: "5=非常认同，1=非常不认同",
@@ -540,7 +540,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-09 16:10",
-    min_version: "V4.X(待定)",
+    min_version: "V4.6.0",
     questionnaire_title: "问卷",
     questionnaire_description: "根据您对App的设计感受，是否认同以下描述？",
     questionnaire_remark: "5=非常认同，1=非常不认同",
@@ -563,7 +563,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-09 16:00",
-    min_version: "V4.X(待定)",
+    min_version: "V4.6.0",
     questionnaire_title: "问卷",
     questionnaire_description: "",
     questionnaire_remark: "",
@@ -614,7 +614,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-06-23 11:20",
-    min_version: "V4.X(待定)",
+    min_version: "V4.6.0",
     questions: [
       { type: "单选题", title: "您最常查看哪类运动数据？", subtitle: "", options: "步数, 卡路里, 活动时长, 其他" },
     ],
@@ -630,7 +630,7 @@ const npsTemplates = [
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-06-23 10:00",
-    min_version: "V4.X(待定)",
+    min_version: "V4.6.0",
     questions: [
       { type: "评分(普通)", title: "您对整体功能体验满意吗？", subtitle: "", options: "1-10" },
       { type: "多选题", title: "请选择您关注的功能分组", subtitle: "", options: "睡眠, 计划, 健康画像, AI Partner" },
@@ -744,7 +744,7 @@ const taskName = document.getElementById("taskName");
 const taskScene = document.getElementById("taskScene");
 const taskStatus = document.getElementById("taskStatus");
 const taskDateRange = document.getElementById("taskDateRange");
-const audienceRingconnIdSearch = document.getElementById("audienceRingconnIdSearch");
+const audienceUserIdSearch = document.getElementById("audienceUserIdSearch");
 const audienceDeliveryStatusTrigger = document.getElementById("audienceDeliveryStatusTrigger");
 const audienceDeliveryStatusPanel = document.getElementById("audienceDeliveryStatusPanel");
 const audienceExposureStatus = document.getElementById("audienceExposureStatus");
@@ -1631,7 +1631,7 @@ function getAudienceBaseRows() {
     : [...audienceUsers];
   return rows.sort((left, right) => (
     AUDIENCE_REGION_ORDER.indexOf(left.delivery_region) - AUDIENCE_REGION_ORDER.indexOf(right.delivery_region)
-    || left.ringconn_id.localeCompare(right.ringconn_id)
+    || left.user_id.localeCompare(right.user_id)
   ));
 }
 
@@ -1647,7 +1647,7 @@ function renderAudienceRows(rows) {
   audienceRows.innerHTML = rows.length
     ? rows.map((item) => `
       <tr>
-        <td>${escapeText(item.ringconn_id)}</td>
+        <td>${escapeText(item.user_id)}</td>
         <td>${escapeText(item.delivery_region)}</td>
         <td>${escapeText(item.registered_at)}</td>
         <td>${escapeText(item.user_status)}</td>
@@ -1681,12 +1681,12 @@ function resetAudienceStatusFilters() {
 }
 
 function applyAudienceFilters() {
-  const ringconnId = audienceRingconnIdSearch.value.trim().toLowerCase();
+  const userId = audienceUserIdSearch.value.trim();
   const exposureStatus = audienceExposureStatus.value;
   const userStatus = audienceUserStatus.value;
   const deliveryRegion = audienceDeliveryRegion.value;
   filteredAudienceUsers = getAudienceBaseRows().filter((item) => (
-    (!ringconnId || item.ringconn_id.toLowerCase().includes(ringconnId))
+    (!userId || item.user_id.includes(userId))
     && (!audienceDeliveryStatuses.size || audienceDeliveryStatuses.has(item.delivery_status))
     && (exposureStatus === "所有曝光状态" || item.exposure_status === exposureStatus)
     && (userStatus === "所有状态" || item.user_status === userStatus)
@@ -1697,7 +1697,7 @@ function applyAudienceFilters() {
 
 function openAudiencePage(taskId) {
   currentAudienceTaskId = taskId || "";
-  audienceRingconnIdSearch.value = "";
+  audienceUserIdSearch.value = "";
   resetAudienceStatusFilters();
   setActiveNav("task");
   setTemplateLayout(false);
@@ -3290,10 +3290,10 @@ function updateTemplateChannelTrigger() {
   updateTemplateVersionVisibility();
 }
 
-const TEMPLATE_MIN_VERSION_OPTIONS = ["V3.13.2", "V3.16", "V4.X(待定)"];
+const TEMPLATE_MIN_VERSION_OPTIONS = ["V3.13.2", "V3.16", "V4.6.0"];
 
 function isSurveyV4PendingVersion() {
-  return isSurveyListVariant() && templateFormFields.androidVersion.value === "V4.X(待定)";
+  return isSurveyListVariant() && templateFormFields.androidVersion.value === "V4.6.0";
 }
 
 function isSurveyGlobalQuestionEditable() {
@@ -3301,7 +3301,7 @@ function isSurveyGlobalQuestionEditable() {
 }
 
 function updateSurveyMinVersionOptions() {
-  const options = ["V4.X(待定)"];
+  const options = ["V4.6.0"];
   const currentValue = templateFormFields.androidVersion.value;
   templateFormFields.androidVersion.innerHTML = options.map((value) => `<option value="${value}">${value}</option>`).join("");
   templateFormFields.androidVersion.value = options.includes(currentValue) ? currentValue : options[0];
@@ -5113,7 +5113,7 @@ function fillTemplateVersionFields(versionText) {
 function normalizeTemplateMinVersionValue(value) {
   const rawValue = String(value || "");
   if (TEMPLATE_MIN_VERSION_OPTIONS.includes(rawValue)) return rawValue;
-  if (/V4(?:\.|\b)/i.test(rawValue)) return "V4.X(待定)";
+  if (/V4(?:\.|\b)/i.test(rawValue)) return "V4.6.0";
   if (/V3\.16/i.test(rawValue)) return "V3.16";
   if (/V3\.13(?:\.2)?/i.test(rawValue)) return "V3.13.2";
   return "";

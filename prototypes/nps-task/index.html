@@ -385,7 +385,7 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="file-note">支持.xlsx格式文件，文件大小不超过 5M。</div>
+                <div class="file-note">支持.xlsx格式文件，文件大小不超过 5M。<a class="link-button" href="https://nzx0bhokwn.feishu.cn/file/REnjbpgQgoDFv0xkxYwcoYHZn7c" target="_blank" rel="noopener noreferrer">下载模板</a></div>
                 <div class="form-error file-error" id="formAudienceFilesError"></div>
               </div>
             </div>
@@ -401,8 +401,8 @@
           <form class="audience-search-panel" id="audienceSearchForm">
             <div class="search-fields audience-search-fields">
               <div class="field-group">
-                <label class="field-label wide" for="audienceRingconnIdSearch">RingConn ID</label>
-                <input class="ax-input" id="audienceRingconnIdSearch" type="text" autocomplete="off" />
+                <label class="field-label wide" for="audienceUserIdSearch">用户 ID</label>
+                <input class="ax-input" id="audienceUserIdSearch" type="text" inputmode="numeric" autocomplete="off" />
               </div>
 
               <div class="field-group">
@@ -460,7 +460,7 @@
               <table class="ax-table audience-table">
                 <thead>
                   <tr>
-                    <th class="aud-ringconn">RingConn ID</th>
+                    <th class="aud-ringconn">用户 ID</th>
                     <th class="aud-region">投放区域</th>
                     <th class="aud-date">注册时间</th>
                     <th class="aud-user-status">用户状态</th>
@@ -554,7 +554,7 @@
                       <option value="">请选择版本</option>
                       <option value="V3.13.2">V3.13.2</option>
                       <option value="V3.16">V3.16</option>
-                      <option value="V4.X(待定)">V4.X(待定)</option>
+                      <option value="V4.6.0">V4.6.0</option>
                     </select>
                     <span class="version-range-field">至</span>
                     <input class="ax-input version-input version-range-field" id="templateAndroidVersionEnd" type="text" placeholder="可为空" />
@@ -565,7 +565,7 @@
                       <option value="">请选择版本</option>
                       <option value="V3.13.2">V3.13.2</option>
                       <option value="V3.16">V3.16</option>
-                      <option value="V4.X(待定)">V4.X(待定)</option>
+                      <option value="V4.6.0">V4.6.0</option>
                     </select>
                     <span class="version-range-field">至</span>
                     <input class="ax-input version-input version-range-field" id="templateIosVersionEnd" type="text" placeholder="可为空" />
@@ -909,6 +909,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260903-06"></script>
+    <script src="./app.js?v=20260921-02"></script>
   </body>
 </html>
