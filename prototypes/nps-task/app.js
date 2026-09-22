@@ -2974,9 +2974,18 @@ function openTemplateI18nPage(templateId) {
     templateName: template.template_name,
     questionnaireType: getSurveyListQuestionnaireType(getTemplateRawType(template)),
     existingKeys: hasExistingKeys ? "1" : "0",
-    rows: JSON.stringify(workflowRows),
   });
-  window.location.href = `./i18n-translation-workflow.html?v=20260903-03&${workflowParams.toString()}`;
+  try {
+    window.sessionStorage.setItem("nps-admin-prototype-i18n-workflow-v1", JSON.stringify({
+      templateId: template.template_id,
+      templateName: template.template_name,
+      existingKeys: hasExistingKeys,
+      rows: workflowRows,
+    }));
+  } catch {
+    // Keep the lightweight route available even when session storage is unavailable.
+  }
+  window.location.href = `./i18n-translation-workflow.html?v=20260922-01&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {

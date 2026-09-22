@@ -31,12 +31,16 @@
     <div class="toast" id="toast"></div>
     <script>
       const params = new URLSearchParams(window.location.search);
-      const templateId = params.get("templateId") || "10010";
-      const templateName = params.get("templateName") || "健康体验调研问卷";
-      const existingKeys = params.get("existingKeys") === "1";
+      let workflowCache = null;
+      try { workflowCache = JSON.parse(window.sessionStorage.getItem("nps-admin-prototype-i18n-workflow-v1") || "null"); } catch { workflowCache = null; }
+      const requestedTemplateId = params.get("templateId");
+      const templateId = requestedTemplateId || workflowCache?.templateId || "10010";
+      if (workflowCache && String(workflowCache.templateId) !== String(templateId)) workflowCache = null;
+      const templateName = params.get("templateName") || workflowCache?.templateName || "健康体验调研问卷";
+      const existingKeys = params.has("existingKeys") ? params.get("existingKeys") === "1" : Boolean(workflowCache?.existingKeys);
       const languageDefinitions = [["zh_cn","中文"],["zh_tw","繁体中文"],["en","英文"],["ja","日本语"],["de","德语"],["es","西班牙语"],["fr","法语"],["ar","阿拉伯语"],["cs","捷克语"],["tr","土耳其语"],["pl","波兰语"],["fi","芬兰语"],["it","意大利语"],["hu","匈牙利语"],["ro","罗马尼亚语"],["ko","韩语"],["lt","立陶宛语"],["ms","马来语"]].map(([key,label]) => ({ key,label }));
       const fallbackRows = [{name:"问卷名称(用于 APP 展示)",value:templateName,module:"base",databaseField:"app_display_name"},{name:"弹窗文案",value:"我们一直致力于从用户视角出发，打造更专业、更易用的健康管理体验。",module:"base",databaseField:"popup_copy"},{name:"问题标题",value:"您对近期健康体验满意吗？",module:"question",questionIndex:1,questionType:"评分",questionId:`${templateId}001`,databaseField:"title"},{name:"最小值描述",value:"非常不满意",module:"question",questionIndex:1,questionType:"评分",questionId:`${templateId}001`,databaseField:"min_desc"},{name:"最大值描述",value:"非常满意",module:"question",questionIndex:1,questionType:"评分",questionId:`${templateId}001`,databaseField:"max_desc"}];
-      let rows; try { rows = JSON.parse(params.get("rows") || "[]"); } catch { rows = []; }
+      let rows; try { rows = JSON.parse(params.get("rows") || JSON.stringify(workflowCache?.rows || [])); } catch { rows = []; }
       rows = (rows.length ? rows : fallbackRows).filter((row) => String(row.value || "").trim()).map((row,index) => ({ ...row,index,bindingKey:existingKeys ? row.bindingKey || "" : "" }));
       const candidateKeys = ["nps.10004.app_display_name_1","nps.10004.popup_copy_1","nps.10005.global_question.1005001.title_1","nps.10005.global_question.1005001.subtitle_1","nps.10005.global_question.1005001.min_desc_1","nps.10005.global_question.1005001.max_desc_1","nps.10003.question.1003001.title_1","nps.10003.question.1003001.subtitle_1","nps.10003.question.1003001.min_desc_1","nps.10003.question.1003001.max_desc_1"];
       const translations = new Map(); let uploadedFile = null; let uploadLocked = false; let editLocked = false; let toastTimer;
