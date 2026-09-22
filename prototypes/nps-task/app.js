@@ -327,7 +327,7 @@ const audienceUsers = [
   { task_id: "10005", user_id: "34560", delivery_region: "英区", registered_at: "2023-11-05", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
   { task_id: "10006", user_id: "34561", delivery_region: "中国大陆", registered_at: "2025-01-16", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
   { task_id: "10006", user_id: "34562", delivery_region: "美区", registered_at: "2026-02-09", user_status: "APP 版本过低", exposure_status: "已曝光", delivery_status: "已关闭" },
-  { task_id: "10006", user_id: "34563", delivery_region: "英区", registered_at: "2024-09-17", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10006", user_id: "34563", delivery_region: "英区", registered_at: "2024-09-17", user_status: "同步异常", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
 ];
 
 const AUDIENCE_REGION_ORDER = ["美区", "英区", "中国大陆"];
@@ -698,8 +698,6 @@ let filteredTasks = [...tasks];
 let filteredTemplates = [...npsTemplates];
 let selectedTaskDeleteId = null;
 let selectedTemplateDeleteId = null;
-const selectedTemplateIds = new Set();
-let templateSyncTimer = null;
 let exportTimer = null;
 let formMode = "add";
 let currentAudienceTaskId = "";
@@ -728,13 +726,10 @@ let activeI18nTranslation = null;
 const taskRows = document.getElementById("taskRows");
 const audienceRows = document.getElementById("audienceRows");
 const templateRows = document.getElementById("templateRows");
-const templateSelectAll = document.getElementById("templateSelectAll");
-const syncTemplatesBtn = document.getElementById("syncTemplatesBtn");
 const rowCount = document.getElementById("rowCount");
 const audienceRowCount = document.getElementById("audienceRowCount");
 const templateRowCount = document.getElementById("templateRowCount");
 const templateDeleteLightbox = document.getElementById("templateDeleteLightbox");
-const templateSyncLightbox = document.getElementById("templateSyncLightbox");
 const templateNav = document.getElementById("templateNav");
 const surveyListNav = document.getElementById("surveyListNav");
 const translationNav = document.getElementById("translationNav");
@@ -754,7 +749,6 @@ const templateNameSearch = document.getElementById("templateNameSearch");
 const templateStatusSearch = document.getElementById("templateStatusSearch");
 const templateSceneSearch = document.getElementById("templateSceneSearch");
 const templateTypeSearch = document.getElementById("templateTypeSearch");
-const templateSyncStatusSearch = document.getElementById("templateSyncStatusSearch");
 const dateError = document.getElementById("dateError");
 const datePanel = document.getElementById("datePanel");
 const rangePicker = document.getElementById("rangePicker");
@@ -1271,10 +1265,6 @@ function syncTemplateNameOptions(templateName) {
   }
 }
 
-function getTemplateSyncStatus(template) {
-  return template.data_center_sync === "synced" ? "已同步" : "待同步";
-}
-
 function renderTemplates(rows) {
   const activeRows = rows.filter((template) => !template.is_deleted);
   const variantRows = usesSectionQuestionEditor()
@@ -1292,7 +1282,6 @@ function renderTemplates(rows) {
     const minVersionText = isSurveyListVariant() && templateType === "常规问卷"
       ? "--"
       : (template.min_version || "-");
-    const syncStatusText = getTemplateSyncStatus(template);
     const isGlobalPopupQuestionnaire = isPopupAppQuestionnaireType(templateType);
     const isLegacySurveyQuestionnaire = isSurveyListVariant() && ["V3.13.2", "V3.16"].includes(normalizeTemplateMinVersionValue(template.min_version));
     const isThirdPartyRegularQuestionnaire = isSurveyListVariant() && templateType === "常规问卷" && Boolean(template.is_third_party_questionnaire);
@@ -1300,17 +1289,14 @@ function renderTemplates(rows) {
     const editDisabled = isLegacySurveyQuestionnaire;
     const copyDisabled = isLegacySurveyQuestionnaire;
     const deleteDisabled = isSurveyListVariant() && statusText === "生效中";
-    const syncDisabled = isSurveyListVariant() && statusText !== "生效中";
     const i18nActionText = "编辑多语言";
     return `
       <tr data-template-id="${escapeText(template.template_id)}">
-        <td class="tpl-select"><input class="template-select" type="checkbox" value="${escapeText(template.template_id)}" aria-label="选择问卷 ${escapeText(template.template_name)}" title="${syncDisabled ? "仅生效中问卷允许同步" : "选择问卷"}" ${selectedTemplateIds.has(template.template_id) ? "checked" : ""} ${syncDisabled ? "disabled" : ""} /></td>
         <td>${escapeText(template.template_id)}</td>
         <td>${escapeText(template.template_name)}</td>
         <td><span class="status-pill ${statusClass}">${escapeText(statusText)}</span></td>
         <td>${escapeText(templateType || "-")}</td>
         <td>${escapeText(minVersionText)}</td>
-        <td><span class="status-pill ${syncStatusText === "已同步" ? "status-success" : "status-warning"}">${syncStatusText}</span></td>
         <td>${escapeText(template.creator)}</td>
         <td>${escapeText(template.updated_at)}</td>
         <td>
@@ -1325,69 +1311,7 @@ function renderTemplates(rows) {
       </tr>
     `;
   }).join("");
-
-  if (templateSelectAll) {
-    const syncableRows = displayRows.filter((template) => getSurveyListStatus(template.template_status) === "生效中");
-    templateSelectAll.checked = syncableRows.length > 0 && syncableRows.every((template) => selectedTemplateIds.has(template.template_id));
-    templateSelectAll.indeterminate = syncableRows.some((template) => selectedTemplateIds.has(template.template_id)) && !templateSelectAll.checked;
-    templateSelectAll.disabled = syncableRows.length === 0;
-  }
-  updateTemplateSyncButton();
   templateRowCount.textContent = `共 ${variantRows.length} 条`;
-}
-
-function updateTemplateSyncButton() {
-  if (!syncTemplatesBtn) return;
-  syncTemplatesBtn.disabled = selectedTemplateIds.size === 0;
-}
-
-function openTemplateSyncDialog() {
-  if (!selectedTemplateIds.size) {
-    showToast("请先选择需要同步的问卷。");
-    return;
-  }
-  templateSyncLightbox.classList.add("show");
-  templateSyncLightbox.setAttribute("aria-hidden", "false");
-}
-
-function closeTemplateSyncDialog() {
-  window.clearTimeout(templateSyncTimer);
-  document.getElementById("confirmTemplateSync").disabled = false;
-  document.getElementById("confirmTemplateSync").textContent = "确定";
-  templateSyncLightbox.classList.remove("show");
-  templateSyncLightbox.setAttribute("aria-hidden", "true");
-}
-
-function confirmTemplateSync() {
-  const templatesToSync = npsTemplates.filter((template) => selectedTemplateIds.has(template.template_id) && !template.is_deleted && isActiveSurveyTemplate(template));
-  if (!templatesToSync.length) {
-    closeTemplateSyncDialog();
-    showToast("请先选择需要同步的问卷。");
-    return;
-  }
-  const button = document.getElementById("confirmTemplateSync");
-  button.disabled = true;
-  button.textContent = "同步中...";
-  window.clearTimeout(templateSyncTimer);
-  templateSyncTimer = window.setTimeout(() => {
-    const allCentersSucceeded = templatesToSync.every((template) => template.data_center_sync !== "failed");
-    button.disabled = false;
-    button.textContent = "确定";
-    if (allCentersSucceeded) {
-      templatesToSync.forEach((template) => {
-        template.updated_at = formatDateMinute(new Date());
-        template.data_center_sync = "synced";
-      });
-      selectedTemplateIds.clear();
-      persistPrototypeSessionCache();
-      closeTemplateSyncDialog();
-      applyTemplateFilters();
-      showToast("问卷已同步到各个数据中心。");
-      return;
-    }
-    closeTemplateSyncDialog();
-    showToast("问卷同步失败，请稍后重试。");
-  }, 850);
 }
 
 function applyTemplateFilters() {
@@ -1395,7 +1319,6 @@ function applyTemplateFilters() {
   const statusValue = templateStatusSearch.value;
   const sceneValue = templateSceneSearch ? templateSceneSearch.value : "所有功能模块";
   const typeValue = templateTypeSearch.value;
-  const syncStatusValue = templateSyncStatusSearch ? templateSyncStatusSearch.value : "所有状态";
 
   filteredTemplates = npsTemplates.filter((template) => {
     const nameOk = !nameValue || template.template_name.includes(nameValue);
@@ -1408,8 +1331,7 @@ function applyTemplateFilters() {
       ? getSurveyListQuestionnaireType(getTemplateRawType(template))
       : getTemplateDisplayType(getTemplateRawType(template));
     const typeOk = typeValue === "所有问卷类型" || templateType === typeValue;
-    const syncStatusOk = syncStatusValue === "所有状态" || getTemplateSyncStatus(template) === syncStatusValue;
-    return !template.is_deleted && nameOk && statusOk && sceneOk && typeOk && syncStatusOk && (!usesSectionQuestionEditor() || getTemplateDisplayType(getTemplateRawType(template)) !== "分组问卷");
+    return !template.is_deleted && nameOk && statusOk && sceneOk && typeOk && (!usesSectionQuestionEditor() || getTemplateDisplayType(getTemplateRawType(template)) !== "分组问卷");
   });
 
   renderTemplates(filteredTemplates);
@@ -5436,7 +5358,6 @@ function confirmTemplateDelete() {
     return;
   }
   template.is_deleted = true;
-  selectedTemplateIds.delete(template.template_id);
   template.updated_at = formatDateMinute(new Date());
   persistPrototypeSessionCache();
   closeTemplateDeleteDialog();
@@ -6026,36 +5947,6 @@ document.getElementById("confirmTemplateDelete").addEventListener("click", confi
 document.getElementById("cancelTemplateDelete").addEventListener("click", closeTemplateDeleteDialog);
 templateDeleteLightbox.addEventListener("click", (event) => {
   if (event.target === templateDeleteLightbox) closeTemplateDeleteDialog();
-});
-templateRows.addEventListener("change", (event) => {
-  const target = event.target;
-  if (!(target instanceof HTMLInputElement) || !target.classList.contains("template-select")) return;
-  if (target.checked) {
-    selectedTemplateIds.add(target.value);
-  } else {
-    selectedTemplateIds.delete(target.value);
-  }
-  const visibleRows = [...templateRows.querySelectorAll(".template-select:not(:disabled)")];
-  if (templateSelectAll) {
-    templateSelectAll.checked = visibleRows.length > 0 && visibleRows.every((input) => input.checked);
-    templateSelectAll.indeterminate = visibleRows.some((input) => input.checked) && !templateSelectAll.checked;
-  }
-  updateTemplateSyncButton();
-});
-templateSelectAll.addEventListener("change", () => {
-  templateRows.querySelectorAll(".template-select:not(:disabled)").forEach((input) => {
-    input.checked = templateSelectAll.checked;
-    if (input.checked) selectedTemplateIds.add(input.value);
-    else selectedTemplateIds.delete(input.value);
-  });
-  templateSelectAll.indeterminate = false;
-  updateTemplateSyncButton();
-});
-syncTemplatesBtn.addEventListener("click", openTemplateSyncDialog);
-document.getElementById("confirmTemplateSync").addEventListener("click", confirmTemplateSync);
-document.getElementById("cancelTemplateSync").addEventListener("click", closeTemplateSyncDialog);
-templateSyncLightbox.addEventListener("click", (event) => {
-  if (event.target === templateSyncLightbox) closeTemplateSyncDialog();
 });
 planLightbox.addEventListener("click", (event) => {
   if (event.target === planLightbox) closePlanDialog();

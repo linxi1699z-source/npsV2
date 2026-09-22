@@ -70,19 +70,9 @@
                 </select>
               </div>
 
-              <div class="field-group">
-                <label class="field-label" for="templateSyncStatusSearch">同步状态</label>
-                <select class="ax-select" id="templateSyncStatusSearch">
-                  <option value="所有状态">所有状态</option>
-                  <option value="已同步">已同步</option>
-                  <option value="待同步">待同步</option>
-                </select>
-              </div>
-
               <div class="button-group">
                 <button class="ax-button" id="templateSearchBtn" type="submit">查询</button>
                 <button class="ax-button long" id="addTemplateBtn" type="button" onclick="event.preventDefault(); event.stopPropagation(); window.openTemplateForm && window.openTemplateForm('add')">+新增问卷</button>
-                <button class="ax-button" id="syncTemplatesBtn" type="button" disabled>一键同步</button>
               </div>
             </div>
           </form>
@@ -92,13 +82,11 @@
               <table class="ax-table template-table">
                 <thead>
                   <tr>
-                    <th class="tpl-select"><input id="templateSelectAll" type="checkbox" aria-label="全选问卷" /></th>
                     <th class="tpl-id">问卷 ID</th>
                     <th class="tpl-name">问卷名称</th>
                     <th class="tpl-status">状态</th>
                     <th class="tpl-type">问卷类型</th>
                     <th class="tpl-version">最低可用版本</th>
-                    <th class="tpl-sync-status">同步状态</th>
                     <th class="tpl-creator">创建者</th>
                     <th class="tpl-updated">最近一次更新时间</th>
                     <th class="tpl-actions">操作</th>
@@ -413,6 +401,7 @@
                   <option value="APP 版本过低">APP 版本过低</option>
                   <option value="非区域内用户">非区域内用户</option>
                   <option value="近 3 月内已投放">近 3 月内已投放</option>
+                  <option value="同步异常">同步异常</option>
                 </select>
               </div>
 
@@ -787,16 +776,6 @@
       </div>
     </div>
 
-    <div class="lightbox" id="templateSyncLightbox" aria-hidden="true">
-      <div class="confirm-panel" role="dialog" aria-modal="true" aria-labelledby="templateSyncConfirmText">
-        <div class="confirm-text" id="templateSyncConfirmText">确定将问卷同步到各个数据中心吗？</div>
-        <div class="confirm-actions">
-          <button class="ax-button small" id="confirmTemplateSync" type="button">确定</button>
-          <button class="ax-button small" id="cancelTemplateSync" type="button">取消</button>
-        </div>
-      </div>
-    </div>
-
     <div class="lightbox" id="questionAssociationLightbox" aria-hidden="true">
       <section class="question-association-dialog" role="dialog" aria-modal="true" aria-labelledby="questionAssociationTitle">
         <div class="i18n-dialog-header">
@@ -909,6 +888,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260922-01"></script>
+    <script src="./app.js?v=20260922-03"></script>
   </body>
 </html>
