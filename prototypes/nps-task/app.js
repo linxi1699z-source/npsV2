@@ -336,7 +336,8 @@ const npsTemplates = [
   {
     template_id: "10014",
     template_name: "全球产品体验问卷",
-    template_status: "有效",
+    template_status: "处理中",
+    i18n_matching_demo: true,
     channel: "APP",
     scene: "全局",
     raw_questionnaire_type: "弹窗问卷(APP功能)",
@@ -681,6 +682,13 @@ function persistPrototypeSessionCache() {
 }
 
 restorePrototypeSessionCache();
+
+// Keep one visible example of the transient matching state in the survey list.
+const processingTemplateExample = npsTemplates.find((template) => template.template_id === "10014");
+if (processingTemplateExample) {
+  processingTemplateExample.template_status = "处理中";
+  processingTemplateExample.i18n_matching_demo = true;
+}
 window.addEventListener("pagehide", persistPrototypeSessionCache);
 
 const templates = [
@@ -698,6 +706,7 @@ let filteredTasks = [...tasks];
 let filteredTemplates = [...npsTemplates];
 let selectedTaskDeleteId = null;
 let selectedTemplateDeleteId = null;
+const templateI18nMatchingTimers = new Map();
 let exportTimer = null;
 let formMode = "add";
 let currentAudienceTaskId = "";
@@ -933,6 +942,7 @@ function getStatusClass(status) {
     有效: "status-success",
     无效: "status-error",
     草稿: "status-default",
+    处理中: "status-info",
     待补充多语言: "status-warning",
     待投放: "status-info",
     投放中: "status-warning",
@@ -1286,9 +1296,10 @@ function renderTemplates(rows) {
     const isLegacySurveyQuestionnaire = isSurveyListVariant() && ["V3.13.2", "V3.16"].includes(normalizeTemplateMinVersionValue(template.min_version));
     const isThirdPartyRegularQuestionnaire = isSurveyListVariant() && templateType === "常规问卷" && Boolean(template.is_third_party_questionnaire);
     const i18nDisabled = (isGlobalPopupQuestionnaire && !isSurveyListVariant()) || isLegacySurveyQuestionnaire || isThirdPartyRegularQuestionnaire;
-    const editDisabled = isLegacySurveyQuestionnaire;
-    const copyDisabled = isLegacySurveyQuestionnaire;
-    const deleteDisabled = isSurveyListVariant() && statusText === "生效中";
+    const isI18nKeyMatching = isSurveyListVariant() && statusText === "处理中";
+    const editDisabled = isLegacySurveyQuestionnaire || isI18nKeyMatching;
+    const copyDisabled = isLegacySurveyQuestionnaire || isI18nKeyMatching;
+    const deleteDisabled = isSurveyListVariant() && ["生效中", "处理中"].includes(statusText);
     const i18nActionText = "编辑多语言";
     return `
       <tr data-template-id="${escapeText(template.template_id)}">
@@ -1301,7 +1312,7 @@ function renderTemplates(rows) {
         <td>${escapeText(template.updated_at)}</td>
         <td>
           <div class="table-actions">
-            <button class="table-action-button is-primary template-i18n-link" type="button" data-template-id="${escapeText(template.template_id)}" ${i18nDisabled ? "disabled" : ""}>${i18nActionText}</button>
+            <button class="table-action-button is-primary template-i18n-link" type="button" data-template-id="${escapeText(template.template_id)}" ${(i18nDisabled || isI18nKeyMatching) ? "disabled" : ""}>${i18nActionText}</button>
             ${!isSurveyListVariant() ? `<button class="table-action-button is-primary edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${editDisabled ? "disabled" : ""}>编辑模板</button>` : ""}
             ${isSurveyListVariant() ? `<button class="table-action-button is-primary template-association-edit-link" type="button" data-template-id="${escapeText(template.template_id)}" ${editDisabled ? "disabled" : ""}>编辑问卷</button>` : ""}
             ${isSurveyListVariant() ? `<button class="table-action-button is-primary copy-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${copyDisabled ? "disabled" : ""}>复制问卷</button>` : ""}
@@ -1324,7 +1335,7 @@ function applyTemplateFilters() {
     const nameOk = !nameValue || template.template_name.includes(nameValue);
     const displayStatus = getSurveyListStatus(template.template_status);
     const statusOk = statusValue === "所有状态"
-      ? ["草稿", "待补充多语言", "生效中"].includes(displayStatus)
+      ? ["草稿", "处理中", "待补充多语言", "生效中"].includes(displayStatus)
       : displayStatus === statusValue;
     const sceneOk = sceneValue === "所有功能模块" || template.scene === sceneValue;
     const templateType = isSurveyListVariant()
@@ -2690,6 +2701,22 @@ function updateTemplateI18nCompletion(template) {
   return complete;
 }
 
+function scheduleTemplateI18nKeyMatching(template) {
+  if (!isSurveyListVariant() || !template) return;
+  const timer = templateI18nMatchingTimers.get(template.template_id);
+  if (timer) window.clearTimeout(timer);
+  template.template_status = "处理中";
+  template.i18n_uploaded = false;
+  template.i18n_complete = false;
+  templateI18nMatchingTimers.set(template.template_id, window.setTimeout(() => {
+    if (template.template_status !== "处理中") return;
+    template.template_status = "待补充多语言";
+    templateI18nMatchingTimers.delete(template.template_id);
+    persistPrototypeSessionCache();
+    applyTemplateFilters();
+  }, 1200));
+}
+
 function getI18nLanguageOrder() {
   return I18N_LANGUAGES;
 }
@@ -3698,6 +3725,7 @@ function getSurveyListQuestionnaireType(questionnaireType) {
 
 function getSurveyListStatus(status) {
   if (status === "草稿") return "草稿";
+  if (status === "处理中") return "处理中";
   if (status === "待补充多语言") return "待补充多语言";
   return isTemplateEnabled(status) ? "生效中" : "已禁用";
 }
@@ -5164,7 +5192,6 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
   const isDesignType = isDesignQuestionnaireType(templateFormFields.questionnaireType.value);
   const isRegularQuestionnaire = isRegularQuestionnaireType(templateFormFields.questionnaireType.value);
   const isThirdPartyQuestionnaire = isSurveyListVariant() && isTemplateThirdPartyQuestionnaire();
-  const shouldActivateThirdPartyQuestionnaire = isThirdPartyQuestionnaire && isRegularQuestionnaire;
   const usesLinkedGroupStyle = shouldSubmitTemplateFromStepOne();
   const skipQuestionConfiguration = isThirdPartyQuestionnaire || usesLinkedGroupStyle;
   if (!saveAsDraft && isPlanBAppQuestionnaire() && templateStep === 2) {
@@ -5244,8 +5271,8 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
     Object.assign(template, templatePayload);
     if (isSurveyListVariant()) {
       const hasI18nContentChanged = originalI18nContentSignature !== getTemplateI18nContentSignature(template);
-      template.template_status = shouldActivateThirdPartyQuestionnaire || !hasI18nContentChanged ? "有效" : "待补充多语言";
-      if (hasI18nContentChanged && !shouldActivateThirdPartyQuestionnaire) {
+      scheduleTemplateI18nKeyMatching(template);
+      if (hasI18nContentChanged) {
         template.i18n_uploaded = false;
         template.i18n_complete = false;
         clearTemplateI18nTranslations(template);
@@ -5262,13 +5289,14 @@ function submitTemplateForm({ saveAsDraft = false } = {}) {
       : null;
     const newTemplate = {
       template_id: getNextId(npsTemplates, "template_id"),
-      template_status: saveAsDraft ? "草稿" : (isSurveyListVariant() ? (shouldActivateThirdPartyQuestionnaire ? "有效" : "待补充多语言") : "有效"),
+      template_status: saveAsDraft ? "草稿" : (isSurveyListVariant() ? "处理中" : "有效"),
       creator: "谢敏",
       i18n_uploaded: false,
       i18n_complete: false,
       ...templatePayload,
     };
     npsTemplates.push(newTemplate);
+    if (isSurveyListVariant() && !saveAsDraft) scheduleTemplateI18nKeyMatching(newTemplate);
     if (sourceTemplate && !isSurveyListVariant()) copyTemplateI18nTranslations(sourceTemplate, newTemplate);
     syncTemplateNameOptions(newTemplate.template_name);
     if (saveAsDraft || isSurveyListVariant()) {
@@ -5974,6 +6002,10 @@ if (savedI18nTemplateId) {
 }
 
 renderRows(filteredTasks);
+// Resume the short prototype matching state after a refresh within the same session.
+npsTemplates
+  .filter((template) => getSurveyListStatus(template.template_status) === "处理中" && !template.i18n_matching_demo)
+  .forEach((template) => scheduleTemplateI18nKeyMatching(template));
 renderTemplates(filteredTemplates);
 renderPlanOptions();
 renderTemplateOptions();
