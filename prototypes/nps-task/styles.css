@@ -801,10 +801,6 @@ select {
   width: 150px;
 }
 
-.aud-date {
-  width: 170px;
-}
-
 .aud-user-status,
 .aud-exposure,
 .aud-delivery {

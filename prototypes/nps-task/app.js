@@ -1582,7 +1582,6 @@ function renderAudienceRows(rows) {
       <tr>
         <td>${escapeText(item.user_id)}</td>
         <td>${escapeText(item.delivery_region)}</td>
-        <td>${escapeText(item.registered_at)}</td>
         <td>${escapeText(item.user_status)}</td>
         <td><span class="status-pill ${getAudienceStatusClass("exposure", item.exposure_status)}">${escapeText(item.exposure_status)}</span></td>
         <td><span class="status-pill ${getAudienceStatusClass("delivery", item.delivery_status)}">${escapeText(item.delivery_status)}</span></td>
