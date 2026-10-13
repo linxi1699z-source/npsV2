@@ -240,8 +240,16 @@ you.`;
 const SURVEY_POPUP_COPY_PRESETS = {
   设计: "我们一直致力于从用户视角出发，打造更专业、更易用的健康管理体验。你的真实评价对我们至关重要。现在的图表够直观吗？数据解读是否轻松？操作逻辑是否顺手？我们诚邀你参与本次设计体验调研，帮助我们打磨出更懂你的 RingConn。",
   用研: `面向受访者的简述
-参与本次筛选问卷并不保证获得访谈资格。在完成本问卷后，符合研究条件并被正式邀请的用户，在成功完成一次 60 分钟左右的英文 Zoom 线上访谈后，将获得等值 70 美元的亚马逊礼品卡作为研究参与奖励。成功完成一次 60 分钟左右的英文 Zoom 线上访谈。
+参与本次筛选问卷并不保证获得访谈资格。在完成本问卷后，符合研究条件并被正式邀请的用户，在成功完成一次 60 分钟左右的英文 Zoom 线上访谈后，将获得等值 70 美元的亚马逊礼品卡作为研究参与奖励。
 请注意：参与者必须能够流利使用英语。 我们将通过电子邮件与入选用户联系并安排访谈时间。`,
+};
+
+const SURVEY_POPUP_COPY_PRESET_HTML = {
+  设计: `<strong>RingConn 体验评分邀请：</strong><br>
+我们一直致力于从用户视角出发，打造更专业、更易用的健康管理体验。你的真实评价对我们至关重要。现在的图表够直观吗？数据解读是否轻松？操作逻辑是否顺手？我们诚邀你参与本次设计体验调研，帮助我们打磨出更懂你的 RingConn。`,
+  用研: `<strong>面向受访者的简述</strong><br>
+参与本次筛选问卷并不保证获得访谈资格。在完成本问卷后，符合研究条件并被正式邀请的用户，在<strong>成功完成一次 60 分钟左右的英文 Zoom 线上访谈后，将获得等值 70 美元的亚马逊礼品卡</strong>作为研究参与奖励。<br>
+<strong>请注意：</strong>参与者必须能够<strong>流利使用英语</strong>。 我们将通过<strong>电子邮件</strong>与入选用户联系并安排访谈时间。`,
 };
 
 const DEFAULT_GLOBAL_APP_QUESTIONS = [
@@ -3367,6 +3375,7 @@ function setPopupCopyMode(mode = "设计") {
 }
 
 function getPopupCopyPresetHtml(mode = getSelectedPopupCopyMode()) {
+  if (SURVEY_POPUP_COPY_PRESET_HTML[mode]) return SURVEY_POPUP_COPY_PRESET_HTML[mode];
   const copy = SURVEY_POPUP_COPY_PRESETS[mode] || SURVEY_POPUP_COPY_PRESETS.设计;
   return escapeText(copy).replace(/\n/g, "<br>");
 }
