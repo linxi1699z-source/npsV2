@@ -1295,7 +1295,7 @@ function renderTemplates(rows) {
     const isGlobalPopupQuestionnaire = isPopupAppQuestionnaireType(templateType);
     const isLegacySurveyQuestionnaire = isSurveyListVariant() && ["V3.13.2", "V3.16"].includes(normalizeTemplateMinVersionValue(template.min_version));
     const isThirdPartyRegularQuestionnaire = isSurveyListVariant() && templateType === "常规问卷" && Boolean(template.is_third_party_questionnaire);
-    const i18nDisabled = (isGlobalPopupQuestionnaire && !isSurveyListVariant()) || isLegacySurveyQuestionnaire || isThirdPartyRegularQuestionnaire;
+    const i18nDisabled = (isGlobalPopupQuestionnaire && !isSurveyListVariant()) || isLegacySurveyQuestionnaire || isThirdPartyRegularQuestionnaire || (isSurveyListVariant() && statusText === "生效中");
     const isI18nKeyMatching = isSurveyListVariant() && statusText === "处理中";
     const editDisabled = isLegacySurveyQuestionnaire || isI18nKeyMatching;
     const copyDisabled = isLegacySurveyQuestionnaire || isI18nKeyMatching;
