@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NPS管理</title>
-    <link rel="stylesheet" href="./styles.css?v=20260924-01" />
+    <link rel="stylesheet" href="./styles.css?v=20261013-01" />
   </head>
   <body>
     <div class="prototype-shell template-layout">
@@ -66,7 +66,8 @@
                 <select class="ax-select" id="templateTypeSearch">
                   <option value="所有问卷类型">所有问卷类型</option>
                   <option value="弹窗问卷(全局)">弹窗问卷(全局)</option>
-                  <option value="弹窗问卷(用研/设计)">弹窗问卷(用研/设计)</option>
+                  <option value="弹窗问卷(用研)">弹窗问卷(用研)</option>
+                  <option value="弹窗问卷(设计)">弹窗问卷(设计)</option>
                   <option value="常规问卷">常规问卷</option>
                 </select>
               </div>
@@ -300,7 +301,8 @@
               <select class="ax-select form-control" id="formTaskQuestionnaireType">
                 <option value="">请选择问卷类型</option>
                 <option value="弹窗问卷(全局)">弹窗问卷(全局)</option>
-                <option value="弹窗问卷(用研/设计)">弹窗问卷(用研/设计)</option>
+                <option value="弹窗问卷(用研)">弹窗问卷(用研)</option>
+                <option value="弹窗问卷(设计)">弹窗问卷(设计)</option>
               </select>
               <div class="form-error" id="formTaskQuestionnaireTypeError"></div>
             </div>
@@ -514,7 +516,8 @@
                 <select class="ax-select form-control" id="formQuestionnaireType">
                   <option value="">问卷类型</option>
                   <option value="弹窗问卷(全局)">弹窗问卷(全局)</option>
-                  <option value="弹窗问卷(用研/设计)">弹窗问卷(用研/设计)</option>
+                  <option value="弹窗问卷(用研)">弹窗问卷(用研)</option>
+                  <option value="弹窗问卷(设计)">弹窗问卷(设计)</option>
                   <option value="常规问卷">常规问卷</option>
                 </select>
                 <div class="form-error" id="formQuestionnaireTypeError"></div>
@@ -637,7 +640,7 @@
                 <div class="form-row richtext-row">
                   <label class="form-label required" for="popupCopy">弹窗文案</label>
                   <div class="richtext-field">
-                    <div class="popup-copy-mode" id="popupCopyMode">
+                    <div class="popup-copy-mode hidden" id="popupCopyMode" aria-hidden="true">
                       <span>文案类型</span>
                       <div class="radio-row" role="radiogroup" aria-label="弹窗文案类型">
                         <label><input id="popupCopyModeResearch" name="popupCopyMode" type="radio" value="用研" /> 用研</label>
@@ -888,6 +891,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260924-01"></script>
+    <script src="./app.js?v=20261013-01"></script>
   </body>
 </html>

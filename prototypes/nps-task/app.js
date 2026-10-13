@@ -364,8 +364,8 @@ const npsTemplates = [
     template_status: "有效",
     channel: "APP",
     scene: "全局",
-    raw_questionnaire_type: "弹窗问卷(用研/设计)",
-    questionnaire_type: "弹窗问卷(用研/设计)",
+    raw_questionnaire_type: "弹窗问卷(用研)",
+    questionnaire_type: "弹窗问卷(用研)",
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-08-20 16:20",
@@ -417,8 +417,8 @@ const npsTemplates = [
     template_status: "待补充多语言",
     channel: "APP",
     scene: "全局",
-    raw_questionnaire_type: "弹窗问卷(用研/设计)",
-    questionnaire_type: "弹窗问卷(用研/设计)",
+    raw_questionnaire_type: "弹窗问卷(设计)",
+    questionnaire_type: "弹窗问卷(设计)",
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-27 10:20",
@@ -440,8 +440,8 @@ const npsTemplates = [
     template_status: "草稿",
     channel: "APP",
     scene: "全局",
-    raw_questionnaire_type: "弹窗问卷(用研/设计)",
-    questionnaire_type: "弹窗问卷(用研/设计)",
+    raw_questionnaire_type: "弹窗问卷(用研)",
+    questionnaire_type: "弹窗问卷(用研)",
     detail_text: "查看",
     creator: "谢敏",
     updated_at: "2026-07-27 09:50",
@@ -1155,7 +1155,7 @@ function getTaskVersionDefault() {
   const module = formFields.taskScene.value;
   const questionnaireType = formFields.questionnaireType.value;
   if (!module || (module === "全局" && !formFields.questionnaireType.value)) return "";
-  if (module === "全局" && questionnaireType === "弹窗问卷(用研/设计)") return "V3.16";
+  if (module === "全局" && ["弹窗问卷(用研)", "弹窗问卷(设计)"].includes(questionnaireType)) return "V3.16";
   if (module === "全局" && questionnaireType === "弹窗问卷(全局)") return "V3.13.2";
   if (HIGH_VERSION_MODULES.includes(module)) return "V3.16";
   return "V3.13.2";
@@ -1228,7 +1228,7 @@ function renderTemplateOptions() {
     (module !== "全局" || Boolean(questionnaireType));
   const matchingTemplates = npsTemplates.filter((template) => {
     if (template.template_status !== "有效" || template.is_deleted) return false;
-    const templateType = getSurveyListQuestionnaireType(getTemplateRawType(template));
+    const templateType = getSurveyListTemplateType(template);
     if (module !== "全局") {
       if (getTemplateDisplayType(getTemplateRawType(template)) !== "常规问卷") return false;
       return true;
@@ -1265,7 +1265,7 @@ function getTaskTemplateType(task) {
   const template = npsTemplates.find((item) => item.template_name === task.template_name && item.scene === task.task_scene);
   return task.questionnaire_type
     ? getSurveyListQuestionnaireType(task.questionnaire_type)
-    : (template ? getSurveyListQuestionnaireType(getTemplateRawType(template)) : "");
+    : (template ? getSurveyListTemplateType(template) : "");
 }
 
 function syncTemplateNameOptions(templateName) {
@@ -1284,7 +1284,7 @@ function renderTemplates(rows) {
   templateRows.innerHTML = displayRows.map((template) => {
     const statusClass = getStatusClass(template.template_status);
     const templateType = isSurveyListVariant()
-      ? getSurveyListQuestionnaireType(getTemplateRawType(template))
+      ? getSurveyListTemplateType(template)
       : getTemplateDisplayType(getTemplateRawType(template));
     const statusText = isSurveyListVariant()
       ? getSurveyListStatus(template.template_status)
@@ -1339,7 +1339,7 @@ function applyTemplateFilters() {
       : displayStatus === statusValue;
     const sceneOk = sceneValue === "所有功能模块" || template.scene === sceneValue;
     const templateType = isSurveyListVariant()
-      ? getSurveyListQuestionnaireType(getTemplateRawType(template))
+      ? getSurveyListTemplateType(template)
       : getTemplateDisplayType(getTemplateRawType(template));
     const typeOk = typeValue === "所有问卷类型" || templateType === typeValue;
     return !template.is_deleted && nameOk && statusOk && sceneOk && typeOk && (!usesSectionQuestionEditor() || getTemplateDisplayType(getTemplateRawType(template)) !== "分组问卷");
@@ -2896,7 +2896,7 @@ function renderI18nPreview() {
 function openTemplateI18nPage(templateId) {
   const template = npsTemplates.find((item) => item.template_id === templateId);
   if (!template) return;
-  if (isSurveyListVariant() && getSurveyListQuestionnaireType(getTemplateRawType(template)) === "常规问卷" && template.is_third_party_questionnaire) {
+  if (isSurveyListVariant() && getSurveyListTemplateType(template) === "常规问卷" && template.is_third_party_questionnaire) {
     showToast("跳转三方的常规问卷无需配置多语言。");
     return;
   }
@@ -2920,7 +2920,7 @@ function openTemplateI18nPage(templateId) {
   const workflowParams = new URLSearchParams({
     templateId: template.template_id,
     templateName: template.template_name,
-    questionnaireType: getSurveyListQuestionnaireType(getTemplateRawType(template)),
+    questionnaireType: getSurveyListTemplateType(template),
     existingKeys: hasExistingKeys ? "1" : "0",
   });
   try {
@@ -3358,7 +3358,7 @@ function updateQuestionnaireDescriptionCount() {
 }
 
 function getSelectedPopupCopyMode() {
-  return templateFormFields.popupCopyModeResearch.checked ? "用研" : "设计";
+  return templateFormFields.questionnaireType.value === "弹窗问卷(用研)" ? "用研" : "设计";
 }
 
 function setPopupCopyMode(mode = "设计") {
@@ -3374,7 +3374,7 @@ function getPopupCopyPresetHtml(mode = getSelectedPopupCopyMode()) {
 function applyPopupCopyPreset(force = false) {
   if (!isSurveyListVariant() || !isDesignQuestionnaireType(templateFormFields.questionnaireType.value)) return;
   if (!force && templateFormFields.popupCopy.textContent.trim()) return;
-  templateFormFields.popupCopy.innerHTML = getPopupCopyPresetHtml();
+  templateFormFields.popupCopy.innerHTML = getPopupCopyPresetHtml(getSelectedPopupCopyMode());
   savedRichTextRange = null;
   updateRichTextCount();
 }
@@ -3705,7 +3705,7 @@ function setTemplateStep(step) {
 }
 
 function getTemplateDisplayType(questionnaireType) {
-  if (questionnaireType === "弹窗问卷(全局)" || questionnaireType === "弹窗问卷(用研/设计)") return questionnaireType;
+  if (questionnaireType === "弹窗问卷(全局)") return questionnaireType;
   if (questionnaireType === "弹窗问卷(用研)" || questionnaireType === "弹窗问卷(设计)") return questionnaireType;
   if (isDesignQuestionnaireType(questionnaireType)) return "弹窗问卷(用研)";
   if (isPopupAppQuestionnaireType(questionnaireType)) return "弹窗问卷(APP功能)";
@@ -3715,11 +3715,24 @@ function getTemplateDisplayType(questionnaireType) {
   return "常规问卷";
 }
 
-function getSurveyListQuestionnaireType(questionnaireType) {
+function getSurveyListQuestionnaireType(questionnaireType, popupCopyMode = "", popupCopy = "") {
   if (!questionnaireType) return "";
   if (isPopupAppQuestionnaireType(questionnaireType)) return "弹窗问卷(全局)";
-  if (isDesignQuestionnaireType(questionnaireType)) return "弹窗问卷(用研/设计)";
+  if (questionnaireType === "弹窗问卷(用研/设计)") {
+    return popupCopyMode === "用研" || inferPopupCopyMode(popupCopy) === "用研"
+      ? "弹窗问卷(用研)"
+      : "弹窗问卷(设计)";
+  }
+  if (isDesignQuestionnaireType(questionnaireType)) return questionnaireType;
   return "常规问卷";
+}
+
+function getSurveyListTemplateType(template) {
+  return getSurveyListQuestionnaireType(
+    template.raw_questionnaire_type || template.questionnaire_type,
+    template.popup_copy_mode,
+    template.popup_copy,
+  );
 }
 
 function getSurveyListStatus(status) {
@@ -3753,9 +3766,15 @@ function updateTemplateTypePanel() {
   const isDesignType = isDesignQuestionnaireType(type);
   const isPlanB = isPlanBTemplateForm();
   const isSurveyList = isSurveyListVariant();
+  const popupCopyType = templateFormFields.popupCopy.dataset.questionnaireType || "";
   updateTemplateConsentVisibility();
   updateTemplateThirdPartyVisibility();
-  document.getElementById("popupCopyMode").classList.toggle("hidden", !isSurveyList || !isDesignType);
+  document.getElementById("popupCopyMode").classList.add("hidden");
+  if (isSurveyList && isDesignType && popupCopyType !== type) {
+    setPopupCopyMode(type === "弹窗问卷(用研)" ? "用研" : "设计");
+    applyPopupCopyPreset(true);
+  }
+  templateFormFields.popupCopy.dataset.questionnaireType = isDesignType ? type : "";
   const hasQuestionnaireStyle = supportsQuestionnaireStyle(type);
   const usesLinkedQuestionnaire = shouldUseLinkedQuestionnaire();
   const showsPageSize = shouldShowPageSize();
@@ -5027,6 +5046,7 @@ function resetTemplateForm() {
   templateFormFields.pageSize.value = "5";
   setPopupCopyMode("设计");
   templateFormFields.popupCopy.innerHTML = "";
+  delete templateFormFields.popupCopy.dataset.questionnaireType;
   setTemplateConsentRequired(false);
   templateFormFields.consentContent.innerHTML = "";
   setTemplateThirdPartyQuestionnaire(false);
@@ -5117,7 +5137,7 @@ function openTemplateForm(mode, templateId = "", options = {}) {
   templateFormFields.scene.value = isSurveyListVariant() ? "全局" : (template.scene === "运动" ? "全局" : template.scene);
   const rawQuestionnaireType = getTemplateRawType(template);
   templateFormFields.questionnaireType.value = isSurveyListVariant()
-    ? getSurveyListQuestionnaireType(rawQuestionnaireType)
+    ? getSurveyListTemplateType(template)
     : rawQuestionnaireType;
   updateQuestionnaireTypeByScene();
   templateFormFields.channelApp.checked = true;
@@ -5127,8 +5147,10 @@ function openTemplateForm(mode, templateId = "", options = {}) {
   templateFormFields.bannerButton.value = template.banner_button || "";
   setLinkedQuestionnaires(template.linked_questionnaires || []);
   setQuestionnaireStyle(template.questionnaire_style || "普通问卷");
-  setPopupCopyMode(template.popup_copy_mode || inferPopupCopyMode(template.popup_copy));
-  templateFormFields.popupCopy.innerHTML = template.popup_copy || "";
+  setPopupCopyMode(templateFormFields.questionnaireType.value === "弹窗问卷(用研)" ? "用研" : "设计");
+  templateFormFields.popupCopy.innerHTML = isDesignQuestionnaireType(templateFormFields.questionnaireType.value)
+    ? getPopupCopyPresetHtml()
+    : (template.popup_copy || "");
   updateRichTextCount();
   fillTemplateVersionFields(template.min_version || "");
   setTemplateConsentRequired(Boolean(template.informed_consent_required));
