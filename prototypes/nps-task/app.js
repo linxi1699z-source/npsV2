@@ -3146,8 +3146,13 @@ function validateTaskForm() {
     setError("templateName", "关联问卷不能为空。");
     valid = false;
   }
-  if (!getSelectedTaskVersions().length) {
-    setError("taskVersion", "请至少设置一个投放版本值。");
+  const startVersion = normalizeTaskVersionValue(formFields.taskVersionStart.value);
+  const endVersion = normalizeTaskVersionValue(formFields.taskVersionEnd.value);
+  if (!startVersion) {
+    setError("taskVersion", "请选择开始投放版本。");
+    valid = false;
+  } else if (endVersion && compareVersions(startVersion, endVersion) > 0) {
+    setError("taskVersion", "开始版本必須小于等于结束版本。");
     valid = false;
   }
   if (!getAudienceFileNames().length) {
