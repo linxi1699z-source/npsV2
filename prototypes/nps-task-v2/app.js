@@ -3992,6 +3992,7 @@ function renderPlanBChoiceOptions(question, sectionIndex, questionIndex, inputTy
       ${question.choiceOptions.map((option, optionIndex) => `
         <div class="question-option-row${option.isOther ? "" : " sortable-option-row"}" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-option-index="${optionIndex}">
           <input type="${inputType}" disabled />
+          <span class="option-sort-number">${option.isOther ? "其他" : optionIndex + 1}</span>
           <input class="question-option-input" type="text" value="${escapeText(option.label)}" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-option-index="${optionIndex}" data-section-question-field="optionLabel" ${option.isOther && !isSurveyListVariant() ? "disabled" : ""} />
           <button class="link-button section-question-remove-option" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-option-index="${optionIndex}">删除</button>
           ${option.isOther ? "" : `<button class="question-sort-handle option-sort-handle" type="button" draggable="true" title="拖动排序" aria-label="拖动排序" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-option-index="${optionIndex}"><span aria-hidden="true">⠿</span></button>`}
@@ -4383,6 +4384,7 @@ function movePlanBChoiceOption(sectionIndex, questionIndex, fromIndex, toIndex) 
   if (moveArrayItem(question.choiceOptions, fromIndex, toIndex)) {
     question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
     renderPlanBQuestionSections();
+    showSortFeedback(`.question-option-row[data-section-index="${sectionIndex}"][data-section-question-index="${questionIndex}"][data-section-option-index="${toIndex}"]`, "选项顺序已调整。");
   }
 }
 
@@ -4392,6 +4394,8 @@ function moveTemplateChoiceOption(questionIndex, fromIndex, toIndex) {
   if (moveArrayItem(question.choiceOptions, fromIndex, toIndex)) {
     question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
     renderTemplateQuestionList();
+    renderSurveyGlobalQuestions();
+    showSortFeedback(`.question-option-row[data-question-index="${questionIndex}"][data-option-index="${toIndex}"]`, "选项顺序已调整。");
   }
 }
 
@@ -4422,6 +4426,7 @@ function moveSectionQuestion(sectionIndex, fromIndex, toIndex) {
   if (!section || !moveArrayItem(section.questions, fromIndex, toIndex)) return;
   remapSectionQuestionReferences(sectionIndex, fromIndex, toIndex);
   renderPlanBQuestionSections();
+  showSortFeedback(`.question-card[data-section-index="${sectionIndex}"][data-section-question-index="${toIndex}"]`, "题目顺序已调整。");
 }
 
 function validatePlanBQuestionSections() {
@@ -4542,6 +4547,7 @@ function renderChoiceOptions(question, questionIndex, inputType) {
       ${question.choiceOptions.map((option, optionIndex) => `
         <div class="question-option-row${option.isOther ? "" : " sortable-option-row"}" data-question-index="${questionIndex}" data-option-index="${optionIndex}">
           <input type="${inputType}" disabled />
+          <span class="option-sort-number">${option.isOther ? "其他" : optionIndex + 1}</span>
           <input class="question-option-input" type="text" value="${escapeText(option.label)}" data-question-index="${questionIndex}" data-option-index="${optionIndex}" data-question-field="optionLabel" ${(option.isOther || (isGlobalApp && !canEditPlanBMultiSelectOptions)) ? "disabled" : ""} />
           ${isGlobalApp ? "" : `<button class="link-button question-remove-option" type="button" data-question-index="${questionIndex}" data-option-index="${optionIndex}">删除</button>`}
           ${option.isOther || (isGlobalApp && !canSortGlobalMultiSelectOptions) ? "" : `<button class="question-sort-handle option-sort-handle" type="button" draggable="true" title="拖动排序" aria-label="拖动排序" data-question-index="${questionIndex}" data-option-index="${optionIndex}"><span aria-hidden="true">⠿</span></button>`}
@@ -5926,8 +5932,19 @@ function autoResizeQuestionTextareas() {
   document.querySelectorAll("textarea.question-auto-grow").forEach(autoResizeQuestionTextarea);
 }
 
+function showSortFeedback(selector, message) {
+  requestAnimationFrame(() => {
+    const updatedElement = document.querySelector(selector);
+    if (updatedElement) {
+      updatedElement.classList.add("sort-updated");
+      window.setTimeout(() => updatedElement.classList.remove("sort-updated"), 1100);
+    }
+  });
+  showToast(message);
+}
+
 function clearQuestionEditorDragState() {
-  document.querySelectorAll(".question-option-row.drag-over, .question-card.drag-over").forEach((element) => element.classList.remove("drag-over"));
+  document.querySelectorAll(".question-option-row.drag-over, .question-option-row.is-dragging, .question-card.drag-over, .question-card.is-dragging").forEach((element) => element.classList.remove("drag-over", "is-dragging"));
   questionEditorDragState = null;
 }
 
@@ -5968,6 +5985,7 @@ function handleQuestionEditorDragStart(event) {
   const dragTarget = getQuestionEditorDragTarget(target);
   if (!dragTarget) return;
   questionEditorDragState = dragTarget;
+  dragTarget.element.classList.add("is-dragging");
   event.dataTransfer?.setData("text/plain", "nps-question-sort");
   if (event.dataTransfer) event.dataTransfer.effectAllowed = "move";
 }
