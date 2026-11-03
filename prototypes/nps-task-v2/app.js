@@ -1,0 +1,6247 @@
+const tasks = [
+  {
+    task_id: "10001",
+    task_name: "全局NPS6月任务",
+    task_status: "待投放",
+    task_scene: "睡眠",
+    delivery_region: "中国大陆",
+    audience_link_text: "查看",
+    audience_file_names: ["睡眠投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-06-28 09",
+    end_time: "2026-07-20 18",
+    template_name: "睡眠NPS模板",
+    delivery_versions: ["V3.16"],
+    plan_id: "10001",
+    plan_name: "睡眠 NPS 计划",
+    total_users: "100,000",
+    actual_delivery_users: "0",
+    submitted_users: "0",
+    exposed_users: "0",
+    nps_estimate: "",
+    nps_promoters: "0",
+    nps_passives: "0",
+    nps_detractors: "0",
+    nps_updated_at: "",
+  },
+  {
+    task_id: "10002",
+    task_name: "OSA NPS投放任务",
+    task_status: "投放中",
+    task_scene: "OSA",
+    delivery_region: "美国",
+    audience_link_text: "查看",
+    audience_file_names: ["OSA投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-06-20 10",
+    end_time: "2026-07-10 20",
+    template_name: "OSA问卷模板",
+    delivery_versions: ["V3.13.2"],
+    plan_id: "10002",
+    plan_name: "OSA 体验计划",
+    total_users: "80,000",
+    actual_delivery_users: "42,000",
+    submitted_users: "14,600",
+    exposed_users: "21,500",
+    nps_estimate: "46",
+    nps_promoters: "9,600",
+    nps_passives: "4,100",
+    nps_detractors: "2,300",
+    nps_updated_at: "2026-07-08",
+  },
+  {
+    task_id: "10003",
+    task_name: "血压NPS7月任务",
+    task_status: "投放完成",
+    task_scene: "血压",
+    delivery_region: "其他(除美国和中国大陆)",
+    audience_link_text: "查看",
+    audience_file_names: ["血压投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-06-01 09",
+    end_time: "2026-06-30 18",
+    template_name: "血压NPS模板",
+    delivery_versions: ["V3.13.2"],
+    plan_id: "10003",
+    plan_name: "血压 NPS 计划",
+    total_users: "50,000",
+    actual_delivery_users: "50,000",
+    submitted_users: "21,000",
+    exposed_users: "38,600",
+    nps_estimate: "30",
+    nps_promoters: "15,000",
+    nps_passives: "9,000",
+    nps_detractors: "6,000",
+    nps_updated_at: "2026-07-08",
+  },
+  {
+    task_id: "10004",
+    task_name: "AI Partner 满意度任务",
+    task_status: "投放失败",
+    task_scene: "AI Partner",
+    delivery_region: "美国",
+    audience_link_text: "查看",
+    audience_file_names: ["AI Partner投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-06-15 10",
+    end_time: "2026-07-15 19",
+    template_name: "AI Partner模板",
+    delivery_versions: ["V3.13.2"],
+    plan_id: "10004",
+    plan_name: "AI Partner 计划",
+    total_users: "30,000",
+    actual_delivery_users: "8,200",
+    submitted_users: "0",
+    exposed_users: "3,900",
+    nps_estimate: "",
+    nps_promoters: "0",
+    nps_passives: "0",
+    nps_detractors: "0",
+    nps_updated_at: "",
+  },
+  {
+    task_id: "10005",
+    task_name: "生理周期NPS任务",
+    task_status: "待投放",
+    task_scene: "生理",
+    delivery_region: "中国大陆",
+    audience_link_text: "查看",
+    audience_file_names: ["生理投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-06-10 09",
+    end_time: "2026-07-31 18",
+    template_name: "生理NPS模板",
+    delivery_versions: ["V3.13.2"],
+    plan_id: "10005",
+    plan_name: "生理 NPS 计划",
+    total_users: "60,000",
+    actual_delivery_users: "12,000",
+    submitted_users: "3,100",
+    exposed_users: "6,100",
+    nps_estimate: "",
+    nps_promoters: "0",
+    nps_passives: "0",
+    nps_detractors: "0",
+    nps_updated_at: "",
+  },
+  {
+    task_id: "10006",
+    task_name: "计划模块NPS任务",
+    task_status: "待投放",
+    task_scene: "计划",
+    delivery_region: "其他(除美国和中国大陆)",
+    audience_link_text: "查看",
+    audience_file_names: ["计划投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-07-01 08",
+    end_time: "2026-07-31 18",
+    template_name: "计划NPS模板",
+    delivery_versions: ["V3.13.2"],
+    plan_id: "10006",
+    plan_name: "计划 NPS 计划",
+    total_users: "90,000",
+    actual_delivery_users: "0",
+    submitted_users: "0",
+    exposed_users: "0",
+    nps_estimate: "",
+    nps_promoters: "0",
+    nps_passives: "0",
+    nps_detractors: "0",
+    nps_updated_at: "",
+  },
+  {
+    task_id: "10007",
+    task_name: "活动体验投放任务",
+    task_status: "待投放",
+    task_scene: "活动",
+    delivery_region: "中国大陆",
+    audience_link_text: "查看",
+    audience_file_names: ["活动投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-07-05 09",
+    end_time: "2026-08-05 18",
+    template_name: "活动体验问卷",
+    delivery_versions: ["V3.16"],
+    total_users: "72,000", actual_delivery_users: "0", submitted_users: "0", exposed_users: "0",
+    nps_estimate: "", nps_promoters: "0", nps_passives: "0", nps_detractors: "0", nps_updated_at: "",
+  },
+  {
+    task_id: "10008",
+    task_name: "生命体征满意度任务",
+    task_status: "投放中",
+    task_scene: "生命体征",
+    delivery_region: "美国",
+    audience_link_text: "查看",
+    audience_file_names: ["生命体征投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-07-07 10",
+    end_time: "2026-08-07 18",
+    template_name: "生命体征问卷",
+    delivery_versions: ["V3.16"],
+    total_users: "45,000", actual_delivery_users: "21,000", submitted_users: "7,900", exposed_users: "16,800",
+    nps_estimate: "42", nps_promoters: "5,200", nps_passives: "1,900", nps_detractors: "1,000", nps_updated_at: "2026-07-08",
+  },
+  {
+    task_id: "10009",
+    task_name: "国妇婴健康调研任务",
+    task_status: "投放完成",
+    task_scene: "国妇婴",
+    delivery_region: "中国大陆",
+    audience_link_text: "查看",
+    audience_file_names: ["国妇婴投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-06-08 09",
+    end_time: "2026-07-08 18",
+    template_name: "国妇婴NPS问卷",
+    delivery_versions: ["V3.16"],
+    total_users: "20,000", actual_delivery_users: "20,000", submitted_users: "9,300", exposed_users: "16,100",
+    nps_estimate: "38", nps_promoters: "6,000", nps_passives: "2,200", nps_detractors: "1,100", nps_updated_at: "2026-07-08",
+  },
+  {
+    task_id: "10010",
+    task_name: "全球体验调研任务",
+    task_status: "待投放",
+    task_scene: "全局",
+    delivery_region: "其他(除美国和中国大陆)",
+    audience_link_text: "查看",
+    audience_file_names: ["全球体验投放人群.xlsx"],
+    app_client: "APP",
+    start_time: "2026-07-12 08",
+    end_time: "2026-08-12 18",
+    template_name: "全球产品体验问卷",
+    delivery_versions: ["V4.X(待定)"],
+    total_users: "120,000", actual_delivery_users: "0", submitted_users: "0", exposed_users: "0",
+    nps_estimate: "", nps_promoters: "0", nps_passives: "0", nps_detractors: "0", nps_updated_at: "",
+  },
+];
+
+const plans = [
+  { plan_id: "10001", plan_name: "睡眠 NPS 计划", plan_status: "启用" },
+  { plan_id: "10002", plan_name: "OSA 体验计划", plan_status: "启用" },
+  { plan_id: "10003", plan_name: "血压 NPS 计划", plan_status: "启用" },
+  { plan_id: "10004", plan_name: "AI Partner 计划", plan_status: "启用" },
+  { plan_id: "10005", plan_name: "生理 NPS 计划", plan_status: "启用" },
+  { plan_id: "10006", plan_name: "计划 NPS 计划", plan_status: "启用" },
+];
+
+const DEFAULT_TEMPLATE_BANNER = {
+  title: "喜欢RingConn吗？来评分吧！",
+  subtitle: "您的声音，我们的动力。",
+  button: "去评分！",
+};
+
+const DEFAULT_DESIGN_POPUP_COPY = `We're always working to improve Ring Conn by seeing things from your
+perspective. Your honest feedback really matters to us. Are the charts easy to
+read? Does the data make sense? Does everything feel intuitive? Take this
+quick survey about our new design and help us make RingConn everbetter for
+you.`;
+
+
+const SURVEY_POPUP_COPY_PRESETS = {
+  设计: "我们一直致力于从用户视角出发，打造更专业、更易用的健康管理体验。你的真实评价对我们至关重要。现在的图表够直观吗？数据解读是否轻松？操作逻辑是否顺手？我们诚邀你参与本次设计体验调研，帮助我们打磨出更懂你的 RingConn。",
+  用研: `面向受访者的简述
+参与本次筛选问卷并不保证获得访谈资格。在完成本问卷后，符合研究条件并被正式邀请的用户，在成功完成一次 60 分钟左右的英文 Zoom 线上访谈后，将获得等值 70 美元的亚马逊礼品卡作为研究参与奖励。
+请注意：参与者必须能够流利使用英语。 我们将通过电子邮件与入选用户联系并安排访谈时间。`,
+};
+
+const SURVEY_POPUP_COPY_PRESET_HTML = {
+  设计: `<strong>RingConn 体验评分邀请：</strong><br>
+我们一直致力于从用户视角出发，打造更专业、更易用的健康管理体验。你的真实评价对我们至关重要。现在的图表够直观吗？数据解读是否轻松？操作逻辑是否顺手？我们诚邀你参与本次设计体验调研，帮助我们打磨出更懂你的 RingConn。`,
+  用研: `<strong>面向受访者的简述</strong><br>
+参与本次筛选问卷并不保证获得访谈资格。在完成本问卷后，符合研究条件并被正式邀请的用户，在<strong>成功完成一次 60 分钟左右的英文 Zoom 线上访谈后，将获得等值 70 美元的亚马逊礼品卡</strong>作为研究参与奖励。<br>
+<strong>请注意：</strong>参与者必须能够<strong>流利使用英语</strong>。 我们将通过<strong>电子邮件</strong>与入选用户联系并安排访谈时间。`,
+};
+
+const DEFAULT_GLOBAL_APP_QUESTIONS = [
+  {
+    type: "评分(全局)",
+    title: "您有多大可能会向朋友或者同时推荐RingConn?",
+    subtitle: "",
+    scoreRange: "10",
+    scoreMinDesc: "不推荐",
+    scoreMaxDesc: "非常推荐",
+    lowScoreGuide: "我们有哪些做的不好的地方？",
+    highScoreGuide: "我们有哪些做得好的地方?",
+    otherScoreGuide: "我们有哪些值得改进的地方?",
+    required: "必填",
+    charLimit: "500",
+    choiceOptions: [{ label: "选项", isOther: false }],
+    errors: {},
+  },
+  {
+    type: "多选题",
+    title: "我们有哪些值得改进的地方?",
+    subtitle: "",
+    scoreRange: "10",
+    scoreMinDesc: "",
+    scoreMaxDesc: "",
+    lowScoreGuide: "",
+    highScoreGuide: "",
+    otherScoreGuide: "",
+    required: "必填",
+    charLimit: "500",
+    choiceOptions: [
+      { label: "戒指外观设计与质感", isOther: false },
+      { label: "佩戴舒适度与尺寸", isOther: false },
+      { label: "续航与充电体验", isOther: false },
+      { label: "戒指质量与耐用度", isOther: false },
+      { label: "App使用流畅度", isOther: false },
+      { label: "App界面易读性", isOther: false },
+      { label: "核心功能价值", isOther: false },
+      { label: "数据监测准确性", isOther: false },
+      { label: "数据解读帮助性", isOther: false },
+      { label: "售后体验", isOther: false },
+    ],
+    errors: {},
+  },
+];
+
+const I18N_LANGUAGES = [
+  { key: "zh_cn", label: "中文", previewLabel: "中文" },
+  { key: "zh_tw", label: "繁体中文", previewLabel: "繁体中文" },
+  { key: "en", label: "英文", previewLabel: "英语" },
+  { key: "ja", label: "日本语", previewLabel: "日本语" },
+  { key: "de", label: "德语", previewLabel: "德语" },
+  { key: "es", label: "西班牙语", previewLabel: "西班牙语" },
+  { key: "fr", label: "法语", previewLabel: "法语" },
+  { key: "ar", label: "阿拉伯语", previewLabel: "阿拉伯语" },
+  { key: "cs", label: "捷克语", previewLabel: "捷克语" },
+  { key: "tr", label: "土耳其", previewLabel: "土耳其" },
+  { key: "pl", label: "波兰语", previewLabel: "波兰语" },
+  { key: "fi", label: "芬兰语", previewLabel: "芬兰语" },
+  { key: "it", label: "意大利语", previewLabel: "意大利语" },
+  { key: "hu", label: "匈牙利语", previewLabel: "匈牙利语" },
+  { key: "ro", label: "罗马尼亚语", previewLabel: "罗马尼亚语" },
+  { key: "ko", label: "韩语", previewLabel: "韩语" },
+  { key: "lt", label: "立陶宛语", previewLabel: "立陶宛语" },
+  { key: "ms", label: "马来语", previewLabel: "马来语" },
+];
+
+const audienceUsers = [
+  { task_id: "10001", user_id: "34546", delivery_region: "中国大陆", registered_at: "2024-11-18", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10001", user_id: "34547", delivery_region: "美区", registered_at: "2025-02-07", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10001", user_id: "34548", delivery_region: "英区", registered_at: "2023-09-26", user_status: "近 3 月内已投放", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10002", user_id: "34549", delivery_region: "英区", registered_at: "2024-08-11", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已关闭" },
+  { task_id: "10002", user_id: "34550", delivery_region: "中国大陆", registered_at: "2025-12-03", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10002", user_id: "34551", delivery_region: "英区", registered_at: "2024-03-14", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10003", user_id: "34552", delivery_region: "美区", registered_at: "2023-07-09", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10003", user_id: "34553", delivery_region: "英区", registered_at: "2024-10-21", user_status: "近 3 月内已投放", exposure_status: "未曝光", delivery_status: "已关闭" },
+  { task_id: "10003", user_id: "34554", delivery_region: "中国大陆", registered_at: "2026-01-06", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10004", user_id: "34555", delivery_region: "英区", registered_at: "2025-04-02", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10004", user_id: "34556", delivery_region: "英区", registered_at: "2024-12-19", user_status: "非区域内用户", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10004", user_id: "34557", delivery_region: "美区", registered_at: "2022-06-30", user_status: "APP 版本过低", exposure_status: "未曝光", delivery_status: "已关闭" },
+  { task_id: "10005", user_id: "34558", delivery_region: "中国大陆", registered_at: "2024-05-12", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+  { task_id: "10005", user_id: "34559", delivery_region: "英区", registered_at: "2025-08-24", user_status: "非区域内用户", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10005", user_id: "34560", delivery_region: "英区", registered_at: "2023-11-05", user_status: "满足投放条件", exposure_status: "已曝光", delivery_status: "已提交部分问卷" },
+  { task_id: "10006", user_id: "34561", delivery_region: "中国大陆", registered_at: "2025-01-16", user_status: "满足投放条件", exposure_status: "未曝光", delivery_status: "未开始" },
+  { task_id: "10006", user_id: "34562", delivery_region: "美区", registered_at: "2026-02-09", user_status: "APP 版本过低", exposure_status: "已曝光", delivery_status: "已关闭" },
+  { task_id: "10006", user_id: "34563", delivery_region: "英区", registered_at: "2024-09-17", user_status: "同步异常", exposure_status: "已曝光", delivery_status: "已提交全部问卷" },
+];
+
+const AUDIENCE_REGION_ORDER = ["美区", "英区", "中国大陆"];
+
+const npsTemplates = [
+  {
+    template_id: "10014",
+    template_name: "全球产品体验问卷",
+    template_status: "处理中",
+    i18n_matching_demo: true,
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "弹窗问卷(APP功能)",
+    questionnaire_type: "弹窗问卷(APP功能)",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-08-20 16:40",
+    min_version: "V4.6.0",
+    data_center_sync: "synced",
+    defer_question_i18n_keys: true,
+    app_questions: [
+      { type: "评分(全局)", title: "您有多大可能会向朋友或者同事推荐RingConn?", subtitle: "", scoreRange: "10", scoreMinDesc: "不推荐", scoreMaxDesc: "非常推荐", lowScoreGuide: "我们有哪些做的不好的地方？", highScoreGuide: "我们有哪些做得好的地方?", otherScoreGuide: "我们有哪些值得改进的地方?" },
+      { type: "多选题", title: "我们有哪些值得改进的地方?", subtitle: "", choiceOptions: [{ label: "戒指外观设计与质感" }, { label: "佩戴舒适度与尺寸" }, { label: "核心功能价值" }] },
+    ],
+    question_sections: [{ page_title: "全球体验", title: "", subtitle: "", questions: [
+      { type: "评分(普通)", title: "您对健康数据解读的满意度如何？", subtitle: "", scoreRange: "10", scoreMinDesc: "非常不满意", scoreMaxDesc: "非常满意" },
+      { type: "评分(普通)", title: "您对 RingConn 整体使用体验的满意度如何？", subtitle: "", scoreRange: "10", scoreMinDesc: "非常不满意", scoreMaxDesc: "非常满意" },
+    ] }],
+    questions: [],
+  },
+  {
+    template_id: "10013",
+    template_name: "海外用户体验研究问卷",
+    template_status: "有效",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "弹窗问卷(用研)",
+    questionnaire_type: "弹窗问卷(用研)",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-08-20 16:20",
+    min_version: "V4.6.0",
+    data_center_sync: "synced",
+    defer_question_i18n_keys: true,
+    popup_copy_mode: "用研",
+    popup_copy: SURVEY_POPUP_COPY_PRESETS.用研,
+    questions: [
+      { type: "评分(普通)", title: "您对 RingConn 健康功能的整体满意度如何？", subtitle: "", scoreRange: "10", scoreMinDesc: "非常不满意", scoreMaxDesc: "非常满意" },
+      { type: "评分(普通)", title: "您是否愿意继续使用 RingConn 的健康服务？", subtitle: "", scoreRange: "10", scoreMinDesc: "完全不愿意", scoreMaxDesc: "非常愿意" },
+    ],
+  },
+  {
+    template_id: "10012",
+    template_name: "国妇婴NPS问卷",
+    template_status: "有效",
+    channel: "APP",
+    scene: "国妇婴",
+    raw_questionnaire_type: "常规问卷",
+    questionnaire_type: "常规问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-07-31 10:10",
+    min_version: "V4.6.0",
+    questions: [
+      { type: "评分(普通)", title: "您对生理周期监测体验满意吗？", subtitle: "", options: "1-10" },
+    ],
+  },
+  {
+    template_id: "10011",
+    template_name: "生理NPS问卷",
+    template_status: "有效",
+    channel: "APP",
+    scene: "生理",
+    raw_questionnaire_type: "常规问卷",
+    questionnaire_type: "常规问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-07-31 10:00",
+    min_version: "V4.6.0",
+    questions: [
+      { type: "评分(普通)", title: "您对生理周期功能满意吗？", subtitle: "", options: "1-10" },
+    ],
+  },
+  {
+    template_id: "10010",
+    template_name: "健康体验调研问卷",
+    template_status: "待补充多语言",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "弹窗问卷(设计)",
+    questionnaire_type: "弹窗问卷(设计)",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-07-27 10:20",
+    min_version: "V4.6.0",
+    i18n_bound_keys: {
+      app_display_name: "nps.10010.display_name_1",
+      popup_copy: "nps.10010.popup_copy_1",
+      question_1_title: "nps.10010.question.1001001.title_1",
+    },
+    popup_copy_mode: "设计",
+    popup_copy: SURVEY_POPUP_COPY_PRESETS.设计,
+    questions: [
+      { type: "评分(普通)", title: "您对近期健康体验满意吗？", subtitle: "", options: "1-10" },
+    ],
+  },
+  {
+    template_id: "10009",
+    template_name: "用户研究招募问卷草稿",
+    template_status: "草稿",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "弹窗问卷(用研)",
+    questionnaire_type: "弹窗问卷(用研)",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-07-27 09:50",
+    min_version: "V4.6.0",
+    i18n_uploaded: true,
+    popup_copy_mode: "用研",
+    popup_copy: SURVEY_POPUP_COPY_PRESETS.用研,
+    questions: [
+      { type: "单选题", title: "您愿意参与用户研究访谈吗？", subtitle: "", options: "愿意, 暂不参与, 需要了解更多" },
+    ],
+  },
+  {
+    template_id: "10005",
+    template_name: "全局 NPS 调查问卷",
+    template_status: "有效",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "弹窗问卷(APP功能)",
+    questionnaire_type: "弹窗问卷(APP功能)",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-06-23 16:30",
+    min_version: "V3.13.2",
+    linked_questionnaires: ["NPS分组问卷-监测准确性", "NPS分组问卷-App设计体验", "NPS分组问卷-渠道与改进"],
+    questions: [
+      { type: "评分(全局)", title: "您愿意向朋友推荐 RingConn 吗？", subtitle: "1=非常不认可，10=非常认可", options: "1-10" },
+      { type: "多选题", title: "影响您评分的主要原因是什么？", subtitle: "", options: "睡眠数据, 佩戴舒适度, App 体验, 其他" },
+    ],
+  },
+  {
+    template_id: "10004",
+    template_name: "UI NPS 调查问卷",
+    template_status: "有效",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "弹窗问卷(设计)",
+    questionnaire_type: "弹窗问卷(设计)",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-06-23 15:40",
+    min_version: "V3.16",
+    i18n_uploaded: true,
+    popup_copy_mode: "设计",
+    popup_copy: SURVEY_POPUP_COPY_PRESETS.设计,
+    page_size: "5",
+    questions: [
+      { type: "评分(普通)", title: "您对当前 UI 体验满意吗？", subtitle: "", options: "1-10" },
+      { type: "开放题", title: "您希望我们优先优化哪些界面？", subtitle: "", options: "500 字符" },
+    ],
+  },
+  {
+    template_id: "10003",
+    template_name: "睡眠 NPS 调查问卷",
+    template_status: "有效",
+    channel: "APP",
+    scene: "睡眠",
+    raw_questionnaire_type: "常规问卷",
+    questionnaire_type: "常规问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-06-23 14:10",
+    min_version: "V4.6.0",
+    questions: [
+      { type: "评分(普通)", title: "您对睡眠分析结果满意吗？", subtitle: "", options: "1-10" },
+    ],
+  },
+  {
+    template_id: "10008",
+    template_name: "NPS分组问卷-监测准确性",
+    template_status: "有效",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "分组问卷",
+    questionnaire_type: "分组问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-07-09 16:20",
+    min_version: "V4.6.0",
+    questionnaire_title: "问卷",
+    questionnaire_description: "根据您的使用感受，是否认同以下描述？",
+    questionnaire_remark: "5=非常认同，1=非常不认同",
+    questions: [
+      { type: "评分(普通)", title: "睡眠监测数据准确", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "活动监测数据准确", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "压力监测数据准确", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "生命体征监测数据准确", subtitle: "", options: "1-5" },
+    ],
+  },
+  {
+    template_id: "10007",
+    template_name: "NPS分组问卷-App设计体验",
+    template_status: "有效",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "分组问卷",
+    questionnaire_type: "分组问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-07-09 16:10",
+    min_version: "V4.6.0",
+    questionnaire_title: "问卷",
+    questionnaire_description: "根据您对App的设计感受，是否认同以下描述？",
+    questionnaire_remark: "5=非常认同，1=非常不认同",
+    questions: [
+      { type: "评分(普通)", title: "操作流程顺畅，符合逻辑", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "想找的东西都很容易找到", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "文案话术描述清晰准确，易于理解", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "图表信息清晰易懂", subtitle: "", options: "1-5" },
+      { type: "评分(普通)", title: "字体字号大小合适，便于阅读", subtitle: "", options: "1-5" },
+    ],
+  },
+  {
+    template_id: "10006",
+    template_name: "NPS分组问卷-渠道与改进",
+    template_status: "有效",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "分组问卷",
+    questionnaire_type: "分组问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-07-09 16:00",
+    min_version: "V4.6.0",
+    questionnaire_title: "问卷",
+    questionnaire_description: "",
+    questionnaire_remark: "",
+    questions: [
+      {
+        type: "多选题",
+        title: "您是通过哪种方式了解到RingConn的？",
+        subtitle: "",
+        choiceOptions: [
+          { label: "自发搜索", isOther: false },
+          { label: "亲友推荐", isOther: false },
+          { label: "广告信息", isOther: false },
+          { label: "网络分享/推荐", isOther: false },
+          { label: "随机尝试/体验", isOther: false },
+        ],
+      },
+      {
+        type: "多选题",
+        title: "您是通过哪个渠道购买了我们的产品？",
+        subtitle: "",
+        choiceOptions: [
+          { label: "天猫", isOther: false },
+          { label: "京东", isOther: false },
+          { label: "得物", isOther: false },
+          { label: "小红书", isOther: false },
+          { label: "微信小程序", isOther: false },
+          { label: "线下门店", isOther: false },
+          { label: "其他渠道", isOther: true, otherPrompt: "请填写其他渠道信息", charLimit: "1000" },
+        ],
+      },
+      {
+        type: "开放题",
+        title: "您觉得我们在哪方面还需要改进？",
+        subtitle: "如：预测更准、建议更个性化，界面更清晰等",
+        required: "选填",
+        charLimit: "2000",
+      },
+    ],
+  },
+  {
+    template_id: "10002",
+    template_name: "运动 NPS 调查问卷",
+    template_status: "有效",
+    channel: "APP",
+    scene: "运动",
+    raw_questionnaire_type: "常规问卷",
+    questionnaire_type: "常规问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-06-23 11:20",
+    min_version: "V4.6.0",
+    questions: [
+      { type: "单选题", title: "您最常查看哪类运动数据？", subtitle: "", options: "步数, 卡路里, 活动时长, 其他" },
+    ],
+  },
+  {
+    template_id: "10001",
+    template_name: "NPS分组完整问卷",
+    template_status: "有效",
+    channel: "APP",
+    scene: "全局",
+    raw_questionnaire_type: "分组问卷",
+    questionnaire_type: "分组问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-06-23 10:00",
+    min_version: "V4.6.0",
+    questions: [
+      { type: "评分(普通)", title: "您对整体功能体验满意吗？", subtitle: "", options: "1-10" },
+      { type: "多选题", title: "请选择您关注的功能分组", subtitle: "", options: "睡眠, 计划, 健康画像, AI Partner" },
+    ],
+  },
+  {
+    template_id: "10000",
+    template_name: "*******",
+    template_status: "无效",
+    channel: "APP",
+    scene: "*******",
+    raw_questionnaire_type: "常规问卷",
+    questionnaire_type: "常规问卷",
+    detail_text: "查看",
+    creator: "谢敏",
+    updated_at: "2026-06-23 09:10",
+    min_version: "-",
+    questions: [],
+    is_deleted: true,
+  },
+];
+
+const PROTOTYPE_SESSION_CACHE_KEY = "nps-admin-prototype-session-v1";
+
+function restorePrototypeSessionCache() {
+  try {
+    const savedCache = window.sessionStorage.getItem(PROTOTYPE_SESSION_CACHE_KEY);
+    if (!savedCache) return;
+    const cache = JSON.parse(savedCache);
+    if (Array.isArray(cache.tasks)) tasks.splice(0, tasks.length, ...cache.tasks);
+    if (Array.isArray(cache.templates)) npsTemplates.splice(0, npsTemplates.length, ...cache.templates);
+    if (Array.isArray(cache.audienceUsers)) audienceUsers.splice(0, audienceUsers.length, ...cache.audienceUsers);
+  } catch {
+    window.sessionStorage.removeItem(PROTOTYPE_SESSION_CACHE_KEY);
+  }
+}
+
+function persistPrototypeSessionCache() {
+  try {
+    window.sessionStorage.setItem(PROTOTYPE_SESSION_CACHE_KEY, JSON.stringify({
+      tasks,
+      templates: npsTemplates,
+      audienceUsers,
+    }));
+  } catch {
+    // Storage is optional for this static prototype.
+  }
+}
+
+restorePrototypeSessionCache();
+
+// Keep one visible example of the transient matching state in the survey list.
+const processingTemplateExample = npsTemplates.find((template) => template.template_id === "10014");
+if (processingTemplateExample) {
+  processingTemplateExample.template_status = "处理中";
+  processingTemplateExample.i18n_matching_demo = true;
+}
+window.addEventListener("pagehide", persistPrototypeSessionCache);
+
+const templates = [
+  ...npsTemplates.map((template) => template.template_name),
+  "睡眠NPS模板",
+  "OSA问卷模板",
+  "血压NPS模板",
+  "AI Partner模板",
+  "生理NPS模板",
+  "计划NPS模板",
+  "全局NPS模板",
+].filter((template, index, source) => source.indexOf(template) === index);
+
+let filteredTasks = [...tasks];
+let filteredTemplates = [...npsTemplates];
+let selectedTaskDeleteId = null;
+let selectedTemplateDeleteId = null;
+const templateI18nMatchingTimers = new Map();
+let exportTimer = null;
+let formMode = "add";
+let currentAudienceTaskId = "";
+let filteredAudienceUsers = [...audienceUsers];
+let audienceDeliveryStatuses = new Set();
+let audienceRegionFiles = { us: "", uk: "", cn: "" };
+let templateFormMode = "add";
+let templateVariant = "default";
+let templateStep = 1;
+let templateQuestions = [];
+let templateQuestionSections = [];
+let questionEditorDragState = null;
+let templateGroupCreationContext = null;
+let templateCopySourceId = "";
+let questionAssociationMode = false;
+let activeQuestionAssociation = null;
+let savedRichTextRange = null;
+let savedConsentRichTextRange = null;
+let currentI18nTemplateId = "";
+let currentI18nLanguage = "en";
+let currentI18nGroupIndex = 0;
+let i18nUploadTimer = null;
+let i18nFileReady = false;
+const i18nTranslationOverrides = new Map();
+let activeI18nTranslation = null;
+
+const taskRows = document.getElementById("taskRows");
+const audienceRows = document.getElementById("audienceRows");
+const templateRows = document.getElementById("templateRows");
+const rowCount = document.getElementById("rowCount");
+const audienceRowCount = document.getElementById("audienceRowCount");
+const templateRowCount = document.getElementById("templateRowCount");
+const templateDeleteLightbox = document.getElementById("templateDeleteLightbox");
+const templateNav = document.getElementById("templateNav");
+const surveyListNav = document.getElementById("surveyListNav");
+const translationNav = document.getElementById("translationNav");
+const templatePlanBNav = document.getElementById("templatePlanBNav");
+const taskNav = document.getElementById("taskNav");
+const taskName = document.getElementById("taskName");
+const taskScene = document.getElementById("taskScene");
+const taskStatus = document.getElementById("taskStatus");
+const taskDateRange = document.getElementById("taskDateRange");
+const audienceUserIdSearch = document.getElementById("audienceUserIdSearch");
+const audienceDeliveryStatusTrigger = document.getElementById("audienceDeliveryStatusTrigger");
+const audienceDeliveryStatusPanel = document.getElementById("audienceDeliveryStatusPanel");
+const audienceExposureStatus = document.getElementById("audienceExposureStatus");
+const audienceUserStatus = document.getElementById("audienceUserStatus");
+const audienceDeliveryRegion = document.getElementById("audienceDeliveryRegion");
+const templateNameSearch = document.getElementById("templateNameSearch");
+const templateStatusSearch = document.getElementById("templateStatusSearch");
+const templateSceneSearch = document.getElementById("templateSceneSearch");
+const templateTypeSearch = document.getElementById("templateTypeSearch");
+const dateError = document.getElementById("dateError");
+const datePanel = document.getElementById("datePanel");
+const rangePicker = document.getElementById("rangePicker");
+const rangeStartText = document.getElementById("rangeStartText");
+const rangeEndText = document.getElementById("rangeEndText");
+const leftCalendarGrid = document.getElementById("leftCalendarGrid");
+const rightCalendarGrid = document.getElementById("rightCalendarGrid");
+const leftCalendarTitle = document.getElementById("leftCalendarTitle");
+const rightCalendarTitle = document.getElementById("rightCalendarTitle");
+const taskDeleteLightbox = document.getElementById("taskDeleteLightbox");
+const planLightbox = document.getElementById("planLightbox");
+const templateDetailLightbox = document.getElementById("templateDetailLightbox");
+const templateDetailBody = document.getElementById("templateDetailBody");
+const exportLightbox = document.getElementById("exportLightbox");
+const npsEstimateLightbox = document.getElementById("npsEstimateLightbox");
+const npsEstimateBody = document.getElementById("npsEstimateBody");
+const i18nBindingList = document.getElementById("i18nBindingList");
+const openI18nUploadDialogBtn = document.getElementById("openI18nUploadDialogBtn");
+const i18nFileInput = document.getElementById("i18nFileInput");
+const i18nUploadLightbox = document.getElementById("i18nUploadLightbox");
+const i18nUploadFileName = document.getElementById("i18nUploadFileName");
+const i18nUploadLoading = document.getElementById("i18nUploadLoading");
+const submitI18nUploadBtn = document.getElementById("submitI18nUploadBtn");
+const cancelI18nUploadBtn = document.getElementById("cancelI18nUploadBtn");
+const i18nTranslationLightbox = document.getElementById("i18nTranslationLightbox");
+const i18nTranslationDialogTitle = document.getElementById("i18nTranslationDialogTitle");
+const i18nTranslationKey = document.getElementById("i18nTranslationKey");
+const i18nTranslationSource = document.getElementById("i18nTranslationSource");
+const i18nTranslationRows = document.getElementById("i18nTranslationRows");
+const i18nTranslationDialogActions = document.getElementById("i18nTranslationDialogActions");
+const questionAssociationLightbox = document.getElementById("questionAssociationLightbox");
+const questionAssociationBody = document.getElementById("questionAssociationBody");
+const questionAssociationDeleteLightbox = document.getElementById("questionAssociationDeleteLightbox");
+const questionAssociationDeleteText = document.getElementById("questionAssociationDeleteText");
+const toast = document.getElementById("toast");
+const formFields = {
+  editingTaskId: document.getElementById("editingTaskId"),
+  taskName: document.getElementById("formTaskName"),
+  planName: document.getElementById("formPlanName"),
+  taskScene: document.getElementById("formTaskScene"),
+  questionnaireType: document.getElementById("formTaskQuestionnaireType"),
+  questionnaireTypeRow: document.getElementById("formTaskQuestionnaireTypeRow"),
+  forceRequiredRow: document.getElementById("formTaskForceRequiredRow"),
+  forceRequiredYes: document.getElementById("formTaskForceRequiredYes"),
+  forceRequiredNo: document.getElementById("formTaskForceRequiredNo"),
+  startTime: document.getElementById("formStartTime"),
+  startDateTime: document.getElementById("formStartDateTime"),
+  taskVersion: document.getElementById("formTaskVersionStart"),
+  taskVersionStart: document.getElementById("formTaskVersionStart"),
+  taskVersionEnd: document.getElementById("formTaskVersionEnd"),
+  endTime: document.getElementById("formEndTime"),
+  endDate: document.getElementById("formEndDate"),
+  endHour: document.getElementById("formEndHour"),
+  appTrigger: document.getElementById("appClientTrigger"),
+  appPanel: document.getElementById("appClientPanel"),
+  appClientApp: document.getElementById("appClientApp"),
+  templateName: document.getElementById("formTemplateName"),
+  audienceFiles: document.getElementById("audienceRegionFiles"),
+  audienceFileUs: document.getElementById("audienceFileUs"),
+  audienceFileUk: document.getElementById("audienceFileUk"),
+  audienceFileCn: document.getElementById("audienceFileCn"),
+  audienceFileNameUs: document.getElementById("audienceFileNameUs"),
+  audienceFileNameUk: document.getElementById("audienceFileNameUk"),
+  audienceFileNameCn: document.getElementById("audienceFileNameCn"),
+  newPlanName: document.getElementById("newPlanName"),
+};
+const templateFormFields = {
+  editingTemplateId: document.getElementById("editingTemplateId"),
+  templateTitle: document.getElementById("formTemplateTitle"),
+  templateDisplayName: document.getElementById("formTemplateDisplayName"),
+  scene: document.getElementById("formTemplateScene"),
+  questionnaireType: document.getElementById("formQuestionnaireType"),
+  channelTrigger: document.getElementById("templateChannelTrigger"),
+  channelPanel: document.getElementById("templateChannelPanel"),
+  channelApp: document.getElementById("templateChannelApp"),
+  versionRow: document.getElementById("templateVersionRow"),
+  androidVersion: document.getElementById("templateAndroidVersion"),
+  androidVersionEnd: document.getElementById("templateAndroidVersionEnd"),
+  iosVersion: document.getElementById("templateIosVersion"),
+  iosVersionEnd: document.getElementById("templateIosVersionEnd"),
+  consentRow: document.getElementById("templateConsentRow"),
+  consentNotRequired: document.getElementById("templateConsentNotRequired"),
+  consentRequired: document.getElementById("templateConsentRequired"),
+  consentContentRow: document.getElementById("templateConsentContentRow"),
+  consentContent: document.getElementById("templateConsentContent"),
+  thirdPartyRow: document.getElementById("templateThirdPartyRow"),
+  thirdPartyNo: document.getElementById("templateThirdPartyNo"),
+  thirdPartyYes: document.getElementById("templateThirdPartyYes"),
+  thirdPartyUrlRow: document.getElementById("templateThirdPartyUrlRow"),
+  thirdPartyUrl: document.getElementById("templateThirdPartyUrl"),
+  bannerTitle: document.getElementById("templateBannerTitle"),
+  bannerSubtitle: document.getElementById("templateBannerSubtitle"),
+  bannerButton: document.getElementById("templateBannerButton"),
+  linkedTrigger: document.getElementById("linkedQuestionnaireTrigger"),
+  linked: document.getElementById("linkedQuestionnaireTrigger"),
+  linkedPanel: document.getElementById("linkedQuestionnairePanel"),
+  createGroupButton: document.getElementById("createGroupQuestionnaireBtn"),
+  questionnaireStyleNormal: document.getElementById("questionnaireStyleNormal"),
+  questionnaireStyleGroup: document.getElementById("questionnaireStyleGroup"),
+  pageSize: document.getElementById("pageSize"),
+  popupCopyModeResearch: document.getElementById("popupCopyModeResearch"),
+  popupCopyModeDesign: document.getElementById("popupCopyModeDesign"),
+  popupCopy: document.getElementById("popupCopy"),
+  questionnaireDescription: document.getElementById("questionnaireDescription"),
+  questionnaireDescriptionCount: document.getElementById("questionnaireDescriptionCount"),
+  questionnaireRemark: document.getElementById("questionnaireRemark"),
+  questionnaireTitle: document.getElementById("questionnaireTitle"),
+  questionRepeater: document.getElementById("questionRepeater"),
+  globalQuestionRepeater: document.getElementById("globalQuestionRepeater"),
+  sectionRepeaterStepTwo: document.getElementById("planBSectionsStepTwo"),
+  sectionRepeaterStepThree: document.getElementById("planBSectionsStepThree"),
+};
+const formErrors = {
+  taskName: document.getElementById("formTaskNameError"),
+  planName: document.getElementById("formPlanNameError"),
+  taskScene: document.getElementById("formTaskSceneError"),
+  questionnaireType: document.getElementById("formTaskQuestionnaireTypeError"),
+  startTime: document.getElementById("formStartTimeError"),
+  taskVersion: document.getElementById("formTaskVersionError"),
+  endTime: document.getElementById("formEndTimeError"),
+  appClient: document.getElementById("formAppClientError"),
+  templateName: document.getElementById("formTemplateNameError"),
+  audienceFiles: document.getElementById("formAudienceFilesError"),
+  newPlanName: document.getElementById("newPlanNameError"),
+};
+const templateFormErrors = {
+  templateTitle: document.getElementById("formTemplateTitleError"),
+  templateDisplayName: document.getElementById("formTemplateDisplayNameError"),
+  scene: document.getElementById("formTemplateSceneError"),
+  questionnaireType: document.getElementById("formQuestionnaireTypeError"),
+  channel: document.getElementById("formTemplateChannelError"),
+  bannerTitle: document.getElementById("formTemplateBannerTitleError"),
+  bannerSubtitle: document.getElementById("formTemplateBannerSubtitleError"),
+  bannerButton: document.getElementById("formTemplateBannerButtonError"),
+  linked: document.getElementById("formLinkedQuestionnaireError"),
+  pageSize: document.getElementById("formPageSizeError"),
+  version: document.getElementById("formTemplateVersionError"),
+  consent: document.getElementById("formTemplateConsentError"),
+  thirdPartyUrl: document.getElementById("formTemplateThirdPartyUrlError"),
+  questionnaireTitle: document.getElementById("formQuestionnaireTitleError"),
+  questionnaireDescription: document.getElementById("formQuestionnaireDescriptionError"),
+};
+
+let calendarMonth = new Date(2026, 5, 1);
+let draftStart = null;
+let draftEnd = null;
+const defaultCalendarMonth = new Date(2026, 5, 1);
+
+function canEditTask(task) {
+  return task.task_status === "待投放";
+}
+
+function canExportTask(task) {
+  return task.task_status === "投放完成";
+}
+
+function canShowNpsEstimate(task) {
+  return (task.task_status === "投放中" || task.task_status === "投放完成") && task.nps_estimate !== "";
+}
+
+function isTaskEnded(task) {
+  return new Date() >= parseTaskDateTime(task.end_time, true);
+}
+
+function getNpsInterpretation(value) {
+  const score = Number(value);
+  if (Number.isNaN(score)) return "";
+  if (score >= 70) return "卓越";
+  if (score >= 30) return "优秀";
+  if (score > 0) return "良好";
+  return "待改善";
+}
+
+function formatNpsEstimate(value) {
+  if (value === "") return "-";
+  const interpretation = getNpsInterpretation(value);
+  return interpretation ? `${value}(${interpretation})` : value;
+}
+
+function getStatusClass(status) {
+  const statusMap = {
+    有效: "status-success",
+    无效: "status-error",
+    草稿: "status-default",
+    处理中: "status-info",
+    待补充多语言: "status-warning",
+    待投放: "status-info",
+    投放中: "status-warning",
+    投放完成: "status-success",
+    投放失败: "status-error",
+  };
+  return statusMap[status] || "status-default";
+}
+
+function escapeText(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;",
+  })[char]);
+}
+
+function sortTasksByIdDesc(rows) {
+  return [...rows].sort((first, second) => Number(second.task_id) - Number(first.task_id));
+}
+
+function sortPlansByIdDesc(rows) {
+  return [...rows].sort((first, second) => Number(second.plan_id) - Number(first.plan_id));
+}
+
+function sortTemplatesByIdDesc(rows) {
+  return [...rows].sort((first, second) => Number(second.template_id) - Number(first.template_id));
+}
+
+function getNextId(rows, field) {
+  return String(Math.max(...rows.map((item) => Number(item[field])), 10000) + 1);
+}
+
+function padNumber(value) {
+  return String(value).padStart(2, "0");
+}
+
+function formatDate(date) {
+  return `${date.getFullYear()}-${padNumber(date.getMonth() + 1)}-${padNumber(date.getDate())}`;
+}
+
+function formatDateMinute(date) {
+  return `${formatDate(date)} ${padNumber(date.getHours())}:${padNumber(date.getMinutes())}`;
+}
+
+function getCurrentHour() {
+  const now = new Date();
+  now.setMinutes(0, 0, 0);
+  return now;
+}
+
+function getCurrentBeijingHourValue() {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date()).reduce((result, part) => {
+    if (part.type !== "literal") result[part.type] = part.value;
+    return result;
+  }, {});
+  return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
+}
+
+function formatDateTimeHour(value) {
+  if (!value) return "";
+  const match = value.match(/^(\d{4}-\d{2}-\d{2})T(\d{2})(?::(\d{2}))?/);
+  return match ? `${match[1]} ${match[2]}:${match[3] || "00"}` : "";
+}
+
+function setDateTimeHourValue(field, value) {
+  field.value = "";
+  if (!value) return;
+  const match = value.match(/^(\d{4}-\d{2}-\d{2})(?:\s+|T)(\d{2})(?::(\d{2}))?/);
+  if (match) field.value = `${match[1]}T${match[2]}:${match[3] || "00"}`;
+}
+
+function populateHourOptions(selectElement) {
+  selectElement.innerHTML = [
+    '<option value="">请选择小时</option>',
+    ...Array.from({ length: 24 }, (_, index) => {
+      const hour = padNumber(index);
+      return `<option value="${hour}">${hour}时</option>`;
+    }),
+  ].join("");
+}
+
+function formatDateHour(dateValue, hourValue) {
+  if (!dateValue || !hourValue) return "";
+  return `${dateValue} ${hourValue}`;
+}
+
+function parseDateHour(dateValue, hourValue) {
+  if (!dateValue || !hourValue) return null;
+  const date = new Date(`${dateValue}T${hourValue}:00:00`);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function setDateHourValue(dateField, hourField, value) {
+  dateField.value = "";
+  hourField.value = "";
+  if (!value) return;
+  const match = value.match(/^(\d{4}-\d{2}-\d{2})(?:\s+(\d{2}))?/);
+  if (!match) return;
+  dateField.value = match[1];
+  hourField.value = match[2] || "00";
+}
+
+function parseTaskDateTime(value, isEnd = false) {
+  const normalized = value.includes(" ") ? value.replace(" ", "T") : `${value}T${isEnd ? "23:59:59" : "00:00:00"}`;
+  const withSeconds = normalized.length === 13 ? `${normalized}:00:00` : normalized;
+  return new Date(withSeconds);
+}
+
+function normalizeVersion(value) {
+  return value.trim().replace(/^v/i, "");
+}
+
+function compareVersions(first, second) {
+  const firstParts = normalizeVersion(first).split(".").map((part) => Number(part) || 0);
+  const secondParts = normalizeVersion(second).split(".").map((part) => Number(part) || 0);
+  const length = Math.max(firstParts.length, secondParts.length);
+  for (let index = 0; index < length; index += 1) {
+    const diff = (firstParts[index] || 0) - (secondParts[index] || 0);
+    if (diff !== 0) return diff;
+  }
+  return 0;
+}
+
+function setError(field, message) {
+  const control = formFields[field];
+  const error = formErrors[field];
+  if (control) control.classList.add("error");
+  if (error) {
+    error.textContent = message;
+    error.classList.add("show");
+  }
+}
+
+function clearError(field) {
+  const control = formFields[field];
+  const error = formErrors[field];
+  if (control) control.classList.remove("error");
+  if (error) {
+    error.textContent = "";
+    error.classList.remove("show");
+  }
+}
+
+function clearFormErrors() {
+  Object.keys(formErrors).forEach(clearError);
+  formFields.appTrigger.classList.remove("error");
+  document.querySelectorAll(".form-row .error").forEach((element) => element.classList.remove("error"));
+}
+
+function setTemplateError(field, message) {
+  const control = templateFormFields[field];
+  const error = templateFormErrors[field];
+  if (control) control.classList.add("error");
+  if (error) {
+    error.textContent = message;
+    error.classList.add("show");
+  }
+}
+
+function clearTemplateError(field) {
+  const control = templateFormFields[field];
+  const error = templateFormErrors[field];
+  if (control) control.classList.remove("error");
+  if (error) {
+    error.textContent = "";
+    error.classList.remove("show");
+  }
+}
+
+function clearTemplateFormErrors() {
+  Object.keys(templateFormErrors).forEach(clearTemplateError);
+  templateFormFields.channelTrigger.classList.remove("error");
+  document.querySelectorAll("#templateForm .error").forEach((element) => element.classList.remove("error"));
+}
+
+function getSelectedApps() {
+  return ["APP"];
+}
+
+const HIGH_VERSION_MODULES = ["睡眠", "活动", "压力", "生命体征", "国妇婴"];
+
+function getSelectedTaskVersions() {
+  const start = normalizeTaskVersionValue(formFields.taskVersionStart.value);
+  const end = normalizeTaskVersionValue(formFields.taskVersionEnd.value);
+  const version = start || end;
+  return version ? [`V${version}`] : [];
+}
+
+function normalizeTaskVersionValue(value) {
+  return String(value || "").trim().replace(/^v/i, "");
+}
+
+function setTaskVersionRange(start = "", end = "") {
+  formFields.taskVersionStart.value = normalizeTaskVersionValue(start);
+  formFields.taskVersionEnd.value = normalizeTaskVersionValue(end);
+}
+
+function getTaskVersionDefault() {
+  const module = formFields.taskScene.value;
+  const questionnaireType = formFields.questionnaireType.value;
+  if (!module || (module === "全局" && !formFields.questionnaireType.value)) return "";
+  if (module === "全局" && ["弹窗问卷(用研)", "弹窗问卷(设计)"].includes(questionnaireType)) return "V3.16";
+  if (module === "全局" && questionnaireType === "弹窗问卷(全局)") return "V3.13.2";
+  if (HIGH_VERSION_MODULES.includes(module)) return "V3.16";
+  return "V3.13.2";
+}
+
+function isTaskForceRequired() {
+  return formFields.forceRequiredYes.checked;
+}
+
+function setTaskForceRequired(isForceRequired = true) {
+  formFields.forceRequiredYes.checked = Boolean(isForceRequired);
+  formFields.forceRequiredNo.checked = !isForceRequired;
+}
+
+function updateTaskForceRequiredVisibility() {
+  const isGynecologyModule = formFields.taskScene.value === "国妇婴";
+  formFields.forceRequiredRow.classList.toggle("hidden", !isGynecologyModule);
+  if (!isGynecologyModule) setTaskForceRequired(true);
+}
+
+function applyTaskVersionDefaults() {
+  setTaskVersionRange(getTaskVersionDefault());
+  clearError("taskVersion");
+}
+
+function setTaskVersionReadonly(readonly) {
+  formFields.taskVersionStart.disabled = readonly;
+  formFields.taskVersionEnd.disabled = readonly;
+}
+
+function getTaskStoredVersionRange(task) {
+  if (task.delivery_version_start) {
+    return { start: task.delivery_version_start, end: task.delivery_version_end || "" };
+  }
+  if (Array.isArray(task.delivery_versions) && task.delivery_versions.length) return { start: task.delivery_versions[0], end: "" };
+  if (task.delivery_versions && typeof task.delivery_versions === "object") {
+    const legacyValues = [
+      ...(Array.isArray(task.delivery_versions.android) ? task.delivery_versions.android : []),
+      ...(Array.isArray(task.delivery_versions.ios) ? task.delivery_versions.ios : []),
+    ];
+    if (legacyValues.length) return { start: legacyValues[0], end: "" };
+  }
+  return { start: getTaskVersionDefault(), end: "" };
+}
+
+function updateAppTrigger() {
+  formFields.appClientApp.checked = true;
+  formFields.appTrigger.textContent = "APP";
+}
+
+function getPlanByName(planName) {
+  return plans.find((plan) => plan.plan_name === planName);
+}
+
+function renderPlanOptions() {
+  formFields.planName.innerHTML = [
+    '<option value="">请选择计划</option>',
+    ...sortPlansByIdDesc(plans).map((plan) => `<option value="${escapeText(plan.plan_name)}">${escapeText(plan.plan_name)}</option>`),
+  ].join("");
+}
+
+function renderTemplateOptions() {
+  const selectedValue = formFields.templateName.value;
+  const module = formFields.taskScene.value;
+  const questionnaireType = formFields.questionnaireType.value;
+  const selectedVersions = new Set(getSelectedTaskVersions());
+  const hasSelectedVersion = selectedVersions.size > 0;
+  const canSelectTemplate = Boolean(module) &&
+    hasSelectedVersion &&
+    (module !== "全局" || Boolean(questionnaireType));
+  const matchingTemplates = npsTemplates.filter((template) => {
+    if (template.template_status !== "有效" || template.is_deleted) return false;
+    const templateType = getSurveyListTemplateType(template);
+    if (module !== "全局") {
+      if (getTemplateDisplayType(getTemplateRawType(template)) !== "常规问卷") return false;
+      return true;
+    }
+    const templateVersion = normalizeTemplateMinVersionValue(template.min_version || "");
+    return template.scene === "全局" &&
+      Boolean(questionnaireType) &&
+      templateType === questionnaireType &&
+      selectedVersions.has(templateVersion);
+  });
+  const hasSelectedTemplate = matchingTemplates.some((template) => template.template_name === selectedValue);
+  formFields.templateName.innerHTML = [
+    `<option value="">请选择投放问卷</option>`,
+    ...sortTemplatesByIdDesc(matchingTemplates).map((template) => `<option value="${escapeText(template.template_name)}">${escapeText(template.template_name)}</option>`),
+    ...(module !== "全局" && !hasSelectedTemplate && selectedValue ? [`<option value="${escapeText(selectedValue)}">${escapeText(selectedValue)}</option>`] : []),
+  ].join("");
+  if ([...formFields.templateName.options].some((option) => option.value === selectedValue)) {
+    formFields.templateName.value = selectedValue;
+  }
+  formFields.templateName.disabled = !canSelectTemplate;
+}
+
+function updateTaskQuestionnaireTypeVisibility() {
+  const isGlobalModule = formFields.taskScene.value === "全局";
+  formFields.questionnaireTypeRow.classList.toggle("hidden", !isGlobalModule);
+  formFields.questionnaireType.required = isGlobalModule;
+  if (!isGlobalModule) formFields.questionnaireType.value = "";
+  updateTaskForceRequiredVisibility();
+  formFields.templateName.value = "";
+  renderTemplateOptions();
+}
+
+function getTaskTemplateType(task) {
+  const template = npsTemplates.find((item) => item.template_name === task.template_name && item.scene === task.task_scene);
+  return task.questionnaire_type
+    ? getSurveyListQuestionnaireType(task.questionnaire_type)
+    : (template ? getSurveyListTemplateType(template) : "");
+}
+
+function syncTemplateNameOptions(templateName) {
+  if (templateName && !templates.includes(templateName)) {
+    templates.unshift(templateName);
+    renderTemplateOptions();
+  }
+}
+
+function renderTemplates(rows) {
+  const activeRows = rows.filter((template) => !template.is_deleted);
+  const variantRows = usesSectionQuestionEditor()
+    ? activeRows.filter((template) => getTemplateDisplayType(getTemplateRawType(template)) !== "分组问卷")
+    : activeRows;
+  const displayRows = sortTemplatesByIdDesc(variantRows);
+  templateRows.innerHTML = displayRows.map((template) => {
+    const statusClass = getStatusClass(template.template_status);
+    const templateType = isSurveyListVariant()
+      ? getSurveyListTemplateType(template)
+      : getTemplateDisplayType(getTemplateRawType(template));
+    const statusText = isSurveyListVariant()
+      ? getSurveyListStatus(template.template_status)
+      : template.template_status;
+    const minVersionText = isSurveyListVariant() && templateType === "常规问卷"
+      ? "--"
+      : (template.min_version || "-");
+    const isGlobalPopupQuestionnaire = isPopupAppQuestionnaireType(templateType);
+    const isLegacySurveyQuestionnaire = isSurveyListVariant() && ["V3.13.2", "V3.16"].includes(normalizeTemplateMinVersionValue(template.min_version));
+    const isThirdPartyRegularQuestionnaire = isSurveyListVariant() && templateType === "常规问卷" && Boolean(template.is_third_party_questionnaire);
+    const i18nDisabled = (isGlobalPopupQuestionnaire && !isSurveyListVariant()) || isLegacySurveyQuestionnaire || isThirdPartyRegularQuestionnaire || (isSurveyListVariant() && statusText === "生效中");
+    const isI18nKeyMatching = isSurveyListVariant() && statusText === "处理中";
+    const editDisabled = isLegacySurveyQuestionnaire || isI18nKeyMatching;
+    const copyDisabled = isLegacySurveyQuestionnaire || isI18nKeyMatching;
+    const deleteDisabled = isSurveyListVariant() && ["生效中", "处理中"].includes(statusText);
+    const i18nActionText = "编辑多语言";
+    return `
+      <tr data-template-id="${escapeText(template.template_id)}">
+        <td>${escapeText(template.template_id)}</td>
+        <td>${escapeText(template.template_name)}</td>
+        <td><span class="status-pill ${statusClass}">${escapeText(statusText)}</span></td>
+        <td>${escapeText(templateType || "-")}</td>
+        <td>${escapeText(minVersionText)}</td>
+        <td>${escapeText(template.creator)}</td>
+        <td>${escapeText(template.updated_at)}</td>
+        <td>
+          <div class="table-actions">
+            <button class="table-action-button is-primary template-i18n-link" type="button" data-template-id="${escapeText(template.template_id)}" ${(i18nDisabled || isI18nKeyMatching) ? "disabled" : ""}>${i18nActionText}</button>
+            ${!isSurveyListVariant() ? `<button class="table-action-button is-primary edit-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${editDisabled ? "disabled" : ""}>编辑模板</button>` : ""}
+            ${isSurveyListVariant() ? `<button class="table-action-button is-primary template-association-edit-link" type="button" data-template-id="${escapeText(template.template_id)}" ${editDisabled ? "disabled" : ""}>编辑问卷</button>` : ""}
+            ${isSurveyListVariant() ? `<button class="table-action-button is-primary copy-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${copyDisabled ? "disabled" : ""}>复制问卷</button>` : ""}
+            ${isSurveyListVariant() ? `<button class="table-action-button is-danger delete-template-link" type="button" data-template-id="${escapeText(template.template_id)}" ${deleteDisabled ? "disabled" : ""}>删除</button>` : ""}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+  templateRowCount.textContent = `共 ${variantRows.length} 条`;
+}
+
+function applyTemplateFilters() {
+  const nameValue = templateNameSearch.value.trim();
+  const statusValue = templateStatusSearch.value;
+  const sceneValue = templateSceneSearch ? templateSceneSearch.value : "所有功能模块";
+  const typeValue = templateTypeSearch.value;
+
+  filteredTemplates = npsTemplates.filter((template) => {
+    const nameOk = !nameValue || template.template_name.includes(nameValue);
+    const displayStatus = getSurveyListStatus(template.template_status);
+    const statusOk = statusValue === "所有状态"
+      ? ["草稿", "处理中", "待补充多语言", "生效中"].includes(displayStatus)
+      : displayStatus === statusValue;
+    const sceneOk = sceneValue === "所有功能模块" || template.scene === sceneValue;
+    const templateType = isSurveyListVariant()
+      ? getSurveyListTemplateType(template)
+      : getTemplateDisplayType(getTemplateRawType(template));
+    const typeOk = typeValue === "所有问卷类型" || templateType === typeValue;
+    return !template.is_deleted && nameOk && statusOk && sceneOk && typeOk && (!usesSectionQuestionEditor() || getTemplateDisplayType(getTemplateRawType(template)) !== "分组问卷");
+  });
+
+  renderTemplates(filteredTemplates);
+}
+
+function parseDate(value) {
+  const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!match) return null;
+  const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+  if (
+    date.getFullYear() !== Number(match[1]) ||
+    date.getMonth() !== Number(match[2]) - 1 ||
+    date.getDate() !== Number(match[3])
+  ) {
+    return null;
+  }
+  return date;
+}
+
+function isSameDate(first, second) {
+  return first &&
+    second &&
+    first.getFullYear() === second.getFullYear() &&
+    first.getMonth() === second.getMonth() &&
+    first.getDate() === second.getDate();
+}
+
+function isBetween(date, start, end) {
+  if (!start || !end) return false;
+  const currentTime = date.getTime();
+  return currentTime > start.getTime() && currentTime < end.getTime();
+}
+
+function setRangeText(element, value, placeholder) {
+  element.textContent = value || placeholder;
+  element.classList.toggle("is-placeholder", !value);
+}
+
+function updateRangeTrigger() {
+  const parsedRange = parseDateRange(taskDateRange.value);
+  if (parsedRange && parsedRange !== "invalid") {
+    setRangeText(rangeStartText, formatDate(parsedRange.start), "Start date");
+    setRangeText(rangeEndText, formatDate(parsedRange.end), "End date");
+    return;
+  }
+  setRangeText(rangeStartText, "", "Start date");
+  setRangeText(rangeEndText, "", "End date");
+}
+
+function renderCalendarPane(monthDate, titleElement, gridElement) {
+  const year = monthDate.getFullYear();
+  const month = monthDate.getMonth();
+  const firstDay = new Date(year, month, 1);
+  const dayOffset = (firstDay.getDay() + 6) % 7;
+  const dayCount = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+  const cells = [];
+
+  titleElement.textContent = `${year}年${month + 1}月`;
+
+  for (let index = 0; index < dayOffset; index += 1) {
+    cells.push('<span class="calendar-empty"></span>');
+  }
+
+  for (let day = 1; day <= dayCount; day += 1) {
+    const date = new Date(year, month, day);
+    const classes = ["calendar-day"];
+    if (isSameDate(date, draftStart)) classes.push("selected-start");
+    if (isSameDate(date, draftEnd)) classes.push("selected-end");
+    if (isBetween(date, draftStart, draftEnd)) classes.push("in-range");
+    if (isSameDate(date, today)) classes.push("today");
+    cells.push(`<button class="${classes.join(" ")}" type="button" data-date="${formatDate(date)}">${day}</button>`);
+  }
+
+  gridElement.innerHTML = cells.join("");
+}
+
+function renderCalendar() {
+  const rightMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1);
+  renderCalendarPane(calendarMonth, leftCalendarTitle, leftCalendarGrid);
+  renderCalendarPane(rightMonth, rightCalendarTitle, rightCalendarGrid);
+}
+
+function commitDraftRange() {
+  if (!draftStart || !draftEnd) return;
+  taskDateRange.value = `${formatDate(draftStart)} - ${formatDate(draftEnd)}`;
+  rangePicker.classList.remove("error");
+  dateError.classList.remove("show");
+  updateRangeTrigger();
+  datePanel.classList.remove("open");
+}
+
+function syncDraftRangeFromInput() {
+  const parsedRange = parseDateRange(taskDateRange.value);
+  if (parsedRange && parsedRange !== "invalid") {
+    draftStart = new Date(parsedRange.start.getFullYear(), parsedRange.start.getMonth(), parsedRange.start.getDate());
+    draftEnd = new Date(parsedRange.end.getFullYear(), parsedRange.end.getMonth(), parsedRange.end.getDate());
+    calendarMonth = new Date(draftStart.getFullYear(), draftStart.getMonth(), 1);
+  } else {
+    draftStart = null;
+    draftEnd = null;
+    calendarMonth = new Date(defaultCalendarMonth.getFullYear(), defaultCalendarMonth.getMonth(), 1);
+  }
+  renderCalendar();
+}
+
+function selectCalendarDate(dateText) {
+  const selectedDate = parseDate(dateText);
+  if (!selectedDate) return;
+
+  if (!draftStart || draftEnd) {
+    draftStart = selectedDate;
+    draftEnd = null;
+  } else if (selectedDate < draftStart) {
+    draftEnd = draftStart;
+    draftStart = selectedDate;
+  } else {
+    draftEnd = selectedDate;
+  }
+
+  renderCalendar();
+  commitDraftRange();
+}
+
+function renderRows(rows) {
+  const displayRows = sortTasksByIdDesc(rows);
+  taskRows.innerHTML = displayRows.map((task) => {
+    const editDisabled = !canEditTask(task);
+    const deleteDisabled = !canEditTask(task);
+    const exportDisabled = !canExportTask(task);
+    const statusClass = getStatusClass(task.task_status);
+    return `
+      <tr data-task-id="${escapeText(task.task_id)}">
+        <td>${escapeText(task.task_id)}</td>
+        <td>${escapeText(task.task_name)}</td>
+        <td><span class="status-pill ${statusClass}">${escapeText(task.task_status)}</span></td>
+        <td>${escapeText(task.task_scene)}</td>
+        <td><button class="link-button audience-link" type="button" data-task-id="${escapeText(task.task_id)}">${escapeText(task.audience_link_text)}</button></td>
+        <td>${escapeText(task.start_time)}</td>
+        <td>${escapeText(task.end_time || "-")}</td>
+        <td>${escapeText(task.template_name)}</td>
+        <td>${escapeText(formatTaskDeliveryVersion(task))}</td>
+        <td>${escapeText(task.total_users)}</td>
+        <td>${escapeText(task.actual_delivery_users)}</td>
+        <td>${escapeText(task.exposed_users)}</td>
+        <td>${escapeText(task.submitted_users || "0")}</td>
+        <td>
+          <div class="table-actions">
+            <button class="table-action-button is-primary edit-link" type="button" data-task-id="${escapeText(task.task_id)}" ${editDisabled ? "disabled" : ""}>编辑</button>
+            <button class="table-action-button is-primary export-link" type="button" data-task-id="${escapeText(task.task_id)}" ${exportDisabled ? "disabled" : ""}>导出</button>
+            <button class="table-action-button is-danger delete-task-link" type="button" data-task-id="${escapeText(task.task_id)}" ${deleteDisabled ? "disabled" : ""}>删除</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+
+  rowCount.textContent = `共 ${rows.length} 条`;
+}
+
+function formatTaskDeliveryVersion(task) {
+  const { start, end } = getTaskStoredVersionRange(task);
+  const startVersion = normalizeTaskVersionValue(start);
+  const endVersion = normalizeTaskVersionValue(end);
+  if (startVersion && endVersion) return `>=V${startVersion} & <=V${endVersion}`;
+  if (startVersion) return `>=V${startVersion}`;
+  if (endVersion) return `<=V${endVersion}`;
+  return "-";
+}
+
+function parseDateRange(value) {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  const match = trimmed.match(/^(\d{4}-\d{2}-\d{2})\s+-\s+(\d{4}-\d{2}-\d{2})$/);
+  if (!match) return "invalid";
+  const start = new Date(`${match[1]}T00:00:00`);
+  const end = new Date(`${match[2]}T23:59:59`);
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || start > end) {
+    return "invalid";
+  }
+  return { start, end };
+}
+
+function intersectsRange(task, range) {
+  if (!range) return true;
+  const taskStart = parseTaskDateTime(task.start_time);
+  return taskStart >= range.start && taskStart <= range.end;
+}
+
+function applyFilters() {
+  const range = parseDateRange(taskDateRange.value);
+  if (range === "invalid") {
+    rangePicker.classList.add("error");
+    dateError.classList.add("show");
+    return;
+  }
+
+  rangePicker.classList.remove("error");
+  dateError.classList.remove("show");
+
+  const nameValue = taskName.value.trim();
+  const sceneValue = taskScene.value;
+  const statusValue = taskStatus.value;
+
+  filteredTasks = tasks.filter((task) => {
+    const nameOk = !nameValue || task.task_name.includes(nameValue);
+    const sceneOk = sceneValue === "所有" || task.task_scene === sceneValue;
+    const statusOk = statusValue === "所有" || task.task_status === statusValue;
+    const dateOk = intersectsRange(task, range);
+    return nameOk && sceneOk && statusOk && dateOk;
+  });
+
+  renderRows(filteredTasks);
+}
+
+function getAudienceBaseRows() {
+  const rows = currentAudienceTaskId
+    ? audienceUsers.filter((item) => item.task_id === currentAudienceTaskId)
+    : [...audienceUsers];
+  return rows.sort((left, right) => (
+    AUDIENCE_REGION_ORDER.indexOf(left.delivery_region) - AUDIENCE_REGION_ORDER.indexOf(right.delivery_region)
+    || left.user_id.localeCompare(right.user_id)
+  ));
+}
+
+function getAudienceStatusClass(type, value) {
+  if (type === "exposure") return value === "已曝光" ? "status-info" : "status-default";
+  if (value === "已提交全部问卷") return "status-success";
+  if (value === "已提交部分问卷") return "status-warning";
+  if (value === "已关闭") return "status-error";
+  return "status-default";
+}
+
+function renderAudienceRows(rows) {
+  audienceRows.innerHTML = rows.length
+    ? rows.map((item) => `
+      <tr>
+        <td>${escapeText(item.user_id)}</td>
+        <td>${escapeText(item.delivery_region)}</td>
+        <td>${escapeText(item.user_status)}</td>
+        <td><span class="status-pill ${getAudienceStatusClass("exposure", item.exposure_status)}">${escapeText(item.exposure_status)}</span></td>
+        <td><span class="status-pill ${getAudienceStatusClass("delivery", item.delivery_status)}">${escapeText(item.delivery_status)}</span></td>
+      </tr>
+    `).join("")
+    : '<tr><td colspan="6">暂无数据</td></tr>';
+  audienceRowCount.textContent = `共 ${rows.length} 条`;
+}
+
+function updateAudienceDeliveryStatusTrigger() {
+  const selected = [...audienceDeliveryStatuses];
+  audienceDeliveryStatusTrigger.textContent = selected.length > 3
+    ? `已选择 ${selected.length} 项`
+    : selected.length
+      ? selected.join("，")
+      : "所有投放状态";
+}
+
+function resetAudienceStatusFilters() {
+  audienceDeliveryStatuses = new Set();
+  audienceDeliveryStatusPanel.querySelector('[data-audience-delivery-all]').checked = true;
+  audienceDeliveryStatusPanel.querySelectorAll('[data-audience-delivery-status]').forEach((input) => {
+    input.checked = false;
+  });
+  audienceExposureStatus.value = "所有曝光状态";
+  audienceUserStatus.value = "所有状态";
+  audienceDeliveryRegion.value = "所有区域";
+  updateAudienceDeliveryStatusTrigger();
+}
+
+function applyAudienceFilters() {
+  const userId = audienceUserIdSearch.value.trim();
+  const exposureStatus = audienceExposureStatus.value;
+  const userStatus = audienceUserStatus.value;
+  const deliveryRegion = audienceDeliveryRegion.value;
+  filteredAudienceUsers = getAudienceBaseRows().filter((item) => (
+    (!userId || item.user_id.includes(userId))
+    && (!audienceDeliveryStatuses.size || audienceDeliveryStatuses.has(item.delivery_status))
+    && (exposureStatus === "所有曝光状态" || item.exposure_status === exposureStatus)
+    && (userStatus === "所有状态" || item.user_status === userStatus)
+    && (deliveryRegion === "所有区域" || item.delivery_region === deliveryRegion)
+  ));
+  renderAudienceRows(filteredAudienceUsers);
+}
+
+function openAudiencePage(taskId) {
+  currentAudienceTaskId = taskId || "";
+  audienceUserIdSearch.value = "";
+  resetAudienceStatusFilters();
+  setActiveNav("task");
+  setTemplateLayout(false);
+  hideAllMainPanels();
+  document.getElementById("audiencePanel").classList.add("active");
+  document.querySelector(".breadcrumb").textContent = "NPS管理 / 投放任务 / 投放人群";
+  filteredAudienceUsers = getAudienceBaseRows();
+  renderAudienceRows(filteredAudienceUsers);
+  if (window.location.hash !== "#nps-audience") {
+    window.location.hash = "nps-audience";
+  }
+}
+
+function openTaskDeleteDialog(taskId) {
+  const task = tasks.find((item) => item.task_id === taskId);
+  if (!task) return;
+  if (!canEditTask(task)) {
+    showToast("仅待投放任务允许删除。");
+    return;
+  }
+  selectedTaskDeleteId = taskId;
+  taskDeleteLightbox.classList.add("show");
+  taskDeleteLightbox.setAttribute("aria-hidden", "false");
+}
+
+function closeTaskDeleteDialog() {
+  selectedTaskDeleteId = null;
+  taskDeleteLightbox.classList.remove("show");
+  taskDeleteLightbox.setAttribute("aria-hidden", "true");
+}
+
+function confirmTaskDelete() {
+  const taskIndex = tasks.findIndex((item) => item.task_id === selectedTaskDeleteId);
+  const task = taskIndex >= 0 ? tasks[taskIndex] : null;
+  if (!task) {
+    closeTaskDeleteDialog();
+    return;
+  }
+  if (!canEditTask(task)) {
+    closeTaskDeleteDialog();
+    showToast("仅待投放任务允许删除。");
+    return;
+  }
+  tasks.splice(taskIndex, 1);
+  for (let index = audienceUsers.length - 1; index >= 0; index -= 1) {
+    if (audienceUsers[index].task_id === task.task_id) audienceUsers.splice(index, 1);
+  }
+  persistPrototypeSessionCache();
+  closeTaskDeleteDialog();
+  applyFilters();
+  showToast("任务已删除。");
+}
+
+function showToast(message) {
+  toast.innerHTML = `<span class="toast-success-icon">✓</span><span>${escapeText(message)}</span>`;
+  toast.classList.add("show");
+  window.clearTimeout(showToast.timer);
+  showToast.timer = window.setTimeout(() => {
+    toast.classList.remove("show");
+  }, 1800);
+}
+
+function sanitizeFileName(value) {
+  return value.replace(/[\\/:*?"<>|]/g, "_");
+}
+
+function escapeXml(value) {
+  return String(value).replace(/[<>&"']/g, (char) => ({
+    "<": "&lt;",
+    ">": "&gt;",
+    "&": "&amp;",
+    '"': "&quot;",
+    "'": "&apos;",
+  })[char]);
+}
+
+function encodeUtf8(value) {
+  return new TextEncoder().encode(value);
+}
+
+function createCrc32Table() {
+  return Array.from({ length: 256 }, (_, index) => {
+    let crc = index;
+    for (let bit = 0; bit < 8; bit += 1) {
+      crc = crc & 1 ? 0xedb88320 ^ (crc >>> 1) : crc >>> 1;
+    }
+    return crc >>> 0;
+  });
+}
+
+const CRC32_TABLE = createCrc32Table();
+
+function crc32(bytes) {
+  let crc = 0xffffffff;
+  bytes.forEach((byte) => {
+    crc = CRC32_TABLE[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+  });
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+function writeUint16(bytes, value) {
+  bytes.push(value & 0xff, (value >>> 8) & 0xff);
+}
+
+function writeUint32(bytes, value) {
+  bytes.push(value & 0xff, (value >>> 8) & 0xff, (value >>> 16) & 0xff, (value >>> 24) & 0xff);
+}
+
+function createZip(files) {
+  const output = [];
+  const centralDirectory = [];
+  let offset = 0;
+
+  files.forEach((file) => {
+    const nameBytes = encodeUtf8(file.name);
+    const contentBytes = encodeUtf8(file.content);
+    const checksum = crc32(contentBytes);
+    const localHeader = [];
+    writeUint32(localHeader, 0x04034b50);
+    writeUint16(localHeader, 20);
+    writeUint16(localHeader, 0);
+    writeUint16(localHeader, 0);
+    writeUint16(localHeader, 0);
+    writeUint16(localHeader, 0);
+    writeUint32(localHeader, checksum);
+    writeUint32(localHeader, contentBytes.length);
+    writeUint32(localHeader, contentBytes.length);
+    writeUint16(localHeader, nameBytes.length);
+    writeUint16(localHeader, 0);
+    output.push(...localHeader, ...nameBytes, ...contentBytes);
+
+    const centralHeader = [];
+    writeUint32(centralHeader, 0x02014b50);
+    writeUint16(centralHeader, 20);
+    writeUint16(centralHeader, 20);
+    writeUint16(centralHeader, 0);
+    writeUint16(centralHeader, 0);
+    writeUint16(centralHeader, 0);
+    writeUint16(centralHeader, 0);
+    writeUint32(centralHeader, checksum);
+    writeUint32(centralHeader, contentBytes.length);
+    writeUint32(centralHeader, contentBytes.length);
+    writeUint16(centralHeader, nameBytes.length);
+    writeUint16(centralHeader, 0);
+    writeUint16(centralHeader, 0);
+    writeUint16(centralHeader, 0);
+    writeUint16(centralHeader, 0);
+    writeUint32(centralHeader, 0);
+    writeUint32(centralHeader, offset);
+    centralDirectory.push(...centralHeader, ...nameBytes);
+    offset = output.length;
+  });
+
+  const centralDirectoryOffset = output.length;
+  output.push(...centralDirectory);
+  const endRecord = [];
+  writeUint32(endRecord, 0x06054b50);
+  writeUint16(endRecord, 0);
+  writeUint16(endRecord, 0);
+  writeUint16(endRecord, files.length);
+  writeUint16(endRecord, files.length);
+  writeUint32(endRecord, centralDirectory.length);
+  writeUint32(endRecord, centralDirectoryOffset);
+  writeUint16(endRecord, 0);
+  output.push(...endRecord);
+  return new Blob([new Uint8Array(output)], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+}
+
+function buildI18nXlsxBlob(template) {
+  const translationLanguages = I18N_LANGUAGES;
+  const headers = ["key", "后台文案", ...translationLanguages.map((language) => language.label)];
+  const sheetRows = [
+    headers,
+    ...getTemplateI18nRows(template).map((row) => [
+      getI18nBindingKey(template, row),
+      row.value,
+      ...translationLanguages.map((language) => getI18nTranslationValue(
+        getI18nBindingKey(template, row),
+        row.value,
+        language.key,
+      )),
+    ]),
+  ];
+  const sheetData = sheetRows.map((row, rowIndex) => `
+    <row r="${rowIndex + 1}">
+      ${row.map((cell, cellIndex) => {
+        const column = String.fromCharCode(65 + cellIndex);
+        return `<c r="${column}${rowIndex + 1}" t="inlineStr"><is><t>${escapeXml(cell)}</t></is></c>`;
+      }).join("")}
+    </row>
+  `).join("");
+  const worksheet = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+      <sheetData>${sheetData}</sheetData>
+    </worksheet>`;
+  const workbook = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+      <sheets><sheet name="多语言模板" sheetId="1" r:id="rId1"/></sheets>
+    </workbook>`;
+  const workbookRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+      <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
+    </Relationships>`;
+  const rootRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+      <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>
+    </Relationships>`;
+  const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+      <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+      <Default Extension="xml" ContentType="application/xml"/>
+      <Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>
+      <Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
+    </Types>`;
+  return createZip([
+    { name: "[Content_Types].xml", content: contentTypes },
+    { name: "_rels/.rels", content: rootRels },
+    { name: "xl/workbook.xml", content: workbook },
+    { name: "xl/_rels/workbook.xml.rels", content: workbookRels },
+    { name: "xl/worksheets/sheet1.xml", content: worksheet },
+  ]);
+}
+
+function downloadI18nTemplate() {
+  const template = getCurrentI18nTemplate();
+  if (!template) return;
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(buildI18nXlsxBlob(template));
+  link.download = `${sanitizeFileName(template.template_name)}多语言模板.xlsx`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+function buildExportXlsxBlob(task) {
+  const rows = [
+    ["任务ID", task.task_id],
+    ["任务名称", task.task_name],
+    ["任务状态", task.task_status],
+    ["投放用户数", task.actual_delivery_users],
+    ["曝光用户数", task.exposed_users],
+    ["预估NPS", formatNpsEstimate(task.nps_estimate)],
+    ["9-10分用户数", task.nps_promoters || "0"],
+    ["7-8分用户数", task.nps_passives || "0"],
+    ["0-6分用户数", task.nps_detractors || "0"],
+  ];
+  const sheetData = rows.map((row, rowIndex) => `
+    <row r="${rowIndex + 1}">
+      ${row.map((cell, cellIndex) => {
+        const column = String.fromCharCode(65 + cellIndex);
+        return `<c r="${column}${rowIndex + 1}" t="inlineStr"><is><t>${escapeXml(cell)}</t></is></c>`;
+      }).join("")}
+    </row>
+  `).join("");
+  const worksheet = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+      <sheetData>${sheetData}</sheetData>
+    </worksheet>`;
+  const workbook = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+      <sheets><sheet name="任务回复情况" sheetId="1" r:id="rId1"/></sheets>
+    </workbook>`;
+  const workbookRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+      <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
+    </Relationships>`;
+  const rootRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+      <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>
+    </Relationships>`;
+  const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+      <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+      <Default Extension="xml" ContentType="application/xml"/>
+      <Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>
+      <Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
+    </Types>`;
+  return createZip([
+    { name: "[Content_Types].xml", content: contentTypes },
+    { name: "_rels/.rels", content: rootRels },
+    { name: "xl/workbook.xml", content: workbook },
+    { name: "xl/_rels/workbook.xml.rels", content: workbookRels },
+    { name: "xl/worksheets/sheet1.xml", content: worksheet },
+  ]);
+}
+
+function triggerTaskExport(task) {
+  const blob = buildExportXlsxBlob(task);
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `${sanitizeFileName(task.task_name)}_用户回复情况.xlsx`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.setTimeout(() => URL.revokeObjectURL(link.href), 0);
+}
+
+function openExportDialog(taskId) {
+  const task = tasks.find((item) => item.task_id === taskId);
+  if (!task) return;
+  if (!canExportTask(task)) {
+    showToast("仅投放完成状态允许导出。");
+    return;
+  }
+  exportLightbox.classList.add("show");
+  exportLightbox.setAttribute("aria-hidden", "false");
+  window.clearTimeout(exportTimer);
+  exportTimer = window.setTimeout(() => {
+    triggerTaskExport(task);
+    exportLightbox.classList.remove("show");
+    exportLightbox.setAttribute("aria-hidden", "true");
+    showToast("导出文件已加入浏览器下载队列。");
+  }, 1000);
+}
+
+function closeNpsEstimate() {
+  npsEstimateLightbox.classList.remove("show");
+  npsEstimateLightbox.setAttribute("aria-hidden", "true");
+}
+
+function openNpsEstimate(taskId) {
+  const task = tasks.find((item) => item.task_id === taskId);
+  if (!task || !canShowNpsEstimate(task)) return;
+  const npsInterpretation = getNpsInterpretation(task.nps_estimate);
+  npsEstimateBody.innerHTML = `
+    <div class="nps-score-block">
+      <div class="nps-score-value">${escapeText(formatNpsEstimate(task.nps_estimate))}</div>
+      <div class="nps-score-desc">截止 ${escapeText(task.nps_updated_at || "2026-07-08")} 预估值</div>
+      <div class="nps-score-desc">参考 Bain & Company NPS 分段：${escapeText(npsInterpretation || "-")}</div>
+    </div>
+    <dl class="nps-detail-grid">
+      <dt>问卷填写用户数</dt>
+      <dd>${escapeText(task.actual_delivery_users)}</dd>
+      <dt>9-10 分用户数</dt>
+      <dd>${escapeText(task.nps_promoters || "0")}</dd>
+      <dt>7-8 分用户数</dt>
+      <dd>${escapeText(task.nps_passives || "0")}</dd>
+      <dt>0-6 分用户数</dt>
+      <dd>${escapeText(task.nps_detractors || "0")}</dd>
+    </dl>
+    <div class="nps-estimate-note">预估NPS每日更新。当超过结束日期后，预估NPS将不再更新。</div>
+  `;
+  npsEstimateLightbox.classList.add("show");
+  npsEstimateLightbox.setAttribute("aria-hidden", "false");
+}
+
+function navigatePlaceholder(pageName, detail = "") {
+  const suffix = detail ? `：${detail}` : "";
+  window.location.hash = encodeURIComponent(pageName);
+  showToast(`${pageName}${suffix}`);
+}
+
+function setActiveNav(navName) {
+  const navItems = [
+    [templateNav, "template"],
+    [surveyListNav, "surveyList"],
+    [translationNav, "translation"],
+    [templatePlanBNav, "planB"],
+    [taskNav, "task"],
+  ];
+
+  navItems.forEach(([node, name]) => {
+    const isActive = navName === name;
+    node.classList.toggle("active", isActive);
+    node.setAttribute("aria-current", isActive ? "page" : "false");
+  });
+}
+
+function isPlanBTemplateVariant() {
+  return templateVariant === "planB";
+}
+
+function isSurveyListVariant() {
+  return templateVariant === "surveyList";
+}
+
+function usesSectionQuestionEditor() {
+  return isPlanBTemplateVariant() || isSurveyListVariant();
+}
+
+function isEditableQuestionnaireVariant() {
+  return usesSectionQuestionEditor();
+}
+
+function getTemplateNavName() {
+  if (isSurveyListVariant()) return "surveyList";
+  return isPlanBTemplateVariant() ? "planB" : "template";
+}
+
+function getTemplatePageName() {
+  if (isSurveyListVariant()) return "问卷列表";
+  return isPlanBTemplateVariant() ? "NPS问卷模板 B" : "NPS问卷模板";
+}
+
+function setTemplateLayout(enabled) {
+  document.querySelector(".prototype-shell").classList.toggle("template-layout", enabled);
+}
+
+function isPlanBTemplateForm() {
+  return isPlanBTemplateVariant();
+}
+
+function isPlanBAppQuestionnaire() {
+  return isPlanBTemplateForm() && isGlobalAppQuestionnaire();
+}
+
+function hideAllMainPanels() {
+  document.getElementById("templatePanel").classList.remove("active");
+  document.getElementById("templateI18nPanel").classList.remove("active");
+  document.getElementById("templateFormPanel").classList.remove("active");
+  document.getElementById("taskPanel").classList.remove("active");
+  document.getElementById("taskFormPanel").classList.remove("active");
+  document.getElementById("audiencePanel").classList.remove("active");
+}
+
+function showTemplateList(variant = "default") {
+  templateGroupCreationContext = null;
+  templateVariant = variant;
+  setActiveNav(getTemplateNavName());
+  const prototypeShell = document.querySelector(".prototype-shell");
+  prototypeShell.classList.toggle("survey-list-layout", isSurveyListVariant());
+  prototypeShell.classList.toggle("template-plan-b", templateVariant === "planB");
+  setTemplateLayout(true);
+  hideAllMainPanels();
+  document.getElementById("templatePanel").classList.add("active");
+  document.querySelector(".breadcrumb").textContent = `NPS管理 / ${getTemplatePageName()}`;
+  applyTemplateFilters();
+  const targetHash = isSurveyListVariant() ? "#survey-list" : (isPlanBTemplateVariant() ? "#nps-template-plan-b" : "#nps-template");
+  if (window.location.hash !== targetHash) {
+    window.location.hash = targetHash.slice(1);
+  }
+}
+
+function showPlanBTemplateList() {
+  showTemplateList("planB");
+}
+
+function showSurveyList() {
+  showTemplateList("surveyList");
+}
+
+function showTaskList() {
+  templateGroupCreationContext = null;
+  setActiveNav("task");
+  document.querySelector(".prototype-shell").classList.remove("survey-list-layout", "template-plan-b");
+  setTemplateLayout(false);
+  hideAllMainPanels();
+  document.getElementById("taskPanel").classList.add("active");
+  document.querySelector(".breadcrumb").textContent = "NPS管理 / 投放任务";
+  if (window.location.hash !== "#nps-task") {
+    window.location.hash = "nps-task";
+  }
+}
+
+function getCurrentI18nTemplate() {
+  return npsTemplates.find((template) => template.template_id === currentI18nTemplateId) || null;
+}
+
+function isGroupQuestionnaireTemplate(template) {
+  return getTemplateRawType(template) === "分组问卷";
+}
+
+function getLinkedGroupTemplates(template) {
+  if (!isPopupAppQuestionnaireType(getTemplateRawType(template))) return [];
+  const linkedNames = template.linked_questionnaires || [];
+  return linkedNames
+    .map((name) => npsTemplates.find((item) => item.template_name === name && isGroupQuestionnaireTemplate(item)))
+    .filter(Boolean);
+}
+
+function getTemplatePreviewQuestions(template) {
+  const templateType = getTemplateDisplayType(getTemplateRawType(template));
+  const sourceQuestions = isPopupAppQuestionnaireType(templateType) ? DEFAULT_GLOBAL_APP_QUESTIONS : template.questions || [];
+  return sourceQuestions.map((question) => {
+    const optionText = typeof question.options === "string" ? question.options : "";
+    const scoreMatch = optionText.match(/1-(5|10)/);
+    const choiceOptions = question.choiceOptions || question.choice_options || (
+      question.type === "单选题" || question.type === "多选题"
+        ? optionText.split(",").map((option) => ({ label: option.trim(), isOther: option.trim() === "其他" })).filter((option) => option.label)
+        : []
+    );
+    return {
+      question_id: question.question_id || question.questionId || "",
+      type: question.type === "评分(功能/分组)" ? "评分(普通)" : question.type,
+      title: question.title || "",
+      subtitle: question.subtitle || "",
+      scoreRange: question.scoreRange || question.score_range || (scoreMatch ? scoreMatch[1] : "10"),
+      scoreMinDesc: question.scoreMinDesc || question.score_min_desc || "",
+      scoreMaxDesc: question.scoreMaxDesc || question.score_max_desc || "",
+      lowScoreGuide: question.lowScoreGuide || question.low_score_guide || "",
+      highScoreGuide: question.highScoreGuide || question.high_score_guide || "",
+      otherScoreGuide: question.otherScoreGuide || question.other_score_guide || "",
+      required: question.required || "必填",
+      charLimit: question.charLimit || question.char_limit || "500",
+      choiceOptions: normalizeQuestionOptions(choiceOptions),
+    };
+  });
+}
+
+function getQuestionI18nRows(question, questionIndex, keyPrefix, module, questionId) {
+  const rowMeta = { module, questionIndex, questionId, questionType: question.type };
+  const row = (suffix, label, value) => ({
+    ...rowMeta,
+    key: `${keyPrefix}_${suffix}`,
+    databaseField: suffix,
+    name: `问题${questionIndex}${label}`,
+    value,
+  });
+  const rows = [
+    row("title", "标题", question.title),
+    row("subtitle", "标题备注", question.subtitle),
+  ];
+
+  if (question.type === "评分(全局)" || question.type === "评分(普通)") {
+    rows.push(row("min_desc", "最小值描述", question.scoreMinDesc));
+    rows.push(row("max_desc", "最大值描述", question.scoreMaxDesc));
+    rows.push(row("low_score_guide", "低评分引导文案", question.lowScoreGuide));
+    rows.push(row("high_score_guide", "高评分引导文案", question.highScoreGuide));
+    rows.push(row("other_score_guide", "其他评分引导文案", question.otherScoreGuide));
+  }
+  if (question.type === "单选题" || question.type === "多选题") {
+    question.choiceOptions.forEach((option, optionIndex) => {
+      rows.push(row(`option_${optionIndex + 1}`, `选项${optionIndex + 1}`, option.label));
+      rows.push(row(`option_${optionIndex + 1}_prompt`, `选项${optionIndex + 1}提示语`, option.otherPrompt));
+    });
+  }
+  return rows;
+}
+
+function getRichTextPlainText(value) {
+  const container = document.createElement("div");
+  container.innerHTML = String(value || "");
+  return container.textContent.trim();
+}
+
+function getRichTextExportValue(value) {
+  return String(value || "").trim();
+}
+
+function getTemplateI18nRows(template) {
+  const templateType = getTemplateDisplayType(getTemplateRawType(template));
+  const isRegularQuestionnaire = isRegularQuestionnaireType(templateType);
+  const rows = [
+    { module: "base", key: "app_display_name", databaseField: "display_name", name: "问卷标题(APP展示)", value: template.web_display_name || template.template_name },
+  ];
+
+  if (!isRegularQuestionnaire) {
+    rows.push(
+      { module: "base", key: "popup_copy", databaseField: "popup_copy", name: "弹窗文案", value: getRichTextExportValue(template.popup_copy) },
+      { module: "base", key: "questionnaire_title", databaseField: "questionnaire_title", name: "问卷标题", value: template.questionnaire_description || "" },
+      { module: "base", key: "questionnaire_subtitle", databaseField: "questionnaire_subtitle", name: "问卷标题备注", value: template.questionnaire_remark || "" },
+      { module: "base", key: "informed_consent", databaseField: "informed_consent", name: "知情同意书", value: template.informed_consent_required ? getRichTextExportValue(template.informed_consent_content) : "" },
+    );
+  }
+
+  if (isPopupAppQuestionnaireType(templateType)) {
+    getTemplatePreviewQuestions(template).forEach((question, questionIndex) => {
+      rows.push(...getQuestionI18nRows(question, questionIndex + 1, `global_question_${questionIndex + 1}`, "global", getI18nQuestionId(template.template_id, question, questionIndex + 1)));
+    });
+    let questionnaireQuestionIndex = 0;
+    getLinkedGroupTemplates(template).forEach((linkedTemplate) => {
+      getTemplatePreviewQuestions(linkedTemplate).forEach((question) => {
+        questionnaireQuestionIndex += 1;
+        rows.push(...getQuestionI18nRows(question, questionnaireQuestionIndex, `question_${questionnaireQuestionIndex}`, "question", getI18nQuestionId(template.template_id, question, questionnaireQuestionIndex)));
+      });
+    });
+    // The survey-list editor stores its own questionnaire pages separately from fixed global questions.
+    const configuredQuestions = template.question_sections && template.question_sections.length
+      ? template.question_sections.flatMap((section) => section.questions || [])
+      : (template.questions || []).slice((template.app_questions || DEFAULT_GLOBAL_APP_QUESTIONS).length);
+    const configuredQuestionTemplate = {
+      ...template,
+      raw_questionnaire_type: "常规问卷",
+      questionnaire_type: "常规问卷",
+      questions: configuredQuestions,
+    };
+    getTemplatePreviewQuestions(configuredQuestionTemplate).forEach((question) => {
+      questionnaireQuestionIndex += 1;
+      rows.push(...getQuestionI18nRows(question, questionnaireQuestionIndex, `question_${questionnaireQuestionIndex}`, "question", getI18nQuestionId(template.template_id, question, questionnaireQuestionIndex)));
+    });
+  } else {
+    getTemplatePreviewQuestions(template).forEach((question, questionIndex) => {
+      rows.push(...getQuestionI18nRows(question, questionIndex + 1, `question_${questionIndex + 1}`, "question", getI18nQuestionId(template.template_id, question, questionIndex + 1)));
+    });
+  }
+
+  return rows.filter((row) => row.value !== "");
+}
+
+function getTemplateI18nContentSignature(template) {
+  return getTemplateI18nRows(template)
+    .map((row) => `${row.key}:${row.value}`)
+    .join("\u0001");
+}
+
+function translateI18nValue(value, languageKey) {
+  if (!value) return "";
+  if (languageKey === "zh_cn") return value;
+  const exactTranslations = {
+    en: {
+      "网页标题": "Page title",
+      "问卷标题": "Survey title",
+      "问卷副标题": "Survey subtitle",
+      "UI NPS 调查问卷": "UI NPS Survey",
+      "您对当前 UI 体验满意吗？": "Are you satisfied with the current UI experience?",
+      "您希望我们优先优化哪些界面？": "Which interfaces would you like us to prioritize for improvement?",
+      "请根据实际体验完成以下问题": "Please answer based on your actual experience",
+      "您有多大可能会向朋友或者同时推荐RingConn?": "How likely are you to recommend RingConn to a friend or colleague?",
+      "不推荐": "Not likely",
+      "非常推荐": "Very likely",
+      "我们有哪些值得改进的地方?": "What should we improve?",
+      "戒指外观设计与质感": "Ring appearance and material quality",
+      "佩戴舒适度与尺寸": "Comfort and sizing",
+      "续航与充电体验": "Battery life and charging",
+      "戒指质量与耐用度": "Ring quality and durability",
+      "App使用流畅度": "App smoothness",
+      "App界面易读性": "App interface readability",
+      "核心功能价值": "Core feature value",
+      "数据监测准确性": "Data accuracy",
+      "数据解读帮助性": "Data interpretation",
+      "售后体验": "After-sales experience",
+    },
+    fr: {
+      "UI NPS 调查问卷": "Enquête NPS UI",
+      "您对当前 UI 体验满意吗？": "Êtes-vous satisfait de l’expérience actuelle de l’interface ?",
+      "您希望我们优先优化哪些界面？": "Quelles interfaces souhaitez-vous que nous améliorions en priorité ?",
+      "请根据实际体验完成以下问题": "Veuillez répondre selon votre expérience réelle",
+      "您有多大可能会向朋友或者同时推荐RingConn?": "Quelle est la probabilité que vous recommandiez RingConn ?",
+      "不推荐": "Peu probable",
+      "非常推荐": "Très probable",
+      "我们有哪些值得改进的地方?": "Que devrions-nous améliorer ?",
+    },
+    de: {
+      "UI NPS 调查问卷": "UI-NPS-Umfrage",
+      "全局 NPS 调查问卷": "Globale NPS-Umfrage",
+      "睡眠 NPS 调查问卷": "NPS-Umfrage Schlaf",
+      "运动 NPS 调查问卷": "NPS-Umfrage Aktivität",
+      "NPS分组问卷-监测准确性": "NPS-Gruppenumfrage - Messgenauigkeit",
+      "NPS分组问卷-App设计体验": "NPS-Gruppenumfrage - App-Design-Erlebnis",
+      "NPS分组问卷-渠道与改进": "NPS-Gruppenumfrage - Kanäle und Verbesserungen",
+      "NPS分组完整问卷": "Vollständige NPS-Gruppenumfrage",
+      "请根据实际体验完成以下问题": "Bitte antworten Sie basierend auf Ihrer tatsächlichen Erfahrung",
+      "您有多大可能会向朋友或者同时推荐RingConn?": "Wie wahrscheinlich ist es, dass Sie RingConn empfehlen?",
+      "您愿意向朋友推荐 RingConn 吗？": "Würden Sie RingConn Freunden empfehlen?",
+      "您对当前 UI 体验满意吗？": "Sind Sie mit dem aktuellen UI-Erlebnis zufrieden?",
+      "您希望我们优先优化哪些界面？": "Welche Benutzeroberflächen sollen wir vorrangig verbessern?",
+      "不推荐": "Nicht wahrscheinlich",
+      "非常推荐": "Sehr wahrscheinlich",
+      "我们有哪些做的不好的地方？": "Was haben wir nicht gut gemacht?",
+      "我们有哪些做得好的地方?": "Was haben wir gut gemacht?",
+      "我们有哪些值得改进的地方?": "Was sollten wir verbessern?",
+      "影响您评分的主要原因是什么？": "Was sind die wichtigsten Gründe für Ihre Bewertung?",
+      "睡眠数据": "Schlafdaten",
+      "佩戴舒适度": "Tragekomfort",
+      "App 体验": "App-Erlebnis",
+      "其他": "Sonstiges",
+    },
+  };
+  const sampleTranslations = {
+    zh_tw: {
+      "问卷": "問卷",
+      "根据您的使用感受，是否认同以下描述？": "根據您的使用感受，是否認同以下描述？",
+      "根据您对App的设计感受，是否认同以下描述？": "根據您對 App 的設計感受，是否認同以下描述？",
+      "5=非常认同，1=非常不认同": "5=非常認同，1=非常不認同",
+      "睡眠监测数据准确": "睡眠監測資料準確",
+      "活动监测数据准确": "活動監測資料準確",
+      "压力监测数据准确": "壓力監測資料準確",
+      "生命体征监测数据准确": "生命體徵監測資料準確",
+      "操作流程顺畅，符合逻辑": "操作流程順暢，符合邏輯",
+      "想找的东西都很容易找到": "想找的內容都很容易找到",
+      "文案话术描述清晰准确，易于理解": "文案話術描述清晰準確，易於理解",
+      "图表信息清晰易懂": "圖表資訊清晰易懂",
+      "字体字号大小合适，便于阅读": "字體字號大小合適，便於閱讀",
+      "您是通过哪种方式了解到RingConn的？": "您是透過哪種方式了解到 RingConn 的？",
+      "自发搜索": "自發搜尋",
+      "亲友推荐": "親友推薦",
+      "广告信息": "廣告資訊",
+      "网络分享/推荐": "網路分享/推薦",
+      "随机尝试/体验": "隨機嘗試/體驗",
+      "您是通过哪个渠道购买了我们的产品？": "您是透過哪個通路購買了我們的產品？",
+      "天猫": "天貓",
+      "京东": "京東",
+      "得物": "得物",
+      "小红书": "小紅書",
+      "微信小程序": "微信小程式",
+      "线下门店": "線下門市",
+      "其他渠道": "其他通路",
+      "请填写其他渠道信息": "請填寫其他通路資訊",
+      "您觉得我们在哪方面还需要改进？": "您覺得我們在哪方面還需要改進？",
+      "如：预测更准、建议更个性化，界面更清晰等": "如：預測更準、建議更個人化、介面更清晰等",
+      "选填": "選填",
+      "返回上一步": "返回上一步",
+      "下一步": "下一步",
+      "提交": "提交",
+    },
+    en: {
+      "问卷": "Survey",
+      "根据您的使用感受，是否认同以下描述？": "Based on your experience, do you agree with the following statements?",
+      "根据您对App的设计感受，是否认同以下描述？": "Based on your impression of the app design, do you agree with the following statements?",
+      "5=非常认同，1=非常不认同": "5=Strongly agree, 1=Strongly disagree",
+      "睡眠监测数据准确": "Sleep tracking data is accurate",
+      "活动监测数据准确": "Activity tracking data is accurate",
+      "压力监测数据准确": "Stress tracking data is accurate",
+      "生命体征监测数据准确": "Vital signs tracking data is accurate",
+      "操作流程顺畅，符合逻辑": "The workflow is smooth and logical",
+      "想找的东西都很容易找到": "It is easy to find what I need",
+      "文案话术描述清晰准确，易于理解": "The wording is clear, accurate, and easy to understand",
+      "图表信息清晰易懂": "Chart information is clear and easy to understand",
+      "字体字号大小合适，便于阅读": "The font size is appropriate and easy to read",
+      "您是通过哪种方式了解到RingConn的？": "How did you learn about RingConn?",
+      "自发搜索": "Self-initiated search",
+      "亲友推荐": "Friends or family recommendation",
+      "广告信息": "Advertisement",
+      "网络分享/推荐": "Online sharing/recommendation",
+      "随机尝试/体验": "Random trial/experience",
+      "您是通过哪个渠道购买了我们的产品？": "Through which channel did you purchase our product?",
+      "天猫": "Tmall",
+      "京东": "JD.com",
+      "得物": "Dewu",
+      "小红书": "Xiaohongshu",
+      "微信小程序": "WeChat Mini Program",
+      "线下门店": "Offline store",
+      "其他渠道": "Other channel",
+      "请填写其他渠道信息": "Please enter the other channel",
+      "您觉得我们在哪方面还需要改进？": "What areas do you think we still need to improve?",
+      "如：预测更准、建议更个性化，界面更清晰等": "For example: more accurate predictions, more personalized suggestions, clearer interface, etc.",
+      "选填": "Optional",
+      "返回上一步": "Back",
+      "下一步": "Next",
+      "提交": "Submit",
+    },
+    ja: {
+      "问卷": "アンケート",
+      "根据您的使用感受，是否认同以下描述？": "ご利用体験に基づき、次の記述に同意しますか？",
+      "根据您对App的设计感受，是否认同以下描述？": "アプリのデザイン体験に基づき、次の記述に同意しますか？",
+      "5=非常认同，1=非常不认同": "5=非常に同意、1=まったく同意しない",
+      "睡眠监测数据准确": "睡眠モニタリングデータは正確です",
+      "活动监测数据准确": "アクティビティモニタリングデータは正確です",
+      "压力监测数据准确": "ストレスモニタリングデータは正確です",
+      "生命体征监测数据准确": "バイタルサインのモニタリングデータは正確です",
+      "操作流程顺畅，符合逻辑": "操作フローはスムーズで論理的です",
+      "想找的东西都很容易找到": "探したいものを簡単に見つけられます",
+      "文案话术描述清晰准确，易于理解": "説明文は明確で正確、理解しやすいです",
+      "图表信息清晰易懂": "グラフ情報は明確で理解しやすいです",
+      "字体字号大小合适，便于阅读": "フォントサイズは適切で読みやすいです",
+      "您是通过哪种方式了解到RingConn的？": "RingConnをどのように知りましたか？",
+      "自发搜索": "自分で検索",
+      "亲友推荐": "友人・家族の推薦",
+      "广告信息": "広告情報",
+      "网络分享/推荐": "オンライン共有/推薦",
+      "随机尝试/体验": "偶然の試用/体験",
+      "您是通过哪个渠道购买了我们的产品？": "どのチャネルで製品を購入しましたか？",
+      "天猫": "Tmall",
+      "京东": "JD.com",
+      "得物": "Dewu",
+      "小红书": "Xiaohongshu",
+      "微信小程序": "WeChatミニプログラム",
+      "线下门店": "実店舗",
+      "其他渠道": "その他のチャネル",
+      "请填写其他渠道信息": "その他のチャネル情報を入力してください",
+      "您觉得我们在哪方面还需要改进？": "どの点をさらに改善すべきだと思いますか？",
+      "如：预测更准、建议更个性化，界面更清晰等": "例：より正確な予測、より個別化された提案、より分かりやすい画面など",
+      "选填": "任意",
+      "返回上一步": "前へ戻る",
+      "下一步": "次へ",
+      "提交": "送信",
+    },
+    de: {
+      "问卷": "Umfrage",
+      "根据您的使用感受，是否认同以下描述？": "Stimmen Sie den folgenden Aussagen basierend auf Ihrer Nutzungserfahrung zu?",
+      "根据您对App的设计感受，是否认同以下描述？": "Stimmen Sie den folgenden Aussagen basierend auf Ihrem Eindruck vom App-Design zu?",
+      "5=非常认同，1=非常不认同": "5=Stimme voll zu, 1=Stimme überhaupt nicht zu",
+      "睡眠监测数据准确": "Die Schlafdaten sind genau",
+      "活动监测数据准确": "Die Aktivitätsdaten sind genau",
+      "压力监测数据准确": "Die Stressdaten sind genau",
+      "生命体征监测数据准确": "Die Vitaldaten sind genau",
+      "操作流程顺畅，符合逻辑": "Der Bedienablauf ist reibungslos und logisch",
+      "想找的东西都很容易找到": "Gesuchte Inhalte sind leicht zu finden",
+      "文案话术描述清晰准确，易于理解": "Die Texte sind klar, präzise und leicht verständlich",
+      "图表信息清晰易懂": "Diagramminformationen sind klar und leicht verständlich",
+      "字体字号大小合适，便于阅读": "Die Schriftgröße ist passend und gut lesbar",
+      "您是通过哪种方式了解到RingConn的？": "Wie haben Sie von RingConn erfahren?",
+      "自发搜索": "Eigene Suche",
+      "亲友推荐": "Empfehlung von Freunden/Familie",
+      "广告信息": "Werbung",
+      "网络分享/推荐": "Online-Teilen/Empfehlung",
+      "随机尝试/体验": "Zufälliger Test/Erfahrung",
+      "您是通过哪个渠道购买了我们的产品？": "Über welchen Kanal haben Sie unser Produkt gekauft?",
+      "天猫": "Tmall",
+      "京东": "JD.com",
+      "得物": "Dewu",
+      "小红书": "Xiaohongshu",
+      "微信小程序": "WeChat Mini Program",
+      "线下门店": "Offline-Shop",
+      "其他渠道": "Anderer Kanal",
+      "请填写其他渠道信息": "Bitte geben Sie den anderen Kanal an",
+      "您觉得我们在哪方面还需要改进？": "In welchen Bereichen sollten wir uns noch verbessern?",
+      "如：预测更准、建议更个性化，界面更清晰等": "Z. B. genauere Vorhersagen, persönlichere Empfehlungen, klarere Oberfläche usw.",
+      "选填": "Optional",
+      "返回上一步": "Zurück",
+      "下一步": "Weiter",
+      "提交": "Senden",
+    },
+    es: {
+      "问卷": "Encuesta",
+      "根据您的使用感受，是否认同以下描述？": "Según su experiencia de uso, ¿está de acuerdo con las siguientes afirmaciones?",
+      "根据您对App的设计感受，是否认同以下描述？": "Según su impresión del diseño de la app, ¿está de acuerdo con las siguientes afirmaciones?",
+      "5=非常认同，1=非常不认同": "5=Totalmente de acuerdo, 1=Totalmente en desacuerdo",
+      "睡眠监测数据准确": "Los datos de sueño son precisos",
+      "活动监测数据准确": "Los datos de actividad son precisos",
+      "压力监测数据准确": "Los datos de estrés son precisos",
+      "生命体征监测数据准确": "Los datos de signos vitales son precisos",
+      "操作流程顺畅，符合逻辑": "El flujo de uso es fluido y lógico",
+      "想找的东西都很容易找到": "Es fácil encontrar lo que necesito",
+      "文案话术描述清晰准确，易于理解": "Los textos son claros, precisos y fáciles de entender",
+      "图表信息清晰易懂": "La información de los gráficos es clara y fácil de entender",
+      "字体字号大小合适，便于阅读": "El tamaño de fuente es adecuado y fácil de leer",
+      "您是通过哪种方式了解到RingConn的？": "¿Cómo conoció RingConn?",
+      "自发搜索": "Búsqueda propia",
+      "亲友推荐": "Recomendación de amigos o familiares",
+      "广告信息": "Publicidad",
+      "网络分享/推荐": "Compartido/recomendado en línea",
+      "随机尝试/体验": "Prueba/experiencia casual",
+      "您是通过哪个渠道购买了我们的产品？": "¿Por qué canal compró nuestro producto?",
+      "线下门店": "Tienda física",
+      "其他渠道": "Otro canal",
+      "请填写其他渠道信息": "Indique el otro canal",
+      "您觉得我们在哪方面还需要改进？": "¿En qué aspectos cree que debemos mejorar?",
+      "如：预测更准、建议更个性化，界面更清晰等": "Por ejemplo: predicciones más precisas, sugerencias más personalizadas, interfaz más clara, etc.",
+      "选填": "Opcional",
+      "返回上一步": "Atrás",
+      "下一步": "Siguiente",
+      "提交": "Enviar",
+    },
+    fr: {
+      "问卷": "Questionnaire",
+      "根据您的使用感受，是否认同以下描述？": "D'après votre expérience d'utilisation, êtes-vous d'accord avec les affirmations suivantes ?",
+      "根据您对App的设计感受，是否认同以下描述？": "D'après votre impression du design de l'application, êtes-vous d'accord avec les affirmations suivantes ?",
+      "5=非常认同，1=非常不认同": "5=Tout à fait d'accord, 1=Pas du tout d'accord",
+      "睡眠监测数据准确": "Les données de suivi du sommeil sont précises",
+      "活动监测数据准确": "Les données de suivi d'activité sont précises",
+      "压力监测数据准确": "Les données de suivi du stress sont précises",
+      "生命体征监测数据准确": "Les données des signes vitaux sont précises",
+      "操作流程顺畅，符合逻辑": "Le parcours d'utilisation est fluide et logique",
+      "想找的东西都很容易找到": "Il est facile de trouver ce que je cherche",
+      "文案话术描述清晰准确，易于理解": "Les textes sont clairs, précis et faciles à comprendre",
+      "图表信息清晰易懂": "Les informations des graphiques sont claires et faciles à comprendre",
+      "字体字号大小合适，便于阅读": "La taille de police est adaptée et facile à lire",
+      "您是通过哪种方式了解到RingConn的？": "Comment avez-vous découvert RingConn ?",
+      "自发搜索": "Recherche personnelle",
+      "亲友推荐": "Recommandation d'amis ou de famille",
+      "广告信息": "Publicité",
+      "网络分享/推荐": "Partage/recommandation en ligne",
+      "随机尝试/体验": "Essai/expérience par hasard",
+      "您是通过哪个渠道购买了我们的产品？": "Par quel canal avez-vous acheté notre produit ?",
+      "线下门店": "Magasin physique",
+      "其他渠道": "Autre canal",
+      "请填写其他渠道信息": "Veuillez renseigner l'autre canal",
+      "您觉得我们在哪方面还需要改进？": "Selon vous, quels aspects devons-nous encore améliorer ?",
+      "如：预测更准、建议更个性化，界面更清晰等": "Par exemple : prévisions plus précises, conseils plus personnalisés, interface plus claire, etc.",
+      "选填": "Facultatif",
+      "返回上一步": "Retour",
+      "下一步": "Suivant",
+      "提交": "Envoyer",
+    },
+    ko: {
+      "问卷": "설문",
+      "根据您的使用感受，是否认同以下描述？": "사용 경험을 기준으로 다음 설명에 동의하시나요?",
+      "根据您对App的设计感受，是否认同以下描述？": "앱 디자인 경험을 기준으로 다음 설명에 동의하시나요?",
+      "5=非常认同，1=非常不认同": "5=매우 동의, 1=전혀 동의하지 않음",
+      "睡眠监测数据准确": "수면 모니터링 데이터가 정확합니다",
+      "活动监测数据准确": "활동 모니터링 데이터가 정확합니다",
+      "压力监测数据准确": "스트레스 모니터링 데이터가 정확합니다",
+      "生命体征监测数据准确": "생체 신호 모니터링 데이터가 정확합니다",
+      "操作流程顺畅，符合逻辑": "사용 흐름이 매끄럽고 논리적입니다",
+      "想找的东西都很容易找到": "찾고 싶은 내용을 쉽게 찾을 수 있습니다",
+      "文案话术描述清晰准确，易于理解": "문구가 명확하고 정확하며 이해하기 쉽습니다",
+      "图表信息清晰易懂": "차트 정보가 명확하고 이해하기 쉽습니다",
+      "字体字号大小合适，便于阅读": "글꼴 크기가 적절하고 읽기 쉽습니다",
+      "您是通过哪种方式了解到RingConn的？": "RingConn을 어떻게 알게 되셨나요?",
+      "自发搜索": "직접 검색",
+      "亲友推荐": "지인/가족 추천",
+      "广告信息": "광고",
+      "网络分享/推荐": "온라인 공유/추천",
+      "随机尝试/体验": "우연한 체험",
+      "您是通过哪个渠道购买了我们的产品？": "어떤 채널을 통해 제품을 구매하셨나요?",
+      "天猫": "Tmall",
+      "京东": "JD.com",
+      "得物": "Dewu",
+      "小红书": "Xiaohongshu",
+      "微信小程序": "WeChat 미니 프로그램",
+      "线下门店": "오프라인 매장",
+      "其他渠道": "기타 채널",
+      "请填写其他渠道信息": "기타 채널 정보를 입력해 주세요",
+      "您觉得我们在哪方面还需要改进？": "어떤 부분을 더 개선해야 한다고 생각하시나요?",
+      "如：预测更准、建议更个性化，界面更清晰等": "예: 더 정확한 예측, 더 개인화된 제안, 더 명확한 화면 등",
+      "选填": "선택",
+      "返回上一步": "이전",
+      "下一步": "다음",
+      "提交": "제출",
+    },
+  };
+  Object.entries(sampleTranslations).forEach(([key, translations]) => {
+    exactTranslations[key] = { ...(exactTranslations[key] || {}), ...translations };
+  });
+  const language = I18N_LANGUAGES.find((item) => item.key === languageKey);
+  if (exactTranslations[languageKey] && exactTranslations[languageKey][value]) {
+    return exactTranslations[languageKey][value];
+  }
+  if (languageKey !== "en" && exactTranslations.en && exactTranslations.en[value]) {
+    return exactTranslations.en[value];
+  }
+  return `${language ? language.previewLabel : languageKey} ${value}`;
+}
+
+function getI18nValue(rows, key, languageKey) {
+  const row = rows.find((item) => item.key === key);
+  return row ? translateI18nValue(row.value, languageKey) : "";
+}
+
+function getI18nQuestionId(templateId, question, questionIndex) {
+  return String(question.question_id || question.questionId || `${templateId}${String(questionIndex).padStart(3, "0")}`);
+}
+
+function getI18nKeyVersion(template, row) {
+  const sourceValue = String(row.value || "");
+  const identity = row.module === "base"
+    ? `base.${row.databaseField}`
+    : `${row.module}.${row.questionId}.${row.databaseField}`;
+  const keyVersions = template.i18n_key_versions || (template.i18n_key_versions = {});
+  const previous = keyVersions[identity];
+  if (!previous) {
+    keyVersions[identity] = { source_value: sourceValue, version: 1 };
+    return 1;
+  }
+  if (previous.source_value !== sourceValue) {
+    previous.source_value = sourceValue;
+    previous.version = Number(previous.version || 1) + 1;
+  }
+  return Number(previous.version || 1);
+}
+
+function getI18nBindingKey(template, row) {
+  const version = getI18nKeyVersion(template, row);
+  if (row.module === "base") {
+    return `nps.${template.template_id}.${row.databaseField}_${version}`;
+  }
+  const scope = row.module === "global" ? "global_question" : "question";
+  return `nps.${template.template_id}.${scope}.${row.questionId}.${row.databaseField}_${version}`;
+}
+
+function getI18nBindingGroups(template) {
+  const rows = getTemplateI18nRows(template);
+  const groups = [];
+  const baseRows = rows.filter((row) => row.module === "base");
+  if (baseRows.length) groups.push({ title: "基础信息", rows: baseRows });
+
+  [
+    ["global", "全局问题"],
+    ["question", "问卷问题"],
+  ].forEach(([module, title]) => {
+    const moduleRows = rows.filter((row) => row.module === module);
+    const questionGroups = [];
+    moduleRows.forEach((row) => {
+      let questionGroup = questionGroups.find((group) => group.questionIndex === row.questionIndex);
+      if (!questionGroup) {
+        questionGroup = {
+          questionIndex: row.questionIndex,
+          questionType: row.questionType,
+          rows: [],
+        };
+        questionGroups.push(questionGroup);
+      }
+      questionGroup.rows.push(row);
+    });
+    if (questionGroups.length) {
+      groups.push({
+        title,
+        questionGroups: questionGroups.map((group) => ({
+          ...group,
+          title: `问题 ${group.questionIndex} · ${getQuestionTypeLabel(group.questionType)}`,
+        })),
+      });
+    }
+  });
+
+  return groups;
+}
+
+function renderI18nBindingRow(template, row) {
+  const bindingKey = getI18nBindingKey(template, row);
+  return `
+    <div class="i18n-field-row" data-i18n-key="${escapeText(bindingKey)}" data-i18n-source="${escapeText(row.value)}">
+      <span class="i18n-field-name">${escapeText(row.name.replace(/^问题\d+/, ""))}</span>
+      <span class="i18n-field-value" title="${escapeText(row.value)}">${escapeText(row.value)}</span>
+      <span class="i18n-key-display"><code>${escapeText(bindingKey)}</code></span>
+      <span class="i18n-row-actions">
+        <button class="i18n-action-link view-i18n-translation" type="button">查看翻译</button>
+        <button class="i18n-action-link edit-i18n-translation" type="button">编辑</button>
+      </span>
+    </div>
+  `;
+}
+
+function renderI18nBindings(template) {
+  if (!i18nBindingList) return;
+  i18nBindingList.innerHTML = getI18nBindingGroups(template).map((group) => `
+    <section class="i18n-binding-section">
+      <div class="i18n-binding-section-title">
+        <span>${escapeText(group.title)}</span>
+        <span>后台文案</span>
+        <span>Key</span>
+        <span class="i18n-section-action-title">操作</span>
+      </div>
+      ${group.rows ? group.rows.map((row) => renderI18nBindingRow(template, row)).join("") : group.questionGroups.map((questionGroup) => `
+        <div class="i18n-question-binding-group">
+          <div class="i18n-question-binding-title">${escapeText(questionGroup.title)}</div>
+          ${questionGroup.rows.map((row) => renderI18nBindingRow(template, row)).join("")}
+        </div>
+      `).join("")}
+    </section>
+  `).join("");
+}
+
+function getI18nTranslationValue(bindingKey, source, languageKey) {
+  const overrideKey = `${bindingKey}:${languageKey}`;
+  return i18nTranslationOverrides.has(overrideKey)
+    ? i18nTranslationOverrides.get(overrideKey)
+    : translateI18nValue(source, languageKey);
+}
+
+function seedTemplateI18nTranslations(template) {
+  getTemplateI18nRows(template).forEach((row) => {
+    const bindingKey = getI18nBindingKey(template, row);
+    I18N_LANGUAGES.filter((language) => language.key !== "zh_cn").forEach((language) => {
+      const overrideKey = `${bindingKey}:${language.key}`;
+      if (!i18nTranslationOverrides.has(overrideKey)) {
+        i18nTranslationOverrides.set(overrideKey, translateI18nValue(row.value, language.key));
+      }
+    });
+  });
+}
+
+function hasCompleteI18nTranslations(template) {
+  const rows = getTemplateI18nRows(template);
+  if (!rows.length) return false;
+  return rows.every((row) => {
+    const bindingKey = getI18nBindingKey(template, row);
+    return I18N_LANGUAGES
+      .filter((language) => language.key !== "zh_cn")
+      .every((language) => {
+        const value = i18nTranslationOverrides.get(`${bindingKey}:${language.key}`);
+        return typeof value === "string" && value.trim().length > 0;
+      });
+  });
+}
+
+function clearTemplateI18nTranslations(template) {
+  const templatePrefix = `nps.${template.template_id}.`;
+  [...i18nTranslationOverrides.keys()].forEach((key) => {
+    if (key.startsWith(templatePrefix)) i18nTranslationOverrides.delete(key);
+  });
+}
+
+function updateTemplateI18nCompletion(template) {
+  const complete = hasCompleteI18nTranslations(template);
+  template.i18n_complete = complete;
+  template.template_status = complete ? "有效" : "待补充多语言";
+  return complete;
+}
+
+function scheduleTemplateI18nKeyMatching(template) {
+  if (!isSurveyListVariant() || !template) return;
+  const timer = templateI18nMatchingTimers.get(template.template_id);
+  if (timer) window.clearTimeout(timer);
+  template.template_status = "处理中";
+  template.i18n_uploaded = false;
+  template.i18n_complete = false;
+  templateI18nMatchingTimers.set(template.template_id, window.setTimeout(() => {
+    if (template.template_status !== "处理中") return;
+    template.template_status = "待补充多语言";
+    templateI18nMatchingTimers.delete(template.template_id);
+    persistPrototypeSessionCache();
+    applyTemplateFilters();
+  }, 1200));
+}
+
+function getI18nLanguageOrder() {
+  return I18N_LANGUAGES;
+}
+
+function closeI18nTranslationDialog() {
+  activeI18nTranslation = null;
+  i18nTranslationLightbox.classList.remove("show");
+  i18nTranslationLightbox.setAttribute("aria-hidden", "true");
+}
+
+function openI18nTranslationDialog(bindingKey, source, editable) {
+  activeI18nTranslation = { bindingKey, source, editable };
+  i18nTranslationDialogTitle.textContent = editable ? "编辑翻译" : "查看翻译";
+  i18nTranslationKey.textContent = bindingKey;
+  i18nTranslationSource.textContent = source;
+  i18nTranslationRows.innerHTML = getI18nLanguageOrder().map((language) => {
+    const isChinese = language.key === "zh_cn";
+    const value = isChinese ? source : getI18nTranslationValue(bindingKey, source, language.key);
+    return `<tr>
+      <td>${escapeText(language.label)}</td>
+      <td>${editable && !isChinese
+        ? `<input class="i18n-translation-input" data-i18n-language="${escapeText(language.key)}" value="${escapeText(value)}" />`
+        : escapeText(value)}</td>
+    </tr>`;
+  }).join("");
+  i18nTranslationDialogActions.innerHTML = editable
+    ? '<button class="ax-button" id="cancelI18nTranslationBtn" type="button">取消</button><button class="ax-button" id="saveI18nTranslationBtn" type="button">保存翻译</button>'
+    : '<button class="ax-button" id="cancelI18nTranslationBtn" type="button">关闭</button>';
+  document.getElementById("cancelI18nTranslationBtn").addEventListener("click", closeI18nTranslationDialog);
+  const saveButton = document.getElementById("saveI18nTranslationBtn");
+  if (saveButton) {
+    saveButton.addEventListener("click", () => {
+      i18nTranslationRows.querySelectorAll("[data-i18n-language]").forEach((input) => {
+        i18nTranslationOverrides.set(`${bindingKey}:${input.dataset.i18nLanguage}`, input.value.trim());
+      });
+      const template = getCurrentI18nTemplate();
+      if (template && template.i18n_uploaded) {
+        updateTemplateI18nCompletion(template);
+        renderTemplates(filteredTemplates);
+      }
+      closeI18nTranslationDialog();
+      showToast("翻译文案已保存。");
+    });
+  }
+  i18nTranslationLightbox.classList.add("show");
+  i18nTranslationLightbox.setAttribute("aria-hidden", "false");
+}
+
+function renderI18nLanguageTabs() {
+  i18nLanguageTabs.innerHTML = I18N_LANGUAGES.map((language) => `
+    <button class="language-tab${language.key === "zh_cn" || language.key === currentI18nLanguage ? " active" : ""}${language.key === "zh_cn" ? " locked" : ""}" type="button" data-language="${escapeText(language.key)}" ${language.key === "zh_cn" ? "disabled" : ""}>${escapeText(language.label)}</button>
+  `).join("");
+}
+
+function renderPreviewQuestion(question, index, rows) {
+  const title = getI18nValue(rows, `question_${index + 1}_title`, currentI18nLanguage);
+  const subtitle = getI18nValue(rows, `question_${index + 1}_subtitle`, currentI18nLanguage);
+  const optionalMark = question.type === "开放题" && question.required === "选填"
+    ? `（${translateI18nValue("选填", currentI18nLanguage)}）`
+    : "";
+
+  if (question.type === "评分(全局)" || question.type === "评分(普通)") {
+    const minDesc = getI18nValue(rows, `question_${index + 1}_min_desc`, currentI18nLanguage);
+    const maxDesc = getI18nValue(rows, `question_${index + 1}_max_desc`, currentI18nLanguage);
+    const scoreRange = Number(question.scoreRange) || 10;
+    return `
+      <div class="preview-question">
+        <div class="preview-question-title">${index + 1}. ${escapeText(title)}</div>
+        ${subtitle ? `<div class="preview-question-subtitle">${escapeText(subtitle)}</div>` : ""}
+        <div class="preview-score-row" style="grid-template-columns: repeat(${scoreRange}, 1fr);">
+          ${Array.from({ length: scoreRange }, (_, scoreIndex) => `<span>${scoreIndex + 1}</span>`).join("")}
+        </div>
+        <div class="preview-score-desc">
+          <span>${escapeText(minDesc)}</span>
+          <span>${escapeText(maxDesc)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  if (question.type === "单选题" || question.type === "多选题") {
+    return `
+      <div class="preview-question">
+        <div class="preview-question-title">${index + 1}. ${escapeText(title)}</div>
+        ${subtitle ? `<div class="preview-question-subtitle">${escapeText(subtitle)}</div>` : ""}
+        <div class="preview-choice-list">
+          ${question.choiceOptions.map((option, optionIndex) => `
+            <div class="preview-choice-item">
+              <span class="${question.type === "单选题" ? "radio-icon" : "checkbox-icon"}"></span>
+              <span>${escapeText(getI18nValue(rows, `question_${index + 1}_option_${optionIndex + 1}`, currentI18nLanguage) || option.label)}</span>
+            </div>
+            ${option.otherPrompt ? `
+              <div class="preview-other-fill">
+                <div class="preview-other-prompt">${escapeText(getI18nValue(rows, `question_${index + 1}_option_${optionIndex + 1}_prompt`, currentI18nLanguage) || option.otherPrompt)}</div>
+                <div class="preview-other-input"></div>
+                <div class="preview-char-limit">0 / ${escapeText(option.charLimit)}</div>
+              </div>
+            ` : ""}
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="preview-question">
+      <div class="preview-question-title">${index + 1}. ${escapeText(title)}${optionalMark}</div>
+      ${subtitle ? `<div class="preview-question-subtitle">${escapeText(subtitle)}</div>` : ""}
+      <div class="preview-textarea"></div>
+      <div class="preview-char-limit">0 / ${escapeText(question.charLimit)}</div>
+    </div>
+  `;
+}
+
+function renderI18nPreviewBody(sourceTemplate, pageTitle, pageActions = "") {
+  const rows = getTemplateI18nRows(sourceTemplate);
+  const questions = getTemplatePreviewQuestions(sourceTemplate);
+  const surveyTitle = getI18nValue(rows, "questionnaire_title", currentI18nLanguage);
+  const surveySubtitle = getI18nValue(rows, "questionnaire_subtitle", currentI18nLanguage);
+  return `
+    <div class="preview-h5-header">
+      <span class="preview-back-icon">&lt;</span>
+      <span class="preview-web-title">${escapeText(pageTitle)}</span>
+    </div>
+    <div class="preview-h5-body">
+      ${surveyTitle ? `<div class="preview-survey-title">${escapeText(surveyTitle)}</div>` : ""}
+      ${surveySubtitle ? `<div class="preview-survey-subtitle">${escapeText(surveySubtitle)}</div>` : ""}
+      ${questions.map((question, index) => renderPreviewQuestion(question, index, rows)).join("")}
+      ${pageActions}
+    </div>
+  `;
+}
+
+function renderLinkedGroupPreview(template, linkedGroups) {
+  currentI18nGroupIndex = Math.min(currentI18nGroupIndex, linkedGroups.length - 1);
+  const currentGroup = linkedGroups[currentI18nGroupIndex];
+  const rows = getTemplateI18nRows(currentGroup);
+  const baseTitle = getI18nValue(rows, "app_display_name", currentI18nLanguage);
+  const pageTitle = linkedGroups.length > 1 ? `${baseTitle}(${currentI18nGroupIndex + 1}/${linkedGroups.length})` : baseTitle;
+  const showPrev = currentI18nGroupIndex > 0;
+  const showNext = currentI18nGroupIndex < linkedGroups.length - 1;
+  const pageActions = linkedGroups.length > 1
+    ? `
+      <div class="preview-page-actions">
+        ${showPrev ? `<button class="preview-page-button preview-page-prev" type="button">${escapeText(translateI18nValue("返回上一步", currentI18nLanguage))}</button>` : ""}
+        <button class="preview-page-button ${showNext ? "preview-page-next" : "preview-page-submit"}" type="button">${escapeText(translateI18nValue(showNext ? "下一步" : "提交", currentI18nLanguage))}</button>
+      </div>
+    `
+    : "";
+
+  i18nPreviewCard.innerHTML = renderI18nPreviewBody(currentGroup, pageTitle, pageActions);
+}
+
+function renderI18nPreview() {
+  const template = getCurrentI18nTemplate();
+  if (!template) return;
+  const rows = getTemplateI18nRows(template);
+  const selectedLanguage = I18N_LANGUAGES.find((language) => language.key === currentI18nLanguage) || I18N_LANGUAGES.find((language) => language.key === "en");
+  renderI18nLanguageTabs();
+  if (i18nSelectedLanguageHeader) {
+    i18nSelectedLanguageHeader.textContent = `${selectedLanguage.label}文案`;
+  }
+  if (!i18nPreviewRows) return;
+  i18nPreviewRows.innerHTML = rows.length
+    ? rows.map((row) => `
+      <tr>
+        <td class="i18n-key-cell"><code>${escapeText(getI18nBindingKey(template, row))}</code></td>
+        <td>
+          <span class="i18n-row-name">${escapeText(row.name)}</span>
+          <span class="i18n-row-content">${escapeText(translateI18nValue(row.value, "zh_cn"))}</span>
+        </td>
+        <td>${escapeText(translateI18nValue(row.value, selectedLanguage.key))}</td>
+      </tr>
+    `).join("")
+    : '<tr><td class="i18n-preview-empty" colspan="3">暂无可预览文案</td></tr>';
+}
+
+function openTemplateI18nPage(templateId) {
+  const template = npsTemplates.find((item) => item.template_id === templateId);
+  if (!template) return;
+  if (isSurveyListVariant() && getSurveyListTemplateType(template) === "常规问卷" && template.is_third_party_questionnaire) {
+    showToast("跳转三方的常规问卷无需配置多语言。");
+    return;
+  }
+
+  const storedKeys = template.i18n_bound_keys || {};
+  const hasAllExistingKeys = ["有效", "生效中"].includes(template.template_status) || Boolean(template.i18n_uploaded);
+  const hasExistingKeys = hasAllExistingKeys || Object.keys(storedKeys).length > 0;
+  const workflowRows = getTemplateI18nRows(template).map((row) => ({
+    key: row.key,
+    name: row.name,
+    value: row.value,
+    module: row.module,
+    questionIndex: row.questionIndex,
+    questionType: row.questionType,
+    questionId: row.questionId,
+    databaseField: row.databaseField,
+    bindingKey: hasAllExistingKeys && !(template.defer_question_i18n_keys && row.module === "question")
+      ? getI18nBindingKey(template, row)
+      : (storedKeys[row.key] || ""),
+  }));
+  const workflowParams = new URLSearchParams({
+    templateId: template.template_id,
+    templateName: template.template_name,
+    questionnaireType: getSurveyListTemplateType(template),
+    existingKeys: hasExistingKeys ? "1" : "0",
+  });
+  try {
+    window.sessionStorage.setItem("nps-admin-prototype-i18n-workflow-v1", JSON.stringify({
+      templateId: template.template_id,
+      templateName: template.template_name,
+      existingKeys: hasExistingKeys,
+      rows: workflowRows,
+    }));
+  } catch {
+    // Keep the lightweight route available even when session storage is unavailable.
+  }
+  window.location.href = `./i18n-translation-workflow.html?v=20260922-01&${workflowParams.toString()}`;
+}
+
+function getAudienceFileNames() {
+  return Object.values(audienceRegionFiles).filter(Boolean);
+}
+
+function renderAudienceRegionFiles(files = {}) {
+  audienceRegionFiles = { us: "", uk: "", cn: "", ...files };
+  const regions = [
+    ["us", formFields.audienceFileNameUs],
+    ["uk", formFields.audienceFileNameUk],
+    ["cn", formFields.audienceFileNameCn],
+  ];
+  regions.forEach(([region, field]) => {
+    const fileName = audienceRegionFiles[region];
+    field.innerHTML = fileName
+      ? `<span class="file-name-text" title="${escapeText(fileName)}">${escapeText(fileName)}</span><button class="link-button file-remove" type="button" data-audience-region-remove="${region}">删除文件</button>`
+      : "未上传文件";
+  });
+}
+
+function clearAudienceFile() {
+  [formFields.audienceFileUs, formFields.audienceFileUk, formFields.audienceFileCn].forEach((field) => { field.value = ""; });
+  renderAudienceRegionFiles();
+}
+
+function getTaskAudienceRegionFiles(task) {
+  if (task.audience_region_files) return task.audience_region_files;
+  const fileName = (task.audience_file_names || [task.audience_file_name]).find(Boolean) || "";
+  if (task.delivery_region === "美国") return { us: fileName };
+  if (task.delivery_region === "中国大陆") return { cn: fileName };
+  return { uk: fileName };
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function buildCopyTaskName(taskName) {
+  const baseName = taskName.replace(/\(\d+\)$/, "");
+  const matcher = new RegExp(`^${escapeRegExp(baseName)}(?:\\((\\d+)\\))?$`);
+  const maxIndex = tasks.reduce((max, task) => {
+    const match = task.task_name.match(matcher);
+    if (!match) return max;
+    return Math.max(max, match[1] ? Number(match[1]) : 0);
+  }, 0);
+  return `${baseName}(${maxIndex + 1})`;
+}
+
+function setTaskFormReadonly(readonly) {
+  document.getElementById("taskForm").classList.toggle("readonly", readonly);
+  [
+    formFields.taskName,
+    formFields.planName,
+    formFields.taskScene,
+    formFields.questionnaireType,
+    formFields.forceRequiredYes,
+    formFields.forceRequiredNo,
+    formFields.startDateTime,
+    formFields.endDate,
+    formFields.endHour,
+    formFields.appTrigger,
+    formFields.templateName,
+    formFields.audienceFileUs,
+    formFields.audienceFileUk,
+    formFields.audienceFileCn,
+  ].forEach((field) => {
+    field.disabled = readonly;
+  });
+  document.getElementById("addPlanBtn").disabled = readonly;
+  document.querySelectorAll(".audience-file-choose").forEach((button) => { button.disabled = readonly; });
+  document.getElementById("submitTaskBtn").classList.toggle("hidden", readonly);
+  document.getElementById("cancelTaskBtn").textContent = readonly ? "返回" : "取消";
+  setTaskVersionReadonly(readonly);
+  if (readonly) formFields.appPanel.classList.remove("open");
+}
+
+function setTaskFormEditLock(locked) {
+  document.getElementById("taskForm").classList.toggle("edit-lock", locked);
+  [formFields.taskScene, formFields.questionnaireType].forEach((field) => {
+    field.disabled = locked;
+  });
+}
+
+function setTaskFormCopyMode(enabled) {
+  document.getElementById("taskForm").classList.toggle("copy-mode", enabled);
+  if (!enabled) return;
+  [
+    formFields.planName,
+    formFields.taskScene,
+    formFields.questionnaireType,
+    formFields.forceRequiredYes,
+    formFields.forceRequiredNo,
+    formFields.appTrigger,
+    formFields.templateName,
+  ].forEach((field) => {
+    field.disabled = true;
+  });
+  document.getElementById("addPlanBtn").disabled = true;
+  setTaskVersionReadonly(true);
+  formFields.appPanel.classList.remove("open");
+}
+
+function resetTaskForm() {
+  setTaskFormReadonly(false);
+  setTaskFormCopyMode(false);
+  setTaskFormEditLock(false);
+  clearFormErrors();
+  document.getElementById("taskForm").reset();
+  formFields.editingTaskId.value = "";
+  formFields.planName.value = "";
+  formFields.taskScene.value = "";
+  formFields.questionnaireType.value = "";
+  setTaskForceRequired(true);
+  formFields.templateName.value = "";
+  formFields.appClientApp.checked = true;
+  updateAppTrigger();
+  clearAudienceFile();
+  updateTaskQuestionnaireTypeVisibility();
+  applyTaskVersionDefaults();
+}
+
+function fillTaskForm(task) {
+  formFields.editingTaskId.value = task.task_id;
+  formFields.taskName.value = task.task_name;
+  formFields.planName.value = task.plan_name;
+  formFields.taskScene.value = task.task_scene;
+  updateTaskQuestionnaireTypeVisibility();
+  formFields.questionnaireType.value = task.task_scene === "全局" ? getTaskTemplateType(task) : "";
+  setTaskForceRequired(task.is_force_required !== false);
+  updateTaskForceRequiredVisibility();
+  const versionRange = getTaskStoredVersionRange(task);
+  setTaskVersionRange(versionRange.start, versionRange.end);
+  renderTemplateOptions();
+  setDateTimeHourValue(formFields.startDateTime, task.start_time);
+  setDateHourValue(formFields.endDate, formFields.endHour, task.end_time);
+  formFields.templateName.value = task.template_name;
+  formFields.appClientApp.checked = true;
+  updateAppTrigger();
+  renderAudienceRegionFiles(getTaskAudienceRegionFiles(task));
+}
+
+function openTaskForm(mode, taskId = "") {
+  formMode = mode;
+  resetTaskForm();
+  setActiveNav("task");
+  setTemplateLayout(false);
+  hideAllMainPanels();
+  document.getElementById("taskFormPanel").classList.add("active");
+  const pageName = mode === "view" ? "查看任务" : mode === "edit" ? "编辑任务" : mode === "copy" ? "复制任务" : "新增任务";
+  document.querySelector(".breadcrumb").textContent = `NPS管理 / 投放任务 / ${pageName}`;
+
+  if (mode === "edit" || mode === "view" || mode === "copy") {
+    const task = tasks.find((item) => item.task_id === taskId);
+    if (!task) return;
+    if (mode === "edit" && !canEditTask(task)) {
+      showToast("仅待投放任务允许编辑。");
+      showTaskList();
+      return;
+    }
+    fillTaskForm(task);
+    if (mode === "copy") {
+      formFields.editingTaskId.value = "";
+      formFields.taskName.value = buildCopyTaskName(task.task_name);
+      formFields.startDateTime.value = "";
+      formFields.endDate.value = "";
+      formFields.endHour.value = "";
+      clearAudienceFile();
+      setTaskFormCopyMode(true);
+    } else {
+      setTaskFormReadonly(mode === "view");
+      if (mode === "edit") setTaskFormEditLock(true);
+    }
+  }
+}
+
+function validateTaskForm() {
+  clearFormErrors();
+  let valid = true;
+  const startTime = formFields.startDateTime.value;
+
+  if (!formFields.taskName.value.trim()) {
+    setError("taskName", "任务名不能为空。");
+    valid = false;
+  }
+  if (!formFields.taskScene.value) {
+    setError("taskScene", "功能模块不能为空。");
+    valid = false;
+  }
+  if (formFields.taskScene.value === "全局" && !formFields.questionnaireType.value) {
+    setError("questionnaireType", "问卷类型不能为空。");
+    valid = false;
+  }
+  if (!startTime) {
+    setError("startTime", "投放时间不能为空。");
+    valid = false;
+  } else if (startTime < getCurrentBeijingHourValue()) {
+    setError("startTime", "投放时间必须大于等于当前北京时间。");
+    valid = false;
+  }
+  if (!formFields.templateName.value) {
+    setError("templateName", "关联问卷不能为空。");
+    valid = false;
+  }
+  const startVersion = normalizeTaskVersionValue(formFields.taskVersionStart.value);
+  const endVersion = normalizeTaskVersionValue(formFields.taskVersionEnd.value);
+  if (!startVersion) {
+    setError("taskVersion", "请选择开始投放版本。");
+    valid = false;
+  } else if (endVersion && compareVersions(startVersion, endVersion) > 0) {
+    setError("taskVersion", "开始版本必須小于等于结束版本。");
+    valid = false;
+  }
+  if (!getAudienceFileNames().length) {
+    setError("audienceFiles", "请上传投放人群文件。");
+    valid = false;
+  }
+
+  return valid;
+}
+
+function submitTaskForm() {
+  if (formMode === "view") {
+    showTaskList();
+    return;
+  }
+  if (!validateTaskForm()) {
+    showToast("提交失败，请检查表单。");
+    return;
+  }
+
+  const audienceFileNames = getAudienceFileNames();
+  const taskPayload = {
+    task_name: formFields.taskName.value.trim(),
+    task_scene: formFields.taskScene.value,
+    questionnaire_type: formFields.questionnaireType.value,
+    is_force_required: formFields.taskScene.value === "国妇婴" ? isTaskForceRequired() : false,
+    audience_link_text: "查看",
+    audience_region_files: { ...audienceRegionFiles },
+    audience_file_names: audienceFileNames,
+    audience_file_name: audienceFileNames.join(","),
+    start_time: formatDateTimeHour(formFields.startDateTime.value),
+    delivery_versions: getSelectedTaskVersions(),
+    delivery_version_start: getSelectedTaskVersions()[0] || "",
+    delivery_version_end: normalizeTaskVersionValue(formFields.taskVersionEnd.value) ? `V${normalizeTaskVersionValue(formFields.taskVersionEnd.value)}` : "",
+    template_name: formFields.templateName.value,
+  };
+
+  if (formMode === "edit") {
+    const task = tasks.find((item) => item.task_id === formFields.editingTaskId.value);
+    if (!task) {
+      showToast("提交失败，任务不存在。");
+      return;
+    }
+    if (!canEditTask(task)) {
+      showToast("仅待投放任务允许编辑。");
+      return;
+    }
+    Object.assign(task, taskPayload);
+    showToast("编辑成功。");
+  } else {
+    tasks.push({
+      task_id: getNextId(tasks, "task_id"),
+      task_status: "待投放",
+      total_users: "0",
+      actual_delivery_users: "0",
+      submitted_users: "0",
+      exposed_users: "0",
+      nps_estimate: "",
+      nps_promoters: "0",
+      nps_passives: "0",
+      nps_detractors: "0",
+      nps_updated_at: "",
+      ...taskPayload,
+    });
+    showToast("新增成功。");
+  }
+
+  persistPrototypeSessionCache();
+  filteredTasks = [...tasks];
+  renderRows(filteredTasks);
+  showTaskList();
+}
+
+function closePlanDialog() {
+  planLightbox.classList.remove("show");
+  planLightbox.setAttribute("aria-hidden", "true");
+}
+
+function submitNewPlan() {
+  clearError("newPlanName");
+  const planName = formFields.newPlanName.value.trim();
+  if (!planName) {
+    setError("newPlanName", "计划名称不能为空。");
+    return;
+  }
+  const newPlan = {
+    plan_id: getNextId(plans, "plan_id"),
+    plan_name: planName,
+    plan_status: "启用",
+  };
+  plans.push(newPlan);
+  renderPlanOptions();
+  formFields.planName.value = newPlan.plan_name;
+  closePlanDialog();
+  showToast("新增计划成功。");
+}
+
+function getSelectedTemplateChannels() {
+  return ["APP"];
+}
+
+function updateTemplateChannelTrigger() {
+  templateFormFields.channelApp.checked = true;
+  templateFormFields.channelTrigger.textContent = "APP";
+  updateTemplateVersionVisibility();
+}
+
+const TEMPLATE_MIN_VERSION_OPTIONS = ["V3.13.2", "V3.16", "V4.6.0"];
+
+function isSurveyV4PendingVersion() {
+  return isSurveyListVariant() && templateFormFields.androidVersion.value === "V4.6.0";
+}
+
+function isSurveyGlobalQuestionEditable() {
+  return isSurveyListVariant() && isGlobalAppQuestionnaire() && isSurveyV4PendingVersion();
+}
+
+function updateSurveyMinVersionOptions() {
+  const options = ["V4.6.0"];
+  const currentValue = templateFormFields.androidVersion.value;
+  templateFormFields.androidVersion.innerHTML = options.map((value) => `<option value="${value}">${value}</option>`).join("");
+  templateFormFields.androidVersion.value = options.includes(currentValue) ? currentValue : options[0];
+  templateFormFields.iosVersion.value = "";
+}
+
+function updateTemplateVersionVisibility() {
+  const isSurveyList = isSurveyListVariant();
+  const isFunctionalQuestionnaire = isRegularQuestionnaireType(templateFormFields.questionnaireType.value);
+  const requiresVersion = isSurveyList
+    ? !isFunctionalQuestionnaire
+    : (templateFormFields.channelApp.checked && (isPlanBTemplateForm() || templateFormFields.questionnaireType.value !== "分组问卷"));
+  if (isSurveyList) updateSurveyMinVersionOptions();
+  templateFormFields.versionRow.classList.toggle("hidden", !requiresVersion);
+  [templateFormFields.androidVersion, templateFormFields.iosVersion].forEach((field) => {
+    field.disabled = !requiresVersion || templateFormFields.channelTrigger.disabled;
+    if (!requiresVersion) field.value = "";
+  });
+  if (isSurveyList) templateFormFields.iosVersion.value = "";
+  [templateFormFields.androidVersionEnd, templateFormFields.iosVersionEnd].forEach((field) => {
+    field.disabled = !requiresVersion || isSurveyList || templateFormFields.channelTrigger.disabled;
+    if (!requiresVersion || isSurveyList) field.value = "";
+  });
+  if (!requiresVersion) {
+    templateFormErrors.version.textContent = "";
+    templateFormErrors.version.classList.remove("show");
+  }
+}
+
+function getLinkedQuestionnaireInputs() {
+  return Array.from(templateFormFields.linkedPanel.querySelectorAll('input[data-linked-questionnaire="true"]'));
+}
+
+function getGroupQuestionnaireTemplates() {
+  return npsTemplates.filter((template) => (
+    !template.is_deleted && getTemplateDisplayType(getTemplateRawType(template)) === "分组问卷" && template.template_status === "有效"
+  ));
+}
+
+function renderLinkedQuestionnaireOptions(selectedValues = []) {
+  const selected = new Set(selectedValues || []);
+  const groupTemplates = getGroupQuestionnaireTemplates();
+  if (!groupTemplates.length) {
+    templateFormFields.linkedPanel.innerHTML = '<div class="multi-empty">暂无分组问卷</div>';
+    updateLinkedQuestionnaireTrigger();
+    return;
+  }
+
+  templateFormFields.linkedPanel.innerHTML = sortTemplatesByIdDesc(groupTemplates).map((template) => {
+    const templateName = template.template_name;
+    return `
+      <label>
+        <input type="checkbox" value="${escapeText(templateName)}" data-linked-questionnaire="true" ${selected.has(templateName) ? "checked" : ""} />
+        ${escapeText(templateName)}
+      </label>
+    `;
+  }).join("");
+  updateLinkedQuestionnaireTrigger();
+}
+
+function getSelectedLinkedQuestionnaires() {
+  return getLinkedQuestionnaireInputs().filter((field) => field.checked).map((field) => field.value);
+}
+
+function getSelectedLinkedQuestionnaireTemplates() {
+  const selectedNames = new Set(getSelectedLinkedQuestionnaires());
+  return npsTemplates.filter((template) => selectedNames.has(template.template_name));
+}
+
+function validateLinkedQuestionnaireTitles() {
+  const linkedTemplates = getSelectedLinkedQuestionnaireTemplates();
+  if (linkedTemplates.length <= 1) return true;
+  const titles = new Set(linkedTemplates.map((template) => (template.questionnaire_title || "").trim()));
+  if (titles.size <= 1) return true;
+  setTemplateError("linked", "所选分组问卷的网页标题必须保持一致。");
+  return false;
+}
+
+function updateLinkedQuestionnaireTrigger() {
+  const selected = getSelectedLinkedQuestionnaires();
+  templateFormFields.linkedTrigger.textContent = selected.length > 3 ? `已选择 ${selected.length} 项` : selected.length ? selected.join("，") : "请选择分组问卷";
+  if (selected.length && validateLinkedQuestionnaireTitles()) clearTemplateError("linked");
+}
+
+function setLinkedQuestionnaires(values) {
+  renderLinkedQuestionnaireOptions(values || []);
+}
+
+function updateRichTextCount() {
+  document.querySelector(".char-count").textContent = `${templateFormFields.popupCopy.textContent.length} / 1000`;
+}
+
+function updateQuestionnaireDescriptionCount() {
+  if (templateFormFields.questionnaireDescriptionCount) {
+    templateFormFields.questionnaireDescriptionCount.textContent = `${templateFormFields.questionnaireDescription.value.length} / 200`;
+  }
+}
+
+function getSelectedPopupCopyMode() {
+  return templateFormFields.questionnaireType.value === "弹窗问卷(用研)" ? "用研" : "设计";
+}
+
+function setPopupCopyMode(mode = "设计") {
+  templateFormFields.popupCopyModeResearch.checked = mode === "用研";
+  templateFormFields.popupCopyModeDesign.checked = mode !== "用研";
+}
+
+function getPopupCopyPresetHtml(mode = getSelectedPopupCopyMode()) {
+  if (SURVEY_POPUP_COPY_PRESET_HTML[mode]) return SURVEY_POPUP_COPY_PRESET_HTML[mode];
+  const copy = SURVEY_POPUP_COPY_PRESETS[mode] || SURVEY_POPUP_COPY_PRESETS.设计;
+  return escapeText(copy).replace(/\n/g, "<br>");
+}
+
+function applyPopupCopyPreset(force = false) {
+  if (!isSurveyListVariant() || !isDesignQuestionnaireType(templateFormFields.questionnaireType.value)) return;
+  if (!force && templateFormFields.popupCopy.textContent.trim()) return;
+  templateFormFields.popupCopy.innerHTML = getPopupCopyPresetHtml(getSelectedPopupCopyMode());
+  savedRichTextRange = null;
+  updateRichTextCount();
+}
+
+function inferPopupCopyMode(value) {
+  return String(value || "").includes("面向受访者的简述") ? "用研" : "设计";
+}
+
+function getDefaultPopupCopyHtml() {
+  if (isSurveyListVariant()) return getPopupCopyPresetHtml();
+  return escapeText(DEFAULT_DESIGN_POPUP_COPY).replace(/\n/g, "<br>");
+}
+
+function updateTemplateLockedDefaults() {
+  const type = templateFormFields.questionnaireType.value;
+  const isGroupType = type === "分组问卷";
+  const isDesignType = isDesignQuestionnaireType(type);
+  const shouldLockBanner = Boolean(type) && !isGroupType;
+  const isPlanB = isPlanBTemplateVariant();
+  const canEditPopupCopy = isPlanB || isSurveyV4PendingVersion();
+
+  [
+    [templateFormFields.bannerTitle, DEFAULT_TEMPLATE_BANNER.title],
+    [templateFormFields.bannerSubtitle, DEFAULT_TEMPLATE_BANNER.subtitle],
+    [templateFormFields.bannerButton, DEFAULT_TEMPLATE_BANNER.button],
+  ].forEach(([field, value]) => {
+    field.disabled = !isPlanB;
+    field.readOnly = false;
+    if (shouldLockBanner && (!isPlanB || !field.value)) field.value = value;
+  });
+
+  templateFormFields.questionnaireTitle.readOnly = false;
+
+  const popupCopyReadonly = isDesignType && !canEditPopupCopy;
+  templateFormFields.popupCopy.contentEditable = popupCopyReadonly ? "false" : "true";
+  templateFormFields.popupCopy.classList.toggle("is-readonly", popupCopyReadonly);
+  document.querySelectorAll(".rich-button").forEach((button) => {
+    button.disabled = popupCopyReadonly;
+  });
+  if (isDesignType && (!canEditPopupCopy || !templateFormFields.popupCopy.textContent.trim())) {
+    templateFormFields.popupCopy.innerHTML = getDefaultPopupCopyHtml();
+    savedRichTextRange = null;
+    updateRichTextCount();
+  }
+}
+
+function saveRichTextSelection() {
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) return;
+  const range = selection.getRangeAt(0);
+  if (templateFormFields.popupCopy.contains(range.commonAncestorContainer)) {
+    savedRichTextRange = range;
+  }
+}
+
+function restoreRichTextSelection() {
+  if (!savedRichTextRange) return;
+  const selection = window.getSelection();
+  if (!selection) return;
+  selection.removeAllRanges();
+  selection.addRange(savedRichTextRange);
+}
+
+function applyRichTextCommand(command, value = null) {
+  templateFormFields.popupCopy.focus();
+  restoreRichTextSelection();
+  document.execCommand(command, false, value);
+  saveRichTextSelection();
+  updateRichTextCount();
+}
+
+function applyConsentRichTextCommand(command) {
+  templateFormFields.consentContent.focus();
+  restoreConsentRichTextSelection();
+  if (command === "createLink") {
+    const url = window.prompt("请输入链接地址", "https://");
+    if (!url) return;
+    document.execCommand("createLink", false, url);
+    saveConsentRichTextSelection();
+    return;
+  }
+  document.execCommand(command, false, null);
+  saveConsentRichTextSelection();
+}
+
+function saveConsentRichTextSelection() {
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) return;
+  const range = selection.getRangeAt(0);
+  if (templateFormFields.consentContent.contains(range.commonAncestorContainer)) {
+    savedConsentRichTextRange = range;
+  }
+}
+
+function restoreConsentRichTextSelection() {
+  if (!savedConsentRichTextRange) return;
+  const selection = window.getSelection();
+  if (!selection) return;
+  selection.removeAllRanges();
+  selection.addRange(savedConsentRichTextRange);
+}
+
+function isPopupAppQuestionnaireType(type) {
+  return type === "弹窗问卷(APP功能)" || type === "弹窗问卷(全局)" || type === "全局问卷(APP功能)" || type === "全局问题(APP功能)";
+}
+
+function isDesignQuestionnaireType(type) {
+  return [
+    "弹窗问卷(用研)",
+    "弹窗问卷(设计)",
+    "弹窗问卷(用研/设计)",
+    "全局问卷(设计反馈)",
+    "全局问卷(设计问卷)",
+  ].includes(type);
+}
+
+function isRegularQuestionnaireType(type) {
+  return ["功能问卷", "常规问卷", "常规"].includes(type);
+}
+
+function isTemplateConsentRequired() {
+  return templateFormFields.consentRequired.checked;
+}
+
+function setTemplateConsentRequired(required = false) {
+  templateFormFields.consentRequired.checked = Boolean(required);
+  templateFormFields.consentNotRequired.checked = !required;
+}
+
+function isTemplateThirdPartyQuestionnaire() {
+  return templateFormFields.thirdPartyYes.checked;
+}
+
+function setTemplateThirdPartyQuestionnaire(enabled = false) {
+  templateFormFields.thirdPartyYes.checked = Boolean(enabled);
+  templateFormFields.thirdPartyNo.checked = !enabled;
+}
+
+function updateTemplateConsentVisibility() {
+  const hasType = Boolean(templateFormFields.questionnaireType.value);
+  const shouldShow = isSurveyListVariant() && hasType && !isRegularQuestionnaireType(templateFormFields.questionnaireType.value);
+  const showContent = shouldShow && isTemplateConsentRequired();
+  templateFormFields.consentRow.classList.toggle("hidden", !shouldShow);
+  templateFormFields.consentContentRow.classList.toggle("hidden", !showContent);
+  if (!shouldShow) {
+    setTemplateConsentRequired(false);
+    templateFormFields.consentContent.innerHTML = "";
+    clearTemplateError("consent");
+  }
+}
+
+function updateTemplateThirdPartyVisibility() {
+  const shouldShow = isSurveyListVariant();
+  const showUrl = shouldShow && isTemplateThirdPartyQuestionnaire();
+  templateFormFields.thirdPartyRow.classList.toggle("hidden", !shouldShow);
+  templateFormFields.thirdPartyUrlRow.classList.toggle("hidden", !showUrl);
+  if (!shouldShow) {
+    setTemplateThirdPartyQuestionnaire(false);
+    templateFormFields.thirdPartyUrl.value = "";
+    clearTemplateError("thirdPartyUrl");
+  }
+  updateTemplateStepControls();
+}
+
+function supportsQuestionnaireStyle(type = templateFormFields.questionnaireType.value) {
+  return isDesignQuestionnaireType(type) || isRegularQuestionnaireType(type);
+}
+
+function getQuestionnaireStyle() {
+  return templateFormFields.questionnaireStyleGroup.checked ? "分组问卷" : "普通问卷";
+}
+
+function setQuestionnaireStyle(style = "普通问卷") {
+  templateFormFields.questionnaireStyleGroup.checked = style === "分组问卷";
+  templateFormFields.questionnaireStyleNormal.checked = style !== "分组问卷";
+}
+
+function shouldUseLinkedQuestionnaire() {
+  if (usesSectionQuestionEditor()) return false;
+  return isPopupAppQuestionnaireType(templateFormFields.questionnaireType.value)
+    || (supportsQuestionnaireStyle() && getQuestionnaireStyle() === "分组问卷");
+}
+
+function shouldShowPageSize() {
+  if (usesSectionQuestionEditor()) return false;
+  return supportsQuestionnaireStyle() && getQuestionnaireStyle() === "普通问卷";
+}
+
+function shouldSubmitTemplateFromStepOne() {
+  if (isSurveyListVariant() && isTemplateThirdPartyQuestionnaire()) return true;
+  if (usesSectionQuestionEditor()) return false;
+  return supportsQuestionnaireStyle() && getQuestionnaireStyle() === "分组问卷";
+}
+
+function updateQuestionnaireTypeByScene() {
+  const scene = templateFormFields.scene.value;
+  const typeSelect = templateFormFields.questionnaireType;
+  const functionOption = typeSelect.querySelector('option[value="常规问卷"]');
+  const groupOption = typeSelect.querySelector('option[value="分组问卷"]');
+  const globalOnlyOptions = [
+    'option[value="弹窗问卷(APP功能)"]',
+    'option[value="弹窗问卷(用研)"]',
+    'option[value="弹窗问卷(设计)"]',
+  ].map((selector) => typeSelect.querySelector(selector));
+
+  const setOptionState = (option, { hidden = false, disabled = false } = {}) => {
+    if (!option) return;
+    option.hidden = hidden;
+    option.disabled = disabled;
+  };
+
+  if (isSurveyListVariant()) {
+    typeSelect.disabled = templateFormMode === "edit";
+    typeSelect.value = typeSelect.value;
+    clearTemplateError("questionnaireType");
+    updateTemplateTypePanel();
+    return;
+  }
+
+  if (isPlanBTemplateForm()) {
+    if (!scene) {
+      typeSelect.value = "";
+      typeSelect.disabled = true;
+      globalOnlyOptions.forEach((option) => setOptionState(option));
+      setOptionState(functionOption);
+      setOptionState(groupOption, { hidden: true, disabled: true });
+    } else if (scene === "全局") {
+      typeSelect.disabled = false;
+      globalOnlyOptions.forEach((option) => setOptionState(option));
+      setOptionState(functionOption, { hidden: true, disabled: true });
+      setOptionState(groupOption, { hidden: true, disabled: true });
+      if (isRegularQuestionnaireType(typeSelect.value) || typeSelect.value === "分组问卷") typeSelect.value = "";
+    } else {
+      typeSelect.disabled = false;
+      globalOnlyOptions.forEach((option) => setOptionState(option, { hidden: true, disabled: true }));
+      setOptionState(functionOption);
+      setOptionState(groupOption, { hidden: true, disabled: true });
+      if (!isRegularQuestionnaireType(typeSelect.value)) typeSelect.value = "常规问卷";
+    }
+    clearTemplateError("questionnaireType");
+    updateTemplateTypePanel();
+    return;
+  }
+
+  if (!scene) {
+    typeSelect.value = "";
+    typeSelect.disabled = true;
+    globalOnlyOptions.forEach((option) => setOptionState(option));
+    setOptionState(functionOption);
+    setOptionState(groupOption);
+  } else if (scene === "全局") {
+    typeSelect.disabled = false;
+    globalOnlyOptions.forEach((option) => setOptionState(option));
+    setOptionState(functionOption, { hidden: true, disabled: true });
+    setOptionState(groupOption);
+    if (isRegularQuestionnaireType(typeSelect.value)) typeSelect.value = "";
+  } else {
+    typeSelect.disabled = false;
+    globalOnlyOptions.forEach((option) => setOptionState(option, { hidden: true, disabled: true }));
+    setOptionState(functionOption);
+    setOptionState(groupOption);
+    if (!isRegularQuestionnaireType(typeSelect.value) && typeSelect.value !== "分组问卷") {
+      typeSelect.value = "常规问卷";
+    }
+  }
+
+  clearTemplateError("questionnaireType");
+  updateTemplateTypePanel();
+}
+
+function getTemplateFormActionName(mode) {
+  const entityName = isSurveyListVariant() ? "问卷" : "模板";
+  const action = mode === "edit" ? "编辑" : (mode === "copy" ? "复制" : "新增");
+  return `${action}${entityName}${questionAssociationMode ? "(!)" : ""}`;
+}
+
+function updateTemplateStepControls() {
+  const submitFromStepOne = shouldSubmitTemplateFromStepOne();
+  if (usesSectionQuestionEditor()) {
+    const isAppQuestionnaire = isPlanBAppQuestionnaire();
+    document.getElementById("submitTemplateFromStepOneBtn").classList.toggle("hidden", !submitFromStepOne);
+    document.getElementById("nextTemplateStepBtn").classList.toggle("hidden", submitFromStepOne);
+    document.getElementById("templateStepThree").classList.toggle("hidden", !isAppQuestionnaire);
+    document.getElementById("addQuestionBtn").classList.add("hidden");
+    return;
+  }
+  document.getElementById("submitTemplateFromStepOneBtn").classList.toggle("hidden", !submitFromStepOne);
+  document.getElementById("nextTemplateStepBtn").classList.toggle("hidden", submitFromStepOne);
+  document.getElementById("templateStepTwo").classList.toggle("hidden", submitFromStepOne);
+  document.getElementById("addQuestionBtn").classList.toggle("hidden", isGlobalAppQuestionnaire());
+}
+
+function setTemplateStep(step) {
+  const isPlanBApp = isPlanBAppQuestionnaire();
+  const maxStep = isPlanBApp ? 3 : 2;
+  const nextStep = Math.min(Math.max(step, 1), maxStep);
+  if (nextStep === 2 && isGlobalAppQuestionnaire()) {
+    ensureGlobalAppFixedQuestions();
+  }
+  templateStep = nextStep;
+  document.getElementById("templateStepOne").textContent = usesSectionQuestionEditor() ? "设置基础信息" : "基础信息";
+  document.getElementById("templateStepTwo").textContent = isPlanBApp ? "设置APP弹窗问卷问题" : "设置问卷问题";
+  document.getElementById("templateStepThree").textContent = "设置问卷问题";
+  document.getElementById("templateStepThree").classList.toggle("hidden", !isPlanBApp);
+  document.getElementById("templateStepOne").classList.toggle("active", nextStep === 1);
+  document.getElementById("templateStepTwo").classList.toggle("active", nextStep === 2);
+  document.getElementById("templateStepThree").classList.toggle("active", nextStep === 3);
+  document.getElementById("templateStepOnePanel").classList.toggle("active", nextStep === 1);
+  document.getElementById("templateStepTwoPanel").classList.toggle("active", nextStep === 2);
+  document.getElementById("templateStepThreePanel").classList.toggle("active", nextStep === 3);
+  document.querySelectorAll(".template-action-group").forEach((group) => {
+    group.classList.toggle("active", Number(group.dataset.templateActionStep) === nextStep);
+  });
+
+  const showPlanBSections = usesSectionQuestionEditor() && (!isPlanBApp || nextStep === 3);
+  templateFormFields.questionRepeater.classList.toggle("hidden", showPlanBSections);
+  document.getElementById("addQuestionBtn").classList.toggle("hidden", usesSectionQuestionEditor() || isGlobalAppQuestionnaire());
+  document.querySelector(".template-question-summary").classList.toggle("hidden", usesSectionQuestionEditor());
+  document.getElementById("planBSectionsStepTwo").classList.toggle("hidden", !usesSectionQuestionEditor() || isPlanBApp);
+
+  const stepTwoSubmit = document.getElementById("submitTemplateBtn");
+  stepTwoSubmit.textContent = isPlanBApp ? "下一步" : "提交";
+  if (nextStep === 2) {
+    if (showPlanBSections) renderPlanBQuestionSections();
+    else renderTemplateQuestionList();
+  }
+  if (nextStep === 3) renderPlanBQuestionSections();
+}
+
+function getTemplateDisplayType(questionnaireType) {
+  if (questionnaireType === "弹窗问卷(全局)") return questionnaireType;
+  if (questionnaireType === "弹窗问卷(用研)" || questionnaireType === "弹窗问卷(设计)") return questionnaireType;
+  if (isDesignQuestionnaireType(questionnaireType)) return "弹窗问卷(用研)";
+  if (isPopupAppQuestionnaireType(questionnaireType)) return "弹窗问卷(APP功能)";
+  if (questionnaireType === "分组问卷" || questionnaireType === "分组") return "分组问卷";
+  if (isRegularQuestionnaireType(questionnaireType)) return "常规问卷";
+  if (questionnaireType === "弹窗") return "弹窗问卷(APP功能)";
+  return "常规问卷";
+}
+
+function getSurveyListQuestionnaireType(questionnaireType, popupCopyMode = "", popupCopy = "") {
+  if (!questionnaireType) return "";
+  if (isPopupAppQuestionnaireType(questionnaireType)) return "弹窗问卷(全局)";
+  if (questionnaireType === "弹窗问卷(用研/设计)") {
+    return popupCopyMode === "用研" || inferPopupCopyMode(popupCopy) === "用研"
+      ? "弹窗问卷(用研)"
+      : "弹窗问卷(设计)";
+  }
+  if (isDesignQuestionnaireType(questionnaireType)) return questionnaireType;
+  return "常规问卷";
+}
+
+function getSurveyListTemplateType(template) {
+  return getSurveyListQuestionnaireType(
+    template.raw_questionnaire_type || template.questionnaire_type,
+    template.popup_copy_mode,
+    template.popup_copy,
+  );
+}
+
+function getSurveyListStatus(status) {
+  if (status === "草稿") return "草稿";
+  if (status === "处理中") return "处理中";
+  if (status === "待补充多语言") return "待补充多语言";
+  return isTemplateEnabled(status) ? "生效中" : "已禁用";
+}
+
+function isTemplateEnabled(status) {
+  return status === "有效" || status === "生效中";
+}
+
+function getTemplateRawType(template) {
+  const rawType = template.raw_questionnaire_type || template.questionnaire_type;
+  return rawType ? getTemplateDisplayType(rawType) : "";
+}
+
+function updateTemplateTypePanel() {
+  const type = templateFormFields.questionnaireType.value;
+  const isGroupType = type === "分组问卷";
+  document.querySelectorAll(".type-panel").forEach((panel) => panel.classList.remove("active"));
+  ["templateBannerTitleRow", "templateBannerSubtitleRow", "templateBannerButtonRow"].forEach((rowId) => {
+    document.getElementById(rowId).classList.toggle("hidden", isGroupType);
+  });
+  if (isGroupType) {
+    clearTemplateError("bannerTitle");
+    clearTemplateError("bannerSubtitle");
+    clearTemplateError("bannerButton");
+  }
+  const isDesignType = isDesignQuestionnaireType(type);
+  const isPlanB = isPlanBTemplateForm();
+  const isSurveyList = isSurveyListVariant();
+  const popupCopyType = templateFormFields.popupCopy.dataset.questionnaireType || "";
+  updateTemplateConsentVisibility();
+  updateTemplateThirdPartyVisibility();
+  document.getElementById("popupCopyMode").classList.add("hidden");
+  if (isSurveyList && isDesignType && popupCopyType !== type) {
+    setPopupCopyMode(type === "弹窗问卷(用研)" ? "用研" : "设计");
+    applyPopupCopyPreset(true);
+  }
+  templateFormFields.popupCopy.dataset.questionnaireType = isDesignType ? type : "";
+  const hasQuestionnaireStyle = supportsQuestionnaireStyle(type);
+  const usesLinkedQuestionnaire = shouldUseLinkedQuestionnaire();
+  const showsPageSize = shouldShowPageSize();
+  if (!usesLinkedQuestionnaire) templateFormFields.linkedPanel.classList.remove("open");
+  updateTemplateStepControls();
+  updateTemplateLockedDefaults();
+  updateTemplateVersionVisibility();
+
+  if (!type) {
+    renderTemplateQuestionList();
+    return;
+  }
+
+  if (usesLinkedQuestionnaire && !usesSectionQuestionEditor()) {
+    renderLinkedQuestionnaireOptions(getSelectedLinkedQuestionnaires());
+    document.getElementById("typePanelLinked").classList.add("active");
+  }
+  if (hasQuestionnaireStyle && !usesSectionQuestionEditor()) {
+    document.getElementById("typePanelStyle").classList.add("active");
+  }
+  if (showsPageSize) {
+    document.getElementById("typePanelPageSize").classList.add("active");
+  }
+  if (isDesignType) {
+    document.getElementById("typePanelDesign").classList.add("active");
+  }
+  if ((isDesignType || isRegularQuestionnaireType(type) || type === "分组问卷") && !usesSectionQuestionEditor()) {
+    document.getElementById("typePanelCommon").classList.add("active");
+  }
+  document.getElementById("questionnaireDescriptionLabel").classList.remove("required");
+  clearTemplateError("questionnaireDescription");
+
+  if (isGlobalAppQuestionnaire()) ensureGlobalAppFixedQuestions();
+  document.getElementById("typePanelGlobalQuestions").classList.toggle("active", isSurveyList && isGlobalAppQuestionnaire());
+  if (isSurveyList && isGlobalAppQuestionnaire()) renderSurveyGlobalQuestions();
+  if (usesSectionQuestionEditor()) {
+    ensurePlanBQuestionSections();
+    setTemplateStep(templateStep);
+    return;
+  }
+  ensureAddConfigurableSingleQuestion();
+  renderTemplateQuestionList();
+}
+
+function getAllowedQuestionTypes() {
+  return isGlobalAppQuestionnaire()
+    ? ["评分(全局)", "多选题"]
+    : ["评分(普通)", "单选题", "多选题", "开放题", ...(isSurveyListVariant() ? ["文本描述"] : [])];
+}
+
+function getQuestionTypeNote() {
+  return isGlobalAppQuestionnaire()
+    ? "弹窗问卷(APP功能)固定为评分(全局)和多选题"
+    : "支持评分、单选题、多选题和开放题，不同类型展示不同字段";
+}
+
+function getDefaultQuestionType() {
+  return isGlobalAppQuestionnaire() ? "评分(全局)" : "评分(普通)";
+}
+
+function isGlobalAppQuestionnaire() {
+  return isPopupAppQuestionnaireType(templateFormFields.questionnaireType.value);
+}
+
+function isCommonQuestionnaire() {
+  return isRegularQuestionnaireType(templateFormFields.questionnaireType.value) || templateFormFields.questionnaireType.value === "分组问卷";
+}
+
+function isConfigurableQuestionnaire() {
+  return isCommonQuestionnaire() || isDesignQuestionnaireType(templateFormFields.questionnaireType.value);
+}
+
+function normalizeQuestionOptions(options) {
+  const source = Array.isArray(options) ? options : [];
+  const normalized = source.map((option) => {
+    if (typeof option === "string") {
+      return {
+        label: option,
+        isOther: option === "其他",
+        isDefault: option === "选项",
+        otherPrompt: "",
+        charLimit: "500",
+      };
+    }
+    return {
+      label: option.label || "选项",
+      isOther: Boolean(option.isOther),
+      isDefault: typeof option.isDefault === "boolean"
+        ? option.isDefault
+        : (!option.isOther && (option.label || "选项") === "选项"),
+      otherPrompt: option.otherPrompt || option.other_prompt || "",
+      charLimit: option.charLimit || option.char_limit || "500",
+    };
+  });
+  if (!normalized.length) normalized.push({ label: "选项", isOther: false, isDefault: true, otherPrompt: "", charLimit: "500" });
+  return normalized.sort((a, b) => Number(a.isOther) - Number(b.isOther));
+}
+
+function normalizeMaxSelectable(value) {
+  const normalized = String(value ?? "").replace(/\D/g, "");
+  return /^\d+$/.test(normalized) && Number(normalized) >= 3 ? String(Number(normalized)) : "3";
+}
+
+function isValidMaxSelectable(value) {
+  return /^\d+$/.test(String(value || "")) && Number(value) >= 3;
+}
+
+function createDefaultQuestion(type = getDefaultQuestionType()) {
+  return {
+    type,
+    title: "",
+    subtitle: "",
+    scoreRange: "10",
+    scoreMinDesc: "",
+    scoreMaxDesc: "",
+    lowScoreGuide: "",
+    highScoreGuide: "",
+    otherScoreGuide: "",
+    required: "必填",
+    charLimit: "500",
+    maxSelectable: "3",
+    choiceOptions: [{ label: "选项", isOther: false, isDefault: true }],
+    errors: {},
+  };
+}
+
+function normalizePlanBSectionQuestion(question = {}) {
+  const allowedTypes = ["评分(普通)", "单选题", "多选题", "开放题", ...(isSurveyListVariant() ? ["文本描述"] : [])];
+  const type = allowedTypes.includes(question.type) ? question.type : "评分(普通)";
+  const choiceOptions = normalizeQuestionOptions(question.choiceOptions || question.choice_options || []);
+  return {
+    ...createDefaultQuestion(type),
+    ...question,
+    type,
+    choiceOptions,
+    maxSelectable: normalizeMaxSelectable(question.maxSelectable || question.max_selectable),
+    errors: {},
+  };
+}
+
+function createPlanBQuestionSection(questions = [createDefaultQuestion("评分(普通)")]) {
+  return {
+    pageTitle: "",
+    title: "",
+    subtitle: "",
+    collapsed: false,
+    questions: questions.map(normalizePlanBSectionQuestion),
+  };
+}
+
+function createQuestionAssociationSampleQuestion(pageIndex, questionIndex) {
+  const samples = [
+    [
+      { type: "评分(普通)", title: "您对 RingConn 整体体验的满意度如何？", subtitle: "请根据实际使用感受评分", scoreRange: "10", scoreMinDesc: "非常不满意", scoreMaxDesc: "非常满意" },
+      { type: "单选题", title: "您使用 RingConn 的主要场景是？", subtitle: "", choiceOptions: [{ label: "睡眠监测" }, { label: "健康管理" }, { label: "运动记录" }] },
+      { type: "多选题", title: "您最常使用哪些功能？", subtitle: "可多选", choiceOptions: [{ label: "睡眠" }, { label: "活动" }, { label: "生命体征" }] },
+      { type: "开放题", title: "请描述您希望优化的体验。", subtitle: "", required: "选填", charLimit: "500" },
+      { type: "评分(普通)", title: "您会向朋友推荐 RingConn 吗？", subtitle: "", scoreRange: "10", scoreMinDesc: "不会推荐", scoreMaxDesc: "非常愿意推荐" },
+    ],
+    [
+      { type: "多选题", title: "您希望后续优先优化哪些方面？", subtitle: "可多选", choiceOptions: [{ label: "数据准确性" }, { label: "界面易读性" }, { label: "功能易用性" }] },
+      { type: "单选题", title: "您使用 App 的频率是？", subtitle: "", choiceOptions: [{ label: "每天" }, { label: "每周" }, { label: "偶尔" }] },
+      { type: "评分(普通)", title: "您对 App 操作流畅度的评价是？", subtitle: "", scoreRange: "5", scoreMinDesc: "非常不满意", scoreMaxDesc: "非常满意" },
+      { type: "开放题", title: "还有哪些建议想告诉我们？", subtitle: "", required: "选填", charLimit: "1000" },
+      { type: "多选题", title: "您希望收到哪些健康提醒？", subtitle: "可多选", choiceOptions: [{ label: "睡眠提醒" }, { label: "活动提醒" }, { label: "健康报告" }] },
+    ],
+  ];
+  return normalizePlanBSectionQuestion(samples[pageIndex % samples.length][questionIndex % 5]);
+}
+
+function ensureQuestionAssociationSamplePages() {
+  if (!questionAssociationMode || !isSurveyListVariant()) return;
+  while (templateQuestionSections.length < 2) templateQuestionSections.push(createPlanBQuestionSection([]));
+  templateQuestionSections.forEach((section, pageIndex) => {
+    while (section.questions.length < 5) {
+      section.questions.push(createQuestionAssociationSampleQuestion(pageIndex, section.questions.length));
+    }
+  });
+}
+
+function ensurePlanBQuestionSections() {
+  if (!usesSectionQuestionEditor()) return;
+  if (!templateQuestionSections.length) {
+    templateQuestionSections = [createPlanBQuestionSection()];
+  }
+  templateQuestionSections = templateQuestionSections.map((section) => ({
+    pageTitle: section.pageTitle || section.page_title || "",
+    title: section.title || "",
+    subtitle: section.subtitle || "",
+    collapsed: Boolean(section.collapsed),
+    questions: (section.questions || []).map(normalizePlanBSectionQuestion),
+  }));
+}
+
+function renderPlanBChoiceOptions(question, sectionIndex, questionIndex, inputType) {
+  question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
+  const hasOtherOption = question.choiceOptions.some((option) => option.isOther);
+  return `
+    <div class="question-option-list">
+      ${question.choiceOptions.map((option, optionIndex) => `
+        <div class="question-option-row${option.isOther ? "" : " sortable-option-row"}" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-option-index="${optionIndex}">
+          <input type="${inputType}" disabled />
+          <input class="question-option-input" type="text" value="${escapeText(option.label)}" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-option-index="${optionIndex}" data-section-question-field="optionLabel" ${option.isOther && !isSurveyListVariant() ? "disabled" : ""} />
+          <button class="link-button section-question-remove-option" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-option-index="${optionIndex}">删除</button>
+          ${option.isOther ? "" : `<button class="question-sort-handle option-sort-handle" type="button" draggable="true" title="拖动排序" aria-label="拖动排序" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-option-index="${optionIndex}"><span aria-hidden="true">⠿</span></button>`}
+        </div>
+      `).join("")}
+    </div>
+    <div class="question-option-actions">
+      <button class="link-button section-question-add-option" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">添加选项</button>
+      ${hasOtherOption ? "" : `<button class="link-button section-question-add-other" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">添加其他</button>`}
+    </div>
+  `;
+}
+
+function renderPlanBQuestionBody(question, sectionIndex, questionIndex) {
+  const field = (name, optionIndex = "") => `data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" ${optionIndex !== "" ? `data-section-option-index="${optionIndex}"` : ""} data-section-question-field="${name}"`;
+  if (question.type === "评分(普通)") {
+    return `
+      <div class="question-row"><label class="question-label required">选项</label><select class="ax-select question-control" ${field("scoreRange")}><option value="10"${question.scoreRange === "10" ? " selected" : ""}>10</option><option value="5"${question.scoreRange === "5" ? " selected" : ""}>5</option></select></div>
+      <div class="score-preview">${renderScorePreview(question.scoreRange)}</div>
+      <div class="question-row"><label class="question-label">最小值描述</label><input class="ax-input question-control" type="text" value="${escapeText(question.scoreMinDesc)}" ${field("scoreMinDesc")} /></div>
+      <div class="question-row"><label class="question-label">最大值描述</label><input class="ax-input question-control" type="text" value="${escapeText(question.scoreMaxDesc)}" ${field("scoreMaxDesc")} /></div>
+    `;
+  }
+  if (question.type === "单选题" || question.type === "多选题") {
+    const otherIndex = question.choiceOptions.findIndex((option) => option.isOther);
+    const other = otherIndex >= 0 ? question.choiceOptions[otherIndex] : null;
+    return `
+      <div class="question-row options-row"><label class="question-label">选项</label><div class="question-options">${renderPlanBChoiceOptions(question, sectionIndex, questionIndex, question.type === "单选题" ? "radio" : "checkbox")}</div></div>
+      ${renderPlanBMultiSelectLimit(question, sectionIndex, questionIndex, field)}
+      ${other ? `<div class="question-row"><label class="question-label">其他选项描述</label><input class="ax-input question-control" type="text" value="${escapeText(other.otherPrompt || "")}" ${field("otherPrompt", otherIndex)} /></div><div class="question-row"><label class="question-label required">字符限制</label><select class="ax-select question-control" ${field("otherCharLimit", otherIndex)}><option value="500"${other.charLimit === "500" ? " selected" : ""}>500</option><option value="1000"${other.charLimit === "1000" ? " selected" : ""}>1000</option><option value="2000"${other.charLimit === "2000" ? " selected" : ""}>2000</option></select></div>` : ""}
+    `;
+  }
+  if (question.type === "文本描述") return "";
+  return `
+    <div class="question-row radio-row"><label class="question-label required">必填/选填</label><label><input type="radio" name="sectionOpenRequired-${sectionIndex}-${questionIndex}" value="必填" ${field("required")} ${question.required === "必填" ? "checked" : ""} /> 必填</label><label><input type="radio" name="sectionOpenRequired-${sectionIndex}-${questionIndex}" value="选填" ${field("required")} ${question.required === "选填" ? "checked" : ""} /> 选填</label></div>
+    <div class="question-row"><label class="question-label required">字符限制</label><select class="ax-select question-control" ${field("charLimit")}><option value="500"${question.charLimit === "500" ? " selected" : ""}>500</option><option value="1000"${question.charLimit === "1000" ? " selected" : ""}>1000</option><option value="2000"${question.charLimit === "2000" ? " selected" : ""}>2000</option></select></div>
+  `;
+}
+
+function renderPlanBMultiSelectLimit(question, sectionIndex, questionIndex, field) {
+  if (question.type !== "多选题") return "";
+  const optionCount = normalizeQuestionOptions(question.choiceOptions).length;
+  if (optionCount <= 3) return "";
+  const maxSelectable = String(question.maxSelectable || "3");
+  const isInvalid = !isValidMaxSelectable(maxSelectable);
+  return `<div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control${isInvalid ? " error" : ""}" type="text" inputmode="numeric" pattern="[0-9]*" value="${escapeText(maxSelectable)}" ${field("maxSelectable")} /><div class="question-field-note">表示最多可勾选的答案数量。</div>${isInvalid ? '<div class="question-limit-error">请输入大于等于 3 的数字。</div>' : ""}</div></div>`;
+}
+
+function getQuestionAssociationReferences() {
+  const references = [];
+  if (isGlobalAppQuestionnaire()) {
+    templateQuestions.slice(0, 2).forEach((question, index) => {
+      references.push({
+        ref: `global-${index}`,
+        scope: "global",
+        index,
+        number: index + 1,
+        question,
+        label: `全局问题 ${index + 1}${question.title ? `：${question.title}` : ""}`,
+      });
+    });
+  }
+  let surveyNumber = 0;
+  templateQuestionSections.forEach((section, sectionIndex) => {
+    section.questions.forEach((question, questionIndex) => {
+      surveyNumber += 1;
+      references.push({
+        ref: `survey-${sectionIndex}-${questionIndex}`,
+        scope: "survey",
+        sectionIndex,
+        questionIndex,
+        number: surveyNumber,
+        question,
+        label: `问卷问题 ${surveyNumber}${question.title ? `：${question.title}` : ""}`,
+      });
+    });
+  });
+  return references;
+}
+
+function getSurveyQuestionNumber(sectionIndex, questionIndex) {
+  const reference = getQuestionAssociationReferences().find((item) => (
+    item.scope === "survey" && item.sectionIndex === sectionIndex && item.questionIndex === questionIndex
+  ));
+  return reference ? reference.number : questionIndex + 1;
+}
+
+function normalizeQuestionAssociationConditions(conditions) {
+  const source = Array.isArray(conditions) ? conditions : [];
+  return source.map((condition) => ({
+    answers: Array.isArray(condition.answers) ? condition.answers : [],
+    targetRefs: Array.isArray(condition.targetRefs)
+      ? condition.targetRefs
+      : (Array.isArray(condition.reuseTargets) ? condition.reuseTargets.filter(Boolean) : []),
+  }));
+}
+
+function getAssociationAnswerOptions(question) {
+  if (!question) return [];
+  if (["评分(全局)", "评分(普通)", "评分(功能/分组)"].includes(question.type)) {
+    return Array.from({ length: Number(question.scoreRange) || 10 }, (_, index) => String(index + 1));
+  }
+  if (["单选题", "多选题"].includes(question.type)) {
+    return normalizeQuestionOptions(question.choiceOptions).map((option) => option.label).filter(Boolean);
+  }
+  if (question.type === "开放题") return ["有填写开放题"];
+  return ["有填写", "未填写"];
+}
+
+function getQuestionByAssociationReference(reference) {
+  const item = getQuestionAssociationReferences().find((candidate) => candidate.ref === reference);
+  return item ? item.question : null;
+}
+
+function getAssociationSelectionSummary(values, placeholder) {
+  return values.length ? values.join("，") : placeholder;
+}
+
+function closeAssociationSelectPanels() {
+  questionAssociationBody.querySelectorAll(".association-select-panel.open").forEach((panel) => panel.classList.remove("open"));
+}
+
+function closeQuestionAssociationDialog() {
+  activeQuestionAssociation = null;
+  questionAssociationLightbox.classList.remove("show");
+  questionAssociationLightbox.setAttribute("aria-hidden", "true");
+}
+
+function renderQuestionAssociationDialog() {
+  if (!activeQuestionAssociation) return;
+  const references = getQuestionAssociationReferences();
+  const currentIndex = references.findIndex((item) => item.ref === activeQuestionAssociation.currentRef);
+  const laterQuestions = references.slice(currentIndex + 1).filter((item) => item.scope === "survey");
+  const currentNumber = getSurveyQuestionNumber(activeQuestionAssociation.sectionIndex, activeQuestionAssociation.questionIndex);
+  const currentQuestion = getPlanBSectionQuestion(activeQuestionAssociation.sectionIndex, activeQuestionAssociation.questionIndex);
+  const conditionMarkup = activeQuestionAssociation.conditions.map((condition, conditionIndex) => {
+    const answerOptions = getAssociationAnswerOptions(currentQuestion);
+    const selectedAnswers = new Set(condition.answers);
+    const selectedTargets = new Set(condition.targetRefs);
+    const occupiedAnswers = new Set(activeQuestionAssociation.conditions
+      .filter((_, index) => index !== conditionIndex)
+      .flatMap((item) => item.answers));
+    const occupiedTargets = new Set([
+      ...activeQuestionAssociation.conditions
+        .filter((_, index) => index !== conditionIndex)
+        .flatMap((item) => item.targetRefs),
+      ...references
+        .filter((item) => item.scope === "survey" && item.ref !== activeQuestionAssociation.currentRef)
+        .flatMap((item) => (Array.isArray(item.question.logic_conditions) ? item.question.logic_conditions : []))
+        .flatMap((item) => Array.isArray(item.targetRefs) ? item.targetRefs : []),
+    ]);
+    const availableAnswers = answerOptions.filter((answer) => selectedAnswers.has(answer) || !occupiedAnswers.has(answer));
+    const availableTargets = laterQuestions.filter((item) => selectedTargets.has(item.ref) || !occupiedTargets.has(item.ref));
+    return `
+      <section class="association-condition-card" data-condition-index="${conditionIndex}">
+        <div class="association-condition-heading">
+          <strong>条件 ${conditionIndex + 1}</strong>
+          ${activeQuestionAssociation.conditions.length > 1 ? `<button class="association-icon-button association-remove-condition" type="button" data-condition-index="${conditionIndex}" title="删除条件" aria-label="删除条件">−</button>` : ""}
+        </div>
+        <div class="association-field-row association-answer-row">
+          <label>当前问题答案</label>
+          <div class="association-answer-multi">
+            <button class="ax-select association-answer-trigger" type="button" data-condition-index="${conditionIndex}">${getAssociationSelectionSummary(condition.answers, "请选择答案")}</button>
+            <div class="association-select-panel association-answer-panel">${availableAnswers.map((answer) => `<label><input class="association-answer-checkbox" type="checkbox" value="${escapeText(answer)}" data-condition-index="${conditionIndex}"${selectedAnswers.has(answer) ? " checked" : ""} /> ${escapeText(answer)}</label>`).join("") || `<span class="association-empty-note">暂无可选择答案</span>`}</div>
+          </div>
+        </div>
+        <div class="association-field-row">
+          <label>显示问题</label>
+          <div class="association-target-list">
+            ${availableTargets.map((item) => `<label><input class="association-target-checkbox" type="checkbox" value="${item.ref}" data-condition-index="${conditionIndex}"${selectedTargets.has(item.ref) ? " checked" : ""} /> ${escapeText(item.label)}</label>`).join("") || `<span class="association-empty-note">暂无可选择显示问题</span>`}
+          </div>
+        </div>
+      </section>
+    `;
+  }).join("");
+
+  questionAssociationBody.innerHTML = `
+    <div class="association-current-question">当前题目：${escapeText(currentQuestion?.title || `问卷问题 ${currentNumber}`)}</div>
+    ${laterQuestions.length ? conditionMarkup : `<div class="association-empty-state">当前题目后暂无可设置展示逻辑的题目。</div>`}
+    ${laterQuestions.length ? `<button class="link-button association-add-condition" type="button">+ 添加条件</button>` : ""}
+  `;
+}
+
+function openQuestionAssociationDialog(sectionIndex, questionIndex) {
+  const currentRef = `survey-${sectionIndex}-${questionIndex}`;
+  const question = getPlanBSectionQuestion(sectionIndex, questionIndex);
+  if (!question) return;
+  activeQuestionAssociation = {
+    sectionIndex,
+    questionIndex,
+    currentRef,
+    conditions: normalizeQuestionAssociationConditions(question.logic_conditions),
+  };
+  if (!activeQuestionAssociation.conditions.length) activeQuestionAssociation.conditions = [{ answers: [], targetRefs: [] }];
+  questionAssociationLightbox.classList.add("show");
+  questionAssociationLightbox.setAttribute("aria-hidden", "false");
+  renderQuestionAssociationDialog();
+}
+
+function saveQuestionAssociation() {
+  if (!activeQuestionAssociation) return;
+  const currentQuestion = getPlanBSectionQuestion(activeQuestionAssociation.sectionIndex, activeQuestionAssociation.questionIndex);
+  const conditions = activeQuestionAssociation.conditions.map((condition) => ({
+    answers: [...new Set(condition.answers)],
+    targetRefs: [...new Set(condition.targetRefs.filter(Boolean))],
+  }));
+  if (!conditions.length || conditions.some((condition) => !condition.answers.length || !condition.targetRefs.length)) {
+    showToast("请完善关联条件。");
+    return;
+  }
+  const selectedAnswers = new Set();
+  if (conditions.some((condition) => condition.answers.some((answer) => {
+    if (selectedAnswers.has(answer)) return true;
+    selectedAnswers.add(answer);
+    return false;
+  }))) {
+    showToast("不同条件的问题答案不允许重复。");
+    return;
+  }
+  const selectedTargetRefs = new Set();
+  if (conditions.some((condition) => condition.targetRefs.some((reference) => {
+    if (selectedTargetRefs.has(reference)) return true;
+    selectedTargetRefs.add(reference);
+    return false;
+  }))) {
+    showToast("不同条件对应显示问题不能重复。");
+    return;
+  }
+  currentQuestion.logic_conditions = JSON.parse(JSON.stringify(conditions));
+  closeQuestionAssociationDialog();
+  renderPlanBQuestionSections();
+  showToast("问题关联已保存。");
+}
+
+function openQuestionAssociationDeleteDialog(sectionIndex, questionIndex) {
+  activeQuestionAssociation = { sectionIndex, questionIndex };
+  questionAssociationDeleteText.textContent = `确定删除问题${getSurveyQuestionNumber(sectionIndex, questionIndex)}中设置的全部题目关联条件吗？`;
+  questionAssociationDeleteLightbox.classList.add("show");
+  questionAssociationDeleteLightbox.setAttribute("aria-hidden", "false");
+}
+
+function closeQuestionAssociationDeleteDialog() {
+  questionAssociationDeleteLightbox.classList.remove("show");
+  questionAssociationDeleteLightbox.setAttribute("aria-hidden", "true");
+}
+
+function confirmQuestionAssociationDelete() {
+  if (activeQuestionAssociation) {
+    const question = getPlanBSectionQuestion(activeQuestionAssociation.sectionIndex, activeQuestionAssociation.questionIndex);
+    if (question) delete question.logic_conditions;
+  }
+  closeQuestionAssociationDeleteDialog();
+  activeQuestionAssociation = null;
+  renderPlanBQuestionSections();
+  showToast("问题关联已删除。");
+}
+
+function renderPlanBQuestionSections() {
+  ensurePlanBQuestionSections();
+  const surveyList = isSurveyListVariant();
+  const availableTypes = ["评分(普通)", "单选题", "多选题", "开放题", ...(surveyList ? ["文本描述"] : [])];
+  const renderQuestionCard = (question, sectionIndex, questionIndex) => {
+    const questionNumber = getSurveyQuestionNumber(sectionIndex, questionIndex);
+    const hasAssociation = Array.isArray(question.logic_conditions) && question.logic_conditions.length > 0;
+    const hasFollowingQuestion = getQuestionAssociationReferences().some((item) => item.scope === "survey" && item.number > questionNumber);
+    const supportsAssociation = !["文本描述", "纯文本"].includes(question.type);
+    const associationActions = questionAssociationMode && surveyList ? `
+      <div class="question-card-actions">
+        ${supportsAssociation && hasFollowingQuestion ? `<button class="link-button question-association-trigger" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">${hasAssociation ? "编辑关联" : "问题关联"}</button>` : ""}
+        ${supportsAssociation && hasFollowingQuestion && hasAssociation ? `<button class="link-button danger-link question-association-delete" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除全部关联</button>` : ""}
+        <button class="link-button section-question-remove" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除</button>
+      </div>
+    ` : `<button class="link-button section-question-remove" type="button" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">删除</button>`;
+    return `
+    <section class="question-card has-question-remove${surveyList ? " has-question-sort" : ""}${questionAssociationMode && surveyList ? " association-enabled" : ""}" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}">
+      ${surveyList ? `<button class="question-sort-handle section-question-sort-handle" type="button" draggable="true" title="拖动排序" aria-label="拖动排序" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}"><span aria-hidden="true">⠿</span></button>` : ""}
+      ${questionAssociationMode && surveyList ? `<div class="question-card-number">问题 ${questionNumber}</div>` : ""}
+      ${associationActions}
+      <div class="question-row question-textarea-row"><label class="question-label required">问题标题</label><textarea class="ax-input question-control question-auto-grow" rows="1" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-question-field="title">${escapeText(question.title)}</textarea></div>
+      <div class="question-row question-textarea-row"><label class="question-label">${surveyList ? "问题标题备注" : "问题副标题"}</label><textarea class="ax-input question-control question-auto-grow" rows="1" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-question-field="subtitle">${escapeText(question.subtitle)}</textarea></div>
+      <div class="question-row question-type-row"><label class="question-label required">问题类型</label><select class="ax-select question-control" data-section-index="${sectionIndex}" data-section-question-index="${questionIndex}" data-section-question-field="type">${availableTypes.map((type) => `<option value="${type}"${question.type === type ? " selected" : ""}>${escapeText(getQuestionTypeLabel(type))}</option>`).join("")}</select><span class="question-type-note">不同类型展示不同字段</span></div>
+      ${renderPlanBQuestionBody(question, sectionIndex, questionIndex)}
+    </section>
+  `;
+  };
+  const markup = templateQuestionSections.map((section, sectionIndex) => {
+    const questions = `<div class="section-question-list">${section.questions.map((question, questionIndex) => renderQuestionCard(question, sectionIndex, questionIndex)).join("")}</div><div class="survey-question-add-row"><button class="icon-add-button section-add-question" type="button" data-section-index="${sectionIndex}"><span class="button-icon">+</span><span>新增问题</span></button></div>`;
+    if (surveyList && sectionIndex === 0) {
+      return `<section class="survey-first-page" data-section-index="${sectionIndex}">${questions}</section>`;
+    }
+    const surveyHeader = surveyList
+      ? `<div class="question-section-header survey-page-header"><span>问卷第${sectionIndex + 1}页</span><div class="question-section-actions"><button class="link-button section-toggle" type="button" data-section-index="${sectionIndex}">${section.collapsed ? "展开" : "折叠"}</button><button class="link-button section-remove" type="button" data-section-index="${sectionIndex}">删除分页</button></div></div>`
+      : `<div class="question-section-header"><span>分区 ${sectionIndex + 1}</span><div class="question-section-actions"><button class="link-button section-toggle" type="button" data-section-index="${sectionIndex}">${section.collapsed ? "展开" : "折叠"}</button>${templateQuestionSections.length > 1 ? `<button class="link-button section-remove" type="button" data-section-index="${sectionIndex}">删除分区</button>` : ""}</div></div>`;
+    const sectionMeta = surveyList ? "" : `<div class="question-section-meta"><div class="question-row"><label class="question-label required">网页标题</label><input class="ax-input question-control" type="text" value="${escapeText(section.pageTitle)}" data-section-index="${sectionIndex}" data-section-field="pageTitle" /></div><div class="question-row"><label class="question-label">问卷标题</label><input class="ax-input question-control" type="text" value="${escapeText(section.title)}" data-section-index="${sectionIndex}" data-section-field="title" /></div><div class="question-row"><label class="question-label">问卷副标题</label><input class="ax-input question-control" type="text" value="${escapeText(section.subtitle)}" data-section-index="${sectionIndex}" data-section-field="subtitle" /></div></div>`;
+    return `<section class="question-section-card${surveyList ? " survey-page-card" : ""}" data-section-index="${sectionIndex}">${surveyHeader}<div class="question-section-content${section.collapsed ? " hidden" : ""}">${sectionMeta}${questions}</div></section>`;
+  }).join("") + `<div class="template-question-summary${surveyList ? " survey-page-add-summary" : ""}">${surveyList ? '<div class="survey-page-divider"></div>' : ""}<button class="icon-add-button section-add" type="button"><span class="button-icon">+</span><span>${surveyList ? "新增分页" : "新增分区"}</span></button>${surveyList ? '<span class="page-add-note">(表示问卷里的问题在下一页展示)</span>' : ""}</div>`;
+  templateFormFields.sectionRepeaterStepTwo.innerHTML = markup;
+  templateFormFields.sectionRepeaterStepThree.innerHTML = markup;
+  requestAnimationFrame(autoResizeQuestionTextareas);
+}
+
+function getPlanBSectionQuestion(sectionIndex, questionIndex) {
+  const section = templateQuestionSections[sectionIndex];
+  return section && section.questions ? section.questions[questionIndex] : null;
+}
+
+function updatePlanBSectionField(target) {
+  const section = templateQuestionSections[Number(target.dataset.sectionIndex)];
+  if (!section) return;
+  if (target.dataset.sectionField) {
+    section[target.dataset.sectionField] = target.value;
+    return;
+  }
+  const question = getPlanBSectionQuestion(Number(target.dataset.sectionIndex), Number(target.dataset.sectionQuestionIndex));
+  const field = target.dataset.sectionQuestionField;
+  if (!question || !field) return;
+  if (field === "optionLabel" || field === "otherPrompt" || field === "otherCharLimit") {
+    const option = question.choiceOptions[Number(target.dataset.sectionOptionIndex)];
+    if (!option) return;
+    if (field === "optionLabel" && (!option.isOther || isSurveyListVariant())) {
+      option.label = target.value;
+      option.isDefault = false;
+    }
+    if (field === "otherPrompt" && option.isOther) option.otherPrompt = target.value;
+    if (field === "otherCharLimit" && option.isOther) option.charLimit = target.value;
+    return;
+  }
+  if (field === "maxSelectable") {
+    target.value = target.value.replace(/\D/g, "");
+    question.maxSelectable = target.value;
+    target.classList.toggle("error", !isValidMaxSelectable(question.maxSelectable));
+    return;
+  }
+  if (field === "type") {
+    question.type = target.value;
+    question.choiceOptions = [{ label: "选项", isOther: false, isDefault: true, otherPrompt: "", charLimit: "500" }];
+    renderPlanBQuestionSections();
+    return;
+  }
+  question[field] = target.value;
+  if (field === "scoreRange") renderPlanBQuestionSections();
+}
+
+function updatePlanBSectionAction(target) {
+  const sectionIndex = Number(target.dataset.sectionIndex);
+  const questionIndex = Number(target.dataset.sectionQuestionIndex);
+  if (target.classList.contains("section-add")) {
+    templateQuestionSections.push(createPlanBQuestionSection());
+  } else if (target.classList.contains("section-toggle")) {
+    templateQuestionSections[sectionIndex].collapsed = !templateQuestionSections[sectionIndex].collapsed;
+  } else if (target.classList.contains("section-remove") && templateQuestionSections.length > 1) {
+    templateQuestionSections.splice(sectionIndex, 1);
+  } else if (target.classList.contains("section-add-question")) {
+    templateQuestionSections[sectionIndex].questions.push(createDefaultQuestion("评分(普通)"));
+  } else if (target.classList.contains("section-question-remove")) {
+    templateQuestionSections[sectionIndex].questions.splice(questionIndex, 1);
+  } else if (target.classList.contains("section-question-add-option") || target.classList.contains("section-question-add-other")) {
+    const question = getPlanBSectionQuestion(sectionIndex, questionIndex);
+    if (!question) return;
+    const options = normalizeQuestionOptions(question.choiceOptions);
+    if (options.length >= 10) {
+      showToast("最多可以填写 10 个选型。");
+      return;
+    }
+    const isOther = target.classList.contains("section-question-add-other");
+    const existingOther = options.find((option) => option.isOther);
+    const base = options.filter((option) => !option.isOther);
+    question.choiceOptions = isOther ? [...base, ...(existingOther ? [existingOther] : [{ label: "其他", isOther: true, isDefault: false, otherPrompt: "", charLimit: "500" }])] : [...base, { label: "选项", isOther: false, isDefault: true }, ...(existingOther ? [existingOther] : [])];
+  } else if (target.classList.contains("section-question-remove-option")) {
+    const question = getPlanBSectionQuestion(sectionIndex, questionIndex);
+    if (!question) return;
+    question.choiceOptions.splice(Number(target.dataset.sectionOptionIndex), 1);
+    if (!question.choiceOptions.length) question.choiceOptions = [{ label: "选项", isOther: false, isDefault: true, otherPrompt: "", charLimit: "500" }];
+  } else {
+    return;
+  }
+  renderPlanBQuestionSections();
+}
+
+function moveArrayItem(items, fromIndex, toIndex) {
+  if (!Array.isArray(items) || fromIndex === toIndex || fromIndex < 0 || toIndex < 0 || fromIndex >= items.length || toIndex >= items.length) return false;
+  const [item] = items.splice(fromIndex, 1);
+  items.splice(toIndex, 0, item);
+  return true;
+}
+
+function movePlanBChoiceOption(sectionIndex, questionIndex, fromIndex, toIndex) {
+  const question = getPlanBSectionQuestion(sectionIndex, questionIndex);
+  if (!question || question.choiceOptions?.[fromIndex]?.isOther || question.choiceOptions?.[toIndex]?.isOther) return;
+  if (moveArrayItem(question.choiceOptions, fromIndex, toIndex)) {
+    question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
+    renderPlanBQuestionSections();
+  }
+}
+
+function moveTemplateChoiceOption(questionIndex, fromIndex, toIndex) {
+  const question = getTemplateQuestion(questionIndex);
+  if (!question || question.choiceOptions?.[fromIndex]?.isOther || question.choiceOptions?.[toIndex]?.isOther) return;
+  if (moveArrayItem(question.choiceOptions, fromIndex, toIndex)) {
+    question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
+    renderTemplateQuestionList();
+  }
+}
+
+function remapSectionQuestionReferences(sectionIndex, fromIndex, toIndex) {
+  const indexMap = new Map();
+  templateQuestionSections[sectionIndex].questions.forEach((_, index) => {
+    if (index === fromIndex) indexMap.set(index, toIndex);
+    else if (fromIndex < toIndex && index > fromIndex && index <= toIndex) indexMap.set(index, index - 1);
+    else if (toIndex < fromIndex && index >= toIndex && index < fromIndex) indexMap.set(index, index + 1);
+    else indexMap.set(index, index);
+  });
+  templateQuestionSections.forEach((section) => {
+    section.questions.forEach((question) => {
+      if (!Array.isArray(question.logic_conditions)) return;
+      question.logic_conditions.forEach((condition) => {
+        condition.targetRefs = (condition.targetRefs || []).map((reference) => {
+          const match = String(reference).match(/^survey-(\d+)-(\d+)$/);
+          if (!match || Number(match[1]) !== sectionIndex) return reference;
+          return `survey-${sectionIndex}-${indexMap.get(Number(match[2]))}`;
+        });
+      });
+    });
+  });
+}
+
+function moveSectionQuestion(sectionIndex, fromIndex, toIndex) {
+  const section = templateQuestionSections[sectionIndex];
+  if (!section || !moveArrayItem(section.questions, fromIndex, toIndex)) return;
+  remapSectionQuestionReferences(sectionIndex, fromIndex, toIndex);
+  renderPlanBQuestionSections();
+}
+
+function validatePlanBQuestionSections() {
+  ensurePlanBQuestionSections();
+  let valid = true;
+  let choiceValidationMessage = "";
+  templateQuestionSections.forEach((section) => {
+    if (!isSurveyListVariant() && !section.pageTitle.trim()) valid = false;
+    if (!section.questions.length) valid = false;
+    section.questions.forEach((question) => {
+      if (!question.title.trim()) valid = false;
+      const optionMessage = getChoiceOptionValidationMessage(question);
+      if (optionMessage) {
+        valid = false;
+        choiceValidationMessage ||= optionMessage;
+      }
+    });
+  });
+  if (!valid) showToast(choiceValidationMessage || "请完善每个分区中的问卷问题。");
+  return valid;
+}
+
+function getChoiceOptionValidationMessage(question) {
+  if (!question || !["单选题", "多选题"].includes(question.type)) return "";
+  const options = normalizeQuestionOptions(question.choiceOptions);
+  if (options.length > 10) return "最多可以填写 10 个选型。";
+  if (options.filter((option) => option.label.trim()).length < 2) return "请至少填写 2 个选项。";
+  if (question.type === "多选题" && options.length > 3 && !isValidMaxSelectable(question.maxSelectable)) {
+    return "可选项数量限制必须为大于等于 3 的数字。";
+  }
+  const otherOption = options.find((option) => option.isOther);
+  if (otherOption && !otherOption.charLimit) return "请设置其他选项的字符限制。";
+  return "";
+}
+
+function normalizeTemplateQuestion(question) {
+  const allowedTypes = getAllowedQuestionTypes();
+  const normalizedType = question.type === "评分(功能/分组)" ? "评分(普通)" : question.type;
+  const type = allowedTypes.includes(normalizedType) ? normalizedType : getDefaultQuestionType();
+  const optionText = typeof question.options === "string" ? question.options : "";
+  const scoreMatch = optionText.match(/1-(5|10)/);
+  const charLimitMatch = optionText.match(/(\d+)\s*字符/);
+  const rawCharLimit = question.charLimit || question.char_limit || (charLimitMatch ? charLimitMatch[1] : "500");
+  let rawOptions = question.choiceOptions || question.choice_options || [];
+  if (!rawOptions.length && (type === "单选题" || type === "多选题") && optionText) {
+    rawOptions = optionText.split(",").map((option) => option.trim()).filter(Boolean);
+  }
+  const choiceOptions = normalizeQuestionOptions(rawOptions);
+
+  return {
+    ...createDefaultQuestion(type),
+    ...question,
+    type,
+    scoreRange: question.scoreRange || question.score_range || (scoreMatch ? scoreMatch[1] : "10"),
+    scoreMinDesc: question.scoreMinDesc || question.score_min_desc || "",
+    scoreMaxDesc: question.scoreMaxDesc || question.score_max_desc || "",
+    lowScoreGuide: question.lowScoreGuide || question.low_score_guide || "",
+    highScoreGuide: question.highScoreGuide || question.high_score_guide || "",
+    otherScoreGuide: question.otherScoreGuide || question.other_score_guide || "",
+    required: question.required || (optionText.includes("选填") ? "选填" : "必填"),
+    charLimit: ["500", "1000", "2000"].includes(rawCharLimit) ? rawCharLimit : "500",
+    choiceOptions,
+    maxSelectable: normalizeMaxSelectable(question.maxSelectable || question.max_selectable),
+    errors: {},
+  };
+}
+
+function syncQuestionTypesWithTemplate() {
+  const allowedTypes = getAllowedQuestionTypes();
+  templateQuestions = templateQuestions.map((question) => {
+    if (allowedTypes.includes(question.type)) return question;
+    return { ...question, type: getDefaultQuestionType(), errors: {} };
+  });
+}
+
+function renderQuestionTypeOptions(selectedType) {
+  return getAllowedQuestionTypes().map((type) => (
+    `<option value="${escapeText(type)}"${type === selectedType ? " selected" : ""}>${escapeText(getQuestionTypeLabel(type))}</option>`
+  )).join("");
+}
+
+function getQuestionTypeLabel(type) {
+  if (type === "评分(普通)") return "评分";
+  if (type === "文本描述") return "纯文本";
+  return type;
+}
+
+function ensureGlobalAppFixedQuestions() {
+  const hasExpectedDefaultQuestions = templateQuestions.length === 2
+    && templateQuestions[0].type === "评分(全局)"
+    && templateQuestions[1].type === "多选题";
+  if ((isPlanBTemplateVariant() || isSurveyGlobalQuestionEditable()) && hasExpectedDefaultQuestions) return;
+  templateQuestions = cloneTemplateQuestions(DEFAULT_GLOBAL_APP_QUESTIONS);
+}
+
+function ensureAddConfigurableSingleQuestion() {
+  if (templateFormMode !== "add" || !isConfigurableQuestionnaire()) return;
+  if (templateQuestions.length === 1 && templateQuestions[0].type === "评分(普通)") return;
+  templateQuestions = [createDefaultQuestion("评分(普通)")];
+}
+
+function renderScorePreview(range) {
+  return Array.from({ length: Number(range) }, (_, index) => `<span>${index + 1}</span>`).join("");
+}
+
+function renderQuestionError(message) {
+  return message ? `<div class="question-error">${escapeText(message)}</div>` : "";
+}
+
+function renderChoiceOptions(question, questionIndex, inputType) {
+  question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
+  const isGlobalApp = isGlobalAppQuestionnaire();
+  const canEditPlanBMultiSelectOptions = isGlobalApp && (isPlanBTemplateVariant() || isSurveyGlobalQuestionEditable()) && question.type === "多选题";
+  const hasOtherOption = question.choiceOptions.some((option) => option.isOther);
+  return `
+    <div class="question-option-list">
+      ${question.choiceOptions.map((option, optionIndex) => `
+        <div class="question-option-row${option.isOther ? "" : " sortable-option-row"}" data-question-index="${questionIndex}" data-option-index="${optionIndex}">
+          <input type="${inputType}" disabled />
+          <input class="question-option-input" type="text" value="${escapeText(option.label)}" data-question-index="${questionIndex}" data-option-index="${optionIndex}" data-question-field="optionLabel" ${(option.isOther || (isGlobalApp && !canEditPlanBMultiSelectOptions)) ? "disabled" : ""} />
+          ${isGlobalApp ? "" : `<button class="link-button question-remove-option" type="button" data-question-index="${questionIndex}" data-option-index="${optionIndex}">删除</button>`}
+          ${option.isOther || (isGlobalApp && !canEditPlanBMultiSelectOptions) ? "" : `<button class="question-sort-handle option-sort-handle" type="button" draggable="true" title="拖动排序" aria-label="拖动排序" data-question-index="${questionIndex}" data-option-index="${optionIndex}"><span aria-hidden="true">⠿</span></button>`}
+        </div>
+      `).join("")}
+    </div>
+    ${renderQuestionError(question.errors && question.errors.options)}
+    ${isGlobalApp ? "" : `<div class="question-option-actions">
+      <button class="link-button question-add-option" type="button" data-question-index="${questionIndex}">添加选项</button>
+      ${hasOtherOption ? "" : `<button class="link-button question-add-other" type="button" data-question-index="${questionIndex}">添加其他</button>`}
+    </div>`}
+  `;
+}
+
+function renderMultiSelectLimit(question, questionIndex) {
+  if (question.type !== "多选题") return "";
+  const optionCount = normalizeQuestionOptions(question.choiceOptions).length;
+  if (optionCount <= 3) return "";
+  const maxSelectable = String(question.maxSelectable || "3");
+  const isInvalid = !isValidMaxSelectable(maxSelectable);
+  return `<div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control question-field${isInvalid ? " error" : ""}" type="text" inputmode="numeric" pattern="[0-9]*" value="${escapeText(maxSelectable)}" data-question-index="${questionIndex}" data-question-field="maxSelectable" /><div class="question-field-note">表示最多可勾选的答案数量。</div>${isInvalid ? '<div class="question-limit-error">请输入大于等于 3 的数字。</div>' : ""}</div></div>`;
+}
+
+function renderChoiceOtherConfig(question, questionIndex) {
+  if (question.type !== "单选题" && question.type !== "多选题") return "";
+  const isFixedGlobalApp = isGlobalAppQuestionnaire();
+  const fixedAttribute = isFixedGlobalApp && !isSurveyGlobalQuestionEditable() && !isPlanBTemplateVariant() ? "disabled" : "";
+  const otherOptionIndex = question.choiceOptions.findIndex((option) => option.isOther);
+  if (otherOptionIndex < 0) return "";
+  const otherOption = question.choiceOptions[otherOptionIndex];
+  return `
+    <div class="question-row">
+      <label class="question-label">其他选项描述</label>
+      <input class="ax-input question-control question-field" type="text" value="${escapeText(otherOption.otherPrompt)}" data-question-index="${questionIndex}" data-option-index="${otherOptionIndex}" data-question-field="otherPrompt" ${fixedAttribute} />
+    </div>
+    <div class="question-row">
+      <label class="question-label required">字符限制</label>
+      <select class="ax-select question-control question-field" data-question-index="${questionIndex}" data-option-index="${otherOptionIndex}" data-question-field="otherCharLimit" ${fixedAttribute}>
+        <option value="500"${otherOption.charLimit === "500" ? " selected" : ""}>500</option>
+        <option value="1000"${otherOption.charLimit === "1000" ? " selected" : ""}>1000</option>
+        <option value="2000"${otherOption.charLimit === "2000" ? " selected" : ""}>2000</option>
+      </select>
+    </div>
+  `;
+}
+
+function renderQuestionBody(question, index) {
+  const fixedAttribute = isGlobalAppQuestionnaire() && !isPlanBTemplateVariant() && !isSurveyGlobalQuestionEditable() ? "disabled" : "";
+  const fixedOptionAttribute = isGlobalAppQuestionnaire() && !isPlanBTemplateVariant() && !isSurveyGlobalQuestionEditable() ? "disabled" : "";
+  if (question.type === "评分(全局)" || question.type === "评分(普通)" || question.type === "评分(功能/分组)") {
+    return `
+      <div class="question-row">
+        <label class="question-label required">选项</label>
+        <select class="ax-select question-control question-field" data-question-index="${index}" data-question-field="scoreRange" ${fixedOptionAttribute}>
+          <option value="10"${question.scoreRange === "10" ? " selected" : ""}>10</option>
+          <option value="5"${question.scoreRange === "5" ? " selected" : ""}>5</option>
+        </select>
+      </div>
+      <div class="score-preview">${renderScorePreview(question.scoreRange)}</div>
+      <div class="question-row">
+        <label class="question-label">最小值描述</label>
+        <input class="ax-input question-control question-field" type="text" value="${escapeText(question.scoreMinDesc)}" data-question-index="${index}" data-question-field="scoreMinDesc" ${fixedAttribute} />
+      </div>
+      <div class="question-row">
+        <label class="question-label">最大值描述</label>
+        <input class="ax-input question-control question-field" type="text" value="${escapeText(question.scoreMaxDesc)}" data-question-index="${index}" data-question-field="scoreMaxDesc" ${fixedAttribute} />
+      </div>
+      ${question.type === "评分(全局)" ? `
+        <div class="question-row">
+          <label class="question-label">低评分引导文案</label>
+          <input class="ax-input question-control question-field" type="text" value="${escapeText(question.lowScoreGuide)}" data-question-index="${index}" data-question-field="lowScoreGuide" ${fixedAttribute} />
+        </div>
+        <div class="question-row">
+          <label class="question-label">高评分引导文案</label>
+          <input class="ax-input question-control question-field" type="text" value="${escapeText(question.highScoreGuide)}" data-question-index="${index}" data-question-field="highScoreGuide" ${fixedAttribute} />
+        </div>
+        <div class="question-row">
+          <label class="question-label">其他评分引导文案</label>
+          <input class="ax-input question-control question-field" type="text" value="${escapeText(question.otherScoreGuide)}" data-question-index="${index}" data-question-field="otherScoreGuide" ${fixedAttribute} />
+        </div>
+      ` : ""}
+    `;
+  }
+
+  if (question.type === "单选题" || question.type === "多选题") {
+    return `
+      <div class="question-row options-row">
+        <label class="question-label">选项</label>
+        <div class="question-options">
+          ${renderChoiceOptions(question, index, question.type === "单选题" ? "radio" : "checkbox")}
+        </div>
+      </div>
+      ${renderMultiSelectLimit(question, index)}
+      ${renderChoiceOtherConfig(question, index)}
+    `;
+  }
+
+  return `
+    <div class="question-row radio-row">
+      <label class="question-label required">必填/选填</label>
+      <label><input class="question-field" name="openRequired-${index}" type="radio" value="必填" data-question-index="${index}" data-question-field="required" ${question.required === "必填" ? "checked" : ""} /> 必填</label>
+      <label><input class="question-field" name="openRequired-${index}" type="radio" value="选填" data-question-index="${index}" data-question-field="required" ${question.required === "选填" ? "checked" : ""} /> 选填</label>
+    </div>
+    <div class="question-row">
+      <label class="question-label required">字符限制</label>
+      <select class="ax-select question-control question-field" data-question-index="${index}" data-question-field="charLimit">
+        <option value="500"${question.charLimit === "500" ? " selected" : ""}>500</option>
+        <option value="1000"${question.charLimit === "1000" ? " selected" : ""}>1000</option>
+        <option value="2000"${question.charLimit === "2000" ? " selected" : ""}>2000</option>
+      </select>
+    </div>
+  `;
+}
+
+function renderSurveyGlobalQuestions() {
+  if (!isSurveyListVariant() || !isGlobalAppQuestionnaire()) {
+    templateFormFields.globalQuestionRepeater.innerHTML = "";
+    return;
+  }
+  ensureGlobalAppFixedQuestions();
+  const scoreQuestion = templateQuestions[0];
+  const choiceQuestion = templateQuestions[1];
+  const fixedAttribute = isSurveyGlobalQuestionEditable() ? "" : "disabled";
+  templateFormFields.globalQuestionRepeater.innerHTML = `
+    <section class="question-card global-question-card${questionAssociationMode ? " association-enabled" : ""}" data-question-index="0">
+      ${questionAssociationMode ? '<div class="question-card-number">问题 1</div>' : ""}
+      <div class="question-row question-textarea-row"><label class="question-label required">问题标题</label><textarea class="ax-input question-control question-field question-auto-grow" rows="1" data-question-index="0" data-question-field="title" ${fixedAttribute}>${escapeText(scoreQuestion.title)}</textarea></div>
+      <div class="question-row question-textarea-row"><label class="question-label">问题标题备注</label><textarea class="ax-input question-control question-field question-auto-grow" rows="1" data-question-index="0" data-question-field="subtitle" ${fixedAttribute}>${escapeText(scoreQuestion.subtitle)}</textarea></div>
+      <div class="question-row question-type-row"><label class="question-label required">问题类型</label><select class="ax-select question-control question-field" data-question-index="0" data-question-field="type" disabled><option>评分(全局)</option></select><span class="question-type-note">固定问题类型</span></div>
+      <div class="question-row"><label class="question-label required">选项</label><select class="ax-select question-control question-field" data-question-index="0" data-question-field="scoreRange" ${fixedAttribute}><option value="10"${scoreQuestion.scoreRange === "10" ? " selected" : ""}>10</option><option value="5"${scoreQuestion.scoreRange === "5" ? " selected" : ""}>5</option></select></div>
+      <div class="score-preview">${renderScorePreview(scoreQuestion.scoreRange)}</div>
+      <div class="question-row"><label class="question-label">最小值描述</label><input class="ax-input question-control question-field" type="text" value="${escapeText(scoreQuestion.scoreMinDesc)}" data-question-index="0" data-question-field="scoreMinDesc" ${fixedAttribute} /></div>
+      <div class="question-row"><label class="question-label">最大值描述</label><input class="ax-input question-control question-field" type="text" value="${escapeText(scoreQuestion.scoreMaxDesc)}" data-question-index="0" data-question-field="scoreMaxDesc" ${fixedAttribute} /></div>
+      <div class="question-row"><label class="question-label">低评分引导文案</label><input class="ax-input question-control question-field" type="text" value="${escapeText(scoreQuestion.lowScoreGuide)}" data-question-index="0" data-question-field="lowScoreGuide" ${fixedAttribute} /></div>
+      <div class="question-row"><label class="question-label">高评分引导文案</label><input class="ax-input question-control question-field" type="text" value="${escapeText(scoreQuestion.highScoreGuide)}" data-question-index="0" data-question-field="highScoreGuide" ${fixedAttribute} /></div>
+      <div class="question-row"><label class="question-label">其他评分引导文案</label><input class="ax-input question-control question-field" type="text" value="${escapeText(scoreQuestion.otherScoreGuide)}" data-question-index="0" data-question-field="otherScoreGuide" ${fixedAttribute} /></div>
+    </section>
+    <section class="question-card global-question-card global-choice-card${questionAssociationMode ? " association-enabled" : ""}" data-question-index="1">
+      ${questionAssociationMode ? '<div class="question-card-number">问题 2</div>' : ""}
+      <div class="question-row question-type-row"><label class="question-label required">问题类型</label><select class="ax-select question-control question-field" data-question-index="1" data-question-field="type" disabled><option>多选题</option></select><span class="question-type-note">固定问题类型</span></div>
+      <div class="question-row options-row"><label class="question-label">选项</label><div class="question-options">${renderChoiceOptions(choiceQuestion, 1, "checkbox")}</div></div>
+    </section>
+  `;
+  requestAnimationFrame(autoResizeQuestionTextareas);
+}
+
+function renderTemplateQuestionList() {
+  if (!templateQuestions.length) {
+    templateFormFields.questionRepeater.innerHTML = "";
+    return;
+  }
+
+  if (isGlobalAppQuestionnaire()) ensureGlobalAppFixedQuestions();
+  syncQuestionTypesWithTemplate();
+  const isGlobalApp = isGlobalAppQuestionnaire();
+  const fixedQuestionAttribute = isGlobalApp && !isPlanBTemplateVariant() && !isSurveyGlobalQuestionEditable() ? "disabled" : "";
+  const canRemoveQuestion = !isGlobalApp && templateQuestions.length > 1;
+  templateFormFields.questionRepeater.innerHTML = templateQuestions.map((question, index) => `
+    <section class="question-card${canRemoveQuestion ? " has-question-remove" : ""}" data-question-index="${index}">
+      ${canRemoveQuestion ? `<button class="link-button question-remove" type="button" data-question-index="${index}">删除</button>` : ""}
+      <div class="question-row question-type-row">
+        <label class="question-label required">问题类型</label>
+        <select class="ax-select question-control question-field" data-question-index="${index}" data-question-field="type" ${isGlobalApp ? "disabled" : ""}>
+          ${renderQuestionTypeOptions(question.type)}
+        </select>
+        <span class="question-type-note">${escapeText(getQuestionTypeNote())}</span>
+      </div>
+      <div class="question-row question-textarea-row">
+        <label class="question-label required">问题标题</label>
+        <textarea class="ax-input question-control question-field question-auto-grow" rows="1" data-question-index="${index}" data-question-field="title" ${fixedQuestionAttribute}>${escapeText(question.title)}</textarea>
+        ${renderQuestionError(question.errors && question.errors.title)}
+      </div>
+      <div class="question-row question-textarea-row">
+        <label class="question-label">问题副标题</label>
+        <textarea class="ax-input question-control question-field question-auto-grow" rows="1" data-question-index="${index}" data-question-field="subtitle" ${fixedQuestionAttribute}>${escapeText(question.subtitle)}</textarea>
+      </div>
+      ${renderQuestionBody(question, index)}
+    </section>
+  `).join("");
+  requestAnimationFrame(autoResizeQuestionTextareas);
+}
+
+function validateTemplateStepOne() {
+  clearTemplateFormErrors();
+  let valid = true;
+  const questionnaireType = templateFormFields.questionnaireType.value;
+  const isCommonQuestionnaireType = isRegularQuestionnaireType(questionnaireType) || questionnaireType === "分组问卷";
+  const isSurveyList = isSurveyListVariant();
+  const requiresSurveyVersion = isSurveyList && !isRegularQuestionnaireType(questionnaireType);
+  const requiresBannerFields = !isSurveyList && questionnaireType !== "分组问卷";
+  const requiresLinkedQuestionnaire = shouldUseLinkedQuestionnaire();
+  const requiresPageSize = shouldShowPageSize();
+  const requiresConsent = isSurveyList && !isRegularQuestionnaireType(questionnaireType) && isTemplateConsentRequired();
+  const isThirdPartyQuestionnaire = isSurveyList && isTemplateThirdPartyQuestionnaire();
+  const versionPairs = [
+    [templateFormFields.androidVersion.value.trim(), templateFormFields.androidVersionEnd.value.trim()],
+    [templateFormFields.iosVersion.value.trim(), templateFormFields.iosVersionEnd.value.trim()],
+  ];
+  const hasVersion = versionPairs.some(([start]) => Boolean(start));
+  const versionInvalid = versionPairs.some(([start, end]) => (!start && end) || (start && end && compareVersions(end, start) <= 0));
+
+  if (!templateFormFields.templateTitle.value.trim()) {
+    setTemplateError("templateTitle", "问卷名称不能为空。");
+    valid = false;
+  }
+  if (!templateFormFields.templateDisplayName.value.trim()) {
+    setTemplateError("templateDisplayName", "问卷名称(用于 APP 展示)不能为空。");
+    valid = false;
+  }
+  if (!isSurveyList && !templateFormFields.scene.value) {
+    setTemplateError("scene", "功能模块不能为空。");
+    valid = false;
+  }
+  if (!questionnaireType) {
+    setTemplateError("questionnaireType", "问卷类型不能为空。");
+    valid = false;
+  }
+  if (!isSurveyList && !getSelectedTemplateChannels().length) {
+    templateFormFields.channelTrigger.classList.add("error");
+    templateFormErrors.channel.textContent = "应用端不能为空。";
+    templateFormErrors.channel.classList.add("show");
+    valid = false;
+  }
+  if (requiresBannerFields && !templateFormFields.bannerTitle.value.trim()) {
+    setTemplateError("bannerTitle", "Banner标题不能为空。");
+    valid = false;
+  }
+  if (requiresBannerFields && !templateFormFields.bannerSubtitle.value.trim()) {
+    setTemplateError("bannerSubtitle", "Banner副标题不能为空。");
+    valid = false;
+  }
+  if (requiresBannerFields && !templateFormFields.bannerButton.value.trim()) {
+    setTemplateError("bannerButton", "Banner按钮文案不能为空。");
+    valid = false;
+  }
+  if (!usesSectionQuestionEditor() && (isCommonQuestionnaireType || isDesignQuestionnaireType(questionnaireType)) && !templateFormFields.questionnaireTitle.value.trim()) {
+    setTemplateError("questionnaireTitle", "网页标题不能为空。");
+    valid = false;
+  }
+  if (requiresPageSize && !templateFormFields.pageSize.value) {
+    setTemplateError("pageSize", "分页数量不能为空。");
+    valid = false;
+  }
+  if (requiresConsent && !templateFormFields.consentContent.textContent.trim()) {
+    setTemplateError("consent", "知情同意书内容不能为空。");
+    valid = false;
+  }
+  if (isThirdPartyQuestionnaire) {
+    const url = templateFormFields.thirdPartyUrl.value.trim();
+    if (!/^https?:\/\/.+/i.test(url)) {
+      setTemplateError("thirdPartyUrl", "请填写三方问卷 URL");
+      valid = false;
+    }
+  }
+  if (requiresLinkedQuestionnaire && !getSelectedLinkedQuestionnaires().length) {
+    setTemplateError("linked", "关联分组问卷不能为空。");
+    valid = false;
+  } else if (requiresLinkedQuestionnaire && !validateLinkedQuestionnaireTitles()) {
+    valid = false;
+  }
+  if (requiresSurveyVersion) {
+    if (!templateFormFields.androidVersion.value.trim()) {
+      templateFormErrors.version.textContent = "最低可用版本不能为空。";
+      templateFormErrors.version.classList.add("show");
+      valid = false;
+    }
+  } else if (!isSurveyList && templateFormFields.channelApp.checked && questionnaireType !== "分组问卷") {
+    if (!hasVersion) {
+      templateFormErrors.version.textContent = "选择 APP 时可用版本不能为空。";
+      templateFormErrors.version.classList.add("show");
+      valid = false;
+    } else if (versionInvalid) {
+      templateFormErrors.version.textContent = "可用版本需先填写开始值，且结束值必须大于开始值。";
+      templateFormErrors.version.classList.add("show");
+      valid = false;
+    }
+  }
+
+  return valid;
+}
+
+function buildTemplateVersionText() {
+  if (isSurveyListVariant() && isRegularQuestionnaireType(templateFormFields.questionnaireType.value)) return "-";
+  if (isSurveyListVariant()) return templateFormFields.androidVersion.value.trim() || "-";
+  if (!templateFormFields.channelApp.checked || templateFormFields.questionnaireType.value === "分组问卷") return "-";
+  const versions = [];
+  const androidStart = templateFormFields.androidVersion.value.trim();
+  const androidEnd = templateFormFields.androidVersionEnd.value.trim();
+  const iosStart = templateFormFields.iosVersion.value.trim();
+  const iosEnd = templateFormFields.iosVersionEnd.value.trim();
+  if (androidStart) versions.push(`Android > ${androidStart}${androidEnd ? ` ~ ${androidEnd}` : ""}`);
+  if (iosStart) versions.push(`iOS > ${iosStart}${iosEnd ? ` ~ ${iosEnd}` : ""}`);
+  return versions.join(", ") || "-";
+}
+
+function addTemplateQuestion() {
+  if (isGlobalAppQuestionnaire()) return;
+  templateQuestions.push(createDefaultQuestion(getDefaultQuestionType()));
+  renderTemplateQuestionList();
+  showToast("已新增问题。");
+}
+
+function summarizeTemplateQuestion(question) {
+  if (question.type === "评分(全局)" || question.type === "评分(普通)" || question.type === "评分(功能/分组)") {
+    const minDesc = question.scoreMinDesc.trim();
+    const maxDesc = question.scoreMaxDesc.trim();
+    let options = `1-${question.scoreRange}${minDesc || maxDesc ? `，${minDesc || "最小值"} / ${maxDesc || "最大值"}` : ""}`;
+    if (question.type === "评分(全局)") {
+      const guides = [question.lowScoreGuide, question.highScoreGuide, question.otherScoreGuide].map((item) => item.trim()).filter(Boolean);
+      if (guides.length) options = `${options}，引导文案 ${guides.length} 条`;
+    }
+    return options;
+  }
+  if (question.type === "单选题" || question.type === "多选题") {
+    return normalizeQuestionOptions(question.choiceOptions).map((option) => option.label).filter(Boolean).join(", ");
+  }
+  return `${question.required}，${question.charLimit} 字符`;
+}
+
+function validateTemplateQuestions() {
+  let valid = true;
+  if (!templateQuestions.length) {
+    templateQuestions.push(createDefaultQuestion());
+    valid = false;
+  }
+
+  templateQuestions = templateQuestions.map((question) => {
+    const nextQuestion = { ...question, errors: {} };
+    if (!nextQuestion.title.trim()) {
+      nextQuestion.errors.title = "问题标题不能为空。";
+      valid = false;
+    }
+    const optionMessage = getChoiceOptionValidationMessage(nextQuestion);
+    if (optionMessage) {
+      nextQuestion.errors.options = optionMessage;
+      valid = false;
+    }
+    return nextQuestion;
+  });
+
+  renderTemplateQuestionList();
+  return valid;
+}
+
+function buildQuestionPayload(question) {
+  const { errors, ...payload } = question;
+  return {
+    ...payload,
+    choiceOptions: normalizeQuestionOptions(question.choiceOptions),
+    options: summarizeTemplateQuestion(question),
+  };
+}
+
+function getTemplateQuestion(index) {
+  return templateQuestions[index] || null;
+}
+
+function updateTemplateQuestionField(target) {
+  const questionIndex = Number(target.dataset.questionIndex);
+  const field = target.dataset.questionField;
+  const question = getTemplateQuestion(questionIndex);
+  if (!question || !field) return;
+  const isEditableGlobalApp = isGlobalAppQuestionnaire() && (isPlanBTemplateVariant() || isSurveyGlobalQuestionEditable());
+  if (isGlobalAppQuestionnaire() && !isEditableGlobalApp) return;
+  if (isEditableGlobalApp && field === "type") return;
+
+  question.errors = {};
+  const card = target.closest(".question-card");
+  if (card) card.querySelectorAll(".question-error").forEach((error) => error.remove());
+  if (field === "optionLabel") {
+    const optionIndex = Number(target.dataset.optionIndex);
+    const option = question.choiceOptions[optionIndex];
+    const canEditPlanBMultiSelectOptions = isEditableGlobalApp && question.type === "多选题";
+    if (!option || option.isOther || (isGlobalAppQuestionnaire() && !canEditPlanBMultiSelectOptions)) return;
+    option.label = target.value;
+    option.isDefault = false;
+    return;
+  }
+  if (field === "otherPrompt" || field === "otherCharLimit") {
+    const optionIndex = Number(target.dataset.optionIndex);
+    const option = question.choiceOptions[optionIndex];
+    if (!option || !option.isOther) return;
+    if (field === "otherPrompt") option.otherPrompt = target.value;
+    if (field === "otherCharLimit") option.charLimit = target.value;
+    return;
+  }
+  if (field === "maxSelectable") {
+    target.value = target.value.replace(/\D/g, "");
+    question.maxSelectable = target.value;
+    target.classList.toggle("error", !isValidMaxSelectable(question.maxSelectable));
+    return;
+  }
+
+  if (field === "type") {
+    const previousType = question.type;
+    question.type = target.value;
+    if (
+      (previousType === "单选题" || previousType === "多选题" || question.type === "单选题" || question.type === "多选题") &&
+      previousType !== question.type
+    ) {
+      question.choiceOptions = [{ label: "选项", isOther: false, isDefault: true, otherPrompt: "", charLimit: "500" }];
+    } else {
+      question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
+    }
+    renderTemplateQuestionList();
+    return;
+  }
+  question[field] = target.value;
+  if (field === "scoreRange") {
+    if (isSurveyListVariant() && isGlobalAppQuestionnaire()) renderSurveyGlobalQuestions();
+    else renderTemplateQuestionList();
+  }
+}
+
+function addQuestionOption(questionIndex, isOther = false) {
+  if (isGlobalAppQuestionnaire()) return;
+  const question = getTemplateQuestion(questionIndex);
+  if (!question) return;
+  const options = normalizeQuestionOptions(question.choiceOptions);
+  if (options.length >= 10) {
+    showToast("最多可以填写 10 个选型。");
+    return;
+  }
+  const withoutOther = options.filter((option) => !option.isOther);
+  const otherOption = options.find((option) => option.isOther);
+  if (isOther) {
+    question.choiceOptions = otherOption ? options : [...withoutOther, { label: "其他", isOther: true, isDefault: false, otherPrompt: "", charLimit: "500" }];
+  } else {
+    question.choiceOptions = [...withoutOther, { label: "选项", isOther: false, isDefault: true }, ...(otherOption ? [otherOption] : [])];
+  }
+  question.errors = {};
+  renderTemplateQuestionList();
+}
+
+function removeQuestionOption(questionIndex, optionIndex) {
+  if (isGlobalAppQuestionnaire()) return;
+  const question = getTemplateQuestion(questionIndex);
+  if (!question) return;
+  const options = normalizeQuestionOptions(question.choiceOptions);
+  options.splice(optionIndex, 1);
+  question.choiceOptions = options.length ? options : [{ label: "选项", isOther: false, isDefault: true }];
+  question.errors = {};
+  renderTemplateQuestionList();
+}
+
+function cloneTemplateQuestions(questions = templateQuestions) {
+  return JSON.parse(JSON.stringify(questions || []));
+}
+
+function captureTemplateFormState() {
+  return {
+    formMode: templateFormMode,
+    editingTemplateId: templateFormFields.editingTemplateId.value,
+    step: templateStep,
+    templateTitle: templateFormFields.templateTitle.value,
+    templateDisplayName: templateFormFields.templateDisplayName.value,
+    scene: templateFormFields.scene.value,
+    questionnaireType: templateFormFields.questionnaireType.value,
+    channelApp: templateFormFields.channelApp.checked,
+    androidVersion: templateFormFields.androidVersion.value,
+    androidVersionEnd: templateFormFields.androidVersionEnd.value,
+    iosVersion: templateFormFields.iosVersion.value,
+    iosVersionEnd: templateFormFields.iosVersionEnd.value,
+    consentRequired: isTemplateConsentRequired(),
+    consentContent: templateFormFields.consentContent.innerHTML,
+    thirdPartyQuestionnaire: isTemplateThirdPartyQuestionnaire(),
+    thirdPartyUrl: templateFormFields.thirdPartyUrl.value,
+    bannerTitle: templateFormFields.bannerTitle.value,
+    bannerSubtitle: templateFormFields.bannerSubtitle.value,
+    bannerButton: templateFormFields.bannerButton.value,
+    linkedQuestionnaires: getSelectedLinkedQuestionnaires(),
+    questionnaireStyle: getQuestionnaireStyle(),
+    pageSize: templateFormFields.pageSize.value,
+    popupCopyMode: getSelectedPopupCopyMode(),
+    popupCopy: templateFormFields.popupCopy.innerHTML,
+    questionnaireTitle: templateFormFields.questionnaireTitle.value,
+    questionnaireDescription: templateFormFields.questionnaireDescription.value,
+    questionnaireRemark: templateFormFields.questionnaireRemark.value,
+    questions: cloneTemplateQuestions(),
+  };
+}
+
+function setTemplateInheritedLock(locked) {
+  document.getElementById("templateForm").classList.toggle("inherited-lock", locked);
+  [
+    templateFormFields.scene,
+    templateFormFields.questionnaireType,
+    templateFormFields.channelTrigger,
+    templateFormFields.androidVersion,
+    templateFormFields.androidVersionEnd,
+    templateFormFields.iosVersion,
+    templateFormFields.iosVersionEnd,
+  ].forEach((field) => {
+    field.disabled = locked;
+  });
+  if (locked) templateFormFields.channelPanel.classList.remove("open");
+}
+
+function showTemplateFormShell(mode, pageName) {
+  templateFormMode = mode;
+  setActiveNav(getTemplateNavName());
+  setTemplateLayout(true);
+  hideAllMainPanels();
+  document.getElementById("templateFormPanel").classList.add("active");
+  document.querySelector(".breadcrumb").textContent = `NPS管理 / ${getTemplatePageName()} / ${pageName}`;
+}
+
+function applyTemplateFormState(state, linkedTemplateName = "") {
+  const linkedQuestionnaires = linkedTemplateName
+    ? [...new Set([...state.linkedQuestionnaires, linkedTemplateName])]
+    : state.linkedQuestionnaires;
+
+  resetTemplateForm();
+  showTemplateFormShell(state.formMode, getTemplateFormActionName(state.formMode));
+  templateFormFields.editingTemplateId.value = state.editingTemplateId;
+  templateFormFields.templateTitle.value = state.templateTitle;
+  templateFormFields.templateDisplayName.value = state.templateDisplayName;
+  templateFormFields.scene.value = state.scene;
+  templateFormFields.questionnaireType.value = state.questionnaireType;
+  templateFormFields.channelApp.checked = true;
+  templateFormFields.androidVersion.value = state.androidVersion;
+  templateFormFields.androidVersionEnd.value = state.androidVersionEnd;
+  templateFormFields.iosVersion.value = state.iosVersion;
+  templateFormFields.iosVersionEnd.value = state.iosVersionEnd;
+  setTemplateConsentRequired(state.consentRequired);
+  templateFormFields.consentContent.innerHTML = state.consentContent || "";
+  setTemplateThirdPartyQuestionnaire(state.thirdPartyQuestionnaire);
+  templateFormFields.thirdPartyUrl.value = state.thirdPartyUrl || "";
+  templateFormFields.bannerTitle.value = state.bannerTitle;
+  templateFormFields.bannerSubtitle.value = state.bannerSubtitle;
+  templateFormFields.bannerButton.value = state.bannerButton;
+  setQuestionnaireStyle(state.questionnaireStyle);
+  templateFormFields.pageSize.value = state.pageSize || "5";
+  setPopupCopyMode(state.popupCopyMode || "设计");
+  templateFormFields.popupCopy.innerHTML = state.popupCopy;
+  templateFormFields.questionnaireTitle.value = state.questionnaireTitle;
+  templateFormFields.questionnaireDescription.value = state.questionnaireDescription;
+  templateFormFields.questionnaireRemark.value = state.questionnaireRemark;
+  templateQuestions = cloneTemplateQuestions(state.questions);
+  updateTemplateChannelTrigger();
+  updateRichTextCount();
+  updateQuestionnaireDescriptionCount();
+  updateQuestionnaireTypeByScene();
+  templateFormFields.questionnaireType.value = state.questionnaireType;
+  setLinkedQuestionnaires(linkedQuestionnaires);
+  updateTemplateTypePanel();
+  setTemplateStep(state.step || 1);
+}
+
+function validateGroupCreationSource() {
+  clearTemplateError("scene");
+  clearTemplateError("channel");
+  templateFormFields.channelTrigger.classList.remove("error");
+
+  let valid = true;
+  const missingFields = [];
+  const channels = getSelectedTemplateChannels();
+
+  if (!templateFormFields.scene.value) {
+    setTemplateError("scene", "请先设置业务场景。");
+    missingFields.push("业务场景");
+    valid = false;
+  }
+  if (!channels.length) {
+    templateFormFields.channelTrigger.classList.add("error");
+    templateFormErrors.channel.textContent = "请先设置应用端。";
+    templateFormErrors.channel.classList.add("show");
+    missingFields.push("应用端");
+    valid = false;
+  }
+  if (!valid) showToast(`请先设置${missingFields.join("和")}。`);
+  return valid;
+}
+
+function openGroupTemplateFormFromLinked() {
+  if (!shouldUseLinkedQuestionnaire()) return;
+  if (!validateGroupCreationSource()) return;
+
+  templateGroupCreationContext = {
+    parentState: captureTemplateFormState(),
+    channels: getSelectedTemplateChannels(),
+  };
+
+  openTemplateForm("add");
+  showTemplateFormShell("add", "新增分组问卷");
+  templateFormFields.scene.value = "全局";
+  updateQuestionnaireTypeByScene();
+  templateFormFields.questionnaireType.value = "分组问卷";
+  templateFormFields.channelApp.checked = true;
+  templateFormFields.androidVersion.value = "";
+  templateFormFields.androidVersionEnd.value = "";
+  templateFormFields.iosVersion.value = "";
+  templateFormFields.iosVersionEnd.value = "";
+  updateTemplateChannelTrigger();
+  updateTemplateTypePanel();
+  setTemplateInheritedLock(true);
+}
+
+function returnToParentTemplateForm(linkedTemplateName = "") {
+  if (!templateGroupCreationContext) return;
+  const parentState = templateGroupCreationContext.parentState;
+  templateGroupCreationContext = null;
+  applyTemplateFormState(parentState, linkedTemplateName);
+}
+
+function cancelTemplateForm() {
+  if (templateGroupCreationContext) {
+    returnToParentTemplateForm();
+    return;
+  }
+  showTemplateList(templateVariant);
+}
+
+function resetTemplateForm() {
+  clearTemplateFormErrors();
+  document.getElementById("templateForm").reset();
+  setTemplateInheritedLock(false);
+  templateFormFields.editingTemplateId.value = "";
+  templateFormFields.channelApp.checked = true;
+  updateTemplateChannelTrigger();
+  setLinkedQuestionnaires([]);
+  setQuestionnaireStyle("普通问卷");
+  templateFormFields.pageSize.value = "5";
+  setPopupCopyMode("设计");
+  templateFormFields.popupCopy.innerHTML = "";
+  delete templateFormFields.popupCopy.dataset.questionnaireType;
+  setTemplateConsentRequired(false);
+  templateFormFields.consentContent.innerHTML = "";
+  setTemplateThirdPartyQuestionnaire(false);
+  templateFormFields.thirdPartyUrl.value = "";
+  savedRichTextRange = null;
+  updateRichTextCount();
+  updateQuestionnaireDescriptionCount();
+  templateFormFields.questionnaireType.value = "";
+  templateFormFields.scene.value = isSurveyListVariant() ? "全局" : "";
+  templateQuestions = [createDefaultQuestion()];
+  templateQuestionSections = [createPlanBQuestionSection()];
+  renderTemplateQuestionList();
+  updateQuestionnaireTypeByScene();
+  setTemplateStep(1);
+}
+
+function fillTemplateVersionFields(versionText) {
+  templateFormFields.androidVersion.value = "";
+  templateFormFields.androidVersionEnd.value = "";
+  templateFormFields.iosVersion.value = "";
+  templateFormFields.iosVersionEnd.value = "";
+  if (isSurveyListVariant()) {
+    const legacyVersionMatch = versionText.match(/^Android\s*>\s*([^~\s,]+)/i);
+    templateFormFields.androidVersion.value = normalizeTemplateMinVersionValue(legacyVersionMatch ? legacyVersionMatch[1] : versionText.trim());
+    return;
+  }
+  versionText.split(",").map((item) => item.trim()).forEach((item) => {
+    const match = item.match(/^(Android|iOS)\s*>\s*([^~]+?)(?:\s*~\s*(.+))?$/i);
+    if (!match) return;
+    const start = normalizeTemplateMinVersionValue(match[2].trim());
+    const end = match[3] ? match[3].trim() : "";
+    if (match[1].toLowerCase() === "android") {
+      templateFormFields.androidVersion.value = start;
+      templateFormFields.androidVersionEnd.value = end;
+    } else {
+      templateFormFields.iosVersion.value = start;
+      templateFormFields.iosVersionEnd.value = end;
+    }
+  });
+}
+
+function normalizeTemplateMinVersionValue(value) {
+  const rawValue = String(value || "");
+  if (TEMPLATE_MIN_VERSION_OPTIONS.includes(rawValue)) return rawValue;
+  if (/V4(?:\.|\b)/i.test(rawValue)) return "V4.6.0";
+  if (/V3\.16/i.test(rawValue)) return "V3.16";
+  if (/V3\.13(?:\.2)?/i.test(rawValue)) return "V3.13.2";
+  return "";
+}
+
+function buildCopyTemplateName(templateName) {
+  const baseName = templateName.replace(/\(\d+\)$/, "");
+  const matcher = new RegExp(`^${escapeRegExp(baseName)}(?:\\((\\d+)\\))?$`);
+  const maxIndex = npsTemplates.reduce((max, template) => {
+    if (template.is_deleted) return max;
+    const match = template.template_name.match(matcher);
+    if (!match) return max;
+    return Math.max(max, match[1] ? Number(match[1]) : 0);
+  }, 0);
+  return `${baseName}(${maxIndex + 1})`;
+}
+
+function openTemplateForm(mode, templateId = "", options = {}) {
+  templateFormMode = mode;
+  questionAssociationMode = Boolean(options.questionAssociation);
+  templateCopySourceId = "";
+  resetTemplateForm();
+  const showDraftActions = mode === "add" && isSurveyListVariant();
+  document.querySelectorAll(".template-draft-button").forEach((button) => {
+    button.classList.toggle("hidden", !showDraftActions);
+  });
+  setActiveNav(getTemplateNavName());
+  setTemplateLayout(true);
+  hideAllMainPanels();
+  document.getElementById("templateFormPanel").classList.add("active");
+  document.querySelector(".breadcrumb").textContent = `NPS管理 / ${getTemplatePageName()} / ${getTemplateFormActionName(mode)}`;
+
+  if (mode !== "edit" && mode !== "copy") return;
+  const template = npsTemplates.find((item) => item.template_id === templateId);
+  if (!template) return;
+
+  templateFormFields.editingTemplateId.value = mode === "edit" ? template.template_id : "";
+  templateFormFields.templateTitle.value = mode === "copy" ? buildCopyTemplateName(template.template_name) : template.template_name;
+  templateFormFields.templateDisplayName.value = mode === "copy"
+    ? buildCopyTemplateName(template.web_display_name || template.template_name)
+    : (template.web_display_name || template.template_name);
+  if (mode === "copy") templateCopySourceId = template.template_id;
+  templateFormFields.scene.value = isSurveyListVariant() ? "全局" : (template.scene === "运动" ? "全局" : template.scene);
+  const rawQuestionnaireType = getTemplateRawType(template);
+  templateFormFields.questionnaireType.value = isSurveyListVariant()
+    ? getSurveyListTemplateType(template)
+    : rawQuestionnaireType;
+  updateQuestionnaireTypeByScene();
+  templateFormFields.channelApp.checked = true;
+  updateTemplateChannelTrigger();
+  templateFormFields.bannerTitle.value = template.banner_title || "";
+  templateFormFields.bannerSubtitle.value = template.banner_subtitle || "";
+  templateFormFields.bannerButton.value = template.banner_button || "";
+  setLinkedQuestionnaires(template.linked_questionnaires || []);
+  setQuestionnaireStyle(template.questionnaire_style || "普通问卷");
+  setPopupCopyMode(templateFormFields.questionnaireType.value === "弹窗问卷(用研)" ? "用研" : "设计");
+  templateFormFields.popupCopy.innerHTML = isDesignQuestionnaireType(templateFormFields.questionnaireType.value)
+    ? getPopupCopyPresetHtml()
+    : (template.popup_copy || "");
+  updateRichTextCount();
+  fillTemplateVersionFields(template.min_version || "");
+  setTemplateConsentRequired(Boolean(template.informed_consent_required));
+  templateFormFields.consentContent.innerHTML = template.informed_consent_content || "";
+  setTemplateThirdPartyQuestionnaire(Boolean(template.is_third_party_questionnaire));
+  templateFormFields.thirdPartyUrl.value = template.third_party_url || "";
+  templateFormFields.questionnaireTitle.value = template.questionnaire_title || (rawQuestionnaireType === "分组问卷" ? "" : template.template_name);
+  templateFormFields.questionnaireDescription.value = template.questionnaire_description || "";
+  templateFormFields.questionnaireRemark.value = template.questionnaire_remark || "";
+  templateFormFields.pageSize.value = template.page_size || "5";
+  updateQuestionnaireDescriptionCount();
+  const loadAppQuestions = isPlanBAppQuestionnaire() || (isSurveyListVariant() && isGlobalAppQuestionnaire());
+  const sourceQuestions = loadAppQuestions && template.app_questions && template.app_questions.length ? template.app_questions : template.questions;
+  templateQuestions = sourceQuestions && sourceQuestions.length
+    ? sourceQuestions.map(normalizeTemplateQuestion)
+    : [createDefaultQuestion()];
+  templateQuestionSections = template.question_sections && template.question_sections.length
+    ? template.question_sections.map((section) => createPlanBQuestionSection(section.questions || []))
+    : [createPlanBQuestionSection(template.questions && template.questions.length ? template.questions : [createDefaultQuestion("评分(普通)")])];
+  if (template.question_sections && template.question_sections.length) {
+    templateQuestionSections.forEach((section, index) => {
+      section.title = template.question_sections[index].title || "";
+      section.pageTitle = template.question_sections[index].page_title || template.question_sections[index].pageTitle || "";
+      section.subtitle = template.question_sections[index].subtitle || "";
+      section.collapsed = Boolean(template.question_sections[index].collapsed);
+    });
+  }
+  ensureQuestionAssociationSamplePages();
+  renderTemplateQuestionList();
+  updateTemplateTypePanel();
+}
+
+window.openTemplateForm = openTemplateForm;
+
+function submitTemplateForm({ saveAsDraft = false } = {}) {
+  if (saveAsDraft) {
+    clearTemplateFormErrors();
+    let draftValid = true;
+    if (!templateFormFields.templateTitle.value.trim()) {
+      setTemplateStep(1);
+      setTemplateError("templateTitle", "问卷名称不能为空。");
+      draftValid = false;
+    }
+    if (!templateFormFields.templateDisplayName.value.trim()) {
+      setTemplateStep(1);
+      setTemplateError("templateDisplayName", "问卷名称(用于 APP 展示)不能为空。");
+      draftValid = false;
+    }
+    if (!draftValid) {
+      showToast("请填写必填信息后再存为草稿。");
+      return;
+    }
+  } else if (!validateTemplateStepOne()) {
+    setTemplateStep(1);
+    showToast("提交失败，请检查基础信息。");
+    return;
+  }
+
+  const isGroupType = templateFormFields.questionnaireType.value === "分组问卷";
+  const isDesignType = isDesignQuestionnaireType(templateFormFields.questionnaireType.value);
+  const isRegularQuestionnaire = isRegularQuestionnaireType(templateFormFields.questionnaireType.value);
+  const isThirdPartyQuestionnaire = isSurveyListVariant() && isTemplateThirdPartyQuestionnaire();
+  const usesLinkedGroupStyle = shouldSubmitTemplateFromStepOne();
+  const skipQuestionConfiguration = isThirdPartyQuestionnaire || usesLinkedGroupStyle;
+  if (!saveAsDraft && isPlanBAppQuestionnaire() && templateStep === 2) {
+    if (!validateTemplateQuestions()) {
+      showToast("请完善 APP 弹窗问卷问题。");
+      return;
+    }
+    setTemplateStep(3);
+    return;
+  }
+  if (!saveAsDraft && usesSectionQuestionEditor() && !skipQuestionConfiguration && !validatePlanBQuestionSections()) {
+    setTemplateStep(isPlanBAppQuestionnaire() ? 3 : 2);
+    return;
+  }
+  if (!saveAsDraft && !usesSectionQuestionEditor() && !skipQuestionConfiguration && !validateTemplateQuestions()) {
+    setTemplateStep(2);
+    showToast("提交失败，请检查问卷问题。");
+    return;
+  }
+
+  const templatePayload = {
+    template_name: templateFormFields.templateTitle.value.trim(),
+    web_display_name: templateFormFields.templateDisplayName.value.trim(),
+    channel: getSelectedTemplateChannels().join(", "),
+    scene: isSurveyListVariant() ? "全局" : templateFormFields.scene.value,
+    raw_questionnaire_type: templateFormFields.questionnaireType.value,
+    questionnaire_type: templateFormFields.questionnaireType.value
+      ? getTemplateDisplayType(templateFormFields.questionnaireType.value)
+      : "",
+    is_third_party_questionnaire: isThirdPartyQuestionnaire,
+    third_party_url: isThirdPartyQuestionnaire ? templateFormFields.thirdPartyUrl.value.trim() : "",
+    informed_consent_required: !isRegularQuestionnaire && isTemplateConsentRequired(),
+    informed_consent_content: !isRegularQuestionnaire && isTemplateConsentRequired()
+      ? templateFormFields.consentContent.innerHTML
+      : "",
+    detail_text: "查看",
+    updated_at: formatDateMinute(new Date()),
+    min_version: buildTemplateVersionText(),
+    banner_title: isSurveyListVariant() || isGroupType ? "" : templateFormFields.bannerTitle.value.trim(),
+    banner_subtitle: isSurveyListVariant() || isGroupType ? "" : templateFormFields.bannerSubtitle.value.trim(),
+    banner_button: isSurveyListVariant() || isGroupType ? "" : templateFormFields.bannerButton.value.trim(),
+    questionnaire_style: usesSectionQuestionEditor() ? "" : (supportsQuestionnaireStyle() ? getQuestionnaireStyle() : ""),
+    linked_questionnaires: shouldUseLinkedQuestionnaire() ? getSelectedLinkedQuestionnaires() : [],
+    page_size: shouldShowPageSize() ? templateFormFields.pageSize.value : "",
+    popup_copy_mode: isDesignType && isSurveyListVariant() ? getSelectedPopupCopyMode() : "",
+    popup_copy: isDesignType ? templateFormFields.popupCopy.innerHTML : "",
+    questionnaire_title: templateFormFields.questionnaireTitle.value.trim(),
+    questionnaire_description: templateFormFields.questionnaireDescription.value.trim(),
+    questionnaire_remark: templateFormFields.questionnaireRemark.value.trim(),
+    questions: skipQuestionConfiguration
+      ? []
+      : usesSectionQuestionEditor()
+      ? [
+        ...((isPlanBAppQuestionnaire() || (isSurveyListVariant() && isGlobalAppQuestionnaire())) ? templateQuestions.map(buildQuestionPayload) : []),
+        ...templateQuestionSections.flatMap((section) => section.questions.map(buildQuestionPayload)),
+      ]
+      : templateQuestions.map(buildQuestionPayload),
+    app_questions: !skipQuestionConfiguration && (isPlanBAppQuestionnaire() || (isSurveyListVariant() && isGlobalAppQuestionnaire())) ? templateQuestions.map(buildQuestionPayload) : [],
+    question_sections: !skipQuestionConfiguration && usesSectionQuestionEditor()
+      ? templateQuestionSections.map((section) => ({
+        page_title: section.pageTitle.trim(),
+        title: section.title.trim(),
+        subtitle: section.subtitle.trim(),
+        collapsed: section.collapsed,
+        questions: section.questions.map(buildQuestionPayload),
+      }))
+      : [],
+  };
+
+  if (templateFormMode === "edit") {
+    const template = npsTemplates.find((item) => item.template_id === templateFormFields.editingTemplateId.value);
+    if (!template) {
+      showToast("提交失败，模板不存在。");
+      return;
+    }
+    const originalI18nContentSignature = getTemplateI18nContentSignature(template);
+    Object.assign(template, templatePayload);
+    if (isSurveyListVariant()) {
+      const hasI18nContentChanged = originalI18nContentSignature !== getTemplateI18nContentSignature(template);
+      scheduleTemplateI18nKeyMatching(template);
+      if (hasI18nContentChanged) {
+        template.i18n_uploaded = false;
+        template.i18n_complete = false;
+        clearTemplateI18nTranslations(template);
+      }
+      templateStatusSearch.value = "所有状态";
+    } else if (template.template_status === "草稿") {
+      template.template_status = "有效";
+    }
+    syncTemplateNameOptions(template.template_name);
+    showToast(isSurveyListVariant() ? "编辑问卷成功。" : "编辑模板成功。");
+  } else {
+    const sourceTemplate = templateFormMode === "copy"
+      ? npsTemplates.find((item) => item.template_id === templateCopySourceId)
+      : null;
+    const newTemplate = {
+      template_id: getNextId(npsTemplates, "template_id"),
+      template_status: saveAsDraft ? "草稿" : (isSurveyListVariant() ? "处理中" : "有效"),
+      creator: "谢敏",
+      i18n_uploaded: false,
+      i18n_complete: false,
+      ...templatePayload,
+    };
+    npsTemplates.push(newTemplate);
+    if (isSurveyListVariant() && !saveAsDraft) scheduleTemplateI18nKeyMatching(newTemplate);
+    if (sourceTemplate && !isSurveyListVariant()) copyTemplateI18nTranslations(sourceTemplate, newTemplate);
+    syncTemplateNameOptions(newTemplate.template_name);
+    if (saveAsDraft || isSurveyListVariant()) {
+      templateStatusSearch.value = "所有状态";
+    }
+    showToast(saveAsDraft
+      ? "已存为草稿。"
+      : (templateGroupCreationContext ? "新增分组问卷成功。" : (templateFormMode === "copy" ? "复制问卷成功。" : (isSurveyListVariant() ? "新增问卷成功。" : "新增模板成功。"))));
+    filteredTemplates = [...npsTemplates];
+    renderTemplates(filteredTemplates);
+    if (templateGroupCreationContext) {
+      persistPrototypeSessionCache();
+      returnToParentTemplateForm(newTemplate.template_name);
+      return;
+    }
+  }
+
+  persistPrototypeSessionCache();
+  filteredTemplates = [...npsTemplates];
+  renderTemplates(filteredTemplates);
+  showTemplateList(templateVariant);
+}
+
+function saveTemplateDraft() {
+  if (templateFormMode !== "add" || !isSurveyListVariant()) return;
+  submitTemplateForm({ saveAsDraft: true });
+}
+
+function copyTemplateI18nTranslations(sourceTemplate, targetTemplate) {
+  const targetRows = new Map(getTemplateI18nRows(targetTemplate).map((row) => [row.key, row]));
+  getTemplateI18nRows(sourceTemplate).forEach((sourceRow) => {
+    const targetRow = targetRows.get(sourceRow.key);
+    if (!targetRow) return;
+    const sourceKey = getI18nBindingKey(sourceTemplate, sourceRow);
+    const targetKey = getI18nBindingKey(targetTemplate, targetRow);
+    I18N_LANGUAGES.filter((language) => language.key !== "zh_cn").forEach((language) => {
+      const translation = i18nTranslationOverrides.get(`${sourceKey}:${language.key}`);
+      if (translation) i18nTranslationOverrides.set(`${targetKey}:${language.key}`, translation);
+    });
+  });
+}
+
+function templateHasDeliveryTask(template) {
+  return tasks.some((task) => task.template_name === template.template_name);
+}
+
+function isActiveSurveyTemplate(template) {
+  return isSurveyListVariant() && getSurveyListStatus(template.template_status) === "生效中";
+}
+
+function openTemplateDeleteDialog(templateId) {
+  const template = npsTemplates.find((item) => item.template_id === templateId && !item.is_deleted);
+  if (!template) return;
+  if (isActiveSurveyTemplate(template)) {
+    showToast("生效中问卷不允许删除。");
+    return;
+  }
+  if (template.template_status !== "草稿" && templateHasDeliveryTask(template)) {
+    showToast("该问卷已关联投放任务，不允许删除。");
+    return;
+  }
+  selectedTemplateDeleteId = templateId;
+  templateDeleteLightbox.classList.add("show");
+  templateDeleteLightbox.setAttribute("aria-hidden", "false");
+}
+
+function closeTemplateDeleteDialog() {
+  selectedTemplateDeleteId = null;
+  templateDeleteLightbox.classList.remove("show");
+  templateDeleteLightbox.setAttribute("aria-hidden", "true");
+}
+
+function confirmTemplateDelete() {
+  const template = npsTemplates.find((item) => item.template_id === selectedTemplateDeleteId && !item.is_deleted);
+  if (!template) {
+    closeTemplateDeleteDialog();
+    return;
+  }
+  if (isActiveSurveyTemplate(template)) {
+    closeTemplateDeleteDialog();
+    showToast("生效中问卷不允许删除。");
+    return;
+  }
+  if (template.template_status !== "草稿" && templateHasDeliveryTask(template)) {
+    closeTemplateDeleteDialog();
+    showToast("该问卷已关联投放任务，不允许删除。");
+    return;
+  }
+  template.is_deleted = true;
+  template.updated_at = formatDateMinute(new Date());
+  persistPrototypeSessionCache();
+  closeTemplateDeleteDialog();
+  applyTemplateFilters();
+  renderTemplateOptions();
+  showToast("问卷已删除。");
+}
+
+function openTemplateDetail(templateIdOrName) {
+  const template = npsTemplates.find((item) => item.template_id === templateIdOrName || item.template_name === templateIdOrName);
+  if (!template) {
+    navigatePlaceholder("问卷模板详情页", templateIdOrName);
+    return;
+  }
+
+  const questions = template.questions && template.questions.length
+    ? template.questions.map((question, index) => `<li>${index + 1}. ${escapeText(question.type)}｜${escapeText(question.title)}${question.options ? `｜${escapeText(question.options)}` : ""}</li>`).join("")
+    : "<li>暂无问题</li>";
+  const templateType = getTemplateDisplayType(getTemplateRawType(template));
+  const isDesignType = isDesignQuestionnaireType(templateType);
+  const linkedDetail = isPopupAppQuestionnaireType(templateType)
+    ? `<dt>关联问卷</dt><dd>${escapeText((template.linked_questionnaires || []).join("，") || "-")}</dd>`
+    : "";
+  const pageSizeDetail = isDesignType
+    ? `<dt>分页数量</dt><dd>${escapeText(template.page_size || "5")}</dd>`
+    : "";
+
+  templateDetailBody.innerHTML = `
+    <dl class="detail-grid">
+      <dt>模板 ID</dt><dd>${escapeText(template.template_id)}</dd>
+      <dt>模板名称</dt><dd>${escapeText(template.template_name)}</dd>
+      <dt>状态</dt><dd>${escapeText(template.template_status)}</dd>
+      <dt>应用端</dt><dd>${escapeText(template.channel)}</dd>
+      <dt>功能模块</dt><dd>${escapeText(template.scene)}</dd>
+      <dt>问卷类型</dt><dd>${escapeText(templateType)}</dd>
+      <dt>可用版本</dt><dd>${escapeText(template.min_version || "-")}</dd>
+      ${linkedDetail}
+      ${pageSizeDetail}
+      <dt>弹窗文案</dt><dd>${template.popup_copy || "-"}</dd>
+      <dt>创建者</dt><dd>${escapeText(template.creator)}</dd>
+      <dt>更新时间</dt><dd>${escapeText(template.updated_at)}</dd>
+    </dl>
+    <ul class="detail-question-list">${questions}</ul>
+  `;
+  templateDetailLightbox.classList.add("show");
+  templateDetailLightbox.setAttribute("aria-hidden", "false");
+}
+
+function closeTemplateDetail() {
+  templateDetailLightbox.classList.remove("show");
+  templateDetailLightbox.setAttribute("aria-hidden", "true");
+}
+
+function openI18nUploadDialog() {
+  i18nFileInput.value = "";
+  i18nUploadFileName.textContent = "未选择文件";
+  i18nUploadLightbox.classList.remove("loading");
+  i18nUploadLightbox.classList.add("show");
+  i18nUploadLightbox.setAttribute("aria-hidden", "false");
+}
+
+function closeI18nUploadDialog() {
+  if (i18nUploadLightbox.classList.contains("loading")) return;
+  i18nUploadLightbox.classList.remove("show");
+  i18nUploadLightbox.setAttribute("aria-hidden", "true");
+}
+
+function uploadSelectedI18nFile() {
+  const template = getCurrentI18nTemplate();
+  if (!template) return;
+  const file = i18nFileInput.files && i18nFileInput.files[0];
+  if (!file) {
+    showToast("请选择需要上传的.xlsx文件。");
+    return;
+  }
+  if (!file.name.toLowerCase().endsWith(".xlsx")) {
+    showToast("仅支持上传.xlsx文件。");
+    i18nFileInput.value = "";
+    i18nUploadFileName.textContent = "未选择文件";
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    showToast("文件大小不能超过 5M。");
+    i18nFileInput.value = "";
+    i18nUploadFileName.textContent = "未选择文件";
+    return;
+  }
+  i18nUploadLightbox.classList.add("loading");
+  window.clearTimeout(i18nUploadTimer);
+  i18nUploadTimer = window.setTimeout(() => {
+    i18nFileReady = true;
+    template.i18n_uploaded = true;
+    seedTemplateI18nTranslations(template);
+    const isComplete = updateTemplateI18nCompletion(template);
+    renderTemplates(filteredTemplates);
+    i18nUploadLightbox.classList.remove("loading", "show");
+    i18nUploadLightbox.setAttribute("aria-hidden", "true");
+    i18nFileInput.value = "";
+    i18nUploadFileName.textContent = "未选择文件";
+    showToast(isComplete ? "上传成功，问卷已生效。" : "上传成功，仍有文案待补充。");
+  }, 900);
+}
+
+document.getElementById("searchForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  applyFilters();
+});
+
+document.getElementById("audienceSearchForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  applyAudienceFilters();
+});
+
+audienceDeliveryStatusTrigger.addEventListener("click", () => {
+  audienceDeliveryStatusPanel.classList.toggle("open");
+});
+audienceDeliveryStatusPanel.addEventListener("change", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement)) return;
+  const allInput = audienceDeliveryStatusPanel.querySelector('[data-audience-delivery-all]');
+  const statusInputs = [...audienceDeliveryStatusPanel.querySelectorAll('[data-audience-delivery-status]')];
+  if (target.hasAttribute("data-audience-delivery-all")) {
+    if (target.checked) {
+      audienceDeliveryStatuses = new Set();
+      statusInputs.forEach((input) => { input.checked = false; });
+    }
+  } else if (target.hasAttribute("data-audience-delivery-status")) {
+    if (target.checked) audienceDeliveryStatuses.add(target.value);
+    else audienceDeliveryStatuses.delete(target.value);
+    allInput.checked = audienceDeliveryStatuses.size === 0;
+    if (audienceDeliveryStatuses.size === statusInputs.length) {
+      audienceDeliveryStatuses = new Set();
+      allInput.checked = true;
+      statusInputs.forEach((input) => { input.checked = false; });
+    }
+  }
+  updateAudienceDeliveryStatusTrigger();
+});
+
+document.getElementById("addBtn").addEventListener("click", () => openTaskForm("add"));
+templateNav.addEventListener("click", () => showTemplateList());
+surveyListNav.addEventListener("click", showSurveyList);
+translationNav.addEventListener("click", () => {
+  window.location.href = "./translation-query.html?v=20260903-06";
+});
+templatePlanBNav.addEventListener("click", showPlanBTemplateList);
+taskNav.addEventListener("click", showTaskList);
+document.getElementById("downloadI18nTemplateBtn").addEventListener("click", downloadI18nTemplate);
+openI18nUploadDialogBtn.addEventListener("click", openI18nUploadDialog);
+i18nFileInput.addEventListener("change", () => {
+  const file = i18nFileInput.files && i18nFileInput.files[0];
+  i18nUploadFileName.textContent = file ? file.name : "未选择文件";
+});
+submitI18nUploadBtn.addEventListener("click", uploadSelectedI18nFile);
+cancelI18nUploadBtn.addEventListener("click", closeI18nUploadDialog);
+i18nUploadLightbox.addEventListener("click", (event) => {
+  if (event.target === i18nUploadLightbox) closeI18nUploadDialog();
+});
+ i18nBindingList.addEventListener("click", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) return;
+  const row = target.closest(".i18n-field-row");
+  if (!row || (!target.classList.contains("view-i18n-translation") && !target.classList.contains("edit-i18n-translation"))) return;
+  openI18nTranslationDialog(row.dataset.i18nKey, row.dataset.i18nSource, target.classList.contains("edit-i18n-translation"));
+});
+document.getElementById("closeI18nTranslationDialog").addEventListener("click", closeI18nTranslationDialog);
+i18nTranslationLightbox.addEventListener("click", (event) => {
+  if (event.target === i18nTranslationLightbox) closeI18nTranslationDialog();
+});
+document.getElementById("taskForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  submitTaskForm();
+});
+document.getElementById("cancelTaskBtn").addEventListener("click", showTaskList);
+
+document.getElementById("templateSearchForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  applyTemplateFilters();
+});
+document.getElementById("addTemplateBtn").addEventListener("click", () => openTemplateForm("add"));
+document.getElementById("templateForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  submitTemplateForm();
+});
+document.getElementById("cancelTemplateFromStepOneBtn").addEventListener("click", cancelTemplateForm);
+document.getElementById("cancelTemplateBtn").addEventListener("click", cancelTemplateForm);
+document.getElementById("cancelTemplateStepThreeBtn").addEventListener("click", cancelTemplateForm);
+document.getElementById("saveTemplateDraftFromStepOneBtn").addEventListener("click", saveTemplateDraft);
+document.getElementById("saveTemplateDraftBtn").addEventListener("click", saveTemplateDraft);
+document.getElementById("nextTemplateStepBtn").addEventListener("click", () => {
+  if (validateTemplateStepOne()) setTemplateStep(2);
+});
+document.getElementById("prevTemplateStepBtn").addEventListener("click", () => setTemplateStep(1));
+document.getElementById("prevTemplateStepThreeBtn").addEventListener("click", () => setTemplateStep(2));
+questionAssociationBody.addEventListener("change", (event) => {
+  const target = event.target;
+  if (!activeQuestionAssociation) return;
+  if (target instanceof HTMLInputElement && target.classList.contains("association-answer-checkbox")) {
+    const conditionIndex = Number(target.dataset.conditionIndex);
+    const condition = activeQuestionAssociation.conditions[conditionIndex];
+    if (!condition) return;
+    condition.answers = [...questionAssociationBody.querySelectorAll(`.association-answer-checkbox[data-condition-index="${target.dataset.conditionIndex}"]:checked`)].map((input) => input.value);
+    const trigger = questionAssociationBody.querySelector(`.association-answer-trigger[data-condition-index="${target.dataset.conditionIndex}"]`);
+    if (trigger) trigger.textContent = getAssociationSelectionSummary(condition.answers, "请选择答案");
+    return;
+  }
+  if (target instanceof HTMLInputElement && target.classList.contains("association-target-checkbox")) {
+    const conditionIndex = Number(target.dataset.conditionIndex);
+    const condition = activeQuestionAssociation.conditions[conditionIndex];
+    if (!condition) return;
+    condition.targetRefs = [...questionAssociationBody.querySelectorAll(`.association-target-checkbox[data-condition-index="${target.dataset.conditionIndex}"]:checked`)].map((input) => input.value);
+    renderQuestionAssociationDialog();
+    return;
+  }
+});
+questionAssociationBody.addEventListener("click", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement) || !activeQuestionAssociation) return;
+  const answerTrigger = target.closest(".association-answer-trigger");
+  if (answerTrigger instanceof HTMLElement) {
+    const panel = answerTrigger.nextElementSibling;
+    const shouldOpen = panel instanceof HTMLElement && !panel.classList.contains("open");
+    closeAssociationSelectPanels();
+    if (shouldOpen) {
+      const conditionIndex = answerTrigger.dataset.conditionIndex;
+      renderQuestionAssociationDialog();
+      const refreshedTrigger = questionAssociationBody.querySelector(`.association-answer-trigger[data-condition-index="${conditionIndex}"]`);
+      const refreshedPanel = refreshedTrigger?.nextElementSibling;
+      if (refreshedPanel instanceof HTMLElement) refreshedPanel.classList.add("open");
+    }
+    return;
+  }
+  if (target.classList.contains("association-add-condition")) {
+    activeQuestionAssociation.conditions.push({ answers: [], targetRefs: [] });
+    renderQuestionAssociationDialog();
+    return;
+  }
+  if (target.classList.contains("association-remove-condition")) {
+    activeQuestionAssociation.conditions.splice(Number(target.dataset.conditionIndex), 1);
+    renderQuestionAssociationDialog();
+    return;
+  }
+});
+document.addEventListener("click", (event) => {
+  if (!activeQuestionAssociation) return;
+  const target = event.target;
+  if (!(target instanceof Element) || !target.closest(".association-answer-multi")) {
+    closeAssociationSelectPanels();
+  }
+});
+document.getElementById("saveQuestionAssociation").addEventListener("click", saveQuestionAssociation);
+document.getElementById("cancelQuestionAssociation").addEventListener("click", closeQuestionAssociationDialog);
+document.getElementById("closeQuestionAssociation").addEventListener("click", closeQuestionAssociationDialog);
+questionAssociationLightbox.addEventListener("click", (event) => {
+  if (event.target === questionAssociationLightbox) closeQuestionAssociationDialog();
+});
+document.getElementById("confirmQuestionAssociationDelete").addEventListener("click", confirmQuestionAssociationDelete);
+document.getElementById("cancelQuestionAssociationDelete").addEventListener("click", closeQuestionAssociationDeleteDialog);
+questionAssociationDeleteLightbox.addEventListener("click", (event) => {
+  if (event.target === questionAssociationDeleteLightbox) closeQuestionAssociationDeleteDialog();
+});
+templateFormFields.channelTrigger.addEventListener("click", () => {
+  if (templateFormFields.channelTrigger.disabled) return;
+  templateFormFields.channelPanel.classList.toggle("open");
+});
+templateFormFields.channelApp.addEventListener("change", updateTemplateChannelTrigger);
+templateFormFields.linkedTrigger.addEventListener("click", () => {
+  templateFormFields.linkedPanel.classList.toggle("open");
+});
+templateFormFields.createGroupButton.addEventListener("click", openGroupTemplateFormFromLinked);
+templateFormFields.linkedPanel.addEventListener("change", (event) => {
+  const target = event.target;
+  if (target instanceof HTMLInputElement && target.dataset.linkedQuestionnaire === "true") {
+    updateLinkedQuestionnaireTrigger();
+  }
+});
+templateFormFields.popupCopy.addEventListener("mouseup", saveRichTextSelection);
+templateFormFields.popupCopy.addEventListener("keyup", saveRichTextSelection);
+templateFormFields.popupCopy.addEventListener("input", updateRichTextCount);
+templateFormFields.consentContent.addEventListener("mouseup", saveConsentRichTextSelection);
+templateFormFields.consentContent.addEventListener("keyup", saveConsentRichTextSelection);
+templateFormFields.popupCopyModeResearch.addEventListener("change", () => applyPopupCopyPreset(true));
+templateFormFields.popupCopyModeDesign.addEventListener("change", () => applyPopupCopyPreset(true));
+templateFormFields.scene.addEventListener("change", updateQuestionnaireTypeByScene);
+templateFormFields.questionnaireType.addEventListener("change", updateTemplateTypePanel);
+[templateFormFields.consentNotRequired, templateFormFields.consentRequired].forEach((field) => {
+  field.addEventListener("change", updateTemplateConsentVisibility);
+});
+[templateFormFields.thirdPartyNo, templateFormFields.thirdPartyYes].forEach((field) => {
+  field.addEventListener("change", updateTemplateThirdPartyVisibility);
+});
+templateFormFields.thirdPartyUrl.addEventListener("input", () => clearTemplateError("thirdPartyUrl"));
+templateFormFields.androidVersion.addEventListener("change", updateTemplateTypePanel);
+templateFormFields.iosVersion.addEventListener("change", updateTemplateTypePanel);
+templateFormFields.questionnaireStyleNormal.addEventListener("change", updateTemplateTypePanel);
+templateFormFields.questionnaireStyleGroup.addEventListener("change", updateTemplateTypePanel);
+document.getElementById("addQuestionBtn").addEventListener("click", addTemplateQuestion);
+
+formFields.appTrigger.addEventListener("click", () => {
+  if (formMode === "view" || formFields.appTrigger.disabled) return;
+  formFields.appPanel.classList.toggle("open");
+});
+formFields.appClientApp.addEventListener("change", updateAppTrigger);
+formFields.taskScene.addEventListener("change", () => {
+  updateTaskQuestionnaireTypeVisibility();
+  applyTaskVersionDefaults();
+  renderTemplateOptions();
+});
+formFields.questionnaireType.addEventListener("change", () => {
+  formFields.templateName.value = "";
+  applyTaskVersionDefaults();
+  renderTemplateOptions();
+});
+formFields.taskVersionStart.addEventListener("input", () => {
+  renderTemplateOptions();
+  clearError("taskVersion");
+});
+formFields.taskVersionEnd.addEventListener("input", () => clearError("taskVersion"));
+
+const audienceRegionInputMap = {
+  us: formFields.audienceFileUs,
+  uk: formFields.audienceFileUk,
+  cn: formFields.audienceFileCn,
+};
+
+document.querySelectorAll(".audience-file-choose").forEach((button) => {
+  button.addEventListener("click", () => {
+    const region = button.dataset.audienceRegion;
+    const input = audienceRegionInputMap[region];
+    if (formMode === "view" || !input || input.disabled) return;
+    input.click();
+  });
+});
+
+Object.entries(audienceRegionInputMap).forEach(([region, input]) => {
+  input.addEventListener("change", () => {
+    const file = input.files && input.files[0];
+    if (!file) return;
+    if (!/\.xlsx$/i.test(file.name)) {
+      showToast("仅支持上传 .xlsx 文件。");
+      input.value = "";
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      showToast("文件大小不能超过 5M。");
+      input.value = "";
+      return;
+    }
+    audienceRegionFiles = { ...audienceRegionFiles, [region]: file.name };
+    renderAudienceRegionFiles(audienceRegionFiles);
+    input.value = "";
+    clearError("audienceFiles");
+  });
+});
+
+formFields.audienceFiles.addEventListener("click", (event) => {
+  if (formMode === "view") return;
+  const target = event.target;
+  if (!(target instanceof HTMLElement) || !target.classList.contains("file-remove")) return;
+  const region = target.dataset.audienceRegionRemove;
+  if (!region) return;
+  audienceRegionFiles = { ...audienceRegionFiles, [region]: "" };
+  renderAudienceRegionFiles(audienceRegionFiles);
+});
+
+function clearDefaultChoiceOptionOnHover(target) {
+  if (!(target instanceof HTMLInputElement) || !target.classList.contains("question-option-input") || target.disabled) return;
+
+  let question = null;
+  let optionIndex = Number.NaN;
+  if (target.dataset.sectionIndex !== undefined) {
+    question = getPlanBSectionQuestion(Number(target.dataset.sectionIndex), Number(target.dataset.sectionQuestionIndex));
+    optionIndex = Number(target.dataset.sectionOptionIndex);
+  } else if (target.dataset.questionIndex !== undefined) {
+    question = getTemplateQuestion(Number(target.dataset.questionIndex));
+    optionIndex = Number(target.dataset.optionIndex);
+  }
+
+  if (!question || !["单选题", "多选题"].includes(question.type)) return;
+  const option = question.choiceOptions && question.choiceOptions[optionIndex];
+  if (!option || option.isOther || !option.isDefault) return;
+
+  option.label = "";
+  option.isDefault = false;
+  target.value = "";
+}
+
+function autoResizeQuestionTextarea(target) {
+  if (!(target instanceof HTMLTextAreaElement) || !target.classList.contains("question-auto-grow")) return;
+  target.style.height = "auto";
+  target.style.height = `${Math.max(target.scrollHeight, 32)}px`;
+}
+
+function autoResizeQuestionTextareas() {
+  document.querySelectorAll("textarea.question-auto-grow").forEach(autoResizeQuestionTextarea);
+}
+
+function clearQuestionEditorDragState() {
+  document.querySelectorAll(".question-option-row.drag-over, .question-card.drag-over").forEach((element) => element.classList.remove("drag-over"));
+  questionEditorDragState = null;
+}
+
+function getQuestionEditorDragTarget(target) {
+  if (!(target instanceof Element)) return null;
+  const optionRow = target.closest(".sortable-option-row");
+  if (optionRow instanceof HTMLElement) {
+    const sectionIndex = optionRow.dataset.sectionIndex;
+    return sectionIndex !== undefined
+      ? { kind: "section-option", sectionIndex: Number(sectionIndex), questionIndex: Number(optionRow.dataset.sectionQuestionIndex), optionIndex: Number(optionRow.dataset.sectionOptionIndex), element: optionRow }
+      : { kind: "template-option", questionIndex: Number(optionRow.dataset.questionIndex), optionIndex: Number(optionRow.dataset.optionIndex), element: optionRow };
+  }
+  const questionCard = target.closest(".question-card.has-question-sort");
+  if (questionCard instanceof HTMLElement) {
+    return { kind: "section-question", sectionIndex: Number(questionCard.dataset.sectionIndex), questionIndex: Number(questionCard.dataset.sectionQuestionIndex), element: questionCard };
+  }
+  return null;
+}
+
+function getSectionQuestionDragTarget(target) {
+  if (!(target instanceof Element)) return null;
+  const questionCard = target.closest(".question-card.has-question-sort");
+  return questionCard instanceof HTMLElement
+    ? { kind: "section-question", sectionIndex: Number(questionCard.dataset.sectionIndex), questionIndex: Number(questionCard.dataset.sectionQuestionIndex), element: questionCard }
+    : null;
+}
+
+function isMatchingQuestionEditorDragTarget(source, target) {
+  if (!source || !target || source.kind !== target.kind) return false;
+  if (source.kind === "section-option") return source.sectionIndex === target.sectionIndex && source.questionIndex === target.questionIndex;
+  if (source.kind === "template-option") return source.questionIndex === target.questionIndex;
+  return source.kind === "section-question" && source.sectionIndex === target.sectionIndex;
+}
+
+function handleQuestionEditorDragStart(event) {
+  const target = event.target;
+  if (!(target instanceof Element) || !target.closest(".question-sort-handle")) return;
+  const dragTarget = getQuestionEditorDragTarget(target);
+  if (!dragTarget) return;
+  questionEditorDragState = dragTarget;
+  event.dataTransfer?.setData("text/plain", "nps-question-sort");
+  if (event.dataTransfer) event.dataTransfer.effectAllowed = "move";
+}
+
+function handleQuestionEditorDragOver(event) {
+  if (!questionEditorDragState) return;
+  const dragTarget = questionEditorDragState.kind === "section-question"
+    ? getSectionQuestionDragTarget(event.target)
+    : getQuestionEditorDragTarget(event.target);
+  if (!isMatchingQuestionEditorDragTarget(questionEditorDragState, dragTarget)) return;
+  event.preventDefault();
+  event.dataTransfer && (event.dataTransfer.dropEffect = "move");
+  document.querySelectorAll(".question-option-row.drag-over, .question-card.drag-over").forEach((element) => element.classList.remove("drag-over"));
+  dragTarget.element.classList.add("drag-over");
+}
+
+function handleQuestionEditorDrop(event) {
+  const source = questionEditorDragState;
+  const target = source?.kind === "section-question"
+    ? getSectionQuestionDragTarget(event.target)
+    : getQuestionEditorDragTarget(event.target);
+  if (!isMatchingQuestionEditorDragTarget(source, target)) return;
+  event.preventDefault();
+  clearQuestionEditorDragState();
+  if (source.kind === "section-option") movePlanBChoiceOption(source.sectionIndex, source.questionIndex, source.optionIndex, target.optionIndex);
+  if (source.kind === "template-option") moveTemplateChoiceOption(source.questionIndex, source.optionIndex, target.optionIndex);
+  if (source.kind === "section-question") moveSectionQuestion(source.sectionIndex, source.questionIndex, target.questionIndex);
+}
+
+document.getElementById("templateForm").addEventListener("mouseover", (event) => {
+  clearDefaultChoiceOptionOnHover(event.target);
+});
+
+document.getElementById("templateForm").addEventListener("focusin", (event) => {
+  clearDefaultChoiceOptionOnHover(event.target);
+});
+
+document.getElementById("templateForm").addEventListener("dragstart", handleQuestionEditorDragStart);
+document.getElementById("templateForm").addEventListener("dragover", handleQuestionEditorDragOver);
+document.getElementById("templateForm").addEventListener("drop", handleQuestionEditorDrop);
+document.getElementById("templateForm").addEventListener("dragend", clearQuestionEditorDragState);
+
+document.getElementById("templateForm").addEventListener("input", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) return;
+  autoResizeQuestionTextarea(target);
+  if (target.dataset.sectionField || target.dataset.sectionQuestionField) {
+    updatePlanBSectionField(target);
+  }
+  if (target.dataset.questionField) {
+    updateTemplateQuestionField(target);
+  }
+  if (target === templateFormFields.popupCopy) {
+    updateRichTextCount();
+  }
+  if (target === templateFormFields.questionnaireDescription) {
+    updateQuestionnaireDescriptionCount();
+  }
+});
+
+document.getElementById("templateForm").addEventListener("change", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) return;
+  if (target.dataset.sectionField || target.dataset.sectionQuestionField) {
+    updatePlanBSectionField(target);
+  }
+  if (target.dataset.questionField) {
+    updateTemplateQuestionField(target);
+  }
+});
+
+document.getElementById("templateForm").addEventListener("click", (event) => {
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) return;
+  const associationTrigger = target.closest(".question-association-trigger");
+  if (associationTrigger instanceof HTMLElement) {
+    openQuestionAssociationDialog(Number(associationTrigger.dataset.sectionIndex), Number(associationTrigger.dataset.sectionQuestionIndex));
+    return;
+  }
+  const associationDelete = target.closest(".question-association-delete");
+  if (associationDelete instanceof HTMLElement) {
+    openQuestionAssociationDeleteDialog(Number(associationDelete.dataset.sectionIndex), Number(associationDelete.dataset.sectionQuestionIndex));
+    return;
+  }
+  const sectionAction = target.closest(".section-add, .section-toggle, .section-remove, .section-add-question, .section-question-remove, .section-question-add-option, .section-question-add-other, .section-question-remove-option");
+  if (sectionAction instanceof HTMLElement) {
+    updatePlanBSectionAction(sectionAction);
+    return;
+  }
+  if (target.classList.contains("rich-button")) {
+    applyRichTextCommand(target.dataset.command);
+  }
+  if (target.classList.contains("consent-rich-button")) {
+    applyConsentRichTextCommand(target.dataset.consentCommand);
+  }
+  if (target.classList.contains("question-add-option")) {
+    const questionIndex = Number(target.dataset.questionIndex);
+    if (!Number.isNaN(questionIndex)) addQuestionOption(questionIndex);
+  }
+  if (target.classList.contains("question-add-other")) {
+    const questionIndex = Number(target.dataset.questionIndex);
+    if (!Number.isNaN(questionIndex)) addQuestionOption(questionIndex, true);
+  }
+  if (target.classList.contains("question-remove-option")) {
+    const questionIndex = Number(target.dataset.questionIndex);
+    const optionIndex = Number(target.dataset.optionIndex);
+    if (!Number.isNaN(questionIndex) && !Number.isNaN(optionIndex)) removeQuestionOption(questionIndex, optionIndex);
+  }
+  if (target.classList.contains("question-remove")) {
+    const index = Number(target.dataset.questionIndex);
+    if (Number.isNaN(index)) return;
+    templateQuestions.splice(index, 1);
+    renderTemplateQuestionList();
+  }
+});
+
+document.getElementById("addPlanBtn").addEventListener("click", () => {
+  if (formMode === "view") return;
+  formFields.newPlanName.value = "";
+  clearError("newPlanName");
+  planLightbox.classList.add("show");
+  planLightbox.setAttribute("aria-hidden", "false");
+});
+document.getElementById("cancelPlanBtn").addEventListener("click", closePlanDialog);
+document.getElementById("submitPlanBtn").addEventListener("click", submitNewPlan);
+
+rangePicker.addEventListener("click", () => {
+  if (!datePanel.classList.contains("open")) {
+    syncDraftRangeFromInput();
+  }
+  datePanel.classList.toggle("open");
+});
+
+document.getElementById("prevMonth").addEventListener("click", () => {
+  calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1);
+  renderCalendar();
+});
+
+document.getElementById("nextMonth").addEventListener("click", () => {
+  calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1);
+  renderCalendar();
+});
+
+function handleCalendarGridClick(event) {
+  const target = event.target;
+  if (target instanceof HTMLElement && target.classList.contains("calendar-day")) {
+    selectCalendarDate(target.dataset.date);
+  }
+}
+
+leftCalendarGrid.addEventListener("click", handleCalendarGridClick);
+rightCalendarGrid.addEventListener("click", handleCalendarGridClick);
+
+document.addEventListener("click", (event) => {
+  const dateField = document.querySelector(".date-field");
+  if (!dateField.contains(event.target)) {
+    datePanel.classList.remove("open");
+  }
+  if (!formFields.appPanel.contains(event.target) && event.target !== formFields.appTrigger) {
+    formFields.appPanel.classList.remove("open");
+  }
+  if (!templateFormFields.channelPanel.contains(event.target) && event.target !== templateFormFields.channelTrigger) {
+    templateFormFields.channelPanel.classList.remove("open");
+  }
+  if (!templateFormFields.linkedPanel.contains(event.target) && event.target !== templateFormFields.linkedTrigger) {
+    templateFormFields.linkedPanel.classList.remove("open");
+  }
+  if (!audienceDeliveryStatusPanel.contains(event.target) && event.target !== audienceDeliveryStatusTrigger) {
+    audienceDeliveryStatusPanel.classList.remove("open");
+  }
+
+  const target = event.target;
+  if (!(target instanceof HTMLElement)) return;
+
+  if (target.classList.contains("export-link") && !target.hasAttribute("disabled")) {
+    openExportDialog(target.dataset.taskId);
+  }
+  if (target.classList.contains("nps-estimate-link")) {
+    openNpsEstimate(target.dataset.taskId);
+  }
+  if (target.classList.contains("copy-link")) {
+    openTaskForm("copy", target.dataset.taskId);
+  }
+  if (target.classList.contains("edit-link")) {
+    openTaskForm("edit", target.dataset.taskId);
+  }
+  if (target.classList.contains("delete-task-link") && !target.hasAttribute("disabled")) {
+    openTaskDeleteDialog(target.dataset.taskId);
+  }
+  if (target.classList.contains("audience-link")) {
+    openAudiencePage(target.dataset.taskId);
+  }
+  if (target.classList.contains("template-detail-link")) {
+    openTemplateDetail(target.dataset.templateId);
+  }
+  if (target.classList.contains("edit-template-link")) {
+    openTemplateForm("edit", target.dataset.templateId);
+  }
+  if (target.classList.contains("template-association-edit-link")) {
+    if (target.disabled) return;
+    openTemplateForm("edit", target.dataset.templateId, { questionAssociation: true });
+  }
+  if (target.classList.contains("copy-template-link")) {
+    openTemplateForm("copy", target.dataset.templateId);
+  }
+  if (target.classList.contains("template-i18n-link")) {
+    if (target.disabled) return;
+    openTemplateI18nPage(target.dataset.templateId);
+  }
+  if (target.id === "openTranslationQueryBtn") {
+    window.location.href = "./translation-query.html?v=20260903-06";
+  }
+  if (target.classList.contains("delete-template-link")) {
+    openTemplateDeleteDialog(target.dataset.templateId);
+  }
+});
+
+document.getElementById("confirmTaskDelete").addEventListener("click", confirmTaskDelete);
+document.getElementById("cancelTaskDelete").addEventListener("click", closeTaskDeleteDialog);
+taskDeleteLightbox.addEventListener("click", (event) => {
+  if (event.target === taskDeleteLightbox) closeTaskDeleteDialog();
+});
+document.getElementById("confirmTemplateDelete").addEventListener("click", confirmTemplateDelete);
+document.getElementById("cancelTemplateDelete").addEventListener("click", closeTemplateDeleteDialog);
+templateDeleteLightbox.addEventListener("click", (event) => {
+  if (event.target === templateDeleteLightbox) closeTemplateDeleteDialog();
+});
+planLightbox.addEventListener("click", (event) => {
+  if (event.target === planLightbox) closePlanDialog();
+});
+document.getElementById("closeTemplateDetail").addEventListener("click", closeTemplateDetail);
+templateDetailLightbox.addEventListener("click", (event) => {
+  if (event.target === templateDetailLightbox) closeTemplateDetail();
+});
+document.getElementById("closeNpsEstimate").addEventListener("click", closeNpsEstimate);
+npsEstimateLightbox.addEventListener("click", (event) => {
+  if (event.target === npsEstimateLightbox) closeNpsEstimate();
+});
+
+const savedI18nTemplateId = new URLSearchParams(window.location.search).get("i18nSaved");
+if (savedI18nTemplateId) {
+  const savedTemplate = npsTemplates.find((item) => item.template_id === savedI18nTemplateId);
+  if (savedTemplate) {
+    savedTemplate.i18n_keys_bound = true;
+    savedTemplate.i18n_uploaded = true;
+    seedTemplateI18nTranslations(savedTemplate);
+    updateTemplateI18nCompletion(savedTemplate);
+    persistPrototypeSessionCache();
+  }
+  window.history.replaceState({}, "", `${window.location.pathname}#survey-list`);
+}
+
+renderRows(filteredTasks);
+// Resume the short prototype matching state after a refresh within the same session.
+npsTemplates
+  .filter((template) => getSurveyListStatus(template.template_status) === "处理中" && !template.i18n_matching_demo)
+  .forEach((template) => scheduleTemplateI18nKeyMatching(template));
+renderTemplates(filteredTemplates);
+renderPlanOptions();
+renderTemplateOptions();
+updateTemplateChannelTrigger();
+updateTemplateTypePanel();
+
+if (window.location.hash === "#nps-task") {
+  showTaskList();
+} else if (window.location.hash === "#nps-audience") {
+  openAudiencePage("");
+} else if (window.location.hash === "#nps-template-plan-b") {
+  showPlanBTemplateList();
+} else if (window.location.hash === "#survey-list") {
+  showSurveyList();
+} else {
+  showSurveyList();
+}
+populateHourOptions(formFields.endHour);
+updateAppTrigger();
+updateRangeTrigger();
+syncDraftRangeFromInput();
