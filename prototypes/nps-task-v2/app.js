@@ -280,6 +280,7 @@ const DEFAULT_GLOBAL_APP_QUESTIONS = [
     otherScoreGuide: "",
     required: "必填",
     charLimit: "500",
+    maxSelectable: "3",
     choiceOptions: [
       { label: "戒指外观设计与质感", isOther: false },
       { label: "佩戴舒适度与尺寸", isOther: false },
@@ -358,7 +359,7 @@ const npsTemplates = [
     defer_question_i18n_keys: true,
     app_questions: [
       { type: "评分(全局)", title: "您有多大可能会向朋友或者同事推荐RingConn?", subtitle: "", scoreRange: "10", scoreMinDesc: "不推荐", scoreMaxDesc: "非常推荐", lowScoreGuide: "我们有哪些做的不好的地方？", highScoreGuide: "我们有哪些做得好的地方?", otherScoreGuide: "我们有哪些值得改进的地方?" },
-      { type: "多选题", title: "我们有哪些值得改进的地方?", subtitle: "", choiceOptions: [{ label: "戒指外观设计与质感" }, { label: "佩戴舒适度与尺寸" }, { label: "核心功能价值" }] },
+      { type: "多选题", title: "我们有哪些值得改进的地方?", subtitle: "", maxSelectable: "3", choiceOptions: [{ label: "戒指外观设计与质感" }, { label: "佩戴舒适度与尺寸" }, { label: "核心功能价值" }] },
     ],
     question_sections: [{ page_title: "全球体验", title: "", subtitle: "", questions: [
       { type: "评分(普通)", title: "您对健康数据解读的满意度如何？", subtitle: "", scoreRange: "10", scoreMinDesc: "非常不满意", scoreMaxDesc: "非常满意" },
@@ -3888,9 +3889,8 @@ function normalizeQuestionOptions(options) {
   return normalized.sort((a, b) => Number(a.isOther) - Number(b.isOther));
 }
 
-function normalizeMaxSelectable(value) {
-  const normalized = String(value ?? "").replace(/\D/g, "");
-  return /^\d+$/.test(normalized) && Number(normalized) >= 3 ? String(Number(normalized)) : "3";
+function normalizeMaxSelectable() {
+  return "3";
 }
 
 function isValidMaxSelectable(value) {
@@ -4034,10 +4034,9 @@ function renderPlanBQuestionBody(question, sectionIndex, questionIndex) {
 function renderPlanBMultiSelectLimit(question, sectionIndex, questionIndex, field) {
   if (question.type !== "多选题") return "";
   const optionCount = normalizeQuestionOptions(question.choiceOptions).length;
-  if (optionCount <= 3) return "";
-  const maxSelectable = String(question.maxSelectable || "3");
-  const isInvalid = !isValidMaxSelectable(maxSelectable);
-  return `<div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control${isInvalid ? " error" : ""}" type="text" inputmode="numeric" pattern="[0-9]*" value="${escapeText(maxSelectable)}" ${field("maxSelectable")} /><div class="question-field-note">表示最多可勾选的答案数量。</div>${isInvalid ? '<div class="question-limit-error">请输入大于等于 3 的数字。</div>' : ""}</div></div>`;
+  if (optionCount <= 3 && !isGlobalAppQuestionnaire()) return "";
+  question.maxSelectable = "3";
+  return `<div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control" type="text" value="3" disabled ${field("maxSelectable")} /></div></div>`;
 }
 
 function getQuestionAssociationReferences() {
@@ -4559,10 +4558,9 @@ function renderChoiceOptions(question, questionIndex, inputType) {
 function renderMultiSelectLimit(question, questionIndex) {
   if (question.type !== "多选题") return "";
   const optionCount = normalizeQuestionOptions(question.choiceOptions).length;
-  if (optionCount <= 3) return "";
-  const maxSelectable = String(question.maxSelectable || "3");
-  const isInvalid = !isValidMaxSelectable(maxSelectable);
-  return `<div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control question-field${isInvalid ? " error" : ""}" type="text" inputmode="numeric" pattern="[0-9]*" value="${escapeText(maxSelectable)}" data-question-index="${questionIndex}" data-question-field="maxSelectable" /><div class="question-field-note">表示最多可勾选的答案数量。</div>${isInvalid ? '<div class="question-limit-error">请输入大于等于 3 的数字。</div>' : ""}</div></div>`;
+  if (optionCount <= 3 && !isGlobalAppQuestionnaire()) return "";
+  question.maxSelectable = "3";
+  return `<div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control question-field" type="text" value="3" disabled data-question-index="${questionIndex}" data-question-field="maxSelectable" /></div></div>`;
 }
 
 function renderChoiceOtherConfig(question, questionIndex) {
@@ -4664,6 +4662,7 @@ function renderSurveyGlobalQuestions() {
   ensureGlobalAppFixedQuestions();
   const scoreQuestion = templateQuestions[0];
   const choiceQuestion = templateQuestions[1];
+  choiceQuestion.maxSelectable = "3";
   const fixedAttribute = isSurveyGlobalQuestionEditable() ? "" : "disabled";
   templateFormFields.globalQuestionRepeater.innerHTML = `
     <section class="question-card global-question-card${questionAssociationMode ? " association-enabled" : ""}" data-question-index="0">
@@ -4683,6 +4682,7 @@ function renderSurveyGlobalQuestions() {
       ${questionAssociationMode ? '<div class="question-card-number">问题 2</div>' : ""}
       <div class="question-row question-type-row"><label class="question-label required">问题类型</label><select class="ax-select question-control question-field" data-question-index="1" data-question-field="type" disabled><option>多选题</option></select><span class="question-type-note">固定问题类型</span></div>
       <div class="question-row options-row"><label class="question-label">选项</label><div class="question-options">${renderChoiceOptions(choiceQuestion, 1, "checkbox")}</div></div>
+      <div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control question-field" type="text" value="3" disabled data-question-index="1" data-question-field="maxSelectable" /></div></div>
     </section>
   `;
   requestAnimationFrame(autoResizeQuestionTextareas);
