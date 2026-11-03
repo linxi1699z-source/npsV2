@@ -4535,6 +4535,7 @@ function renderChoiceOptions(question, questionIndex, inputType) {
   question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
   const isGlobalApp = isGlobalAppQuestionnaire();
   const canEditPlanBMultiSelectOptions = isGlobalApp && (isPlanBTemplateVariant() || isSurveyGlobalQuestionEditable()) && question.type === "多选题";
+  const canSortGlobalMultiSelectOptions = isGlobalApp && question.type === "多选题";
   const hasOtherOption = question.choiceOptions.some((option) => option.isOther);
   return `
     <div class="question-option-list">
@@ -4543,7 +4544,7 @@ function renderChoiceOptions(question, questionIndex, inputType) {
           <input type="${inputType}" disabled />
           <input class="question-option-input" type="text" value="${escapeText(option.label)}" data-question-index="${questionIndex}" data-option-index="${optionIndex}" data-question-field="optionLabel" ${(option.isOther || (isGlobalApp && !canEditPlanBMultiSelectOptions)) ? "disabled" : ""} />
           ${isGlobalApp ? "" : `<button class="link-button question-remove-option" type="button" data-question-index="${questionIndex}" data-option-index="${optionIndex}">删除</button>`}
-          ${option.isOther || (isGlobalApp && !canEditPlanBMultiSelectOptions) ? "" : `<button class="question-sort-handle option-sort-handle" type="button" draggable="true" title="拖动排序" aria-label="拖动排序" data-question-index="${questionIndex}" data-option-index="${optionIndex}"><span aria-hidden="true">⠿</span></button>`}
+          ${option.isOther || (isGlobalApp && !canSortGlobalMultiSelectOptions) ? "" : `<button class="question-sort-handle option-sort-handle" type="button" draggable="true" title="拖动排序" aria-label="拖动排序" data-question-index="${questionIndex}" data-option-index="${optionIndex}"><span aria-hidden="true">⠿</span></button>`}
         </div>
       `).join("")}
     </div>
