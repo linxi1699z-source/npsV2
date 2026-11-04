@@ -1809,17 +1809,24 @@ function createZip(files) {
 function buildI18nXlsxBlob(template) {
   const translationLanguages = I18N_LANGUAGES;
   const headers = ["key", "后台文案", ...translationLanguages.map((language) => language.label)];
+  const missingRows = getTemplateI18nRows(template).filter((row) => {
+    const bindingKey = getI18nBindingKey(template, row);
+    return translationLanguages
+      .filter((language) => language.key !== "zh_cn")
+      .some((language) => !String(i18nTranslationOverrides.get(`${bindingKey}:${language.key}`) || "").trim());
+  });
   const sheetRows = [
     headers,
-    ...getTemplateI18nRows(template).map((row) => [
-      getI18nBindingKey(template, row),
-      row.value,
-      ...translationLanguages.map((language) => getI18nTranslationValue(
-        getI18nBindingKey(template, row),
+    ...missingRows.map((row) => {
+      const bindingKey = getI18nBindingKey(template, row);
+      return [
+        bindingKey,
         row.value,
-        language.key,
-      )),
-    ]),
+        ...translationLanguages.map((language) => language.key === "zh_cn"
+          ? row.value
+          : (i18nTranslationOverrides.get(`${bindingKey}:${language.key}`) || "")),
+      ];
+    }),
   ];
   const sheetData = sheetRows.map((row, rowIndex) => `
     <row r="${rowIndex + 1}">
@@ -1864,9 +1871,19 @@ function buildI18nXlsxBlob(template) {
 function downloadI18nTemplate() {
   const template = getCurrentI18nTemplate();
   if (!template) return;
+  const hasMissingTranslation = getTemplateI18nRows(template).some((row) => {
+    const bindingKey = getI18nBindingKey(template, row);
+    return I18N_LANGUAGES
+      .filter((language) => language.key !== "zh_cn")
+      .some((language) => !String(i18nTranslationOverrides.get(`${bindingKey}:${language.key}`) || "").trim());
+  });
+  if (!hasMissingTranslation) {
+    showToast("暂无缺失的多语言文案。");
+    return;
+  }
   const link = document.createElement("a");
   link.href = URL.createObjectURL(buildI18nXlsxBlob(template));
-  link.download = `${sanitizeFileName(template.template_name)}多语言模板.xlsx`;
+  link.download = `${sanitizeFileName(template.template_name)}多语言缺失文案.xlsx`;
   link.click();
   URL.revokeObjectURL(link.href);
 }
@@ -2941,7 +2958,7 @@ function openTemplateI18nPage(templateId) {
   } catch {
     // Keep the lightweight route available even when session storage is unavailable.
   }
-  window.location.href = `./i18n-translation-workflow.html?v=20260922-01&${workflowParams.toString()}`;
+  window.location.href = `./i18n-translation-workflow.html?v=20261104-01&${workflowParams.toString()}`;
 }
 
 function getAudienceFileNames() {
