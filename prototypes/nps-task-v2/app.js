@@ -280,7 +280,7 @@ const DEFAULT_GLOBAL_APP_QUESTIONS = [
     otherScoreGuide: "",
     required: "必填",
     charLimit: "500",
-    maxSelectable: "3",
+    maxSelectable: "10",
     choiceOptions: [
       { label: "戒指外观设计与质感", isOther: false },
       { label: "佩戴舒适度与尺寸", isOther: false },
@@ -359,7 +359,7 @@ const npsTemplates = [
     defer_question_i18n_keys: true,
     app_questions: [
       { type: "评分(全局)", title: "您有多大可能会向朋友或者同事推荐RingConn?", subtitle: "", scoreRange: "10", scoreMinDesc: "不推荐", scoreMaxDesc: "非常推荐", lowScoreGuide: "我们有哪些做的不好的地方？", highScoreGuide: "我们有哪些做得好的地方?", otherScoreGuide: "我们有哪些值得改进的地方?" },
-      { type: "多选题", title: "我们有哪些值得改进的地方?", subtitle: "", maxSelectable: "3", choiceOptions: [{ label: "戒指外观设计与质感" }, { label: "佩戴舒适度与尺寸" }, { label: "核心功能价值" }] },
+      { type: "多选题", title: "我们有哪些值得改进的地方?", subtitle: "", maxSelectable: "10", choiceOptions: [{ label: "戒指外观设计与质感" }, { label: "佩戴舒适度与尺寸" }, { label: "核心功能价值" }] },
     ],
     question_sections: [{ page_title: "全球体验", title: "", subtitle: "", questions: [
       { type: "评分(普通)", title: "您对健康数据解读的满意度如何？", subtitle: "", scoreRange: "10", scoreMinDesc: "非常不满意", scoreMaxDesc: "非常满意" },
@@ -663,7 +663,7 @@ const npsTemplates = [
   },
 ];
 
-const PROTOTYPE_SESSION_CACHE_KEY = "nps-admin-prototype-session-v1";
+const PROTOTYPE_SESSION_CACHE_KEY = "nps-admin-prototype-session-v2";
 
 function restorePrototypeSessionCache() {
   try {
@@ -3889,8 +3889,14 @@ function normalizeQuestionOptions(options) {
   return normalized.sort((a, b) => Number(a.isOther) - Number(b.isOther));
 }
 
-function normalizeMaxSelectable() {
-  return "3";
+function normalizeMaxSelectable(value, defaultValue = "3") {
+  return isValidMaxSelectable(value) ? String(value) : defaultValue;
+}
+
+function getEditableMaxSelectable(question) {
+  if (!question.maxSelectableEdited) question.maxSelectable = "3";
+  else question.maxSelectable = normalizeMaxSelectable(question.maxSelectable);
+  return question.maxSelectable;
 }
 
 function isValidMaxSelectable(value) {
@@ -3926,6 +3932,7 @@ function normalizePlanBSectionQuestion(question = {}) {
     type,
     choiceOptions,
     maxSelectable: normalizeMaxSelectable(question.maxSelectable || question.max_selectable),
+    maxSelectableEdited: false,
     errors: {},
   };
 }
@@ -4035,9 +4042,9 @@ function renderPlanBQuestionBody(question, sectionIndex, questionIndex) {
 function renderPlanBMultiSelectLimit(question, sectionIndex, questionIndex, field) {
   if (question.type !== "多选题") return "";
   const optionCount = normalizeQuestionOptions(question.choiceOptions).length;
-  if (optionCount <= 3 && !isGlobalAppQuestionnaire()) return "";
-  question.maxSelectable = "3";
-  return `<div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control" type="text" value="3" disabled ${field("maxSelectable")} /></div></div>`;
+  if (optionCount <= 3) return "";
+  question.maxSelectable = getEditableMaxSelectable(question);
+  return `<div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control" type="number" min="3" step="1" inputmode="numeric" value="${question.maxSelectable}" ${field("maxSelectable")} /></div></div>`;
 }
 
 function getQuestionAssociationReferences() {
@@ -4322,12 +4329,15 @@ function updatePlanBSectionField(target) {
   if (field === "maxSelectable") {
     target.value = target.value.replace(/\D/g, "");
     question.maxSelectable = target.value;
+    question.maxSelectableEdited = true;
     target.classList.toggle("error", !isValidMaxSelectable(question.maxSelectable));
     return;
   }
   if (field === "type") {
     question.type = target.value;
     question.choiceOptions = [{ label: "选项", isOther: false, isDefault: true, otherPrompt: "", charLimit: "500" }];
+    question.maxSelectable = "3";
+    question.maxSelectableEdited = false;
     renderPlanBQuestionSections();
     return;
   }
@@ -4489,7 +4499,10 @@ function normalizeTemplateQuestion(question) {
     required: question.required || (optionText.includes("选填") ? "选填" : "必填"),
     charLimit: ["500", "1000", "2000"].includes(rawCharLimit) ? rawCharLimit : "500",
     choiceOptions,
-    maxSelectable: normalizeMaxSelectable(question.maxSelectable || question.max_selectable),
+    maxSelectable: normalizeMaxSelectable(
+      question.maxSelectable || question.max_selectable,
+      isGlobalAppQuestionnaire() ? "10" : "3",
+    ),
     errors: {},
   };
 }
@@ -4566,8 +4579,9 @@ function renderMultiSelectLimit(question, questionIndex) {
   if (question.type !== "多选题") return "";
   const optionCount = normalizeQuestionOptions(question.choiceOptions).length;
   if (optionCount <= 3 && !isGlobalAppQuestionnaire()) return "";
-  question.maxSelectable = "3";
-  return `<div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control question-field" type="text" value="3" disabled data-question-index="${questionIndex}" data-question-field="maxSelectable" /></div></div>`;
+  const isGlobalApp = isGlobalAppQuestionnaire();
+  question.maxSelectable = isGlobalApp ? "10" : normalizeMaxSelectable(question.maxSelectable);
+  return `<div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control question-field" type="number" min="3" step="1" inputmode="numeric" value="${question.maxSelectable}" ${isGlobalApp ? "disabled" : ""} data-question-index="${questionIndex}" data-question-field="maxSelectable" /></div></div>`;
 }
 
 function renderChoiceOtherConfig(question, questionIndex) {
@@ -4669,7 +4683,7 @@ function renderSurveyGlobalQuestions() {
   ensureGlobalAppFixedQuestions();
   const scoreQuestion = templateQuestions[0];
   const choiceQuestion = templateQuestions[1];
-  choiceQuestion.maxSelectable = "3";
+  choiceQuestion.maxSelectable = "10";
   const fixedAttribute = isSurveyGlobalQuestionEditable() ? "" : "disabled";
   templateFormFields.globalQuestionRepeater.innerHTML = `
     <section class="question-card global-question-card${questionAssociationMode ? " association-enabled" : ""}" data-question-index="0">
@@ -4689,7 +4703,7 @@ function renderSurveyGlobalQuestions() {
       ${questionAssociationMode ? '<div class="question-card-number">问题 2</div>' : ""}
       <div class="question-row question-type-row"><label class="question-label required">问题类型</label><select class="ax-select question-control question-field" data-question-index="1" data-question-field="type" disabled><option>多选题</option></select><span class="question-type-note">固定问题类型</span></div>
       <div class="question-row options-row"><label class="question-label">选项</label><div class="question-options">${renderChoiceOptions(choiceQuestion, 1, "checkbox")}</div></div>
-      <div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control question-field" type="text" value="3" disabled data-question-index="1" data-question-field="maxSelectable" /></div></div>
+      <div class="question-row multi-select-limit-row"><label class="question-label">可选项数量限制</label><div class="multi-select-limit-field"><input class="ax-input question-control question-field" type="number" min="3" step="1" inputmode="numeric" value="10" disabled data-question-index="1" data-question-field="maxSelectable" /></div></div>
     </section>
   `;
   requestAnimationFrame(autoResizeQuestionTextareas);
@@ -4950,6 +4964,7 @@ function updateTemplateQuestionField(target) {
       previousType !== question.type
     ) {
       question.choiceOptions = [{ label: "选项", isOther: false, isDefault: true, otherPrompt: "", charLimit: "500" }];
+      question.maxSelectable = "3";
     } else {
       question.choiceOptions = normalizeQuestionOptions(question.choiceOptions);
     }
