@@ -3297,9 +3297,8 @@ function updateSurveyMinVersionOptions() {
 
 function updateTemplateVersionVisibility() {
   const isSurveyList = isSurveyListVariant();
-  const isFunctionalQuestionnaire = isRegularQuestionnaireType(templateFormFields.questionnaireType.value);
   const requiresVersion = isSurveyList
-    ? !isFunctionalQuestionnaire
+    ? Boolean(templateFormFields.questionnaireType.value)
     : (templateFormFields.channelApp.checked && (isPlanBTemplateForm() || templateFormFields.questionnaireType.value !== "分组问卷"));
   if (isSurveyList) updateSurveyMinVersionOptions();
   templateFormFields.versionRow.classList.toggle("hidden", !requiresVersion);
@@ -4646,7 +4645,7 @@ function validateTemplateStepOne() {
   const questionnaireType = templateFormFields.questionnaireType.value;
   const isCommonQuestionnaireType = isRegularQuestionnaireType(questionnaireType) || questionnaireType === "分组问卷";
   const isSurveyList = isSurveyListVariant();
-  const requiresSurveyVersion = isSurveyList && !isRegularQuestionnaireType(questionnaireType);
+  const requiresSurveyVersion = isSurveyList && Boolean(questionnaireType);
   const requiresBannerFields = !isSurveyList && questionnaireType !== "分组问卷";
   const requiresLinkedQuestionnaire = shouldUseLinkedQuestionnaire();
   const requiresPageSize = shouldShowPageSize();
@@ -4740,7 +4739,6 @@ function validateTemplateStepOne() {
 }
 
 function buildTemplateVersionText() {
-  if (isSurveyListVariant() && isRegularQuestionnaireType(templateFormFields.questionnaireType.value)) return "-";
   if (isSurveyListVariant()) return templateFormFields.androidVersion.value.trim() || "-";
   if (!templateFormFields.channelApp.checked || templateFormFields.questionnaireType.value === "分组问卷") return "-";
   const versions = [];
