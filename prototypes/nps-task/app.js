@@ -1181,7 +1181,15 @@ function setTaskForceRequired(isForceRequired = true) {
 function updateTaskForceRequiredVisibility() {
   const isGynecologyModule = formFields.taskScene.value === "国妇婴";
   formFields.forceRequiredRow.classList.toggle("hidden", !isGynecologyModule);
-  if (!isGynecologyModule) setTaskForceRequired(true);
+  if (isGynecologyModule) {
+    setTaskForceRequired(true);
+    formFields.forceRequiredNo.disabled = true;
+    formFields.forceRequiredNo.closest("label").classList.add("is-disabled");
+    return;
+  }
+  setTaskForceRequired(true);
+  formFields.forceRequiredNo.disabled = false;
+  formFields.forceRequiredNo.closest("label").classList.remove("is-disabled");
 }
 
 function applyTaskVersionDefaults() {
