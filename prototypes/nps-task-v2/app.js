@@ -5693,7 +5693,7 @@ document.getElementById("addBtn").addEventListener("click", () => openTaskForm("
 templateNav.addEventListener("click", () => showTemplateList());
 surveyListNav.addEventListener("click", showSurveyList);
 translationNav.addEventListener("click", () => {
-  window.location.href = "./translation-query.html?v=20260903-06";
+  window.location.href = "./translation-query.html?v=20261111-v2-13";
 });
 templatePlanBNav.addEventListener("click", showPlanBTemplateList);
 taskNav.addEventListener("click", showTaskList);
@@ -6211,7 +6211,7 @@ document.addEventListener("click", (event) => {
     openTemplateI18nPage(target.dataset.templateId);
   }
   if (target.id === "openTranslationQueryBtn") {
-    window.location.href = "./translation-query.html?v=20260903-06";
+    window.location.href = "./translation-query.html?v=20261111-v2-13";
   }
   if (target.classList.contains("delete-template-link")) {
     openTemplateDeleteDialog(target.dataset.templateId);
